@@ -1,0 +1,9 @@
+<app-link
+  [linkClass]="'skip-link bold absolute'"
+  [linkRouter]="'#tresc'"
+  [linkTitle]="'Przejdź do treści głównej'"
+  [linkOnClick]="true"
+  (whenLinkClick)="skipNavigation($event)"
+>
+  Pomiń nawigację
+</app-link>

@@ -1,0 +1,23 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Footer contact
+.footer {
+  &-contact {
+    &__header {
+      color: lighten($color-primary, 10%);
+    }
+
+    &__tel,
+    &__email {
+      height: 3.2rem;
+      color: fade-out($color-white, 0.5);
+      line-height: 1;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+  }
+}

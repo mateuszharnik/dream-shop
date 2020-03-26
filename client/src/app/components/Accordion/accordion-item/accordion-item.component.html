@@ -1,0 +1,25 @@
+<h5 class="accordion__title mb-0" [id]="computedID('header')">
+  <app-button
+    [buttonClass]="'accordion__button bold w-100 relative block text-left'"
+    [buttonTitle]="computedTitle()"
+    [buttonDisabled]="isDisabled"
+    [buttonControls]="computedID('collapse')"
+    [buttonAriaExpanded]="computedAriaExpanded()"
+    [buttonOnClick]="true"
+    (whenButtonClick)="toggleAccordion()"
+  >
+    {{ accordion.title }}?
+    <app-fa-icon [faClass]="'accordion__icon fas fa-plus'"></app-fa-icon>
+  </app-button>
+</h5>
+<div
+  *ngIf="isOpen"
+  class="accordion__body"
+  [id]="computedID('collapse')"
+  [attr.aria-labelledby]="computedID('header')"
+  [@Slide]
+>
+  <p class="mb-0 p-4">
+    {{ accordion.content }}
+  </p>
+</div>

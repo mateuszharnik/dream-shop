@@ -1,0 +1,12 @@
+<button
+  [ngClass]="buttonClass"
+  [type]="buttonType"
+  [title]="buttonTitle"
+  [disabled]="buttonDisabled"
+  [attr.aria-controls]="buttonControls"
+  [attr.aria-expanded]="buttonAriaExpanded"
+  [attr.aria-label]="buttonAriaLabel"
+  #button
+>
+  <ng-content></ng-content>
+</button>

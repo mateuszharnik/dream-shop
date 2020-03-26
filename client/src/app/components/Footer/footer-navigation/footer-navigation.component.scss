@@ -1,0 +1,23 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Footer navigation
+.footer {
+  &__header {
+    color: lighten($color-primary, 10%);
+  }
+
+  &-navigation {
+    list-style-type: none;
+
+    &__link {
+      line-height: 1;
+      color: fade-out($color-white, 0.5);
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+  }
+}

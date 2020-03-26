@@ -1,0 +1,17 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Footer
+.footer {
+  color: fade-out($color-white, 0.5);
+  bottom: 0rem;
+  left: 0rem;
+
+  &-logo {
+    height: 2.4rem;
+  }
+
+  &-copyright {
+    font-size: 1.4rem;
+  }
+}

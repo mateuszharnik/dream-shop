@@ -1,0 +1,45 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Scroll Top Button
+.scroll-top-button {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  padding: 1rem;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: $color-primary;
+  z-index: 999;
+  cursor: pointer;
+  line-height: 2rem;
+  font-size: 1.6rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out,
+    background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
+  }
+
+  &__icon {
+    color: $color-white;
+  }
+
+  &:focus {
+    box-shadow: 0rem 0rem 0rem 0.3rem $button-focus-outline-color;
+  }
+
+  &:hover {
+    background-color: darken($color-primary, 7%);
+    transition: background-color 0.3s ease-in-out;
+
+    &__icon {
+      color: $color-white;
+    }
+  }
+}

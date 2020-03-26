@@ -1,0 +1,29 @@
+<div>
+  <h3 class="footer-contact__header p mb-2 sm:mr-2">
+    Informacje kontaktowe
+  </h3>
+  <div class="mb-1" *ngIf="contact.phone">
+    <span class="hidden">Telefon: </span>
+    <a
+      [href]="computedPhone(contact.phone)"
+      class="footer-contact__tel inline-block p-2"
+      title="Zadzwoń do nas"
+      (focus)="onFocus($event)"
+    >
+      {{ contact.phone }}
+      <app-fa-icon [faClass]="'fas fa-phone ml-2'"></app-fa-icon>
+    </a>
+  </div>
+  <div *ngIf="contact.email">
+    <span class="hidden">Email: </span>
+    <a
+      [href]="computedEmail(contact.email)"
+      class="footer-contact__email inline-block p-2"
+      title="Napisz do nas"
+      (focus)="onFocus($event)"
+    >
+      {{ contact.email }}
+      <app-fa-icon [faClass]="'far fa-envelope ml-2'"></app-fa-icon>
+    </a>
+  </div>
+</div>

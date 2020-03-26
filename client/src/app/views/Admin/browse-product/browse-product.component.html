@@ -1,0 +1,8 @@
+<div *ngIf="isLoading; else browseProductView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #browseProductView>
+  <section class="browse-product-page min-vh-100">
+    Przeglądaj produkty
+  </section>
+</ng-template>

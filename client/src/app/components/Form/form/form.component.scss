@@ -1,0 +1,23 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Contact Form
+.form {
+  max-width: 64rem;
+
+  label {
+    margin-left: 0.1rem;
+  }
+
+  &__errors {
+    color: $form-errors-color;
+    font-size: 1.2rem;
+    margin-left: 0.1rem;
+  }
+
+  &__help {
+    font-size: 1.2rem;
+    color: $form-help-color;
+    margin-left: 0.1rem;
+  }
+}

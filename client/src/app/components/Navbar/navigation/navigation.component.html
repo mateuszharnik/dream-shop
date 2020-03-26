@@ -1,0 +1,99 @@
+<ul class="navigation" id="navigationControls">
+  <li class="navigation__item navigation__item--first">
+    <div class="navigation__wrapper">
+      <button
+        class="navigation__link relative block text-left"
+        id="productsDropdown"
+        title="Nasze produkty"
+        type="button"
+        aria-haspopup="true"
+        [disabled]="isDisabled"
+        [attr.aria-expanded]="computedAriaExpanded()"
+        (click)="toggle()"
+        #parent
+      >
+        Produkty
+        <app-fa-icon [faClass]="computedIconClass()"></app-fa-icon>
+      </button>
+    </div>
+    <ul
+      *ngIf="links && isOpen"
+      class="navigation navigation--dropdown"
+      aria-labelledby="productsDropdown"
+      [@Slide]
+      #dropdown
+    >
+      <li class="navigation__item" *ngFor="let link of links; trackBy: trackID">
+        <app-navigation-item [link]="link"></app-navigation-item>
+      </li>
+    </ul>
+  </li>
+  <li class="navigation__item">
+    <div class="navigation__wrapper">
+      <a
+        class="navigation__link relative block text-left"
+        title="Skontaktuj się"
+        routerLink="/kontakt"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        #rlaContact="routerLinkActive"
+      >
+        Kontakt
+        <span *ngIf="rlaContact.isActive" class="hidden">(tutaj jesteś)</span>
+        <app-fa-icon
+          [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"
+        ></app-fa-icon>
+      </a>
+    </div>
+  </li>
+  <li class="navigation__item">
+    <div class="navigation__wrapper">
+      <a
+        class="navigation__link relative block text-left"
+        title="Dowiedz się kim jesteśmy"
+        routerLink="/o-nas"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        #rlaAbout="routerLinkActive"
+      >
+        O nas
+        <span *ngIf="rlaAbout.isActive" class="hidden">(tutaj jesteś)</span>
+        <app-fa-icon
+          [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"
+        ></app-fa-icon>
+      </a>
+    </div>
+  </li>
+  <li class="navigation__item">
+    <div class="navigation__wrapper navigation__wrapper">
+      <a
+        class="navigation__link relative block text-left"
+        title="Najczęściej zadawane pytania"
+        routerLink="/najczesciej-zadawane-pytania"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        #rlaFAQ="routerLinkActive"
+      >
+        FAQ
+        <span *ngIf="rlaFAQ.isActive" class="hidden">(tutaj jesteś)</span>
+        <app-fa-icon
+          [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"
+        ></app-fa-icon>
+      </a>
+    </div>
+  </li>
+  <li class="navigation__item">
+    <div class="navigation__wrapper navigation__wrapper--last">
+      <a
+        class="navigation__link relative block text-left"
+        title="Przejdź do panelu administratora"
+        routerLink="/admin"
+      >
+        Panel administratora
+        <app-fa-icon
+          [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"
+        ></app-fa-icon>
+      </a>
+    </div>
+  </li>
+</ul>

@@ -1,0 +1,24 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+.dashboard-navigation {
+  &--wrapper {
+    background-color: #222222;
+  }
+
+  &--dropdown {
+    padding: 0rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  &__item {
+    &:first-child {
+      margin-top: 0rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0rem;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// FAQ Page
+.faq-page {
+  background-color: $faq-page-bg-color;
+  letter-spacing: 0.5px;
+  padding-top: 6.6rem;
+
+  &__title {
+    display: inline-block;
+  }
+}
+
+.accordions-category {
+  width: 10rem;
+  font-size: 1.2rem;
+
+  &__link {
+    height: 100%;
+    color: $color-gray;
+    border: 0.1rem solid $color-light;
+    border-radius: 0.4rem;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: $color-primary;
+      border: 0.1rem solid $color-primary;
+    }
+
+    i {
+      font-size: 2.4rem;
+      line-height: 1.5;
+    }
+  }
+}

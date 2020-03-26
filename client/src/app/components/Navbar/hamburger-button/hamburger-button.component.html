@@ -1,0 +1,13 @@
+<app-button
+  [buttonClass]="'hamburger'"
+  [buttonAriaLabel]="'Otwórz lub zamknij menu'"
+  [buttonControls]="'navigationControls'"
+  [buttonTitle]="computedHamburgerTitle()"
+  [buttonDisabled]="isDisabled"
+  [buttonAriaExpanded]="computedAriaExpanded()"
+  [buttonOnClick]="true"
+  (whenButtonClick)="toggle()"
+>
+  <span class="hamburger__icon block"></span>
+  <span class="hidden">Menu</span>
+</app-button>

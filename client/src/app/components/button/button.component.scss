@@ -1,0 +1,65 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Button
+.button {
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.4rem;
+  line-height: 1.5;
+  cursor: pointer;
+  display: inline-block;
+  color: $color-white;
+  background-color: $color-gray;
+  border: 0.1rem solid darken($color-gray, 7%);
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  &:focus {
+    box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-gray, 0.5);
+  }
+
+  &:hover {
+    color: $color-white;
+    background-color: darken($color-gray, 7%);
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  &-small {
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+  }
+
+  &-primary {
+    color: $color-white;
+    background-color: $color-primary;
+    border: 0.1rem solid darken($color-primary, 7%);
+
+    &:hover {
+      color: $color-white;
+      background-color: darken($color-primary, 7%);
+    }
+
+    &:focus {
+      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+    }
+  }
+
+  &-danger {
+    color: $color-white;
+    background-color: $color-danger;
+    border: 0.1rem solid darken($color-danger, 7%);
+
+    &:hover {
+      color: $color-white;
+      background-color: darken($color-danger, 7%);
+    }
+
+    &:focus {
+      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-danger, 0.5);
+    }
+  }
+}

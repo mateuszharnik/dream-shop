@@ -1,0 +1,17 @@
+<div *ngIf="isLoading; else dashboardShowcaseView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #dashboardShowcaseView>
+  <div class="w-100 min-vh-100 relative bg-gradient">
+    <section class="dashboard-page w-100 center text-center">
+      <img
+        *ngIf="user.img"
+        [src]="user.img"
+        class="dashboard-page__img"
+        alt="Zdjęcie użytkownika"
+      />
+      <h3 class="h2 my-4">Witaj {{ user.name || user.username }}&nbsp;!</h3>
+      <p>Użyj nawigacji w celu przejścia do interesującej Cię strony.</p>
+    </section>
+  </div>
+</ng-template>

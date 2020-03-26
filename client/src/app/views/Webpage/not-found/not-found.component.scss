@@ -1,0 +1,11 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Page 404
+.page-404 {
+  letter-spacing: 0.5px;
+
+  &__image {
+    max-width: 40rem;
+  }
+}

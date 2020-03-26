@@ -1,0 +1,73 @@
+// Imports
+@import "./variables";
+
+// Paddings
+@for $i from 0 through $count {
+  .p-#{$i} {
+    padding: $i * $space + rem;
+  }
+
+  .py-#{$i} {
+    padding-top: $i * $space + rem;
+    padding-bottom: $i * $space + rem;
+  }
+
+  .px-#{$i} {
+    padding-left: $i * $space + rem;
+    padding-right: $i * $space + rem;
+  }
+
+  .pt-#{$i} {
+    padding-top: $i * $space + rem;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: $i * $space + rem;
+  }
+
+  .pr-#{$i} {
+    padding-right: $i * $space + rem;
+  }
+
+  .pl-#{$i} {
+    padding-left: $i * $space + rem;
+  }
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    @for $i from 0 through $count {
+      .#{$media}\:p-#{$i} {
+        padding: $i * $space + rem;
+      }
+
+      .#{$media}\:py-#{$i} {
+        padding-top: $i * $space + rem;
+        padding-bottom: $i * $space + rem;
+      }
+
+      .#{$media}\:px-#{$i} {
+        padding-left: $i * $space + rem;
+        padding-right: $i * $space + rem;
+      }
+
+      .#{$media}\:pt-#{$i} {
+        padding-top: $i * $space + rem;
+      }
+
+      .#{$media}\:pb-#{$i} {
+        padding-bottom: $i * $space + rem;
+      }
+
+      .#{$media}\:pr-#{$i} {
+        padding-right: $i * $space + rem;
+      }
+
+      .#{$media}\:pl-#{$i} {
+        padding-left: $i * $space + rem;
+      }
+    }
+  }
+}

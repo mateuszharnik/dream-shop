@@ -1,0 +1,52 @@
+<div class="navigation__wrapper" #parent>
+  <a
+    *ngIf="link.link; else button"
+    class="navigation__link relative block text-left"
+    routerLinkActive="active"
+    [title]="link.title"
+    [routerLink]="computedRouterLink(link.link)"
+    [routerLinkActiveOptions]="{ exact: true }"
+    #rlaLink="routerLinkActive"
+  >
+    {{ link.category }}
+    <span *ngIf="rlaLink.isActive" class="hidden">
+      (tutaj jesteś)
+    </span>
+    <app-fa-icon
+      *ngIf="isLinkBestsellers(link.link)"
+      [faClass]="'ml-1 far fa-star'"
+    ></app-fa-icon>
+    <app-fa-icon
+      [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"
+    ></app-fa-icon>
+  </a>
+  <ng-template #button>
+    <button
+      class="navigation__link relative block text-left"
+      type="button"
+      aria-haspopup="true"
+      [id]="computedID(link.id)"
+      [title]="link.title"
+      [disabled]="isDisabled"
+      [attr.aria-expanded]="computedAriaExpanded()"
+      (click)="toggle()"
+    >
+      {{ link.category }}
+      <app-fa-icon [faClass]="computedIconClass()"></app-fa-icon>
+    </button>
+  </ng-template>
+</div>
+<ul
+  *ngIf="link.links && isOpen"
+  class="navigation navigation--dropdown"
+  [attr.aria-labelledby]="computedID(link.id)"
+  [@Slide]
+  #dropdown
+>
+  <li
+    class="navigation__item"
+    *ngFor="let link of link.links; trackBy: trackID"
+  >
+    <app-navigation-item [link]="link"></app-navigation-item>
+  </li>
+</ul>

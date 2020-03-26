@@ -1,0 +1,11 @@
+<app-router-link
+  [linkClass]="'cart-button'"
+  [linkRouter]="'/koszyk'"
+  [linkTitle]="'Przejdź do koszyka'"
+>
+  <app-fa-icon [faClass]="'fas fa-shopping-cart'"></app-fa-icon>
+  <span class="hidden">Koszyk: </span>
+  <span class="cart-button__counter absolute text-center">
+    0
+  </span>
+</app-router-link>

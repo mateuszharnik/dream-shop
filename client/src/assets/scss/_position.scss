@@ -1,0 +1,47 @@
+// Imports
+@import "./variables";
+
+// Positions
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:relative {
+      position: relative;
+    }
+
+    .#{$media}\:absolute {
+      position: absolute;
+    }
+
+    .#{$media}\:fixed {
+      position: fixed;
+    }
+
+    .#{$media}\:center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// About Page
+.about-page {
+  letter-spacing: 0.5px;
+  background-color: $about-page-bg-color;
+  padding-top: 6.6rem;
+
+  &__title {
+    display: inline-block;
+  }
+}

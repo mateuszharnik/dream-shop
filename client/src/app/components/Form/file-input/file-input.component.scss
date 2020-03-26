@@ -1,0 +1,34 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Contact Form
+.form {
+  &__input {
+    &--file {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      font-size: 0;
+      line-height: 0;
+      overflow: hidden;
+
+      &:focus + label {
+        transition: background-color 0.3s ease-in-out,
+          box-shadow 0.3s ease-in-out;
+        box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-gray, 0.5);
+      }
+    }
+  }
+
+  &__label {
+    &--file {
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+  }
+
+  &__help {
+    &--file {
+      margin-left: 0.8rem;
+    }
+  }
+}

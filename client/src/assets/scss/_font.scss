@@ -1,0 +1,111 @@
+// Imports
+@import "./variables";
+
+// Fonts
+.light {
+  font-weight: 300;
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.bolder {
+  font-weight: 700;
+}
+
+// Aligns
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Transforms
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:light {
+      font-weight: 300;
+    }
+
+    .#{$media}\:normal {
+      font-weight: 400;
+    }
+
+    .#{$media}\:bold {
+      font-weight: 500;
+    }
+
+    .#{$media}\:bolder {
+      font-weight: 700;
+    }
+
+    .#{$media}\:text-center {
+      text-align: center;
+    }
+
+    .#{$media}\:text-justify {
+      text-align: justify;
+    }
+
+    .#{$media}\:text-left {
+      text-align: left;
+    }
+
+    .#{$media}\:text-right {
+      text-align: right;
+    }
+
+    .#{$media}\:uppercase {
+      text-transform: uppercase;
+    }
+
+    .#{$media}\:lowercase {
+      text-transform: lowercase;
+    }
+
+    .#{$media}\:capitalize {
+      text-transform: capitalize;
+    }
+
+    .#{$media}\:truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

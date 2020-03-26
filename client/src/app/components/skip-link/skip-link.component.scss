@@ -1,0 +1,32 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Skip Link
+.skip-link {
+  background-color: $skip-link-bg-color;
+  color: $skip-link-color;
+  padding: 1rem;
+  top: -999rem;
+  left: -999rem;
+  z-index: 999;
+  border-radius: 0.6rem;
+  border: 0.2rem solid $skip-link-border-color;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 1.2rem solid $skip-link-border-color;
+    border-right: 1.2rem solid transparent;
+    border-left: 1.2rem solid transparent;
+  }
+
+  &:focus {
+    box-shadow: none;
+    top: 1rem;
+    left: 1rem;
+  }
+}

@@ -1,0 +1,49 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Search Button
+.search-button {
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.75rem;
+  position: absolute;
+  top: 0rem;
+  color: $search-button-color;
+  background-color: $search-button-bg-color;
+  font-size: 2.2rem;
+  line-height: 3rem;
+  right: 6.2rem;
+  text-align: center;
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    color: $search-button-color-hover;
+    transition: color 0.3s ease-in-out;
+  }
+}
+
+// Search Form
+.search-bar-form {
+  padding: 0rem 1rem;
+  overflow-y: hidden;
+
+  &__row {
+    padding: 1rem 0rem;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.95rem 0.7rem 0.95rem 0rem;
+    text-indent: 0.7rem;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: $search-bar-input-color;
+    background-color: $search-bar-input-bg-color;
+    border: 0.1rem solid $search-input-border-color;
+    border-radius: 0.4rem;
+
+    &::placeholder {
+      color: $search-input-placeholder-color;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<main class="page-404 bg-white absolute min-vw-100 min-vh-100">
+  <section class="center w-100 text-center px-3">
+    <h2 class="h1 bolder">Strona nie istnieje</h2>
+    <p class="my-5">
+      Powrót do
+      <app-router-link [linkRouter]="'/'" [linkTitle]="'Wróć do strony głównej'"
+        >strony głównej</app-router-link
+      >
+      nastąpi za {{ countdown }} s.
+    </p>
+    <!-- Title: Page not found, Author: Katerina Limpitsouni, Source: https://undraw.co/, License: https://undraw.co/license -->
+    <app-image
+      [imageClass]="'page-404__image w-100'"
+      [imageSrc]="'../../../../assets/img/undraw_page_not_found_su7k.svg'"
+      [imageAltText]="'Liczba 404'"
+    >
+    </app-image>
+  </section>
+</main>

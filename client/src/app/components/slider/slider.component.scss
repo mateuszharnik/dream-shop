@@ -1,0 +1,24 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Slider
+.slider {
+  height: calc(100vh - 6.6rem);
+  width: 100%;
+  position: relative;
+  background-color: $color-gray;
+
+  @media (min-width: $md) {
+    margin: 0 auto;
+    max-width: 90rem;
+    max-height: 40rem;
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0rem;
+    left: 0rem;
+    color: $color-white;
+    background-color: fade-out($color-black, 0.3);
+  }
+}

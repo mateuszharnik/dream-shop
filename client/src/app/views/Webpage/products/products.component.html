@@ -1,0 +1,8 @@
+<div *ngIf="isLoading; else productsView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #productsView>
+  <section class="products-page min-vh-100 w-100">
+    Products
+  </section>
+</ng-template>

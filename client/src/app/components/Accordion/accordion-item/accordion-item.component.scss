@@ -1,0 +1,38 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Accordion Item
+.accordion {
+  &__title {
+    background-color: $accordion-title-bg-color;
+    font-size: 1.6rem;
+    line-height: 1.5;
+  }
+
+  &__button {
+    padding: 0.8rem 4.6rem 0.8rem 1.6rem;
+    color: $accordion-button-color;
+    background-color: $accordion-button-bg-color;
+
+    &:hover {
+      color: $accordion-button-color-hover;
+    }
+
+    &:focus {
+      border-radius: 0;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 1.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__body {
+    background-color: $accordion-body-bg-color;
+    border-top: 0.1rem solid $accordion-border-color;
+    overflow-y: hidden;
+  }
+}

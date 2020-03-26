@@ -1,0 +1,153 @@
+<nav class="dashboard-nav relative" [ngClass]="{ open: navigation.isOpen }">
+  <h2 class="hidden">Nawigacja</h2>
+  <app-hamburger-button
+    [isOpen]="navigation.isOpen"
+    [isDisabled]="navigation.isDisabled"
+    (whenHamburgerButtonClick)="toggle()"
+    #button
+    *ngIf="!isDesktop"
+  ></app-hamburger-button>
+  <div
+    *ngIf="navigation.isOpen"
+    [@SlideLeft]="navigation.isOpen && !isDesktop"
+    class="dashboard-navigation-wrapper vh-100 fixed"
+    [ngStyle]="{ 'padding-top': isDesktop ? '2rem' : '' }"
+    #nav
+  >
+    <ul
+      id="navigationControls"
+      class="dashboard-navigation dashboard-scrollbar"
+    >
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/"
+          title="Przejdź do strony głównej"
+          class="dashboard-navigation__link block"
+        >
+          <app-fa-icon
+            [faClass]="'fas fa-home mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Strona główna
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/admin/profil"
+          title="Przejdź do ustawień swojego profilu"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkProfile="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'fas fa-user mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Profil
+          <span *ngIf="rlaLinkProfile.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2">
+        <app-dashboard-navbar-list
+          [buttonTitle]="'Zarządzaj swoimi produktami'"
+          [buttonText]="'Produkty'"
+          [icon]="'fas fa-shopping-basket'"
+          [items]="productItems"
+        ></app-dashboard-navbar-list>
+      </li>
+      <li class="dashboard-navigation__item mb-2">
+        <app-dashboard-navbar-list
+          [buttonTitle]="'Zarządzaj swoimi stronami'"
+          [buttonText]="'Strony'"
+          [icon]="'fas fa-cogs'"
+          [items]="siteItems"
+        ></app-dashboard-navbar-list>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/admin/nawigacja"
+          title="Edytuj nawigację na stronie"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkNav="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'far fa-compass mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Nawigacja
+          <span *ngIf="rlaLinkNav.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/admin/social-media"
+          title="Edytuj linki do mediów społecznościowych"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkSocialMedia="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'far fa-thumbs-up mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Media społecznościowe
+          <span *ngIf="rlaLinkSocialMedia.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/admin/mapa"
+          title="Ustawienia mapy"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkMap="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'far fa-map mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Mapa
+          <span *ngIf="rlaLinkMap.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
+          routerLink="/admin/newsletter"
+          title="Zobacz zapisane adresy email"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkNewsletter="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'far fa-newspaper mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Newsletter
+          <span *ngIf="rlaLinkNewsletter.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mx-2">
+        <a
+          routerLink="/zaloguj"
+          title="Wyloguj się z konta"
+          class="dashboard-navigation__link block"
+        >
+          <app-fa-icon
+            [faClass]="'fas fa-power-off mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Wyloguj
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

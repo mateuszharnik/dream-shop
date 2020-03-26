@@ -1,0 +1,17 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Accordion
+.accordion {
+  border: 0.1rem solid $accordion-border-color;
+  border-radius: 0.4rem;
+  overflow: hidden;
+
+  &__item {
+    border-bottom: 0.1rem solid $accordion-border-color;
+
+    &:last-of-type {
+      border-bottom: 0;
+    }
+  }
+}

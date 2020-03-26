@@ -1,0 +1,30 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Contact Form
+.form {
+  &__input {
+    background-color: $form-text-box-bg-color;
+    border: 0.1rem solid $form-text-box-border-color;
+    border-radius: 0.4rem;
+    line-height: 1.5;
+    caret-color: $form-caret-color;
+    padding: 0.7rem 1.4rem 0.7rem 0rem;
+    text-indent: 1.4rem;
+
+    &.invalid {
+      border: 0.1rem solid $form-invalid-border-color;
+      caret-color: $form-caret-color-error;
+
+      &:focus {
+        border: 0.1rem solid $form-invalid-border-color-hover;
+        box-shadow: 0rem 0rem 0rem 0.3rem $form-invalid-focus-outline-color;
+      }
+    }
+
+    &:focus {
+      border: 0.1rem solid $form-border-color-focus;
+      box-shadow: 0rem 0rem 0rem 0.3rem $form-focus-outline-color;
+    }
+  }
+}

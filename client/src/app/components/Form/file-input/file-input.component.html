@@ -1,0 +1,18 @@
+<div [ngClass]="inputGroupClass">
+  <input
+    type="file"
+    class="form__input--file"
+    accept=".jpg,.jpeg,.png"
+    [name]="inputID"
+    [id]="inputID"
+    [required]="inputRequired"
+    [attr.aria-describedby]="computedAriaDescribedBy"
+    (change)="sendFileName($event)"
+  />
+  <label class="form__label--file button" [for]="inputID">
+    {{ inputLabel }}
+  </label>
+  <small class="form__help--file" [id]="computedSmallID" *ngIf="inputMessage">
+    {{ inputMessage.name }}
+  </small>
+</div>

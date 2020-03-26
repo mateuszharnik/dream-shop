@@ -1,0 +1,22 @@
+<header class="header w-100 absolute m-auto">
+  <div class="container-xl p-0">
+    <app-logo></app-logo>
+    <nav class="main-nav" [ngClass]="{ open: navigation.isOpen }">
+      <h2 class="hidden">Nawigacja</h2>
+      <app-cart-button></app-cart-button>
+      <app-search-bar></app-search-bar>
+      <app-hamburger-button
+        [isOpen]="navigation.isOpen"
+        [isDisabled]="navigation.isDisabled"
+        (whenHamburgerButtonClick)="toggle()"
+        #button
+      ></app-hamburger-button>
+      <app-navigation
+        *ngIf="navigation.isOpen"
+        [links]="links"
+        [@Slide]
+        #nav
+      ></app-navigation>
+    </nav>
+  </div>
+</header>

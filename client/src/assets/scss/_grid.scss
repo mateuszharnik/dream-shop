@@ -1,0 +1,167 @@
+// Imports
+@import "./variables";
+
+// Container
+.container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+}
+
+.xs\:container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+
+  @media (min-width: $xs) {
+    max-width: $xs;
+  }
+
+  @media (min-width: $sm) {
+    max-width: $sm;
+  }
+
+  @media (min-width: $md) {
+    max-width: $md;
+  }
+
+  @media (min-width: $lg) {
+    max-width: $lg;
+  }
+
+  @media (min-width: $xl) {
+    max-width: $xl;
+  }
+}
+
+.sm\:container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+
+  @media (min-width: $sm) {
+    max-width: $sm;
+  }
+
+  @media (min-width: $md) {
+    max-width: $md;
+  }
+
+  @media (min-width: $lg) {
+    max-width: $lg;
+  }
+
+  @media (min-width: $xl) {
+    max-width: $xl;
+  }
+}
+
+.md\:container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+
+  @media (min-width: $md) {
+    max-width: $md;
+  }
+
+  @media (min-width: $lg) {
+    max-width: $lg;
+  }
+
+  @media (min-width: $xl) {
+    max-width: $xl;
+  }
+}
+
+.lg\:container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+
+  @media (min-width: $lg) {
+    max-width: $lg;
+  }
+
+  @media (min-width: $xl) {
+    max-width: $xl;
+  }
+}
+
+.xl\:container {
+  width: 100%;
+  position: relative;
+  margin: 0rem auto;
+  padding: 0rem 1.5rem;
+
+  @media (min-width: $xl) {
+    max-width: $xl;
+  }
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  .container-#{$media} {
+    width: 100%;
+    max-width: $width;
+    position: relative;
+    margin: 0rem auto;
+    padding: 0rem 1.5rem;
+  }
+}
+
+// Row
+.row {
+  display: flex;
+  flex-wrap: wrap;
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+// Grid
+.space-0 {
+  margin-left: 0rem;
+  float: left;
+}
+
+@for $i from 1 through $columns {
+  .column-#{$i} {
+    width: 100% / $columns * $i;
+    float: left;
+  }
+  .space-#{$i} {
+    margin-left: 100% / $columns * $i;
+    float: left;
+  }
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:space-0 {
+      margin-left: 0rem;
+      float: left;
+    }
+    @for $i from 1 through $columns {
+      .#{$media}\:column-#{$i} {
+        width: 100% / $columns * $i;
+        float: left;
+      }
+      .#{$media}\:space-#{$i} {
+        margin-left: 100% / $columns * $i;
+        float: left;
+      }
+    }
+  }
+}

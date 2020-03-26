@@ -1,0 +1,14 @@
+<a
+  class="dashboard-navigation__link block"
+  routerLinkActive="active"
+  [routerLink]="item.link"
+  [title]="item.title"
+  [routerLinkActiveOptions]="{ exact: true }"
+  #rlaLink="routerLinkActive"
+>
+  <app-fa-icon [faClass]="computedIconClass(item.icon)"></app-fa-icon>
+  {{ item.text }}
+  <span *ngIf="rlaLink.isActive" class="hidden">
+    (tutaj jesteś)
+  </span>
+</a>

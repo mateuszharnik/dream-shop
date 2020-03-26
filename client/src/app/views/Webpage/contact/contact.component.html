@@ -1,0 +1,74 @@
+<div *ngIf="isLoading; else contactView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #contactView>
+  <section class="contact-page min-vh-100 w-100">
+    <div class="sm:container">
+      <div class="row">
+        <header class="pt-10 pb-6 text-center column-12">
+          <h3 class="contact-page__title m-auto h4 bolder uppercase">
+            Skontaktuj się
+          </h3>
+        </header>
+      </div>
+    </div>
+    <article class="row pb-4">
+      <div class="sm:container mb-10">
+        <div class="row">
+          <div class="column-12 lg:column-8 m-auto">
+            <p class="text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
+              blanditiis illum consectetur voluptate libero voluptatum
+              dignissimos itaque officiis debitis ducimus. Voluptatum,
+              reiciendis. Repellendus nemo molestiae delectus nulla magni omnis
+              unde.
+            </p>
+          </div>
+        </div>
+      </div>
+      <section class="column-12 bg-secondary py-10">
+        <app-contact-form></app-contact-form>
+      </section>
+      <div class="sm:container">
+        <div class="row column-12 py-10">
+          <div class="column-12 lg:column-7 mb-6 lg:mb-0">
+            <app-map></app-map>
+          </div>
+          <div class="column-12 lg:column-5 text-center lg:text-right">
+            <h3 class="h6 mb-6 bolder text-primary">Informacje kontaktowe</h3>
+            <div *ngIf="contact.adress.street && contact.adress.streetNumber">
+              <p class="mb-0">
+                ul. {{ contact.adress.street }}
+                {{ contact.adress.streetNumber }}
+              </p>
+              <p>{{ contact.adress.code }} {{ contact.adress.city }}</p>
+            </div>
+            <div>
+              <p class="mb-0" *ngIf="contact.email">
+                <app-link
+                  [linkRouter]="computedMailTo(contact.email)"
+                  [linkTitle]="'Napisz do nas'"
+                >
+                  {{ contact.email }}
+                </app-link>
+              </p>
+              <p class="mb-0" *ngIf="contact.phone">
+                <app-link
+                  [linkRouter]="computedTel(contact.phone)"
+                  [linkTitle]="'Zadzwoń do nas'"
+                >
+                  {{ contact.phone }}
+                </app-link>
+              </p>
+              <p *ngIf="contact.nip">NIP: {{ contact.nip }}</p>
+            </div>
+            <p class="mb-0" *ngIf="contact.workHours">
+              <span class="bold">Godziny pracy:</span>
+              {{ contact.workHours }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</ng-template>

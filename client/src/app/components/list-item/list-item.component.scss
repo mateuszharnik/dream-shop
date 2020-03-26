@@ -1,0 +1,13 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// List item
+.list-item {
+  width: 100%;
+  background-color: darken($color-white, 5%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.4rem;
+  border: 0.1rem solid darken($color-white, 15%);
+}

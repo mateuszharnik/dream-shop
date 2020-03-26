@@ -1,0 +1,138 @@
+// Imports
+@import "./variables";
+
+// Text colors
+.text-white {
+  color: $color-white;
+}
+
+.text-light {
+  color: $color-light;
+}
+
+.text-black {
+  color: $color-black;
+}
+
+.text-dark {
+  color: $color-dark;
+}
+
+.text-gray {
+  color: $color-gray;
+}
+
+.text-primary {
+  color: $color-primary;
+}
+
+.text-danger {
+  color: $color-danger;
+}
+
+.text-secondary {
+  color: $color-secondary;
+}
+
+// Background colors
+.bg-white {
+  background-color: $color-white;
+}
+
+.bg-light {
+  background-color: $color-light;
+}
+
+.bg-black {
+  background-color: $color-black;
+}
+
+.bg-dark {
+  background-color: $color-dark;
+}
+
+.bg-gray {
+  background-color: $color-gray;
+}
+
+.bg-primary {
+  background-color: $color-primary;
+}
+
+.bg-danger {
+  background-color: $color-danger;
+}
+
+.bg-secondary {
+  background-color: $color-secondary;
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:text-white {
+      color: $color-white;
+    }
+
+    .#{$media}\:bg-white {
+      background-color: $color-white;
+    }
+
+    .#{$media}\:text-light {
+      color: $color-light;
+    }
+
+    .#{$media}\:bg-light {
+      background-color: $color-light;
+    }
+
+    .#{$media}\:text-black {
+      color: $color-black;
+    }
+
+    .#{$media}\:bg-black {
+      background-color: $color-black;
+    }
+
+    .#{$media}\:text-dark {
+      color: $color-dark;
+    }
+
+    .#{$media}\:bg-dark {
+      background-color: $color-dark;
+    }
+
+    .#{$media}\:text-gray {
+      color: $color-gray;
+    }
+
+    .#{$media}\:bg-gray {
+      background-color: $color-gray;
+    }
+
+    .#{$media}\:text-primary {
+      color: $color-primary;
+    }
+
+    .#{$media}\:bg-primary {
+      background-color: $color-primary;
+    }
+
+    .#{$media}\:text-danger {
+      color: $color-danger;
+    }
+
+    .#{$media}\:bg-danger {
+      background-color: $color-danger;
+    }
+
+    .#{$media}\:text-secondary {
+      color: $color-secondary;
+    }
+
+    .#{$media}\:bg-secondary {
+      background-color: $color-secondary;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<footer class="footer fixed bg-dark text-white w-100 py-6" #footer>
+  <div class="container-lg">
+    <div class="row sm:px-5 xl:px-0">
+      <div
+        class="row column-12 text-center"
+        [ngClass]="{
+          'mb-6 md:mb-0': checkSocialMediaLinks(),
+          'sm:column-6 md:column-4 sm:text-left': checkContactInfoAndSocialMedia()
+        }"
+      >
+        <app-footer-navigation
+          [onlyNavigationLinks]="checkContactInfoAndSocialMedia()"
+          (whenLinkClick)="changeRoute($event)"
+          (whenLinkFocus)="scrollTo($event)"
+        ></app-footer-navigation>
+      </div>
+      <div
+        class="row column-12 sm:column-6 md:column-8 text-center sm:text-right"
+      >
+        <div
+          *ngIf="checkContactInfo()"
+          [ngClass]="{ 'md:\column-6 md:text-center': checkSocialMediaLinks() }"
+          class="column-12 mb-6 hidden sm:block md:column-6"
+        >
+          <app-footer-contact
+            (whenLinkFocus)="scrollTo($event)"
+            [contact]="contact"
+          ></app-footer-contact>
+        </div>
+        <div
+          *ngIf="checkSocialMediaLinks()"
+          [ngClass]="{ 'md:\column-6': checkContactInfo() }"
+          class="column-12 md:column-6"
+        >
+          <app-social-media
+            (whenLinkFocus)="scrollTo($event)"
+            [socialMediaLinks]="socialMediaLinks"
+          ></app-social-media>
+        </div>
+      </div>
+    </div>
+    <app-image
+      [imageClass]="'footer-logo m-auto block mb-2 mt-6'"
+      [imageSrc]="'../../../assets/img/logo.svg'"
+      [imageAltText]="'Napis Dream'"
+    ></app-image>
+    <p class="footer-copyright text-center mb-0">
+      Wszelkie prawa zastrzeżone
+      <span class="block md:inline">&copy; {{ getYear() }}</span>
+    </p>
+  </div>
+</footer>

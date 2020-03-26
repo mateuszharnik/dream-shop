@@ -1,0 +1,14 @@
+<div *ngIf="isLoading; else showcaseView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #showcaseView>
+  <section class="showcase-page min-vh-100 w-100">
+    <header>
+      <h2 class="hidden">Strona główna</h2>
+    </header>
+    <app-slider></app-slider>
+    <article>
+      <app-newsletter></app-newsletter>
+    </article>
+  </section>
+</ng-template>

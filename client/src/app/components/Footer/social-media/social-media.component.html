@@ -1,0 +1,51 @@
+<div class="social-media">
+  <h3 class="social-media__header p mb-2 sm:mr-2">Social Media</h3>
+  <ul
+    class="social-media-list text-center row flex-justify-center sm:flex-justify-end"
+  >
+    <li class="social-media-list__item" *ngIf="socialMediaLinks.facebook">
+      <a
+        class="social-media-list__link block p-2"
+        [href]="socialMediaLinks.facebook"
+        title="Nasz profil na Facebook"
+        (focus)="onFocus($event)"
+      >
+        <span class="hidden">Facebook</span>
+        <app-fa-icon [faClass]="'fab fa-facebook-f'"></app-fa-icon>
+      </a>
+    </li>
+    <li class="social-media-list__item" *ngIf="socialMediaLinks.linkedin">
+      <a
+        class="social-media-list__link block p-2"
+        [href]="socialMediaLinks.linkedin"
+        title="Nasz profil na LinkedIn"
+        (focus)="onFocus($event)"
+      >
+        <span class="hidden">LinkedIn</span>
+        <app-fa-icon [faClass]="'fab fa-linkedin-in'"></app-fa-icon>
+      </a>
+    </li>
+    <li class="social-media-list__item" *ngIf="socialMediaLinks.instagram">
+      <a
+        class="social-media-list__link block p-2"
+        [href]="socialMediaLinks.instagram"
+        title="Nasz profil na Instagram"
+        (focus)="onFocus($event)"
+      >
+        <span class="hidden">Instagram</span>
+        <app-fa-icon [faClass]="'fab fa-instagram'"></app-fa-icon>
+      </a>
+    </li>
+    <li class="social-media-list__item" *ngIf="socialMediaLinks.twitter">
+      <a
+        class="social-media-list__link block p-2"
+        [href]="socialMediaLinks.twitter"
+        title="Nasz profil na Twitter"
+        (focus)="onFocus($event)"
+      >
+        <span class="hidden">Twitter</span>
+        <app-fa-icon [faClass]="'fab fa-twitter'"></app-fa-icon>
+      </a>
+    </li>
+  </ul>
+</div>

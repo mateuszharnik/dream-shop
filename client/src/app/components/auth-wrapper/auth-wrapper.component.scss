@@ -1,0 +1,8 @@
+@import "../../../assets/scss/variables";
+
+.auth-wrapper {
+  max-width: 45rem;
+  background: $color-white;
+  border: 0.1rem solid $color-primary;
+  border-radius: 1rem;
+}

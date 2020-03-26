@@ -1,0 +1,69 @@
+// Imports
+@import "./variables";
+
+// Display
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.invisible {
+  font-size: 0;
+  line-height: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:hidden {
+      display: none;
+    }
+
+    .#{$media}\:block {
+      display: block;
+    }
+
+    .#{$media}\:inline {
+      display: inline;
+    }
+
+    .#{$media}\:inline-block {
+      display: inline-block;
+    }
+
+    .#{$media}\:flex {
+      display: flex;
+    }
+
+    .#{$media}\:invisible {
+      font-size: 0;
+      line-height: 0;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

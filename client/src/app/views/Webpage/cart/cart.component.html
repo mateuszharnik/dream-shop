@@ -1,0 +1,8 @@
+<div *ngIf="isLoading; else cartView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #cartView>
+  <section class="cart-page min-vh-100 w-100">
+    Koszyk
+  </section>
+</ng-template>

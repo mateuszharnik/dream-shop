@@ -1,0 +1,78 @@
+<h3 class="hidden">Formularz kontaktowy</h3>
+<app-form
+  [formClass]="'form m-auto px-4'"
+  [formName]="form"
+  (whenFormSubmit)="submit()"
+>
+  <div class="row">
+    <div class="column-12 md:column-6 mb-4">
+      <app-input
+        [inputLabelClass]="'block mb-2 bold'"
+        [inputID]="'name'"
+        [inputGroupClass]="'md:mr-1'"
+        [inputLabel]="'Imię*'"
+        [inputPlaceholder]="'Jak masz na imię?'"
+        [inputClass]="'form__input w-100'"
+        [inputValidation]="validation('name')"
+        [inputAlerts]="nameAlerts"
+        [inputGroup]="form"
+        [inputForm]="form"
+      ></app-input>
+    </div>
+    <div class="column-12 md:column-6 mb-4">
+      <app-input
+        [inputLabelClass]="'block mb-2 bold'"
+        [inputID]="'email'"
+        [inputGroupClass]="'md:mr-1'"
+        [inputLabel]="'Email*'"
+        [inputType]="'email'"
+        [inputPlaceholder]="'example@domain.com'"
+        [inputClass]="'form__input w-100'"
+        [inputValidation]="validation('email')"
+        [inputAlerts]="emailAlerts"
+        [inputGroup]="form"
+        [inputForm]="form"
+      ></app-input>
+    </div>
+    <div class="column-12 mb-4">
+      <app-input
+        [inputLabelClass]="'block mb-2 bold'"
+        [inputID]="'subject'"
+        [inputLabel]="'Temat*'"
+        [inputPlaceholder]="'Temat wiadomości'"
+        [inputClass]="'form__input w-100'"
+        [inputValidation]="validation('subject')"
+        [inputAlerts]="subjectAlerts"
+        [inputGroup]="form"
+        [inputForm]="form"
+      ></app-input>
+    </div>
+    <div class="column-12 mb-4">
+      <app-textarea
+        [textareaID]="'message'"
+        [textareaRows]="'6'"
+        [textareaLabel]="'Wiadomość*'"
+        [textareaPlaceholder]="'O co chcesz nas zapytać?'"
+        [textareaClass]="'form__textarea w-100'"
+        [textareaValidation]="validation('message')"
+        [textareaAlerts]="messageAlerts"
+        [textareaGroup]="form"
+        [textareaForm]="form"
+        [textareaLabelClass]="'block mb-2 bold'"
+      ></app-textarea>
+    </div>
+    <div class="column-12 mb-4 text-center">
+      <app-button
+        [buttonType]="'submit'"
+        [buttonTitle]="computedButtonTitle()"
+        [buttonDisabled]="isDisabled"
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon [faClass]="computedButtonIcon()"></app-fa-icon>
+      </app-button>
+    </div>
+    <div class="column-12 text-center">
+      * Pole wymagane
+    </div>
+  </div>
+</app-form>

@@ -1,0 +1,18 @@
+<div
+  class="slider"
+  (mouseenter)="stopSlide()"
+  (touchstart)="stopSlide()"
+  (touchend)="startSlide()"
+  (mouseleave)="startSlide()"
+>
+  <div class="w-100 h-100 absolute" *ngFor="let slide of images; let i = index">
+    <app-slide
+      *ngIf="i === currentIndex"
+      [@Fade]="isFirst && 0 === currentIndex ? 'first' : ''"
+      [slide]="slide"
+      (whenStartSlide)="startSlide()"
+      (whenStopSlide)="stopSlide()"
+      (whenIsFocus)="toggleFocus($event)"
+    ></app-slide>
+  </div>
+</div>

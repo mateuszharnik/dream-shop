@@ -1,0 +1,59 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Navigation & Dropdown Menu
+.navigation {
+  padding: 0rem 1rem;
+  overflow-y: hidden;
+  list-style-type: none;
+
+  &--dropdown {
+    padding: 0rem 0rem 0rem 2rem;
+    border-top: 0.1rem solid $dropdown-border-top-color;
+
+    .navigation__item:first-of-type {
+      border: none;
+    }
+  }
+
+  &__item {
+    border-top: 0.1rem solid $navigation-item-border-top-color;
+
+    &--first {
+      margin-top: 1rem;
+    }
+  }
+
+  &__wrapper {
+    padding: 0.3rem 0rem;
+
+    &--last {
+      margin-bottom: 0.3rem;
+    }
+  }
+
+  &__link {
+    width: 100%;
+    padding: 1rem 0.8rem;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: $navigation-link-color;
+    background: $navigation-link-bg-color;
+
+    &:hover {
+      color: $navigation-link-color-hover;
+      text-decoration: none;
+    }
+  }
+
+  &__icon {
+    top: 0.8rem;
+    right: 0.8rem;
+    transition: transform 0.3s ease-in-out;
+
+    &.open {
+      transform: rotate(90deg);
+      transition: transform 0.3s ease-in-out;
+    }
+  }
+}

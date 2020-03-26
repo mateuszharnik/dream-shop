@@ -1,0 +1,147 @@
+// Font Family
+$font-family: "Montserrat", sans-serif;
+
+// Colors
+$color-black: #000000;
+$color-white: #ffffff;
+$color-primary: #964dec;
+$color-secondary: #ead8ff;
+$color-gray: #979797;
+$color-dark: #1b1b1b;
+$color-light: #e9e9e9;
+$color-danger: #da201a;
+
+// Media
+$xs: 425px;
+$sm: 600px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1280px;
+
+// Grid
+$columns: 12;
+
+// Flex
+$orders: 12;
+
+// Margin & Padding
+$space: 0.4;
+$count: 20;
+
+// Z-index
+$z-index-1: 100;
+$z-index-2: 200;
+$z-index-3: 300;
+$z-index-4: 400;
+$z-index-5: 500;
+$z-index-6: 600;
+$z-index-7: 700;
+$z-index-8: 800;
+$z-index-9: 900;
+$z-index-10: 1000;
+
+// Basic
+$basic-color: lighten($color-dark, 22%);
+$basic-bg-color: $color-white;
+
+$a-color: $color-primary;
+$a-color-hover: darken($color-primary, 15%);
+
+$focus-outline-color: fade-out($color-primary, 0.5);
+
+// Button
+$button-color: $color-white;
+$button-bg-color: $color-primary;
+$button-border-color: darken($color-primary, 7%);
+$button-bg-color-hover: darken($color-primary, 7%);
+$button-color-hover: $color-white;
+$button-focus-outline-color: $focus-outline-color;
+
+// Selection
+$selection-color: $color-white;
+$selection-bg-color: $color-primary;
+
+// Skip Link
+$skip-link-border-color: $color-dark;
+$skip-link-bg-color: $color-white;
+$skip-link-color: $color-primary;
+
+// Header
+$header-bg-color: $color-secondary;
+$header-border-bottom-color: darken($color-secondary, 8%);
+$header-box-shadow-color: fade-out($color-black, 0.75);
+
+// Navigation
+$dropdown-border-top-color: darken($color-secondary, 4%);
+
+$navigation-item-border-top-color: darken($color-secondary, 4%);
+
+$navigation-link-bg-color: transparent;
+$navigation-link-color: $color-dark;
+$navigation-link-color-hover: darken($color-primary, 8%);
+
+// Cart Button
+$cart-button-color: lighten($color-dark, 22%);
+$cart-button-bg-color: transparent;
+$cart-button-bg-color-hover: $color-dark;
+$cart-counter-border-color: darken($color-primary, 7%);
+$cart-counter-color: $color-white;
+$cart-counter-bg-color: $color-primary;
+
+// Search Bar
+$search-button-color: lighten($color-dark, 22%);
+$search-button-bg-color: transparent;
+$search-button-color-hover: $color-dark;
+
+$search-bar-input-bg-color: $color-white;
+$search-bar-input-color: $color-dark;
+$search-input-border-color: $color-primary;
+$search-input-placeholder-color: $color-gray;
+
+// Hamburger Button
+$hamburger-bg-color: transparent;
+
+$hamburger-icon-bg-color-hover: $color-dark;
+$hamburger-icon-bg-color: lighten($color-dark, 22%);
+$hamburger-icon-bg-color-open: transparent;
+
+// Contact Form
+$form-errors-color: $color-danger;
+
+$form-caret-color: $color-primary;
+$form-caret-color-error: $color-danger;
+
+$form-invalid-border-color: $color-danger;
+$form-invalid-focus-outline-color: fade-out($color-danger, 0.5);
+$form-invalid-border-color-hover: darken($color-danger, 10%);
+
+$form-help-color: darken($color-gray, 22%);
+
+$form-text-box-border-color: darken($color-light, 18%);
+$form-text-box-bg-color: $color-white;
+$form-scrollbar-bg-color: $color-primary;
+$form-scrollbar-track-bg-color: transparent;
+
+$form-border-color-focus: $color-primary;
+
+$form-focus-outline-color: $focus-outline-color;
+
+// Accordion
+$accordion-border-color: darken($color-light, 18%);
+
+$accordion-body-bg-color: $color-white;
+
+$accordion-title-bg-color: lighten($color-secondary, 5%);
+
+$accordion-button-color: $color-primary;
+$accordion-button-bg-color: transparent;
+$accordion-button-color-hover: darken($color-primary, 15%);
+
+// About Page
+$about-page-bg-color: $color-white;
+
+// Contact Page
+$contact-page-bg-color: $color-white;
+
+// FAQ Page
+$faq-page-bg-color: $color-white;

@@ -1,0 +1,22 @@
+<a
+  *ngIf="linkOnClick"
+  [ngClass]="linkClass"
+  [href]="linkRouter"
+  [title]="linkTitle"
+  (click)="onClick($event)"
+>
+  <ng-container *ngTemplateOutlet="tempOutlet"></ng-container>
+</a>
+
+<a
+  *ngIf="!linkOnClick"
+  [ngClass]="linkClass"
+  [href]="linkRouter"
+  [title]="linkTitle"
+>
+  <ng-container *ngTemplateOutlet="tempOutlet"></ng-container>
+</a>
+
+<ng-template #tempOutlet>
+  <ng-content></ng-content>
+</ng-template>

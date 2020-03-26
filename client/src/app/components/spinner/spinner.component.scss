@@ -1,0 +1,11 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+.spinner-wrapper {
+  min-width: 100%;
+  min-height: 100vh;
+  position: relative;
+  top: 0rem;
+  left: 0rem;
+  background-color: $color-white;
+}

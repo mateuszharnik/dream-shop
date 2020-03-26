@@ -1,0 +1,29 @@
+<div class="mx-2">
+  <button
+    type="button"
+    id="productsDropdown"
+    class="dashboard-navigation__link block text-left"
+    aria-haspopup="true"
+    [title]="buttonTitle"
+    [disabled]="isDisabled"
+    [attr.aria-expanded]="computedAriaExpanded()"
+    (click)="toggle()"
+    #parent
+  >
+    <app-fa-icon [faClass]="computedIconClass(icon)"></app-fa-icon>
+    {{ buttonText }}
+  </button>
+</div>
+<ul
+  class="dashboard-navigation dashboard-navigation--dropdown"
+  aria-labelledby="productsDropdown"
+  *ngIf="isOpen"
+  [@Slide]
+  #dropdown
+>
+  <div class="dashboard-navigation--wrapper p-2 mt-2">
+    <li class="dashboard-navigation__item mb-2" *ngFor="let item of items">
+      <app-dashboard-navbar-item [item]="item"></app-dashboard-navbar-item>
+    </li>
+  </div>
+</ul>

@@ -1,0 +1,30 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Social Media
+.social-media {
+  &__header {
+    color: lighten($color-primary, 10%);
+  }
+
+  &-list {
+    list-style-type: none;
+
+    &__item {
+      width: 4.5rem;
+      height: 4.5rem;
+      float: left;
+    }
+
+    &__link {
+      color: fade-out($color-white, 0.5);
+      font-size: 2rem;
+      line-height: 3rem;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+  }
+}

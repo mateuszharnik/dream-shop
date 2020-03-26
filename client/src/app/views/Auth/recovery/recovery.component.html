@@ -1,0 +1,44 @@
+<app-auth-wrapper>
+  <p>
+    Jeżeli nie pamiętasz hasła możesz podać adres email, na który zostanie
+    wysłana wiadomość z adresem do zmiany hasła.
+  </p>
+  <app-form
+    (whenFormSubmit)="submit()"
+    [formName]="form"
+    [formClass]="'form mb-6 row'"
+  >
+    <app-input
+      [inputLabelClass]="'column-12 mb-2'"
+      [inputID]="'email'"
+      [inputGroupClass]="'column-12 row mb-4'"
+      [inputLabel]="'Email:'"
+      [inputType]="'email'"
+      [inputPlaceholder]="'example@domain.com'"
+      [inputClass]="'form__input column-12'"
+      [inputValidation]="validation('email')"
+      [inputAlerts]="emailAlerts"
+      [inputGroup]="form"
+      [inputForm]="form"
+    ></app-input>
+    <div class="column-12 text-center">
+      <app-button
+        [buttonType]="'submit'"
+        [buttonTitle]="computedButtonTitle()"
+        [buttonDisabled]="isDisabled"
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon [faClass]="computedButtonIcon()"></app-fa-icon>
+      </app-button>
+    </div>
+  </app-form>
+  <div>
+    <app-router-link
+      [linkRouter]="'/zaloguj'"
+      [linkTitle]="'Wróć do strony logowania'"
+    >
+      <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
+      Zaloguj się
+    </app-router-link>
+  </div>
+</app-auth-wrapper>

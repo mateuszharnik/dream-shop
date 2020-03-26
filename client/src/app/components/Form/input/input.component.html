@@ -1,0 +1,24 @@
+<div [formGroup]="inputGroup" [ngClass]="inputGroupClass">
+  <label [ngClass]="inputLabelClass" [for]="inputID">{{ inputLabel }}</label>
+  <input
+    [type]="inputType"
+    [ngClass]="computedInputClass"
+    [name]="inputID"
+    [id]="inputID"
+    [placeholder]="inputPlaceholder"
+    [formControlName]="inputID"
+    [autofocus]="inputFocus"
+    [required]="inputRequired"
+    [attr.aria-describedby]="computedAriaDescribedBy"
+  />
+  <small class="form__help" [id]="computedSmallID" *ngIf="inputMessage">
+    {{ inputMessage }}
+  </small>
+  <div class="form__errors" *ngIf="inputValidation">
+    <div *ngFor="let alert of inputAlerts; trackBy: trackID">
+      <div class="mt-1" *ngIf="inputForm.controls[inputID].errors[alert.key]">
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
+</div>

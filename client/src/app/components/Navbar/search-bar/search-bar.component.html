@@ -1,0 +1,34 @@
+<button
+  class="search-button"
+  type="button"
+  title="Otwórz wyszukiwarkę produktów"
+  aria-controls="searchBarControls"
+  aria-label="Otwórz lub zamknij wyszukiwarkę produktów"
+  [disabled]="searchBar.isDisabled"
+  [attr.aria-expanded]="computedAriaExpanded()"
+  (click)="toggle()"
+  #button
+>
+  <app-fa-icon [faClass]="'fas fa-search'"></app-fa-icon>
+  <span class="hidden">Wyszukiwarka</span>
+</button>
+<form
+  *ngIf="searchBar.isOpen"
+  class="search-bar-form"
+  id="searchBarControls"
+  [@Slide]
+>
+  <div class="search-bar-form__row">
+    <label class="hidden" for="search">Wyszukaj produkt: </label>
+    <input
+      class="search-bar-form__input"
+      id="search"
+      type="text"
+      name="search"
+      placeholder="Wyszukaj (Naciśnij / aby zaznaczyć)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      #search
+    />
+  </div>
+</form>

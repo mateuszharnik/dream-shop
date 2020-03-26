@@ -1,0 +1,15 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Header
+.header {
+  background-color: $header-bg-color;
+  min-height: 6.6rem;
+  top: 0rem;
+  left: 0rem;
+  padding-top: 1rem;
+  z-index: $z-index-2;
+  overflow-y: hidden;
+  border-bottom: 0.1rem solid $header-border-bottom-color;
+  box-shadow: 0.5rem 0rem 1.4rem 0.2rem $header-box-shadow-color;
+}

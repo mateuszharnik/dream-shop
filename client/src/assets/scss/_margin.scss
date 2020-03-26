@@ -1,0 +1,99 @@
+// Imports
+@import "./variables";
+
+// Margins
+.m-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+@for $i from 0 through $count {
+  .m-#{$i} {
+    margin: $i * $space + rem;
+  }
+
+  .my-#{$i} {
+    margin-top: $i * $space + rem;
+    margin-bottom: $i * $space + rem;
+  }
+
+  .mx-#{$i} {
+    margin-left: $i * $space + rem;
+    margin-right: $i * $space + rem;
+  }
+
+  .mt-#{$i} {
+    margin-top: $i * $space + rem;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $i * $space + rem;
+  }
+
+  .mr-#{$i} {
+    margin-right: $i * $space + rem;
+  }
+
+  .ml-#{$i} {
+    margin-left: $i * $space + rem;
+  }
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  @media (min-width: $width) {
+    .#{$media}\:m-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .#{$media}\:ml-auto {
+      margin-left: auto;
+    }
+
+    .#{$media}\:mr-auto {
+      margin-right: auto;
+    }
+
+    @for $i from 0 through $count {
+      .#{$media}\:m-#{$i} {
+        margin: $i * $space + rem;
+      }
+
+      .#{$media}\:my-#{$i} {
+        margin-top: $i * $space + rem;
+        margin-bottom: $i * $space + rem;
+      }
+
+      .#{$media}\:mx-#{$i} {
+        margin-left: $i * $space + rem;
+        margin-right: $i * $space + rem;
+      }
+
+      .#{$media}\:mt-#{$i} {
+        margin-top: $i * $space + rem;
+      }
+
+      .#{$media}\:mb-#{$i} {
+        margin-bottom: $i * $space + rem;
+      }
+
+      .#{$media}\:mr-#{$i} {
+        margin-right: $i * $space + rem;
+      }
+
+      .#{$media}\:ml-#{$i} {
+        margin-left: $i * $space + rem;
+      }
+    }
+  }
+}

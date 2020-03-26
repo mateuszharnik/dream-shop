@@ -1,0 +1,69 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Dashboard navbar
+.dashboard {
+  &-scrollbar {
+    overflow-x: hidden;
+
+    @media (min-width: $lg) {
+      overflow: hidden;
+    }
+
+    &::-webkit-scrollbar {
+      width: 1.8rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $form-scrollbar-track-bg-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 0.5rem solid $color-dark;
+      background-color: lighten($color-dark, 15%);
+      border-radius: 5rem;
+    }
+
+    &:hover {
+      overflow-y: auto;
+    }
+  }
+
+  &-navigation {
+    width: 100vw;
+    height: 100%;
+    max-width: 34.5rem;
+    padding-bottom: 2rem;
+    list-style-type: none;
+
+    @media (min-width: $lg) {
+      max-width: 32rem;
+    }
+
+    &-wrapper {
+      padding-top: 6.5rem;
+      background-color: $color-dark;
+      z-index: $z-index-3;
+      overflow: hidden;
+    }
+
+    &__icon {
+      text-align: center;
+      width: 3rem;
+    }
+
+    &__link {
+      width: 100%;
+      padding: 1rem 0.8rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: fade-out($color-white, 0.5);
+      background-color: transparent;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+  }
+}

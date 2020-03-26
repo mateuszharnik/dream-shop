@@ -1,0 +1,23 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Admin
+.admin-page {
+  z-index: $z-index-1;
+
+  @media (min-width: $lg) {
+    padding-left: 32rem;
+  }
+}
+
+.dashboard-header {
+  width: 100%;
+  min-height: 6.5rem;
+  position: fixed;
+  z-index: $z-index-3;
+  background-color: $color-white;
+
+  @media (min-width: $lg) {
+    min-height: 0rem;
+  }
+}

@@ -1,0 +1,60 @@
+<div *ngIf="isLoading; else navigationPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #navigationPageView>
+  <section class="admin-navigation-page p-6 min-vh-100">
+    <header class="admin-navigation-page__header">
+      <h2 class="h4 text-center mb-6">Ustawienia nawigacji</h2>
+    </header>
+    <article class="mt-6 text-center">
+      <p class="mb-6">
+        Tutaj możesz dodać nowe kategorie dla nawigacji i produktów.
+      </p>
+      <app-form
+        [formClass]="'form text-left m-auto'"
+        [formName]="form"
+        (whenFormSubmit)="submit()"
+      >
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'category'"
+              [inputGroupClass]="'md:mr-1'"
+              [inputLabel]="'Nazwa nowej kategorii'"
+              [inputPlaceholder]="'Perfumy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('category')"
+              [inputAlerts]="categoryAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="computedButtonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ computedButtonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
+        </div>
+      </app-form>
+      <div class="mt-6">
+        <p class="bolder">Istniejące kategorie:</p>
+        <div class="admin-navigation-page__categories m-auto">
+          <app-list-item *ngFor="let category of categories">
+            <div class="truncate m-auto">
+              {{ category.category }}
+            </div>
+          </app-list-item>
+        </div>
+      </div>
+    </article>
+  </section>
+</ng-template>

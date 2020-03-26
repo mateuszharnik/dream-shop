@@ -1,0 +1,31 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Newsletter
+.newsletter {
+  background-color: $color-primary;
+  color: $color-white;
+
+  &__wrapper {
+    max-width: 90rem;
+  }
+
+  .form {
+    &__input {
+      &.invalid {
+        &:focus {
+          box-shadow: inset 0rem 0rem 0rem 0.3rem
+            $form-invalid-focus-outline-color;
+        }
+      }
+
+      &:focus {
+        box-shadow: inset 0rem 0rem 0rem 0.3rem $form-focus-outline-color;
+      }
+    }
+
+    &__errors {
+      color: $color-white;
+    }
+  }
+}

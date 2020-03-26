@@ -1,0 +1,12 @@
+<app-link
+  [linkClass]="computedClass()"
+  [linkRouter]="computedScrollTarget()"
+  [linkTitle]="'Przewiń do góry'"
+  [linkOnClick]="true"
+  (whenLinkClick)="scrollTop($event)"
+>
+  <app-fa-icon
+    [faClass]="'scroll-top-button__icon fas fa-angle-up'"
+  ></app-fa-icon>
+  <span class="hidden">Do góry</span>
+</app-link>

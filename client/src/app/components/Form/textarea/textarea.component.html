@@ -1,0 +1,30 @@
+<div [formGroup]="textareaGroup" [ngClass]="textareaGroupClass">
+  <label [ngClass]="textareaLabelClass" [for]="textareaID">
+    {{ textareaLabel }}
+  </label>
+  <textarea
+    [ngClass]="computedTextareaClass"
+    [name]="textareaID"
+    [id]="textareaID"
+    [rows]="textareaRows"
+    [cols]="textareaCols"
+    [placeholder]="textareaPlaceholder"
+    [formControlName]="textareaID"
+    [autofocus]="textareaFocus"
+    [required]="textareaRequired"
+    [attr.aria-describedby]="computedAriaDescribedBy"
+  ></textarea>
+  <small class="form__help" [id]="computedSmallID" *ngIf="textareaMessage">
+    {{ textareaMessage }}
+  </small>
+  <div class="form__errors" *ngIf="textareaValidation">
+    <div *ngFor="let alert of textareaAlerts; trackBy: trackID">
+      <div
+        class="mt-1"
+        *ngIf="textareaForm.controls[textareaID].errors[alert.key]"
+      >
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<nav>
+  <h3
+    class="footer__header column-12 p mb-2"
+    [ngClass]="{ 'sm:\ml-2': onlyNavigationLinks }"
+  >
+    Nawigacja
+  </h3>
+  <ul class="footer-navigation column-12">
+    <li class="footer-navigation__item mb-1">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/"
+        title="Wróć do strony głównej"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        Strona główna
+      </a>
+    </li>
+    <li class="footer-navigation__item mb-1">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/produkty"
+        title="Zobacz nasze produkty"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        Produkty
+      </a>
+    </li>
+    <li class="footer-navigation__item mb-1">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/produkty/bestsellery"
+        title="Zobacz najlepiej sprzedające się produkty"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        Bestsellery
+      </a>
+    </li>
+    <li class="footer-navigation__item mb-1">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/o-nas"
+        title="Informacje o nas"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        O nas
+      </a>
+    </li>
+    <li class="footer-navigation__item mb-1">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/kontakt"
+        title="Skontaktuj się z nami"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        Kontakt
+      </a>
+    </li>
+    <li class="footer-navigation__item">
+      <a
+        class="footer-navigation__link inline-block p-2"
+        routerLink="/najczesciej-zadawane-pytania"
+        title="Zobacz najczęściej zadawane pytania"
+        (click)="onClick($event)"
+        (focus)="onFocus($event)"
+      >
+        FAQ
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,11 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+#map {
+  height: 100%;
+  min-height: 32rem;
+}
+
+.map-wrapper {
+  border: 0.1rem solid $color-dark;
+}
