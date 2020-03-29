@@ -3,20 +3,7 @@ import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Alert, Contact } from '@models/index';
 import { matchRequired } from '@helpers/index';
-
-const contactData: Contact = {
-  id: '0',
-  email: 'kontakt@dream.pl',
-  phone: '+48 123 123 123',
-  nip: '1234567890',
-  adress: {
-    street: 'Street',
-    streetNumber: '7/21',
-    city: 'City',
-    code: '25-100',
-  },
-  workHours: '08:00 - 18:30',
-};
+import { contact as contactData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-contact',

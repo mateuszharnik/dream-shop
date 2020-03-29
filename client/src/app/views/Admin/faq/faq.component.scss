@@ -12,4 +12,9 @@
   &__header {
     border-bottom: 0.1rem solid darken($color-white, 15%);
   }
+
+  &__emails {
+    width: 100%;
+    max-width: 60rem;
+  }
 }

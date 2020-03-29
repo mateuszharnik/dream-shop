@@ -1,5 +1,6 @@
 import { Component, HostBinding, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { Links } from '@models/index';
 
 @Component({
   selector: 'app-navigation',
@@ -53,12 +54,4 @@ export class NavigationComponent {
   computedAriaExpanded(): string {
     return `${this.isOpen}`;
   }
-}
-
-interface Links {
-  id: string;
-  category: string;
-  title: string;
-  link?: string;
-  links?: Links[];
 }

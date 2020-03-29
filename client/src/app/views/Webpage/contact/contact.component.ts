@@ -1,20 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Contact } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
-
-const contactData: Contact = {
-  id: '0',
-  email: 'kontakt@dream.pl',
-  phone: '+48 123 123 123',
-  nip: '1234567890',
-  adress: {
-    street: 'Street',
-    streetNumber: '7/21',
-    city: 'City',
-    code: '25-100',
-  },
-  workHours: '08:00 - 18:30',
-};
+import { contact } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-contact',
@@ -30,7 +17,7 @@ export class ContactComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.contact = contactData;
+      this.contact = contact;
       this.isLoading = false;
       this.toggleSpinner();
     }, 1000);

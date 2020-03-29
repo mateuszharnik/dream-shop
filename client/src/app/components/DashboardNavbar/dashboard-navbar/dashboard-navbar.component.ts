@@ -3,13 +3,7 @@ import { SlideLeft } from '@animations/index';
 import { MatchMediaService } from '@services/match-media.service';
 import { Subscription } from 'rxjs';
 import { NavigationService } from '@services/navigation.service';
-
-interface Navigation {
-  isOpen: boolean;
-  isDisabled: boolean;
-  isAnimated: boolean;
-  animationTime: number;
-}
+import { Navigation } from '@models/index';
 
 @Component({
   selector: 'app-dashboard-navbar',

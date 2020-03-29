@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FAQ as Accordion } from '@models/index';
 
 @Component({
   selector: 'app-accordion',
@@ -21,10 +22,4 @@ export class AccordionComponent implements OnInit {
       throw new Error(`Property "${name}" is required.`);
     }
   }
-}
-
-interface Accordion {
-  id: string;
-  title: string;
-  content: string;
 }

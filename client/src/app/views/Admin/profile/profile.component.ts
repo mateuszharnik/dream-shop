@@ -1,22 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Alert } from '@models/index';
+import { Alert, User } from '@models/index';
 import { match, matchRequired } from '@helpers/index';
-
-const userData: User = {
-  name: 'Admin',
-  username: 'admin',
-  email: 'example@domain.com',
-  image: '',
-};
-
-interface User {
-  name: string;
-  username: string;
-  email: string;
-  image: string;
-}
+import { user as userData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-profile',

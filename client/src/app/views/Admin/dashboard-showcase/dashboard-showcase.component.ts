@@ -1,12 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
-
-const user = {
-  name: 'Admin',
-  username: 'admin',
-  email: 'example@domain.com',
-  img: '',
-};
+import { user } from '@helpers/fakeAPI';
+import { User } from '@models/index';
 
 @Component({
   selector: 'app-dashboard-showcase',
@@ -16,7 +11,7 @@ const user = {
 })
 export class DashboardShowcaseComponent implements OnInit {
   isLoading = true;
-  user = null;
+  user: User = null;
 
   constructor(private spinnerService: SpinnerService) {}
 

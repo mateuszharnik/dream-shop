@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerService } from '@services/spinner.service';
-import { Alert } from '@models/index';
-
-const mapData: Map = {
-  latlng: '(00.00, 00.00)',
-};
-
-interface Map {
-  latlng: string;
-}
+import { Alert, Map } from '@models/index';
+import { map as mapData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-map-page',
