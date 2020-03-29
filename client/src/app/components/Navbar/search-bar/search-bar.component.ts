@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation }
 import { Slide } from '@animations/index';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
+import { Navigation } from '@models/index';
 
 @Component({
   selector: 'app-search-bar',
@@ -79,11 +80,4 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   computedAriaExpanded(): string {
     return `${this.searchBar.isOpen}`;
   }
-}
-
-interface Navigation {
-  isOpen: boolean;
-  isDisabled: boolean;
-  isAnimated: boolean;
-  animationTime: number;
 }

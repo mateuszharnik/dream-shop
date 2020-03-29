@@ -1,5 +1,6 @@
 import { Component, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { Links } from '@models/index';
 
 @Component({
   selector: 'app-navigation-item',
@@ -69,12 +70,4 @@ export class NavigationItemComponent {
   computedID(id: string): string {
     return `dropdown${id}`;
   }
-}
-
-interface Links {
-  id: string;
-  category: string;
-  title: string;
-  link?: string;
-  links?: Links[];
 }

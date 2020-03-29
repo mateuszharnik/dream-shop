@@ -1,30 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { SpinnerService } from '@services/spinner.service';
-
-const emails = [
-  {
-    id: '1',
-    email: 'example1@domain.com',
-  },
-  {
-    id: '2',
-    email: 'example2@domain.com',
-  },
-  {
-    id: '3',
-    email: 'example3@domain.com',
-  },
-  {
-    id: '4',
-    email: 'example4@domain.com',
-  },
-];
-
-interface EmailsList {
-  id: string;
-  email: string;
-}
+import { emails as emailsData} from '@helpers/fakeAPI';
+import { EmailsList } from '@models/index';
 
 @Component({
   selector: 'app-newsletter-page',
@@ -46,7 +24,7 @@ export class NewsletterComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.emails = emails;
+      this.emails = emailsData;
       this.isLoading = false;
       this.toggleSpinner();
       this.createForm();

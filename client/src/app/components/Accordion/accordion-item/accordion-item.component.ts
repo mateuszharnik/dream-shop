@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { FAQ as Accordion } from '@models/index';
 
 @Component({
   selector: 'app-accordion-item',
@@ -42,10 +43,4 @@ export class AccordionItemComponent implements OnInit {
   computedTitle(): string {
     return this.isOpen ? 'Zamknij' : 'Otwórz';
   }
-}
-
-interface Accordion {
-  id: string;
-  title: string;
-  content: string;
 }

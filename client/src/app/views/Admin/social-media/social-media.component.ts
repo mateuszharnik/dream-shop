@@ -2,13 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialMediaLinks, Alert } from '@models/index';
-
-const socialMediaLinksData: SocialMediaLinks = {
-  facebook: '/',
-  linkedin: '/',
-  instagram: '/',
-  twitter: '/',
-};
+import { socialMediaLinks as socialMediaLinksData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-social-media',

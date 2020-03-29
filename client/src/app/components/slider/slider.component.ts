@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Fade } from '@animations/index';
-
-interface Slide {
-  img: string;
-  href: string;
-}
+import { Slide } from '@models/index';
 
 @Component({
   selector: 'app-slider',

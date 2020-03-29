@@ -1,9 +1,5 @@
 import { Component, ViewEncapsulation, Input, HostBinding, Output, EventEmitter } from '@angular/core';
-
-interface Slide {
-  img: string;
-  href: string;
-}
+import { Slide } from '@models/index';
 
 @Component({
   selector: 'app-slide',

@@ -18,9 +18,21 @@ export interface Contact {
   workHours: string;
 }
 
+export interface Navigation {
+  isOpen: boolean;
+  isDisabled: boolean;
+  isAnimated: boolean;
+  animationTime: number;
+}
+
 export interface About {
   id: string;
   text: string;
+}
+
+export interface Slide {
+  img: string;
+  href: string;
 }
 
 export interface Links {
@@ -36,4 +48,34 @@ export interface SocialMediaLinks {
   linkedin: string;
   twitter: string;
   instagram: string;
+}
+
+export interface FAQs {
+  id: string;
+  category: string;
+  title: string;
+  icon: string;
+  questions: FAQ[];
+}
+
+export interface FAQ {
+  id: string;
+  title: string;
+  content: string;
+}
+
+export interface Map {
+  latlng: string;
+}
+
+export interface User {
+  name: string;
+  username: string;
+  email: string;
+  image: string;
+}
+
+export interface EmailsList {
+  id: string;
+  email: string;
 }

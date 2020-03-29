@@ -1,13 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import * as L from 'leaflet';
-
-const mapData: Map = {
-  latlng: '(00.00, 00.00)',
-};
-
-interface Map {
-  latlng: string;
-}
+import { map as mapData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-map',

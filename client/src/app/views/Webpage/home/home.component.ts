@@ -4,119 +4,7 @@ import { Contact, Links, SocialMediaLinks } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
-
-const links: Links[] = [
-  {
-    id: '0',
-    category: 'Paznokcie',
-    title: 'Produkty do paznokci',
-    links: [
-      {
-        id: '90',
-        category: 'Lakiery hybrydowe',
-        title: 'Lakiery do paznokci hybrydowych',
-        link: '/lakiery-hybrydowe',
-      },
-      {
-        id: '91',
-        category: 'Lakiery żelowe',
-        title: 'Lakiery do paznokci żelowych',
-        link: '/lakiery-zelowe',
-      },
-      {
-        id: '92',
-        category: 'Zwykłe lakiery',
-        title: 'Zwykłe lakiery do paznokci',
-        link: '/zwykle-lakiery',
-      },
-    ],
-  },
-  {
-    id: '1',
-    category: 'Buty',
-    title: 'Buty',
-    links: [
-      {
-        id: '10',
-        category: 'Kobiety',
-        title: 'Dla kobiet',
-        links: [
-          {
-            id: '100',
-            category: 'Adidasy',
-            title: 'Adidasy dla kobiet',
-            link: '/adidasy-dla-kobiet',
-          },
-          {
-            id: '101',
-            category: 'Kozaki',
-            title: 'Kozaki dla kobiet',
-            link: '/kozaki-dla-kobiet',
-          },
-        ],
-      },
-      {
-        id: '11',
-        category: 'Mężczyzni',
-        title: 'Dla mężczyzn',
-        links: [
-          {
-            id: '110',
-            category: 'Adidasy',
-            title: 'Adidasy dla mężczyzn',
-            link: '/adidasy-dla-mezczyzn',
-          },
-          {
-            id: '111',
-            category: 'Klapki',
-            title: 'Klapki dla mężczyzn',
-            link: '/klapki-dla-mezczyzn',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '2',
-    category: 'Włosy',
-    title: 'Produkty do włosów',
-    links: [
-      {
-        id: '20',
-        category: 'Odżywki',
-        title: 'Odżywki do włosów',
-        link: '/odzywki-do-wlosow',
-      },
-      {
-        id: '21',
-        category: 'Szampony',
-        title: 'Szampony do włosów',
-        link: '/szampony-do-wlosow',
-      },
-    ],
-  },
-];
-
-const socialMediaLinks: SocialMediaLinks = {
-  facebook: '/',
-  linkedin: '/',
-  instagram: '/',
-  twitter: '/',
-};
-
-const contactData: Contact = {
-  id: '0',
-  email: 'kontakt@dream.pl',
-  phone: '+48 123 123 123',
-  nip: '1243424',
-  adress: {
-    street: 'Street',
-    streetNumber: '7/21',
-    city: 'City',
-    code: '25-100',
-  },
-  workHours: '08:30 - 18:30',
-};
+import { contact, socialMediaLinks, navLinks } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-home',
@@ -159,9 +47,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit() {
     this.setHeight();
     this.closeMenuOnRouteChange();
-    this.links = this.links.concat(links);
+    this.links = this.links.concat(navLinks);
     this.socialMediaLinks = socialMediaLinks;
-    this.contactData = contactData;
+    this.contactData = contact;
 
     setTimeout(() => {
       this.isLoading = false;
