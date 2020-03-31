@@ -48,6 +48,10 @@ const routes: Routes = [
         loadChildren: '@admin/add-faq/add-faq.module#AddFAQModule',
       },
       {
+        path: 'strony/najczesciej-zadawane-pytania/:id/edytuj',
+        loadChildren: '@admin/edit-faq/edit-faq.module#EditFAQModule',
+      },
+      {
         path: 'newsletter',
         loadChildren: '@admin/newsletter/newsletter.module#NewsletterModule',
       },

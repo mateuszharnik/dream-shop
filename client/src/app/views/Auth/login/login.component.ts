@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Alert } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-login',
@@ -10,20 +11,33 @@ import { Alert } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
+  form: FormGroup = null;
+  isSubmitted = false;
+  isDisabled = false;
+  isLoading = true;
+
   usernameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa użytkownika jest nieprawidłowa', key: 'pattern' },
     { id: '1', message: 'Proszę podać nazwę użytkownika', key: 'required' },
   ];
+
   passwordAlerts: Alert[] = [
     { id: '0', message: 'Proszę podać hasło', key: 'required' },
   ];
-  form: FormGroup = null;
-  isSubmitted = false;
-  isDisabled = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+    this.isLoading = this.spinnerService.getLoadingValue();
+  }
 
   ngOnInit() {
+    this.createForm();
+    setTimeout(() => {
+      this.isLoading = false;
+      this.toggleSpinner();
+    }, 0);
+  }
+
+  createForm() {
     this.form = this.formBuilder.group({
       username: ['', { validators: [
         // tslint:disable-next-line: max-line-length
@@ -59,6 +73,12 @@ export class LoginComponent implements OnInit {
     }
 
     this.isDisabled = true;
+  }
+
+  toggleSpinner(isLoading = false) {
+    if (this.spinnerService.getLoadingValue()) {
+      this.spinnerService.setLoading(isLoading);
+    }
   }
 
   get formControls() {

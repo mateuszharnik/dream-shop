@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { match } from '@helpers/index';
 import { Alert } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-change-password',
@@ -11,21 +12,35 @@ import { Alert } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChangePasswordComponent implements OnInit {
+  form: FormGroup = null;
+  isSubmitted = false;
+  isDisabled = false;
+  isLoading = true;
+
   passwordAlerts: Alert[] = [
     { id: '0', message: 'Proszę podać nowe hasło', key: 'required' },
     { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków', key: 'minlength' },
     { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków', key: 'maxlength' },
   ];
+  
   confirmPasswordAlerts: Alert[] = [
     { id: '0', message: 'Proszę powtórzyć nowe hasło', key: 'required' },
+    { id: '1', message: 'Hasła nie są takie same', key: 'match' },
   ];
-  form: FormGroup = null;
-  isSubmitted = false;
-  isDisabled = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+    this.isLoading = this.spinnerService.getLoadingValue();
+  }
 
   ngOnInit() {
+    this.createForm();
+    setTimeout(() => {
+      this.isLoading = false;
+      this.toggleSpinner();
+    }, 0);
+  }
+
+  createForm() {
     this.form = this.formBuilder.group({
       password: ['', { validators: [
         Validators.minLength(8),
@@ -61,6 +76,12 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     this.isDisabled = true;
+  }
+
+  toggleSpinner(isLoading = false) {
+    if (this.spinnerService.getLoadingValue()) {
+      this.spinnerService.setLoading(isLoading);
+    }
   }
 
   get formControls() {

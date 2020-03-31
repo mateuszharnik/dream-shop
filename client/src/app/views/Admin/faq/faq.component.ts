@@ -43,6 +43,10 @@ export class FAQComponent implements OnInit {
     return this.isDisabled ? 'Usuwanie' : 'Usuń';
   }
 
+  computedFAQEditLink(id: string): string {
+    return `${id}/edytuj`;
+  }
+
   submit() {
     this.isSubmitted = true;
 

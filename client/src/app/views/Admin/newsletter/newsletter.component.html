@@ -6,11 +6,11 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Newsletter</h2>
     </header>
-    <article class="mt-6 text-center">
+    <article class="admin-page-section__article m-auto mt-6 text-center">
       <p>
         Tutaj znajdują się adresy email osób zapisanych na newsletter.
       </p>
-      <div class="admin-page-section__emails m-auto">
+      <div class="w-100">
         <app-list-item *ngFor="let email of emails">
           <span class="truncate">
             {{ email.email }}

@@ -6,7 +6,7 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Najczęściej zadawane pytania</h2>
     </header>
-    <article class="mt-6 text-center">
+    <article class="admin-page-section__article m-auto mt-6 text-center">
       <p class="mb-6">
         Tutaj możesz zarządzać najczęściej zadawanymi pytaniami. Dodawaj, usuwaj
         lub edytuj pytania.
@@ -19,7 +19,7 @@
         Dodaj pytanie
         <app-fa-icon [faClass]="'fas fa-plus ml-2'"></app-fa-icon>
       </app-router-link>
-      <div class="admin-page-section__emails m-auto">
+      <div class="w-100">
         <div class="mb-4" *ngFor="let faq of faqs">
           <h3 class="h5 mb-4">{{ faq.category | titlecase }}</h3>
           <app-list-item *ngFor="let question of faq.questions">
@@ -37,9 +37,7 @@
               <app-router-link
                 [linkTitle]="'Przejdź do edycji pytania'"
                 [linkClass]="'button button-primary button-small ml-4'"
-                [linkRouter]="
-                  '/admin/strony/najczesciej-zadawane-pytania/' + question.id
-                "
+                [linkRouter]="computedFAQEditLink(question.id)"
               >
                 Edytuj
               </app-router-link>

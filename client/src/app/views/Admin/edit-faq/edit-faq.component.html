@@ -1,15 +1,14 @@
-<div *ngIf="isLoading; else addFAQPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else editFAQPageView" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #addFAQPageView>
+<ng-template #editFAQPageView>
   <section class="admin-page-section p-6 min-vh-100">
     <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">Dodaj nowe pytanie</h2>
+      <h2 class="h4 text-center mb-6">Edytuj pytanie</h2>
     </header>
     <article class="admin-page-section__article m-auto mt-6 text-center">
       <p>
-        Tutaj możesz dodać nowe pytanie, które będzie wyświetlane w sekcji
-        najczęściej zadawanych pytań na stronie.
+        Tutaj możesz edytować już istniejące pytania.
       </p>
       <app-form
         [formClass]="'form text-left inline-block'"

@@ -1,61 +1,73 @@
-<app-auth-wrapper>
-  <app-form
-    (whenFormSubmit)="submit()"
-    [formName]="form"
-    [formClass]="'form mb-6 row'"
-  >
-    <app-input
-      [inputLabelClass]="'column-12 mb-2'"
-      [inputID]="'username'"
-      [inputGroupClass]="'column-12 row mb-4'"
-      [inputLabel]="'Nazwa użytkownika:'"
-      [inputPlaceholder]="'example@domain.com'"
-      [inputClass]="'form__input column-12'"
-      [inputValidation]="validation('username')"
-      [inputAlerts]="usernameAlerts"
-      [inputGroup]="form"
-      [inputForm]="form"
-    ></app-input>
-    <app-input
-      [inputLabelClass]="'column-12 mb-2'"
-      [inputID]="'password'"
-      [inputType]="'password'"
-      [inputGroupClass]="'column-12 row mb-4'"
-      [inputLabel]="'Hasło:'"
-      [inputPlaceholder]="'********'"
-      [inputClass]="'form__input column-12'"
-      [inputValidation]="validation('password')"
-      [inputAlerts]="passwordAlerts"
-      [inputGroup]="form"
-      [inputForm]="form"
-    ></app-input>
-    <div class="column-12 text-center">
-      <app-button
-        [buttonType]="'submit'"
-        [buttonTitle]="computedButtonTitle()"
-        [buttonDisabled]="isDisabled"
-      >
-        {{ computedButtonText() }}
-        <app-fa-icon
-          *ngIf="isDisabled"
-          [faClass]="'fas fa-spinner fa-spin'"
-        ></app-fa-icon>
-      </app-button>
-    </div>
-  </app-form>
-  <div class="mb-3">
-    Nie pamiętasz hasła?
-    <app-router-link
-      [linkRouter]="'/odzyskaj-haslo'"
-      [linkTitle]="'Przejdź do strony odzyskiwania hasła'"
+<div *ngIf="isLoading; else loginPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #loginPageView>
+  <app-auth-wrapper>
+    <app-form
+      (whenFormSubmit)="submit()"
+      [formName]="form"
+      [formClass]="'form'"
     >
-      Odzyskaj hasło
-    </app-router-link>
-  </div>
-  <div>
-    <app-router-link [linkRouter]="'/'" [linkTitle]="'Wróć do strony głównej'">
-      <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
-      Strona główna
-    </app-router-link>
-  </div>
-</app-auth-wrapper>
+      <div class="row">
+        <div class="column-12 mb-4">
+          <app-input
+            [inputLabelClass]="'block mb-2'"
+            [inputID]="'username'"
+            [inputLabel]="'Nazwa użytkownika:'"
+            [inputPlaceholder]="'example@domain.com'"
+            [inputClass]="'form__input w-100'"
+            [inputValidation]="validation('username')"
+            [inputAlerts]="usernameAlerts"
+            [inputGroup]="form"
+            [inputForm]="form"
+          ></app-input>
+        </div>
+        <div class="column-12 mb-4">
+          <app-input
+            [inputLabelClass]="'block mb-2'"
+            [inputID]="'password'"
+            [inputType]="'password'"
+            [inputLabel]="'Hasło:'"
+            [inputPlaceholder]="'********'"
+            [inputClass]="'form__input w-100'"
+            [inputValidation]="validation('password')"
+            [inputAlerts]="passwordAlerts"
+            [inputGroup]="form"
+            [inputForm]="form"
+          ></app-input>
+        </div>
+        <div class="column-12 mb-4 text-center">
+          <app-button
+            [buttonType]="'submit'"
+            [buttonTitle]="computedButtonTitle()"
+            [buttonDisabled]="isDisabled"
+          >
+            {{ computedButtonText() }}
+            <app-fa-icon
+              *ngIf="isDisabled"
+              [faClass]="'fas fa-spinner fa-spin'"
+            ></app-fa-icon>
+          </app-button>
+        </div>
+      </div>
+    </app-form>
+    <div class="mb-3">
+      Nie pamiętasz hasła?
+      <app-router-link
+        [linkRouter]="'/odzyskaj-haslo'"
+        [linkTitle]="'Przejdź do strony odzyskiwania hasła'"
+      >
+        Odzyskaj hasło
+      </app-router-link>
+    </div>
+    <div>
+      <app-router-link
+        [linkRouter]="'/'"
+        [linkTitle]="'Wróć do strony głównej'"
+      >
+        <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
+        Strona główna
+      </app-router-link>
+    </div>
+  </app-auth-wrapper>
+</ng-template>
