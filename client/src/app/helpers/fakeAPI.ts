@@ -158,6 +158,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '11',
+        category: 'zwroty',
         title: 'Po jakim czasie mogę zwrócić zakupiony produkt',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -165,6 +166,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '12',
+        category: 'zwroty',
         title: 'Reklamacja 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -172,6 +174,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '13',
+        category: 'zwroty',
         title: 'Reklamacja 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -179,6 +182,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '14',
+        category: 'zwroty',
         title: 'Reklamacja 4',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -186,6 +190,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '15',
+        category: 'zwroty',
         title: 'Reklamacja 5',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -201,6 +206,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '21',
+        category: 'dostawa',
         title: 'Dostawa 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -208,6 +214,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '22',
+        category: 'dostawa',
         title: 'Dostawa 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -215,6 +222,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '23',
+        category: 'dostawa',
         title: 'Dostawa 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -230,6 +238,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '41',
+        category: 'obsługa',
         title: 'Basic 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -237,6 +246,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '42',
+        category: 'obsługa',
         title: 'Basic 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -244,6 +254,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '43',
+        category: 'obsługa',
         title: 'Basic 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -259,6 +270,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '51',
+        category: 'płatności',
         title: 'Basic 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -266,6 +278,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '52',
+        category: 'płatności',
         title: 'Basic 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -273,6 +286,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '53',
+        category: 'płatności',
         title: 'Basic 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -288,6 +302,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '61',
+        category: 'produkty',
         title: 'Basic 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -295,6 +310,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '62',
+        category: 'produkty',
         title: 'Basic 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -302,6 +318,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '63',
+        category: 'produkty',
         title: 'Basic 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -317,6 +334,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '71',
+        category: 'rabaty',
         title: 'Basic 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -324,6 +342,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '72',
+        category: 'rabaty',
         title: 'Basic 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -331,6 +350,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '73',
+        category: 'rabaty',
         title: 'Basic 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -346,6 +366,7 @@ export const faqs: FAQs[] = [
     questions: [
       {
         id: '31',
+        category: 'inne',
         title: 'Basic 1',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -353,6 +374,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '32',
+        category: 'inne',
         title: 'Basic 2',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
@@ -360,6 +382,7 @@ export const faqs: FAQs[] = [
       },
       {
         id: '33',
+        category: 'inne',
         title: 'Basic 3',
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Alert } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-recovery',
@@ -10,17 +11,29 @@ import { Alert } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class RecoveryComponent implements OnInit {
+  form: FormGroup = null;
+  isSubmitted = false;
+  isDisabled = false;
+  isLoading = true;
+
   emailAlerts: Alert[] = [
     { id: '0', message: 'Adres email jest nieprawidłowy', key: 'pattern' },
     { id: '1', message: 'Proszę podać adres email', key: 'required' },
   ];
-  form: FormGroup = null;
-  isSubmitted = false;
-  isDisabled = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+    this.isLoading = this.spinnerService.getLoadingValue();
+  }
 
   ngOnInit() {
+    this.createForm();
+    setTimeout(() => {
+      this.isLoading = false;
+      this.toggleSpinner();
+    }, 0);
+  }
+
+  createForm() {
     this.form = this.formBuilder.group({
       email: ['', { validators: [
         // tslint:disable-next-line: max-line-length
@@ -57,6 +70,12 @@ export class RecoveryComponent implements OnInit {
     }
 
     this.isDisabled = true;
+  }
+
+  toggleSpinner(isLoading = false) {
+    if (this.spinnerService.getLoadingValue()) {
+      this.spinnerService.setLoading(isLoading);
+    }
   }
 
   get formControls() {

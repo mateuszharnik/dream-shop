@@ -1,21 +1,30 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FAQs, Alert, FAQ } from '@models/index';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerService } from '@services/spinner.service';
-import { Alert, FAQs } from '@models/index';
 import { faqs } from '@helpers/fakeAPI';
 
+const questionData = {
+  id: '51',
+  category: 'płatności',
+  title: 'Basic 1',
+  // tslint:disable-next-line: max-line-length
+  content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto? Amet sunt aliquam beatae quis porro facer`,
+};
+
 @Component({
-  selector: 'app-add-faq',
-  templateUrl: './add-faq.component.html',
-  styleUrls: ['./add-faq.component.scss'],
+  selector: 'app-edit-faq',
+  templateUrl: './edit-faq.component.html',
+  styleUrls: ['./edit-faq.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AddFAQComponent implements OnInit {
+export class EditFAQComponent implements OnInit {
   form: FormGroup = null;
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
   categories: FAQs[] = [];
+  question: FAQ = null;
 
   categoryAlerts: Alert[] = [
     { id: '0', message: 'Musisz wybrać kategorię.', key: 'required' },
@@ -38,22 +47,23 @@ export class AddFAQComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.categories = faqs;
+      this.question = questionData;
       this.isLoading = false;
       this.toggleSpinner();
-      this.createForm();
+      this.createForm(this.question);
     }, 1000);
   }
 
-  createForm() {
+  createForm(question: FAQ) {
     this.form = this.formBuilder.group({
-      question: ['', { validators: [
-        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/),
+      question: [question.title, { validators: [
+        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, \n.%@$!&\(\)+=?/]+$/),
         Validators.minLength(10),
         Validators.maxLength(1000),
         Validators.required,
       ]}],
-      answer: ['', { validators: [
-        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/),
+      answer: [question.content, { validators: [
+        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, \n.%@$!&\(\)+=?/]+$/),
         Validators.minLength(10),
         Validators.maxLength(5000),
         Validators.required,
@@ -63,7 +73,7 @@ export class AddFAQComponent implements OnInit {
       ]}],
     });
 
-    this.formControls.category.setValue(this.categories[0].category, { onlySelf: true });
+    this.formControls.category.setValue(this.question.category, { onlySelf: true });
   }
 
   validation(prop: string): boolean {
