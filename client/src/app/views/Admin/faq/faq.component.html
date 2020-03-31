@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #faqPageView>
-  <section class="admin-faq-page p-6 min-vh-100">
-    <header class="admin-faq-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Najczęściej zadawane pytania</h2>
     </header>
     <article class="mt-6 text-center">
@@ -14,12 +14,12 @@
       <app-router-link
         [linkTitle]="'Dodaj nowe pytanie'"
         [linkClass]="'button button-success mb-6'"
-        [linkRouter]="'admin/strony/najczesciej-zadawane-pytania/dodaj-pytanie'"
+        [linkRouter]="'dodaj'"
       >
         Dodaj pytanie
         <app-fa-icon [faClass]="'fas fa-plus ml-2'"></app-fa-icon>
       </app-router-link>
-      <div class="admin-faq-page__emails m-auto">
+      <div class="admin-page-section__emails m-auto">
         <div class="mb-4" *ngFor="let faq of faqs">
           <h3 class="h5 mb-4">{{ faq.category | titlecase }}</h3>
           <app-list-item *ngFor="let question of faq.questions">

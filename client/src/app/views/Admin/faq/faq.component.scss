@@ -1,20 +1,2 @@
 // Imports
 @import "../../../../assets/scss/variables";
-
-.admin-faq-page {
-  background-color: $color-white;
-  padding-top: 8.9rem;
-
-  @media (min-width: $lg) {
-    padding-top: 2.4rem;
-  }
-
-  &__header {
-    border-bottom: 0.1rem solid darken($color-white, 15%);
-  }
-
-  &__emails {
-    width: 100%;
-    max-width: 60rem;
-  }
-}

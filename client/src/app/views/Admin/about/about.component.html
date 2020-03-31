@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #aboutPageView>
-  <section class="admin-about-page p-6 min-vh-100">
-    <header class="admin-about-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Informacje o sklepie</h2>
     </header>
     <article class="mt-6 text-center">
@@ -15,32 +15,34 @@
         [formName]="form"
         (whenFormSubmit)="submit()"
       >
-        <div class="column-12 mb-4">
-          <app-textarea
-            [textareaID]="'information'"
-            [textareaRows]="'12'"
-            [textareaLabel]="'Informacje'"
-            [textareaPlaceholder]="'Napisz coś o swojej stronie'"
-            [textareaClass]="'form__textarea w-100'"
-            [textareaValidation]="validation('information')"
-            [textareaAlerts]="informationAlerts"
-            [textareaGroup]="form"
-            [textareaForm]="form"
-            [textareaLabelClass]="'block mb-2 bold'"
-          ></app-textarea>
-        </div>
-        <div class="column-12 mb-4 text-center">
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonDisabled]="isDisabled"
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-textarea
+              [textareaID]="'information'"
+              [textareaRows]="'12'"
+              [textareaLabel]="'Informacje'"
+              [textareaPlaceholder]="'Napisz coś o swojej stronie'"
+              [textareaClass]="'form__textarea w-100'"
+              [textareaValidation]="validation('information')"
+              [textareaAlerts]="informationAlerts"
+              [textareaGroup]="form"
+              [textareaForm]="form"
+              [textareaLabelClass]="'block mb-2 bold'"
+            ></app-textarea>
+          </div>
+          <div class="column-12 mb-4 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="computedButtonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ computedButtonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
         </div>
       </app-form>
     </article>

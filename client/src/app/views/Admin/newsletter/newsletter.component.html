@@ -2,15 +2,15 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #newsletterPageView>
-  <section class="admin-newsletter-page relative p-6 min-vh-100">
-    <header class="admin-newsletter-page__header">
+  <section class="admin-page-section relative p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Newsletter</h2>
     </header>
     <article class="mt-6 text-center">
       <p>
         Tutaj znajdują się adresy email osób zapisanych na newsletter.
       </p>
-      <div class="admin-newsletter-page__emails m-auto">
+      <div class="admin-page-section__emails m-auto">
         <app-list-item *ngFor="let email of emails">
           <span class="truncate">
             {{ email.email }}

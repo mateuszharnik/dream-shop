@@ -10,6 +10,7 @@ import { FaIconComponent } from '@components/fa-icon/fa-icon.component';
 import { FileInputComponent } from '@components/Form/file-input/file-input.component';
 import { FormComponent } from '@components/Form/form/form.component';
 import { InputComponent } from '@components/Form/input/input.component';
+import { SelectComponent } from '@components/Form/select/select.component';
 import { TextareaComponent } from '@components/Form/textarea/textarea.component';
 import { ImageComponent } from '@components/image/image.component';
 import { LinkComponent } from '@components/link/link.component';
@@ -41,6 +42,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     ModalComponent,
     FileInputComponent,
     MapComponent,
+    SelectComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -61,6 +63,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     ModalComponent,
     MapComponent,
     FileInputComponent,
+    SelectComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],
