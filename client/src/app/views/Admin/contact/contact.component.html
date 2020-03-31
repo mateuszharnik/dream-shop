@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #contactPageView>
-  <section class="admin-contact-page p-6 min-vh-100">
-    <header class="admin-contact-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Informacje Kontaktowe</h2>
     </header>
     <article class="mt-6 text-center">
@@ -15,143 +15,137 @@
         [formName]="form"
         (whenFormSubmit)="submit()"
       >
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'email'"
-            [inputType]="'email'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Adres email'"
-            [inputPlaceholder]="'example@domain.com'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('email')"
-            [inputAlerts]="emailAlerts"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'phone'"
-            [inputType]="'tel'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Numer telefonu'"
-            [inputPlaceholder]="'+48 123 123 123'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('phone')"
-            [inputAlerts]="phoneAlerts"
-            [inputRequired]="false"
-            [inputMessage]="
-              'Numer kierunkowy nie jest automatycznie dopisywany'
-            "
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'nip'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Numer NIP'"
-            [inputPlaceholder]="'1234567890'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('nip')"
-            [inputAlerts]="nipAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'street'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Ulica'"
-            [inputPlaceholder]="'Ulica'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('street')"
-            [inputAlerts]="streetAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'streetNumber'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Numer ulicy/lokalu'"
-            [inputPlaceholder]="'7/21'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('streetNumber')"
-            [inputAlerts]="streetNumberAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'city'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Miasto'"
-            [inputPlaceholder]="'Miasto'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('city')"
-            [inputAlerts]="cityAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'code'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Kod pocztowy'"
-            [inputPlaceholder]="'10-100'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('code')"
-            [inputAlerts]="codeAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'workHours'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Godziny pracy'"
-            [inputPlaceholder]="'08:30 - 18:30'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('workHours')"
-            [inputAlerts]="workHoursAlerts"
-            [inputRequired]="false"
-            [inputMessage]="'Proszę użyć formatu: 00:00 - 00:00'"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4 text-center">
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonDisabled]="isDisabled"
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'email'"
+              [inputType]="'email'"
+              [inputLabel]="'Adres email'"
+              [inputPlaceholder]="'example@domain.com'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('email')"
+              [inputAlerts]="emailAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'phone'"
+              [inputType]="'tel'"
+              [inputLabel]="'Numer telefonu'"
+              [inputPlaceholder]="'+48 123 123 123'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('phone')"
+              [inputAlerts]="phoneAlerts"
+              [inputRequired]="false"
+              [inputMessage]="
+                'Numer kierunkowy nie jest automatycznie dopisywany'
+              "
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'nip'"
+              [inputLabel]="'Numer NIP'"
+              [inputPlaceholder]="'1234567890'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('nip')"
+              [inputAlerts]="nipAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'street'"
+              [inputLabel]="'Ulica'"
+              [inputPlaceholder]="'Ulica'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('street')"
+              [inputAlerts]="streetAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'streetNumber'"
+              [inputLabel]="'Numer ulicy/lokalu'"
+              [inputPlaceholder]="'7/21'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('streetNumber')"
+              [inputAlerts]="streetNumberAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'city'"
+              [inputLabel]="'Miasto'"
+              [inputPlaceholder]="'Miasto'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('city')"
+              [inputAlerts]="cityAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'code'"
+              [inputLabel]="'Kod pocztowy'"
+              [inputPlaceholder]="'10-100'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('code')"
+              [inputAlerts]="codeAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'workHours'"
+              [inputLabel]="'Godziny pracy'"
+              [inputPlaceholder]="'08:30 - 18:30'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('workHours')"
+              [inputAlerts]="workHoursAlerts"
+              [inputRequired]="false"
+              [inputMessage]="'Proszę użyć formatu: 00:00 - 00:00'"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="computedButtonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ computedButtonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
         </div>
       </app-form>
     </article>

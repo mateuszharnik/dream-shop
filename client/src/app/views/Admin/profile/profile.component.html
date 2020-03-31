@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #profilePageView>
-  <section class="admin-profile-page p-6 min-vh-100">
-    <header class="admin-profile-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">
         Profil użytkownika {{ user.username }}
       </h2>
@@ -17,108 +17,104 @@
         [formName]="form"
         (whenFormSubmit)="submit()"
       >
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'name'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Imię'"
-            [inputPlaceholder]="'Jan'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('name')"
-            [inputAlerts]="nameAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'email'"
-            [inputType]="'email'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Adres email'"
-            [inputPlaceholder]="'example@domain.com'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('email')"
-            [inputAlerts]="emailAlerts"
-            [inputRequired]="true"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'password'"
-            [inputType]="'password'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Hasło'"
-            [inputPlaceholder]="'********'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('password')"
-            [inputAlerts]="passwordAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'newPassword'"
-            [inputType]="'password'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Nowe hasło'"
-            [inputPlaceholder]="'********'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('newPassword')"
-            [inputAlerts]="newPasswordAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'confirmNewPassword'"
-            [inputType]="'password'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Powtórz nowe hasło'"
-            [inputPlaceholder]="'********'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('confirmNewPassword')"
-            [inputAlerts]="confirmNewPasswordAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-file-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'image'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Wgraj zdjęcie'"
-            [inputRequired]="false"
-            [inputMessage]="file"
-            (whenFileAdd)="addFile($event)"
-          ></app-file-input>
-        </div>
-        <div class="column-12 mb-4 text-center">
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonDisabled]="isDisabled"
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'name'"
+              [inputLabel]="'Imię'"
+              [inputPlaceholder]="'Jan'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('name')"
+              [inputAlerts]="nameAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'email'"
+              [inputType]="'email'"
+              [inputLabel]="'Adres email'"
+              [inputPlaceholder]="'example@domain.com'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('email')"
+              [inputAlerts]="emailAlerts"
+              [inputRequired]="true"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'password'"
+              [inputType]="'password'"
+              [inputLabel]="'Hasło'"
+              [inputPlaceholder]="'********'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('password')"
+              [inputAlerts]="passwordAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'newPassword'"
+              [inputType]="'password'"
+              [inputLabel]="'Nowe hasło'"
+              [inputPlaceholder]="'********'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('newPassword')"
+              [inputAlerts]="newPasswordAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'confirmNewPassword'"
+              [inputType]="'password'"
+              [inputLabel]="'Powtórz nowe hasło'"
+              [inputPlaceholder]="'********'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('confirmNewPassword')"
+              [inputAlerts]="confirmNewPasswordAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-file-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'image'"
+              [inputLabel]="'Wgraj zdjęcie'"
+              [inputRequired]="false"
+              [inputMessage]="file"
+              (whenFileAdd)="addFile($event)"
+            ></app-file-input>
+          </div>
+          <div class="column-12 mb-4 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="computedButtonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ computedButtonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
         </div>
       </app-form>
     </article>

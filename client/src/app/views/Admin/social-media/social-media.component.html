@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #socialMediaView>
-  <section class="admin-social-media-page p-6 min-vh-100">
-    <header class="admin-social-media-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Social Media</h2>
     </header>
     <article class="mt-6 text-center">
@@ -15,82 +15,80 @@
         [formName]="form"
         (whenFormSubmit)="submit()"
       >
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'facebook'"
-            [inputType]="'url'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Facebook'"
-            [inputPlaceholder]="'Adres konta na Facebook'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('facebook')"
-            [inputAlerts]="facebookAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'instagram'"
-            [inputType]="'url'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Instagram'"
-            [inputPlaceholder]="'Adres konta na Instagram'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('instagram')"
-            [inputAlerts]="instagramAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'linkedin'"
-            [inputType]="'url'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'LinkedIn'"
-            [inputPlaceholder]="'Adres konta na LinkedIn'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('linkedin')"
-            [inputAlerts]="linkedinAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4">
-          <app-input
-            [inputLabelClass]="'block mb-2 bold'"
-            [inputID]="'twitter'"
-            [inputType]="'url'"
-            [inputGroupClass]="'md:mr-1'"
-            [inputLabel]="'Twitter'"
-            [inputPlaceholder]="'Adres konta na Twitter'"
-            [inputClass]="'form__input w-100'"
-            [inputValidation]="validation('twitter')"
-            [inputAlerts]="twitterAlerts"
-            [inputRequired]="false"
-            [inputGroup]="form"
-            [inputForm]="form"
-          ></app-input>
-        </div>
-        <div class="column-12 mb-4 text-center">
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonDisabled]="isDisabled"
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'facebook'"
+              [inputType]="'url'"
+              [inputLabel]="'Facebook'"
+              [inputPlaceholder]="'Adres konta na Facebook'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('facebook')"
+              [inputAlerts]="facebookAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'instagram'"
+              [inputType]="'url'"
+              [inputLabel]="'Instagram'"
+              [inputPlaceholder]="'Adres konta na Instagram'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('instagram')"
+              [inputAlerts]="instagramAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'linkedin'"
+              [inputType]="'url'"
+              [inputLabel]="'LinkedIn'"
+              [inputPlaceholder]="'Adres konta na LinkedIn'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('linkedin')"
+              [inputAlerts]="linkedinAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'twitter'"
+              [inputType]="'url'"
+              [inputLabel]="'Twitter'"
+              [inputPlaceholder]="'Adres konta na Twitter'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('twitter')"
+              [inputAlerts]="twitterAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="computedButtonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ computedButtonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
         </div>
       </app-form>
     </article>

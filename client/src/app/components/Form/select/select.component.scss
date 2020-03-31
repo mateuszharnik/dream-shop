@@ -1,35 +1,17 @@
 // Imports
 @import "../../../../assets/scss/variables";
 
-// Form Textarea
+// Form Select
 .form {
-  &__textarea {
+  &__select {
     background-color: $form-text-box-bg-color;
     border: 0.1rem solid $form-text-box-border-color;
     border-radius: 0.4rem;
     line-height: 1.5;
-    caret-color: $form-caret-color;
-    padding: 0.7rem 1.4rem;
-    margin-bottom: -0.7rem;
-    resize: none;
-
-    &::-webkit-scrollbar {
-      width: 1.2rem;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: $form-scrollbar-track-bg-color;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border: 0.3rem solid $form-text-box-bg-color;
-      background-color: $form-scrollbar-bg-color;
-      border-radius: 5rem;
-    }
+    padding: 0.7rem;
 
     &.invalid {
       border: 0.1rem solid $form-invalid-border-color;
-      caret-color: $form-caret-color-error;
 
       &:focus {
         border: 0.1rem solid $form-invalid-border-color-hover;

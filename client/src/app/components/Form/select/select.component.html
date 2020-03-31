@@ -1,0 +1,29 @@
+<div [formGroup]="selectGroup" [ngClass]="selectGroupClass">
+  <label [ngClass]="selectLabelClass" [for]="selectID">{{ selectLabel }}</label>
+  <select
+    [formControlName]="selectID"
+    [id]="selectID"
+    [name]="selectID"
+    [required]="selectRequired"
+    [autofocus]="selectFocus"
+    [ngClass]="computedSelectClass"
+    [attr.aria-describedby]="computedAriaDescribedBy"
+  >
+    <option
+      *ngFor="let option of selectOptions; trackBy: trackID"
+      [ngValue]="option[selectBy]"
+    >
+      {{ option[selectBy] | titlecase }}
+    </option>
+  </select>
+  <small class="form__help" [id]="computedSmallID" *ngIf="selectMessage">
+    {{ selectMessage }}
+  </small>
+  <div class="form__errors" *ngIf="selectValidation">
+    <div *ngFor="let alert of selectAlerts; trackBy: trackID">
+      <div class="mt-1" *ngIf="selectForm.controls[selectID].errors[alert.key]">
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
+</div>

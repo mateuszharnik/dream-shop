@@ -23,6 +23,7 @@ html {
 
 body,
 input,
+select,
 textarea {
   font-family: $font-family;
 }
@@ -125,6 +126,7 @@ li {
 a,
 input,
 textarea,
+select,
 button {
   outline: none;
   transition: box-shadow 0.3s ease-in-out;

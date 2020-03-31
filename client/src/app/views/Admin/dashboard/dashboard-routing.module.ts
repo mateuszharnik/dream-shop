@@ -44,6 +44,10 @@ const routes: Routes = [
         loadChildren: '@admin/faq/faq.module#FAQModule',
       },
       {
+        path: 'strony/najczesciej-zadawane-pytania/dodaj',
+        loadChildren: '@admin/add-faq/add-faq.module#AddFAQModule',
+      },
+      {
         path: 'newsletter',
         loadChildren: '@admin/newsletter/newsletter.module#NewsletterModule',
       },

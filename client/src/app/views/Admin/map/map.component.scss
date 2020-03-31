@@ -1,15 +1,2 @@
 // Imports
 @import "../../../../assets/scss/variables";
-
-.admin-map-page {
-  background-color: $color-white;
-  padding-top: 8.9rem;
-
-  @media (min-width: $lg) {
-    padding-top: 2.4rem;
-  }
-
-  &__header {
-    border-bottom: 0.1rem solid darken($color-white, 15%);
-  }
-}

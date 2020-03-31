@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #navigationPageView>
-  <section class="admin-navigation-page p-6 min-vh-100">
-    <header class="admin-navigation-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Ustawienia nawigacji</h2>
     </header>
     <article class="mt-6 text-center">
@@ -20,7 +20,6 @@
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
               [inputID]="'category'"
-              [inputGroupClass]="'md:mr-1'"
               [inputLabel]="'Nazwa nowej kategorii'"
               [inputPlaceholder]="'Perfumy'"
               [inputClass]="'form__input w-100'"
@@ -47,7 +46,7 @@
       </app-form>
       <div class="mt-6">
         <p class="bolder">Istniejące kategorie:</p>
-        <div class="admin-navigation-page__categories m-auto">
+        <div class="admin-page-section__categories m-auto">
           <app-list-item *ngFor="let category of categories">
             <div class="truncate m-auto">
               {{ category.category }}

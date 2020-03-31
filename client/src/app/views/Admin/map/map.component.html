@@ -2,8 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #mapPageView>
-  <section class="admin-map-page p-6 min-vh-100">
-    <header class="admin-map-page__header">
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Ustawienia mapy</h2>
     </header>
     <article class="mt-6 text-center">
@@ -23,7 +23,6 @@
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
               [inputID]="'latlng'"
-              [inputGroupClass]="'md:mr-1'"
               [inputLabel]="'Szerokość i długość geograficzna'"
               [inputPlaceholder]="'(00.00, 00.00)'"
               [inputClass]="'form__input w-100'"
