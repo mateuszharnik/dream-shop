@@ -28,6 +28,10 @@ const routes: Routes = [
         loadChildren: '@admin/add-product/add-product.module#AddProductModule',
       },
       {
+        path: 'produkty/:id/edytuj',
+        loadChildren: '@admin/edit-product/edit-product.module#EditProductModule',
+      },
+      {
         path: 'profil',
         loadChildren: '@admin/profile/profile.module#ProfileModule',
       },

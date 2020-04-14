@@ -4,6 +4,20 @@ export interface Alert {
   key: string;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  category: string;
+  img: string;
+  description: string;
+  price: string;
+  quantity: number;
+  fullDescription: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
 export interface Contact {
   id: string;
   email: string;
@@ -16,6 +30,9 @@ export interface Contact {
     code: string;
   };
   workHours: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface Navigation {
@@ -28,6 +45,9 @@ export interface Navigation {
 export interface About {
   id: string;
   text: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface Slide {
@@ -41,6 +61,9 @@ export interface Links {
   title: string;
   link?: string;
   links?: Links[];
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface SocialMediaLinks {
@@ -48,6 +71,9 @@ export interface SocialMediaLinks {
   linkedin: string;
   twitter: string;
   instagram: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface FAQs {
@@ -56,6 +82,9 @@ export interface FAQs {
   title: string;
   icon: string;
   questions: FAQ[];
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface FAQ {
@@ -63,10 +92,16 @@ export interface FAQ {
   title: string;
   content: string;
   category: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface Map {
   latlng: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface User {
@@ -74,9 +109,15 @@ export interface User {
   username: string;
   email: string;
   image: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface EmailsList {
   id: string;
   email: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }

@@ -1,0 +1,10 @@
+<div *ngIf="isLoading; else editProductView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #editProductView>
+  <section class="admin-page-section min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Edytuj produkt</h2>
+    </header>
+  </section>
+</ng-template>
