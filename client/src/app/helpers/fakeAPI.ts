@@ -1,7 +1,10 @@
-import { FAQs, About, Contact, Map, EmailsList, User, SocialMediaLinks, Links } from '@models/index';
+import { FAQs, About, Contact, Map, EmailsList, User, SocialMediaLinks, Links, Product, FAQ } from '@models/index';
 
 export const map: Map = {
   latlng: '(00.00, 00.00)',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
 };
 
 export const socialMediaLinks: SocialMediaLinks = {
@@ -9,6 +12,9 @@ export const socialMediaLinks: SocialMediaLinks = {
   linkedin: '/',
   instagram: '/',
   twitter: '/',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
 };
 
 export const navLinks: Links[] = [
@@ -22,20 +28,32 @@ export const navLinks: Links[] = [
         category: 'Lakiery hybrydowe',
         title: 'Lakiery do paznokci hybrydowych',
         link: '/lakiery-hybrydowe',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '91',
         category: 'Lakiery żelowe',
         title: 'Lakiery do paznokci żelowych',
         link: '/lakiery-zelowe',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '92',
         category: 'Zwykłe lakiery',
         title: 'Zwykłe lakiery do paznokci',
         link: '/zwykle-lakiery',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '1',
@@ -52,14 +70,23 @@ export const navLinks: Links[] = [
             category: 'Adidasy',
             title: 'Adidasy dla kobiet',
             link: '/adidasy-dla-kobiet',
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null,
           },
           {
             id: '101',
             category: 'Kozaki',
             title: 'Kozaki dla kobiet',
             link: '/kozaki-dla-kobiet',
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null,
           },
         ],
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '11',
@@ -71,16 +98,28 @@ export const navLinks: Links[] = [
             category: 'Adidasy',
             title: 'Adidasy dla mężczyzn',
             link: '/adidasy-dla-mezczyzn',
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null,
           },
           {
             id: '111',
             category: 'Klapki',
             title: 'Klapki dla mężczyzn',
             link: '/klapki-dla-mezczyzn',
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null,
           },
         ],
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '2',
@@ -92,14 +131,23 @@ export const navLinks: Links[] = [
         category: 'Odżywki',
         title: 'Odżywki do włosów',
         link: '/odzywki-do-wlosow',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '21',
         category: 'Szampony',
         title: 'Szampony do włosów',
         link: '/szampony-do-wlosow',
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
 ];
 
@@ -107,18 +155,30 @@ export const emails: EmailsList[] = [
   {
     id: '1',
     email: 'example1@domain.com',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '2',
     email: 'example2@domain.com',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '3',
     email: 'example3@domain.com',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '4',
     email: 'example4@domain.com',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
 ];
 
@@ -127,6 +187,9 @@ export const user: User = {
   username: 'admin',
   email: 'example@domain.com',
   image: '',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
 };
 
 export const contact: Contact = {
@@ -141,12 +204,30 @@ export const contact: Contact = {
     code: '25-100',
   },
   workHours: '08:00 - 18:30',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
 };
 
 export const about: About = {
   id: '0',
   // tslint:disable-next-line: max-line-length
   text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit corrupti ipsam, voluptatibus est, veniam dignissimos adipisci atque eum eligendi esse, voluptatem minima reiciendis temporibus delectus perferendis id ducimus optio voluptate quam? Libero quaerat iure sunt ex qui architecto officiis velit aliquam id quas dicta itaque veritatis quos neque doloribus necessitatibus sequi aliquid, facilis ipsum! Sapiente laborum eveniet fugit illum animi eligendi odio. Nam quo voluptas consectetur dolorem enim alias, doloribus quisquam excepturi fuga consequuntur natus quis mollitia. Rem laboriosam, vero enim porro alias nam illum, similique omnis odio unde dolorem veniam? Distinctio consequatur dolor nisi maxime esse repudiandae aliquid modi! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui inventore voluptatibus repellat fugiat recusandae temporibus dolore sint vitae. Dolor consectetur molestias beatae quia ipsam quae illum, non consequatur dolores libero. Nostrum voluptas dicta nam ipsam iusto facilis alias laboriosam vitae, omnis, facere, odit maiores rem molestiae. Dolor doloribus quae voluptatem.',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
+export const question: FAQ = {
+  id: '11',
+  category: 'zwroty',
+  title: 'Po jakim czasie mogę zwrócić zakupiony produkt',
+  content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+  Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
+  Amet sunt aliquam beatae quis porro facer`,
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
 };
 
 export const faqs: FAQs[] = [
@@ -163,6 +244,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '12',
@@ -171,6 +255,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '13',
@@ -179,6 +266,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '14',
@@ -187,6 +277,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '15',
@@ -195,8 +288,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '2',
@@ -211,6 +310,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '22',
@@ -219,6 +321,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '23',
@@ -227,8 +332,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '4',
@@ -243,6 +354,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '42',
@@ -251,6 +365,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '43',
@@ -259,8 +376,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '5',
@@ -275,6 +398,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '52',
@@ -283,6 +409,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '53',
@@ -291,8 +420,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '6',
@@ -307,6 +442,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '62',
@@ -315,6 +453,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '63',
@@ -323,8 +464,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '7',
@@ -339,6 +486,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '72',
@@ -347,6 +497,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '73',
@@ -355,8 +508,14 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
   {
     id: '3',
@@ -371,6 +530,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '32',
@@ -379,6 +541,9 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
       {
         id: '33',
@@ -387,7 +552,56 @@ export const faqs: FAQs[] = [
         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto?
         Amet sunt aliquam beatae quis porro facer`,
+        created_at: new Date(),
+        updated_at: new Date(),
+        deleted_at: null,
       },
     ],
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+];
+
+export const product: Product = {
+  id: '1',
+  name: 'Buty',
+  img: '',
+  description: 'Opis',
+  fullDescription: '',
+  category: 'buty',
+  price: '100 zł',
+  quantity: 4,
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
+export const products: Product[] = [
+  {
+    id: '1',
+    name: 'Buty',
+    img: '',
+    description: 'Opis',
+    fullDescription: '',
+    category: 'buty',
+    price: '100 zł',
+    quantity: 4,
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    id: '2',
+    name: 'Koszulka',
+    img: '',
+    description: 'Opis',
+    fullDescription: '',
+    category: 'koszulki',
+    price: '15 zł',
+    quantity: 10,
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
   },
 ];

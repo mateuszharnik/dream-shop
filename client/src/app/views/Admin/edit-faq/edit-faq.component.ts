@@ -2,15 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FAQs, Alert, FAQ } from '@models/index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerService } from '@services/spinner.service';
-import { faqs } from '@helpers/fakeAPI';
-
-const questionData = {
-  id: '51',
-  category: 'płatności',
-  title: 'Basic 1',
-  // tslint:disable-next-line: max-line-length
-  content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimuslibero velit similique numquam placeat temporibus iure quae porroesse, quia iusto? Amet sunt aliquam beatae quis porro facer`,
-};
+import { faqs, question as questionData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-edit-faq',

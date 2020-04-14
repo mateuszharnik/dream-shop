@@ -3,6 +3,82 @@
 </div>
 <ng-template #browseProductView>
   <section class="admin-page-section min-vh-100">
-    Przeglądaj produkty
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Przeglądaj produkty</h2>
+    </header>
+    <article class="admin-page-section__article m-auto mt-6 text-center">
+      <p class="mb-6">
+        Tutaj możesz zarządzać swoimi produktami.
+      </p>
+      <app-router-link
+        [linkTitle]="'Dodaj nowy produkt'"
+        [linkClass]="'button button-success mb-6'"
+        [linkRouter]="'dodaj'"
+      >
+        Dodaj produkt
+        <app-fa-icon [faClass]="'fas fa-plus ml-2'"></app-fa-icon>
+      </app-router-link>
+      <div class="w-100">
+        <app-list-item *ngFor="let product of products">
+          <div class="w-100">
+            <img
+              *ngIf="product.img"
+              [src]="product.img"
+              alt="Zdjęcie produktu"
+            />
+            <h4 class="p">{{ product.name }}</h4>
+            <p>{{ product.description }}</p>
+            <p>Liczba dostępnych sztuk: {{ product.quantity }}</p>
+            <p>Cena produktu: {{ product.price }}</p>
+            <app-button
+              [buttonTitle]="'Usuń produkt'"
+              [buttonClass]="'button button-danger button-small'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="openModal(product)"
+            >
+              Usuń
+            </app-button>
+            <app-router-link
+              [linkTitle]="'Przejdź do edycji produktu'"
+              [linkClass]="'button button-primary button-small ml-4'"
+              [linkRouter]="computedProductEditLink(product.id)"
+            >
+              Edytuj
+            </app-router-link>
+          </div>
+        </app-list-item>
+      </div>
+      <app-modal
+        *ngIf="productToDelete"
+        (whenButtonClick)="!isDisabled && closeModal()"
+      >
+        <p>
+          <strong>
+            Czy napewno chcesz usunąć produkt: "{{
+              productToDelete.name
+            }}"&nbsp;?
+          </strong>
+        </p>
+        <app-form
+          [formClass]="'form text-left inline-block'"
+          [formName]="form"
+          (whenFormSubmit)="submit()"
+        >
+          <app-button
+            [buttonType]="'submit'"
+            [buttonTitle]="computedButtonTitle()"
+            [buttonClass]="'button button-danger'"
+            [buttonDisabled]="isDisabled"
+            #deleteButton
+          >
+            {{ computedButtonText() }}
+            <app-fa-icon
+              *ngIf="isDisabled"
+              [faClass]="'fas fa-spinner fa-spin'"
+            ></app-fa-icon>
+          </app-button>
+        </app-form>
+      </app-modal>
+    </article>
   </section>
 </ng-template>

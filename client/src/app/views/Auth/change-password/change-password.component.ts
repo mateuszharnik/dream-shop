@@ -22,7 +22,7 @@ export class ChangePasswordComponent implements OnInit {
     { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków', key: 'minlength' },
     { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków', key: 'maxlength' },
   ];
-  
+
   confirmPasswordAlerts: Alert[] = [
     { id: '0', message: 'Proszę powtórzyć nowe hasło', key: 'required' },
     { id: '1', message: 'Hasła nie są takie same', key: 'match' },
