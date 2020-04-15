@@ -1,4 +1,7 @@
 const { loginErrors } = require('./login');
+const { emailErrors } = require('./email');
+const { passwordsErrors } = require('./password');
+const { idErrors } = require('./id');
 
 const responseWithError = (res, next, status, message) => {
   const error = new Error(message);
@@ -21,5 +24,14 @@ const createErrorsChecker = (errors) => (error, res, next) => errors.some(({
 
 
 const checkLoginErrors = createErrorsChecker(loginErrors);
+const checkRecoveryLinkErrors = createErrorsChecker(emailErrors);
+const checkRecoveryPasswordErrors = createErrorsChecker(passwordsErrors);
+const checkIdErrors = createErrorsChecker(idErrors);
 
-module.exports = { checkLoginErrors, responseWithError };
+module.exports = {
+  checkLoginErrors,
+  responseWithError,
+  checkRecoveryLinkErrors,
+  checkRecoveryPasswordErrors,
+  checkIdErrors,
+};
