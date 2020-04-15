@@ -3,7 +3,7 @@ const { users } = require('../../db');
 const { userSchema } = require('../../api/v1/users/index.model');
 const { user } = require('../data');
 
-const seedUser = async () => {
+const seedUsers = async () => {
   const { error: schemaError, value: data } = userSchema.validate(user);
 
   // eslint-disable-next-line no-console
@@ -23,4 +23,4 @@ const seedUser = async () => {
   }
 };
 
-module.exports = seedUser;
+module.exports = seedUsers;

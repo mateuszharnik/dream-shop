@@ -12,12 +12,13 @@ const userSchema = Joi.object().keys({
   email: Joi.string().trim().regex(emailRegExp).allow('')
     .required(),
   img: Joi.string().trim().allow('').required(),
-  password: Joi.string().trim().min(8).max(32)
-    .required(),
+  password: Joi.string().min(8).max(32).required(),
   roles: Joi.array().items(
     Joi.string().trim().valid('user').required(),
     Joi.string().trim().valid('administrator'),
   ),
+  resetPasswordToken: Joi.string().allow(null).required(),
+  resetPasswordTokenExp: Joi.number().allow(null).required(),
   created_at: Joi.date().required(),
   updated_at: Joi.date().required(),
   deleted_at: Joi.date().allow(null).required(),
