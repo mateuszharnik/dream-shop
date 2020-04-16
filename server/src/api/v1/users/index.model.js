@@ -9,16 +9,15 @@ const userSchema = Joi.object().keys({
   username: Joi.string().trim().alphanum().min(3)
     .max(30)
     .required(),
-  email: Joi.string().trim().regex(emailRegExp).allow('')
-    .required(),
+  email: Joi.string().trim().regex(emailRegExp).required(),
   img: Joi.string().trim().allow('').required(),
   password: Joi.string().min(8).max(32).required(),
   roles: Joi.array().items(
     Joi.string().trim().valid('user').required(),
     Joi.string().trim().valid('administrator'),
   ),
-  resetPasswordToken: Joi.string().allow(null).required(),
-  resetPasswordTokenExp: Joi.number().allow(null).required(),
+  reset_password_token: Joi.string().allow(null).required(),
+  reset_password_token_exp: Joi.number().allow(null).required(),
   created_at: Joi.date().required(),
   updated_at: Joi.date().required(),
   deleted_at: Joi.date().allow(null).required(),

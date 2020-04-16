@@ -1,12 +1,14 @@
+const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
+
 const user = {
   name: '',
   username: 'administrator',
-  email: '',
+  email: ADMIN_EMAIL,
   img: '',
-  password: 'password',
+  password: ADMIN_PASSWORD,
+  reset_password_token: null,
+  reset_password_token_exp: null,
   roles: ['user', 'administrator'],
-  resetPasswordToken: null,
-  resetPasswordTokenExp: null,
   created_at: new Date(),
   updated_at: new Date(),
   deleted_at: null,

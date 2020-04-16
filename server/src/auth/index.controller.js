@@ -84,14 +84,22 @@ const sendRecoveryLink = async (req, res, next) => {
 
     const newUser = await users.findOneAndUpdate(
       { email: req.body.email },
-      { $set: { resetPasswordToken, resetPasswordTokenExp } },
+      {
+        $set: {
+          reset_password_token: resetPasswordToken,
+          reset_password_token_exp: resetPasswordTokenExp,
+        },
+      },
     );
 
     if (!newUser) {
       return responseWithError(res, next, 500, 'Nie udało się wygenerować tokenu');
     }
 
-    res.status(200).json({ resetPasswordToken, resetPasswordTokenExp });
+    res.status(200).json({
+      reset_password_token: resetPasswordToken,
+      reset_password_token_exp: resetPasswordTokenExp,
+    });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -117,17 +125,17 @@ const recoveryPassword = async (req, res, next) => {
   }
 
   try {
-    const user = await users.findOne({ resetPasswordToken: req.params.id });
+    const user = await users.findOne({ reset_password_token: req.params.id });
 
-    if (!user || user.resetPasswordTokenExp < new Date().getTime()) {
+    if (!user || user.reset_password_token_exp < new Date().getTime()) {
       return responseWithError(res, next, 500, 'Link wygasł');
     }
 
     const password = await bcrypt.hash(req.body.password, 12);
 
     const newUser = await users.findOneAndUpdate(
-      { resetPasswordToken: req.params.id },
-      { $set: { resetPasswordToken: null, resetPasswordTokenExp: null, password } },
+      { reset_password_token: req.params.id },
+      { $set: { reset_password_token: null, reset_password_token_exp: null, password } },
     );
 
     if (!newUser) {
@@ -166,9 +174,9 @@ const checkRecoveryLink = async (req, res, next) => {
   }
 
   try {
-    const user = await users.findOne({ resetPasswordToken: req.params.id });
+    const user = await users.findOne({ reset_password_token: req.params.id });
 
-    if (!user || user.resetPasswordTokenExp < new Date().getTime()) {
+    if (!user || user.reset_password_token_exp < new Date().getTime()) {
       return responseWithError(res, next, 500, 'Link wygasł');
     }
 
