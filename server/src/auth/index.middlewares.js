@@ -1,4 +1,4 @@
-const { setUser } = require('../../helpers/auth');
+const { setUser } = require('../helpers/auth');
 
 const checkToken = async (req, res, next) => {
   const authHeader = req.get('authorization');

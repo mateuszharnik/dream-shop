@@ -1,7 +1,20 @@
-const { loginErrors } = require('./login');
-const { emailErrors } = require('./email');
-const { passwordsErrors } = require('./password');
-const { idErrors } = require('./id');
+const { idNotEmpty, idRequired, idString } = require('./id');
+const { usernameRequired, usernameNotEmpty, usernameString } = require('./username');
+const {
+  emailRequired,
+  emailNotEmpty,
+  emailString,
+  emailPattern,
+} = require('./email');
+const {
+  passwordRequired,
+  passwordNotEmpty,
+  passwordString,
+  passwordMin,
+  passwordMax,
+  confirmPasswordRequired,
+  confirmPasswordNotMatch,
+} = require('./password');
 
 const responseWithError = (res, next, status, message) => {
   const error = new Error(message);
@@ -22,6 +35,33 @@ const createErrorsChecker = (errors) => (error, res, next) => errors.some(({
   return false;
 });
 
+const loginErrors = [
+  usernameRequired,
+  usernameNotEmpty,
+  usernameString,
+  passwordRequired,
+  passwordNotEmpty,
+  passwordString,
+];
+
+const emailErrors = [
+  emailRequired,
+  emailNotEmpty,
+  emailString,
+  emailPattern,
+];
+
+const passwordsErrors = [
+  passwordRequired,
+  passwordNotEmpty,
+  passwordString,
+  passwordMin,
+  passwordMax,
+  confirmPasswordRequired,
+  confirmPasswordNotMatch,
+];
+
+const idErrors = [idRequired, idNotEmpty, idString];
 
 const checkLoginErrors = createErrorsChecker(loginErrors);
 const checkRecoveryLinkErrors = createErrorsChecker(emailErrors);

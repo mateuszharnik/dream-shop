@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { CLIENT_URL } = require('./config');
-const { notFound, errorHandler } = require('./middlewares/errors');
-const { checkToken } = require('./middlewares/auth');
+const { notFound, errorHandler } = require('./errors');
+const { checkToken } = require('./auth/index.middlewares');
 const auth = require('./auth/index.router');
 
 const app = express();
