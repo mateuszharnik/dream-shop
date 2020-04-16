@@ -6,6 +6,7 @@ const { CLIENT_URL } = require('./config');
 const { notFound, errorHandler } = require('./errors');
 const { checkToken } = require('./auth/index.middlewares');
 const auth = require('./auth/index.router');
+const socialMedia = require('./api/v1/social-media/index.router');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(checkToken);
 app.get('/', (req, res) => res.status(200).json({ message: '👽' }));
 
 app.use('/auth', auth);
+app.use('/social-media', socialMedia);
 
 app.use(notFound);
 app.use(errorHandler);
