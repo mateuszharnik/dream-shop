@@ -14,4 +14,17 @@ const user = {
   deleted_at: null,
 };
 
-module.exports = { user };
+const socialMedia = {
+  twitter: '',
+  facebook: '',
+  linkedin: '',
+  instagram: '',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
+module.exports = {
+  user,
+  socialMedia,
+};

@@ -1,19 +1,21 @@
 const bcrypt = require('bcryptjs');
-const { users } = require('../../db');
+const { usersDB } = require('../../db');
 const { userSchema } = require('../../api/v1/users/index.model');
 const { user } = require('../data');
 
 const seedUsers = async () => {
   const { error: schemaError, value: data } = userSchema.validate(user);
 
-  // eslint-disable-next-line no-console
-  if (schemaError) return console.error(schemaError);
+  if (schemaError) {
+    // eslint-disable-next-line no-console
+    return console.error(schemaError);
+  }
 
   try {
     data.password = await bcrypt.hash(data.password, 12);
 
-    await users.remove({});
-    await users.insert(data);
+    await usersDB.remove({});
+    await usersDB.insert(data);
 
     // eslint-disable-next-line no-console
     console.log('Database seeded with users data');

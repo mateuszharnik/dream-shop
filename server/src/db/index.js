@@ -4,11 +4,17 @@ const { DB_URL } = require('../config');
 // eslint-disable-next-line no-console
 const db = monk(DB_URL, {}, () => console.log('Connected to the database'));
 
-const users = db.get('users');
+const usersDB = db.get('users');
 
-users.createIndex(
-  'username, email, reset_password_token, reset_password_token_exp',
+usersDB.createIndex(
+  'username, email, reset_password_token',
   { unique: true },
 );
 
-module.exports = { db, users };
+const socialMediaDB = db.get('socialMedia');
+
+module.exports = {
+  db,
+  usersDB,
+  socialMediaDB,
+};

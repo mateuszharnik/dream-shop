@@ -1,5 +1,21 @@
-const { idNotEmpty, idRequired, idString } = require('./id');
 const { usernameRequired, usernameNotEmpty, usernameString } = require('./username');
+const {
+  idRequired,
+  idNotEmpty,
+  idString,
+  dbIdRequired,
+  dbIdNotEmpty,
+  dbIdString,
+  dbIdPattern,
+} = require('./id');
+const {
+  createdAtRequired,
+  createdAtDate,
+  updatedAtRequired,
+  updatedAtDate,
+  deletedAtRequired,
+  deletedAtDate,
+} = require('./timestamp');
 const {
   emailRequired,
   emailNotEmpty,
@@ -15,6 +31,20 @@ const {
   confirmPasswordRequired,
   confirmPasswordNotMatch,
 } = require('./password');
+const {
+  twitterRequired,
+  twitterString,
+  twitterPattern,
+  facebookRequired,
+  facebookString,
+  facebookPattern,
+  linkedinRequired,
+  linkedinString,
+  linkedinPattern,
+  instagramRequired,
+  instagramString,
+  instagramPattern,
+} = require('./social-media');
 
 const responseWithError = (res, next, status, message) => {
   const error = new Error(message);
@@ -63,10 +93,36 @@ const passwordsErrors = [
 
 const idErrors = [idRequired, idNotEmpty, idString];
 
+const socialMediaErrors = [
+  twitterRequired,
+  twitterString,
+  twitterPattern,
+  facebookRequired,
+  facebookString,
+  facebookPattern,
+  linkedinRequired,
+  linkedinString,
+  linkedinPattern,
+  instagramRequired,
+  instagramString,
+  instagramPattern,
+  createdAtRequired,
+  createdAtDate,
+  updatedAtRequired,
+  updatedAtDate,
+  deletedAtRequired,
+  deletedAtDate,
+  dbIdRequired,
+  dbIdNotEmpty,
+  dbIdString,
+  dbIdPattern,
+];
+
 const checkLoginErrors = createErrorsChecker(loginErrors);
 const checkRecoveryLinkErrors = createErrorsChecker(emailErrors);
 const checkRecoveryPasswordErrors = createErrorsChecker(passwordsErrors);
 const checkIdErrors = createErrorsChecker(idErrors);
+const checkSocialMediaErrors = createErrorsChecker(socialMediaErrors);
 
 module.exports = {
   checkLoginErrors,
@@ -74,4 +130,5 @@ module.exports = {
   checkRecoveryLinkErrors,
   checkRecoveryPasswordErrors,
   checkIdErrors,
+  checkSocialMediaErrors,
 };

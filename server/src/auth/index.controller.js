@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { signToken } = require('../helpers/token');
 const { generateRandomBytes } = require('../helpers/auth');
-const { users } = require('../db');
+const { usersDB } = require('../db');
 const {
   loginSchema,
   recoveryLinkSchema,
@@ -24,29 +24,29 @@ const loginUser = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: schemaError } = loginSchema.validate(req.body);
+  const { error: schemaError, value: data } = loginSchema.validate(req.body);
 
   if (schemaError) {
     return checkLoginErrors(schemaError, res, next);
   }
 
   try {
-    const user = await users.findOne({ username: req.body.username });
+    const user = await usersDB.findOne({ username: data.username });
 
     if (!user) {
       return responseWithError(res, next, 500, 'Użytkownik nie istnieje');
     }
 
-    if (!await bcrypt.compare(req.body.password, user.password)) {
+    if (!await bcrypt.compare(data.password, user.password)) {
       return responseWithError(res, next, 500, 'Błędne hasło lub nazwa użytkownika');
     }
 
     const {
-      _id, username, name, email, img, roles,
+      _id, username, name, email, img, roles, created_at, updated_at,
     } = user;
 
     const payload = {
-      _id, username, name, email, img, roles,
+      _id, username, name, email, img, roles, created_at, updated_at,
     };
 
     const token = await signToken(payload, '1d');
@@ -66,14 +66,14 @@ const sendRecoveryLink = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: schemaError } = recoveryLinkSchema.validate(req.body);
+  const { error: schemaError, value: data } = recoveryLinkSchema.validate(req.body);
 
   if (schemaError) {
     return checkRecoveryLinkErrors(schemaError, res, next);
   }
 
   try {
-    const user = await users.findOne({ email: req.body.email });
+    const user = await usersDB.findOne({ email: data.email });
 
     if (!user) {
       return responseWithError(res, next, 500, 'Podany email nie znajduje się w bazie danych');
@@ -82,8 +82,8 @@ const sendRecoveryLink = async (req, res, next) => {
     const resetPasswordToken = await generateRandomBytes(user._id);
     const resetPasswordTokenExp = new Date().getTime() + ONE_HOUR;
 
-    const newUser = await users.findOneAndUpdate(
-      { email: req.body.email },
+    const newUser = await usersDB.findOneAndUpdate(
+      { email: data.email },
       {
         $set: {
           reset_password_token: resetPasswordToken,
@@ -112,30 +112,37 @@ const recoveryPassword = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: idSchemaError } = idSchema.validate(req.params);
+  const { error: paramsSchemaError, value: params } = idSchema.validate(req.params);
 
-  if (idSchemaError) {
-    return checkIdErrors(idSchemaError, res, next);
+  if (paramsSchemaError) {
+    return checkIdErrors(paramsSchemaError, res, next);
   }
 
-  const { error: schemaError } = recoveryPasswordSchema.validate(req.body);
+  const { error: schemaError, value: data } = recoveryPasswordSchema.validate(req.body);
 
   if (schemaError) {
     return checkRecoveryPasswordErrors(schemaError, res, next);
   }
 
   try {
-    const user = await users.findOne({ reset_password_token: req.params.id });
+    const user = await usersDB.findOne({ reset_password_token: params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
       return responseWithError(res, next, 500, 'Link wygasł');
     }
 
-    const password = await bcrypt.hash(req.body.password, 12);
+    const password = await bcrypt.hash(data.password, 12);
 
-    const newUser = await users.findOneAndUpdate(
-      { reset_password_token: req.params.id },
-      { $set: { reset_password_token: null, reset_password_token_exp: null, password } },
+    const newUser = await usersDB.findOneAndUpdate(
+      { reset_password_token: params.id },
+      {
+        $set: {
+          reset_password_token: null,
+          reset_password_token_exp: null,
+          updated_at: new Date(),
+          password,
+        },
+      },
     );
 
     if (!newUser) {
@@ -143,11 +150,11 @@ const recoveryPassword = async (req, res, next) => {
     }
 
     const {
-      _id, username, name, email, img, roles,
+      _id, username, name, email, img, roles, created_at, updated_at,
     } = newUser;
 
     const payload = {
-      _id, username, name, email, img, roles,
+      _id, username, name, email, img, roles, created_at, updated_at,
     };
 
     const token = await signToken(payload, '1d');
@@ -167,14 +174,14 @@ const checkRecoveryLink = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: idSchemaError } = idSchema.validate(req.params);
+  const { error: paramsSchemaError, value: params } = idSchema.validate(req.params);
 
-  if (idSchemaError) {
-    return checkIdErrors(idSchemaError, res, next);
+  if (paramsSchemaError) {
+    return checkIdErrors(paramsSchemaError, res, next);
   }
 
   try {
-    const user = await users.findOne({ reset_password_token: req.params.id });
+    const user = await usersDB.findOne({ reset_password_token: params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
       return responseWithError(res, next, 500, 'Link wygasł');
