@@ -14,6 +14,22 @@ const user = {
   deleted_at: null,
 };
 
+const contact = {
+  email: '',
+  phone: '',
+  nip: '',
+  adress: {
+    street: '',
+    street_number: '',
+    city: '',
+    zip_code: '',
+  },
+  working_hours: '',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
 const socialMedia = {
   twitter: '',
   facebook: '',
@@ -27,4 +43,5 @@ const socialMedia = {
 module.exports = {
   user,
   socialMedia,
+  contact,
 };

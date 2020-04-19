@@ -1,3 +1,4 @@
+// TWITTER
 const twitterRequired = {
   'any.required': 'Właściwość "twitter" jest wymagana',
 };
@@ -10,6 +11,7 @@ const twitterPattern = {
   'string.pattern.base': 'Link do konta na Twitter jest nieprawidłowy',
 };
 
+// FACEBOOK
 const facebookRequired = {
   'any.required': 'Właściwość "facebook" jest wymagana',
 };
@@ -22,6 +24,7 @@ const facebookPattern = {
   'string.pattern.base': 'Link do konta na Facebook jest nieprawidłowy',
 };
 
+// INSTAGRAM
 const instagramRequired = {
   'any.required': 'Właściwość "instagram" jest wymagana',
 };
@@ -34,6 +37,7 @@ const instagramPattern = {
   'string.pattern.base': 'Link do konta na Instagram jest nieprawidłowy',
 };
 
+// LINKEDIN
 const linkedinRequired = {
   'any.required': 'Właściwość "linkedin" jest wymagana',
 };

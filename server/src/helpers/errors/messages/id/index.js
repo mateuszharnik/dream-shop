@@ -1,3 +1,4 @@
+// DATABASE ID
 const idRequired = {
   'any.required': 'Właściwość "_id" jest wymagana',
 };
@@ -14,6 +15,7 @@ const idPattern = {
   'string.pattern.base': 'Id jest nieprawidłowe',
 };
 
+// RESET PASSWORD TOKEN ID
 const resetPasswordIdRequired = {
   'any.required': 'Właściwość "id" jest wymagana',
 };

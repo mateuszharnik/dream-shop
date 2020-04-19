@@ -1,16 +1,16 @@
-const { socialMediaSchema } = require('./index.model');
+const { contactSchema } = require('./index.model');
 const { responseWithError } = require('../../../helpers/errors');
-const { socialMediaDB } = require('../../../db');
+const { contactDB } = require('../../../db');
 
-const getSocialMedia = async (req, res, next) => {
+const getContact = async (req, res, next) => {
   try {
-    const socialMedia = await socialMediaDB.findOne({});
+    const contact = await contactDB.findOne({});
 
-    if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać linków do mediów społecznościowych');
+    if (!contact) {
+      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji kontaktowych');
     }
 
-    res.status(200).json({ ...socialMedia });
+    res.status(200).json({ ...contact });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -18,7 +18,7 @@ const getSocialMedia = async (req, res, next) => {
   }
 };
 
-const updateSocialMedia = async (req, res, next) => {
+const updateContact = async (req, res, next) => {
   if (!req.user) {
     return responseWithError(res, next, 500, 'Brak dostępu');
   }
@@ -27,14 +27,14 @@ const updateSocialMedia = async (req, res, next) => {
     return responseWithError(res, next, 500, 'Brak dostępu');
   }
 
-  const { schemaError, data } = socialMediaSchema(req.body, true, false);
+  const { schemaError, data } = contactSchema(req.body, true, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
   try {
-    const socialMedia = await socialMediaDB.findOneAndUpdate(
+    const contact = await contactDB.findOneAndUpdate(
       { _id: data._id },
       {
         $set: {
@@ -44,11 +44,11 @@ const updateSocialMedia = async (req, res, next) => {
       },
     );
 
-    if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować linków do mediów społecznościowych');
+    if (!contact) {
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji kontaktowych');
     }
 
-    res.status(200).json({ ...socialMedia });
+    res.status(200).json({ ...contact });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -57,6 +57,6 @@ const updateSocialMedia = async (req, res, next) => {
 };
 
 module.exports = {
-  getSocialMedia,
-  updateSocialMedia,
+  updateContact,
+  getContact,
 };

@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 const { emailRegExp } = require('../helpers/regexp');
-const { joiConfigObject } = require('../helpers/errors/messages');
+const { joiConfigMessages } = require('../helpers/errors/messages');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
 const { emailMessages } = require('../helpers/errors/messages/email');
 const {
@@ -51,7 +51,7 @@ const passwordsConfig = {
 };
 
 const loginSchema = (credentials) => {
-  const schema = Joi.object().keys(credentialsConfig).messages(joiConfigObject);
+  const schema = Joi.object().keys(credentialsConfig).required().messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(credentials);
 
@@ -59,7 +59,7 @@ const loginSchema = (credentials) => {
 };
 
 const resetPasswordIdSchema = (id) => {
-  const schema = Joi.object().keys(resetPasswordIdConfig).messages(joiConfigObject);
+  const schema = Joi.object().keys(resetPasswordIdConfig).required().messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(id);
 
@@ -67,7 +67,7 @@ const resetPasswordIdSchema = (id) => {
 };
 
 const recoveryLinkSchema = (email) => {
-  const schema = Joi.object().keys(emailConfig).messages(joiConfigObject);
+  const schema = Joi.object().keys(emailConfig).required().messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(email);
 
@@ -75,7 +75,7 @@ const recoveryLinkSchema = (email) => {
 };
 
 const recoveryPasswordSchema = (passwords) => {
-  const schema = Joi.object().keys(passwordsConfig).messages(joiConfigObject);
+  const schema = Joi.object().keys(passwordsConfig).required().messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(passwords);
 

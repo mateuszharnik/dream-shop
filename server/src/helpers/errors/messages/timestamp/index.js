@@ -1,3 +1,4 @@
+// CREATED AT
 const createdAtRequired = {
   'any.required': 'Właściwość "created_at" jest wymagana',
 };
@@ -6,6 +7,7 @@ const createdAtDate = {
   'date.base': 'Właściwość "created_at" musi być typu "date"',
 };
 
+// UPDATED AT
 const updatedAtRequired = {
   'any.required': 'Właściwość "updated_at" jest wymagana',
 };
@@ -14,6 +16,7 @@ const updatedAtDate = {
   'date.base': 'Właściwość "updated_at" musi być typu "date"',
 };
 
+// DELETED AT
 const deletedAtRequired = {
   'any.required': 'Właściwość "deleted_at" jest wymagana',
 };

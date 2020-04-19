@@ -12,7 +12,17 @@ const timestamps = {
   deleted_at: Joi.date().allow(null).required().messages(deletedAtMessages),
 };
 
-module.exports = {
+const addId = (config) => ({
   _id,
-  timestamps,
+  ...config,
+});
+
+const addTimestamps = (config) => ({
+  ...config,
+  ...timestamps,
+});
+
+module.exports = {
+  addId,
+  addTimestamps,
 };
