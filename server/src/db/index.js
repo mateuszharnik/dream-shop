@@ -5,19 +5,20 @@ const { DB_URL } = require('../config');
 const db = monk(DB_URL, {}, () => console.log('Connected to the database'));
 
 const usersDB = db.get('users');
+const socialMediaDB = db.get('socialMedia');
+const emailsDB = db.get('emails');
+const contactDB = db.get('contact');
 
+emailsDB.createIndex('email, deleted_at');
 usersDB.createIndex(
   'username, email, reset_password_token',
   { unique: true },
 );
 
-const socialMediaDB = db.get('socialMedia');
-
-const contactDB = db.get('contact');
-
 module.exports = {
   db,
   usersDB,
+  emailsDB,
   socialMediaDB,
   contactDB,
 };
