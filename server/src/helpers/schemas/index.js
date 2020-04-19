@@ -23,6 +23,8 @@ const addTimestamps = (config) => ({
 });
 
 module.exports = {
+  _id,
+  timestamps,
   addId,
   addTimestamps,
 };
