@@ -12,6 +12,16 @@ const twitterRegExp = /^https?:\/\/www.twitter.com\/.+$/;
 
 const linkedinRegExp = /^https?:\/\/www.linkedin.com\/.+$/;
 
+const phoneRegExp = /^(\+[1-9]{1}([0-9]{1,})?\s)?[0-9]{3}\s[0-9]{3}\s[0-9]{3}$/;
+
+const nipRegExp = /^[0-9]{10}$/;
+
+const streetNumberRegExp = /^([1-9]([0-9]{1,})?)(\/[1-9]([0-9]{1,})?)?$/;
+
+const zipCodeRegExp = /^[0-9]{2}-[0-9]{3}$/;
+
+const workingHoursRegExp = /^([0-1][0-9]|[2][0-4]):[0-5][0-9]\s-\s([0-1][0-9]|[2][0-4]):[0-5][0-9]$/;
+
 module.exports = {
   dbIdRegExp,
   emailRegExp,
@@ -20,4 +30,9 @@ module.exports = {
   facebookRegExp,
   twitterRegExp,
   linkedinRegExp,
+  phoneRegExp,
+  nipRegExp,
+  streetNumberRegExp,
+  workingHoursRegExp,
+  zipCodeRegExp,
 };

@@ -13,8 +13,11 @@ usersDB.createIndex(
 
 const socialMediaDB = db.get('socialMedia');
 
+const contactDB = db.get('contact');
+
 module.exports = {
   db,
   usersDB,
   socialMediaDB,
+  contactDB,
 };

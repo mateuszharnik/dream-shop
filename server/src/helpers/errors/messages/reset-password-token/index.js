@@ -1,3 +1,4 @@
+// RESET PASSWORD TOKEN
 const resetPasswordTokenRequired = {
   'any.required': 'Właściwość "reset_password_token" jest wymagana',
 };
@@ -10,6 +11,7 @@ const resetPasswordTokenNotEmpty = {
   'string.empty': 'Właściwość "reset_password_token" nie może być pusta',
 };
 
+// RESET PASSWORD TOKEN EXP
 const resetPasswordTokenExpRequired = {
   'any.required': 'Właściwość "reset_password_token_exp" jest wymagana',
 };

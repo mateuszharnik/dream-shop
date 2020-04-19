@@ -1,3 +1,4 @@
+// PASSWORD
 const passwordRequired = {
   'any.required': 'Właściwość "password" jest wymagana',
 };
@@ -18,6 +19,7 @@ const passwordMax = {
   'string.max': 'Hasło może mieć maksymalnie 32 znaków',
 };
 
+// CONFIRM PASSWORD
 const confirmPasswordRequired = {
   'any.required': 'Właściwość "confirmPassword" jest wymagana',
 };
