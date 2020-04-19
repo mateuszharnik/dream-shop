@@ -1,5 +1,5 @@
-const { updateSocialMediaSchema } = require('./index.model');
-const { responseWithError, checkSocialMediaErrors } = require('../../../helpers/errors');
+const { socialMediaSchema } = require('./index.model');
+const { responseWithError } = require('../../../helpers/errors');
 const { socialMediaDB } = require('../../../db');
 
 const getSocialMedia = async (req, res, next) => {
@@ -27,10 +27,10 @@ const updateSocialMedia = async (req, res, next) => {
     return responseWithError(res, next, 500, 'Brak dostępu');
   }
 
-  const { error: schemaError, value: data } = updateSocialMediaSchema.validate(req.body);
+  const { schemaError, data } = socialMediaSchema(req.body);
 
   if (schemaError) {
-    return checkSocialMediaErrors(schemaError, res, next);
+    return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
   try {

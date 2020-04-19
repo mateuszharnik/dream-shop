@@ -4,7 +4,7 @@ const { userSchema } = require('../../api/v1/users/index.model');
 const { user } = require('../data');
 
 const seedUsers = async () => {
-  const { error: schemaError, value: data } = userSchema.validate(user);
+  const { schemaError, data } = userSchema(user, false);
 
   if (schemaError) {
     // eslint-disable-next-line no-console

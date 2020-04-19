@@ -2,19 +2,13 @@ const bcrypt = require('bcryptjs');
 const { signToken } = require('../helpers/token');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
+const { responseWithError } = require('../helpers/errors');
 const {
   loginSchema,
   recoveryLinkSchema,
   recoveryPasswordSchema,
-  idSchema,
+  resetPasswordIdSchema,
 } = require('./index.model');
-const {
-  responseWithError,
-  checkLoginErrors,
-  checkRecoveryLinkErrors,
-  checkRecoveryPasswordErrors,
-  checkIdErrors,
-} = require('../helpers/errors');
 
 const ONE_HOUR = 1000 * 60 * 60;
 
@@ -24,10 +18,10 @@ const loginUser = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: schemaError, value: data } = loginSchema.validate(req.body);
+  const { schemaError, data } = loginSchema(req.body);
 
   if (schemaError) {
-    return checkLoginErrors(schemaError, res, next);
+    return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
   try {
@@ -66,10 +60,10 @@ const sendRecoveryLink = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: schemaError, value: data } = recoveryLinkSchema.validate(req.body);
+  const { schemaError, data } = recoveryLinkSchema(req.body);
 
   if (schemaError) {
-    return checkRecoveryLinkErrors(schemaError, res, next);
+    return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
   try {
@@ -112,16 +106,16 @@ const recoveryPassword = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: paramsSchemaError, value: params } = idSchema.validate(req.params);
+  const { schemaError: paramsSchemaError, data: params } = resetPasswordIdSchema(req.params);
 
   if (paramsSchemaError) {
-    return checkIdErrors(paramsSchemaError, res, next);
+    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
-  const { error: schemaError, value: data } = recoveryPasswordSchema.validate(req.body);
+  const { schemaError, data } = recoveryPasswordSchema(req.body);
 
   if (schemaError) {
-    return checkRecoveryPasswordErrors(schemaError, res, next);
+    return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
   try {
@@ -174,10 +168,10 @@ const checkRecoveryLink = async (req, res, next) => {
     return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
-  const { error: paramsSchemaError, value: params } = idSchema.validate(req.params);
+  const { schemaError: paramsSchemaError, data: params } = resetPasswordIdSchema(req.params);
 
   if (paramsSchemaError) {
-    return checkIdErrors(paramsSchemaError, res, next);
+    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
   try {

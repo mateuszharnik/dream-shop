@@ -1,27 +1,90 @@
 const Joi = require('@hapi/joi');
 const { emailRegExp } = require('../helpers/regexp');
+const { joiConfigObject } = require('../helpers/errors/messages');
+const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
+const { emailMessages } = require('../helpers/errors/messages/email');
+const {
+  usernameRequired,
+  usernameNotEmpty,
+  usernameString,
+} = require('../helpers/errors/messages/username');
+const {
+  passwordRequired,
+  passwordNotEmpty,
+  passwordString,
+  passwordMessages,
+  confirmPasswordMessages,
+} = require('../helpers/errors/messages/password');
 
-const loginSchema = Joi.object().keys({
-  username: Joi.string().trim().required(),
-  password: Joi.string().required(),
-});
+const usernameMessages = {
+  ...usernameRequired,
+  ...usernameNotEmpty,
+  ...usernameString,
+};
 
-const idSchema = Joi.object().keys({
-  id: Joi.string().trim().required(),
-});
+const loginPasswordMessages = {
+  ...passwordRequired,
+  ...passwordNotEmpty,
+  ...passwordString,
+};
 
-const recoveryLinkSchema = Joi.object().keys({
-  email: Joi.string().trim().regex(emailRegExp).required(),
-});
+const emailConfig = {
+  email: Joi.string().trim().regex(emailRegExp).required()
+    .messages(emailMessages),
+};
 
-const recoveryPasswordSchema = Joi.object().keys({
-  password: Joi.string().min(8).max(32).required(),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-});
+const resetPasswordIdConfig = {
+  id: Joi.string().trim().required().messages(resetPasswordIdMessages),
+};
+
+const credentialsConfig = {
+  username: Joi.string().trim().required().messages(usernameMessages),
+  password: Joi.string().trim().required().messages(loginPasswordMessages),
+};
+
+const passwordsConfig = {
+  password: Joi.string().trim().min(8).max(32)
+    .required()
+    .messages(passwordMessages),
+  confirmPassword: Joi.string().trim().valid(Joi.ref('password')).required()
+    .messages(confirmPasswordMessages),
+};
+
+const loginSchema = (credentials) => {
+  const schema = Joi.object().keys(credentialsConfig).messages(joiConfigObject);
+
+  const { error: schemaError, value: data } = schema.validate(credentials);
+
+  return { schemaError, data };
+};
+
+const resetPasswordIdSchema = (id) => {
+  const schema = Joi.object().keys(resetPasswordIdConfig).messages(joiConfigObject);
+
+  const { error: schemaError, value: data } = schema.validate(id);
+
+  return { schemaError, data };
+};
+
+const recoveryLinkSchema = (email) => {
+  const schema = Joi.object().keys(emailConfig).messages(joiConfigObject);
+
+  const { error: schemaError, value: data } = schema.validate(email);
+
+  return { schemaError, data };
+};
+
+const recoveryPasswordSchema = (passwords) => {
+  const schema = Joi.object().keys(passwordsConfig).messages(joiConfigObject);
+
+  const { error: schemaError, value: data } = schema.validate(passwords);
+
+  return { schemaError, data };
+};
 
 module.exports = {
   loginSchema,
   recoveryLinkSchema,
   recoveryPasswordSchema,
-  idSchema,
+  resetPasswordIdSchema,
 };

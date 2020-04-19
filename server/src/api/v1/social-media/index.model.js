@@ -1,39 +1,43 @@
 const Joi = require('@hapi/joi');
+const { joiConfigObject } = require('../../../helpers/errors/messages');
+const { timestamps, _id } = require('../../../helpers/schemas');
+const {
+  facebookMessages, twitterMessages, linkedinMessages, instagramMessages,
+} = require('../../../helpers/errors/messages/social-media');
 const {
   instagramRegExp,
   facebookRegExp,
   twitterRegExp,
   linkedinRegExp,
-  dbIdRegExp,
 } = require('../../../helpers/regexp');
 
-const socialMediaSchema = Joi.object().keys({
+const socialMediaConfig = {
   facebook: Joi.string().trim().regex(facebookRegExp).allow('')
-    .required(),
+    .required()
+    .messages(facebookMessages),
   twitter: Joi.string().trim().regex(twitterRegExp).allow('')
-    .required(),
+    .required()
+    .messages(twitterMessages),
   linkedin: Joi.string().trim().regex(linkedinRegExp).allow('')
-    .required(),
+    .required()
+    .messages(linkedinMessages),
   instagram: Joi.string().trim().regex(instagramRegExp).allow('')
-    .required(),
-  created_at: Joi.date().required(),
-  updated_at: Joi.date().required(),
-  deleted_at: Joi.date().allow(null).required(),
-});
+    .required()
+    .messages(instagramMessages),
+  ...timestamps,
+};
 
-const updateSocialMediaSchema = Joi.object().keys({
-  _id: Joi.string().trim().regex(dbIdRegExp).required(),
-  facebook: Joi.string().trim().regex(facebookRegExp).allow('')
-    .required(),
-  twitter: Joi.string().trim().regex(twitterRegExp).allow('')
-    .required(),
-  linkedin: Joi.string().trim().regex(linkedinRegExp).allow('')
-    .required(),
-  instagram: Joi.string().trim().regex(instagramRegExp).allow('')
-    .required(),
-  created_at: Joi.date().required(),
-  updated_at: Joi.date().required(),
-  deleted_at: Joi.date().allow(null).required(),
-});
+const socialMediaSchema = (socialMedia, withId = true) => {
+  const schema = Joi.object().keys(withId ? {
+    _id,
+    ...socialMediaConfig,
+  } : socialMediaConfig).messages(joiConfigObject);
 
-module.exports = { socialMediaSchema, updateSocialMediaSchema };
+  const { error: schemaError, value: data } = schema.validate(socialMedia);
+
+  return { schemaError, data };
+};
+
+module.exports = {
+  socialMediaSchema,
+};
