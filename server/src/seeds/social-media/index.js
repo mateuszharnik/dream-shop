@@ -3,7 +3,7 @@ const { socialMediaSchema } = require('../../api/v1/social-media/index.model');
 const { socialMediaDB } = require('../../db');
 
 const seedSocialMedia = async () => {
-  const { error: schemaError, value: data } = socialMediaSchema.validate(socialMedia);
+  const { schemaError, data } = socialMediaSchema(socialMedia, false);
 
   if (schemaError) {
     // eslint-disable-next-line no-console
