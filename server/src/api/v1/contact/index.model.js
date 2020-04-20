@@ -9,8 +9,8 @@ const { nipMessages } = require('../../../helpers/errors/messages/nip');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
 const { workingHoursMessages } = require('../../../helpers/errors/messages/hours');
 const {
-  streetMessages, streetNumberMessages, cityMessages, zipCodeMessages, adressMessages,
-} = require('../../../helpers/errors/messages/adress');
+  streetMessages, streetNumberMessages, cityMessages, zipCodeMessages, addressMessages,
+} = require('../../../helpers/errors/messages/address');
 
 const emailMessages = {
   ...emailRequired,
@@ -19,7 +19,7 @@ const emailMessages = {
 };
 
 const contactConfig = (contact, id = true, timestamp = true) => {
-  const checkAdressObject = (key) => contact && contact.adress && contact.adress[key];
+  const checkAddressObject = (key) => contact && contact.address && contact.address[key];
 
   const street = Joi.string().trim().min(2).max(100)
     .required()
@@ -32,7 +32,6 @@ const contactConfig = (contact, id = true, timestamp = true) => {
   const city = Joi.string().trim().min(2).max(100)
     .required()
     .messages(cityMessages);
-
 
   const zip_code = Joi.string().trim().regex(zipCodeRegExp)
     .required()
@@ -51,12 +50,12 @@ const contactConfig = (contact, id = true, timestamp = true) => {
     working_hours: Joi.string().trim().regex(workingHoursRegExp).allow('')
       .required()
       .messages(workingHoursMessages),
-    adress: Joi.object().keys({
-      street: checkAdressObject('street_number') ? street : street.allow(''),
-      street_number: checkAdressObject('street') ? street_number : street_number.allow(''),
-      city: checkAdressObject('zip_code') ? city : city.allow(''),
-      zip_code: checkAdressObject('city') ? zip_code : zip_code.allow(''),
-    }).required().messages(adressMessages),
+    address: Joi.object().keys({
+      street: checkAddressObject('street_number') ? street : street.allow(''),
+      street_number: checkAddressObject('street') ? street_number : street_number.allow(''),
+      city: checkAddressObject('zip_code') ? city : city.allow(''),
+      zip_code: checkAddressObject('city') ? zip_code : zip_code.allow(''),
+    }).required().messages(addressMessages),
   };
 
   if (id) {

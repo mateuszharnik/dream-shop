@@ -9,6 +9,7 @@ const auth = require('./auth/index.router');
 const socialMedia = require('./api/v1/social-media/index.router');
 const contact = require('./api/v1/contact/index.router');
 const newsletter = require('./api/v1/newsletter/index.router');
+const map = require('./api/v1/map/index.router');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/auth', auth);
 app.use('/social-media', socialMedia);
 app.use('/contact', contact);
 app.use('/newsletter', newsletter);
+app.use('/map', map);
 
 app.use(notFound);
 app.use(errorHandler);

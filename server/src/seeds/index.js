@@ -1,6 +1,7 @@
 const seedUsers = require('./users');
 const seedSocialMedia = require('./social-media');
 const seedContact = require('./contact');
+const seedMap = require('./map');
 const removeNewsletterEmails = require('./newsletter');
 
 const seed = async () => {
@@ -8,6 +9,7 @@ const seed = async () => {
     await removeNewsletterEmails();
     await seedUsers();
     await seedSocialMedia();
+    await seedMap();
     await seedContact();
   } catch (error) {
     // eslint-disable-next-line no-console
