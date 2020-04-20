@@ -8,6 +8,7 @@ const usersDB = db.get('users');
 const socialMediaDB = db.get('socialMedia');
 const emailsDB = db.get('emails');
 const contactDB = db.get('contact');
+const mapDB = db.get('map');
 
 emailsDB.createIndex('email, deleted_at');
 usersDB.createIndex(
@@ -21,4 +22,5 @@ module.exports = {
   emailsDB,
   socialMediaDB,
   contactDB,
+  mapDB,
 };

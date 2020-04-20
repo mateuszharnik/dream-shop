@@ -18,13 +18,20 @@ const contact = {
   email: '',
   phone: '',
   nip: '',
-  adress: {
+  address: {
     street: '',
     street_number: '',
     city: '',
     zip_code: '',
   },
   working_hours: '',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
+const map = {
+  latlng: '(00.00, 00.00)',
   created_at: new Date(),
   updated_at: new Date(),
   deleted_at: null,
@@ -44,4 +51,5 @@ module.exports = {
   user,
   socialMedia,
   contact,
+  map,
 };

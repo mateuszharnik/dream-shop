@@ -20,6 +20,8 @@ const streetNumberRegExp = /^([1-9]([0-9]{1,})?)(\/[1-9]([0-9]{1,})?)?$/;
 
 const zipCodeRegExp = /^[0-9]{2}-[0-9]{3}$/;
 
+const mapRegExp = /^\(-?[0-9]+\.[0-9]+,\s-?[0-9]+\.[0-9]+\)$/;
+
 const workingHoursRegExp = /^([0-1][0-9]|[2][0-4]):[0-5][0-9]\s-\s([0-1][0-9]|[2][0-4]):[0-5][0-9]$/;
 
 module.exports = {
@@ -35,4 +37,5 @@ module.exports = {
   streetNumberRegExp,
   workingHoursRegExp,
   zipCodeRegExp,
+  mapRegExp,
 };

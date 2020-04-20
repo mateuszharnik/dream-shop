@@ -74,23 +74,23 @@ const zipCodePattern = {
   'string.pattern.base': 'Numer pocztowy jest nieprawidłowy',
 };
 
-// ADRESS
-const adressObject = {
-  'object.base': 'Właściwość "adress" musi być typu "object"',
+// ADDRESS
+const addressObject = {
+  'object.base': 'Właściwość "address" musi być typu "object"',
 };
 
-const adressObjectUnknow = {
+const addressObjectUnknow = {
   'object.unknown': 'Właściwość {#label} jest niedozwolona',
 };
 
-const adressRequired = {
-  'any.required': 'Właściwość "adress" jest wymagana',
+const addressRequired = {
+  'any.required': 'Właściwość "address" jest wymagana',
 };
 
-const adressMessages = {
-  ...adressObject,
-  ...adressRequired,
-  ...adressObjectUnknow,
+const addressMessages = {
+  ...addressObject,
+  ...addressRequired,
+  ...addressObjectUnknow,
 };
 
 const streetMessages = {
@@ -124,10 +124,10 @@ const zipCodeMessages = {
 };
 
 module.exports = {
-  adressObject,
-  adressRequired,
-  adressObjectUnknow,
-  adressMessages,
+  addressObject,
+  addressRequired,
+  addressObjectUnknow,
+  addressMessages,
   streetRequired,
   streetString,
   streetNotEmpty,
