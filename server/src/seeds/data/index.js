@@ -14,6 +14,13 @@ const user = {
   deleted_at: null,
 };
 
+const about = {
+  information: '',
+  created_at: new Date(),
+  updated_at: new Date(),
+  deleted_at: null,
+};
+
 const contact = {
   email: '',
   phone: '',
@@ -52,4 +59,5 @@ module.exports = {
   socialMedia,
   contact,
   map,
+  about,
 };
