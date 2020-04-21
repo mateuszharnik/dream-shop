@@ -61,16 +61,16 @@ const deleteEmail = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Podany adres email nie znajduje się w bazie danych');
     }
 
-    const updateEmail = await emailsDB.findOneAndUpdate(
+    const updatedEmail = await emailsDB.findOneAndUpdate(
       { _id: params.id },
       { $set: { deleted_at: new Date() } },
     );
 
-    if (!updateEmail) {
+    if (!updatedEmail) {
       return responseWithError(res, next, 500, 'Nie udało się usunąć adresu email');
     }
 
-    res.status(200).json(updateEmail);
+    res.status(200).json({ ...updatedEmail });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -97,7 +97,13 @@ const addEmail = async (req, res, next) => {
     if (email && email.deleted_at) {
       newEmail = await emailsDB.findOneAndUpdate(
         { email: data.email },
-        { $set: { deleted_at: null } },
+        {
+          $set: {
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: null,
+          },
+        },
       );
     } else {
       newEmail = await emailsDB.insert({

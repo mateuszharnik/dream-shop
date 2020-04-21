@@ -1,6 +1,7 @@
 const seedUsers = require('./users');
 const seedSocialMedia = require('./social-media');
 const seedAbout = require('./about');
+const seedFAQCategories = require('./faq');
 const seedContact = require('./contact');
 const seedMap = require('./map');
 const removeNewsletterEmails = require('./newsletter');
@@ -8,6 +9,7 @@ const removeNewsletterEmails = require('./newsletter');
 const seed = async () => {
   try {
     await removeNewsletterEmails();
+    await seedFAQCategories();
     await seedUsers();
     await seedSocialMedia();
     await seedMap();

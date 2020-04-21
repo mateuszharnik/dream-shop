@@ -2,7 +2,7 @@ const userRolesRequired = {
   'any.required': 'Właściwość "roles" jest wymagana',
 };
 
-const userRolesString = {
+const userRolesArray = {
   'array.base': 'Właściwość "roles" musi być typu "array"',
 };
 
@@ -16,14 +16,14 @@ const userRolesInclueds = {
 
 const userRolesMessages = {
   ...userRolesRequired,
-  ...userRolesString,
+  ...userRolesArray,
   ...userRolesIncludesRequiredUnknowns,
   ...userRolesInclueds,
 };
 
 module.exports = {
   userRolesRequired,
-  userRolesString,
+  userRolesArray,
   userRolesIncludesRequiredUnknowns,
   userRolesInclueds,
   userRolesMessages,
