@@ -21,6 +21,51 @@ const about = {
   deleted_at: null,
 };
 
+const faqCategories = [
+  {
+    category: 'zwroty',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'dostawa',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'płatności',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'obsługa',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'produkty',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'rabaty',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    category: 'inne',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+];
+
 const contact = {
   email: '',
   phone: '',
@@ -60,4 +105,5 @@ module.exports = {
   contact,
   map,
   about,
+  faqCategories,
 };

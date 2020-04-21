@@ -10,8 +10,12 @@ const emailsDB = db.get('emails');
 const contactDB = db.get('contact');
 const aboutDB = db.get('about');
 const mapDB = db.get('map');
+const faqCategoriesDB = db.get('faq-categories');
+const faqDB = db.get('faq');
 
 emailsDB.createIndex('email, deleted_at');
+faqCategoriesDB.createIndex('categories');
+faqDB.createIndex('title');
 usersDB.createIndex(
   'username, email, reset_password_token',
   { unique: true },
@@ -22,7 +26,9 @@ module.exports = {
   usersDB,
   emailsDB,
   socialMediaDB,
+  faqDB,
   contactDB,
+  faqCategoriesDB,
   mapDB,
   aboutDB,
 };
