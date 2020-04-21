@@ -23,9 +23,17 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-const isLoggedIn = (req, res, next) => {
+const isNotLoggedIn = (req, res, next) => {
   if (!req.user) {
     return responseWithError(res, next, 500, 'Brak dostępu');
+  }
+
+  next();
+};
+
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
   }
 
   next();
@@ -35,4 +43,5 @@ module.exports = {
   checkToken,
   isAdmin,
   isLoggedIn,
+  isNotLoggedIn,
 };

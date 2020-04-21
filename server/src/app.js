@@ -12,6 +12,7 @@ const about = require('./api/v1/about/index.router');
 const newsletter = require('./api/v1/newsletter/index.router');
 const faq = require('./api/v1/faq/index.router');
 const map = require('./api/v1/map/index.router');
+const messages = require('./api/v1/messages/index.router');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/about', about);
 app.use('/faq', faq);
 app.use('/newsletter', newsletter);
 app.use('/map', map);
+app.use('/messages', messages);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -14,10 +14,6 @@ const ONE_HOUR = 1000 * 60 * 60;
 
 // eslint-disable-next-line no-unused-vars
 const loginUser = async (req, res, next) => {
-  if (req.user) {
-    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
-  }
-
   const { schemaError, data } = loginSchema(req.body);
 
   if (schemaError) {
@@ -56,10 +52,6 @@ const loginUser = async (req, res, next) => {
 };
 
 const sendRecoveryLink = async (req, res, next) => {
-  if (req.user) {
-    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
-  }
-
   const { schemaError, data } = recoveryLinkSchema(req.body);
 
   if (schemaError) {
@@ -102,10 +94,6 @@ const sendRecoveryLink = async (req, res, next) => {
 };
 
 const recoveryPassword = async (req, res, next) => {
-  if (req.user) {
-    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
-  }
-
   const { schemaError: paramsSchemaError, data: params } = resetPasswordIdSchema(req.params);
 
   if (paramsSchemaError) {
@@ -164,10 +152,6 @@ const recoveryPassword = async (req, res, next) => {
 };
 
 const checkRecoveryLink = async (req, res, next) => {
-  if (req.user) {
-    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
-  }
-
   const { schemaError: paramsSchemaError, data: params } = resetPasswordIdSchema(req.params);
 
   if (paramsSchemaError) {

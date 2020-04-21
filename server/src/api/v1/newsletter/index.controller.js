@@ -3,14 +3,6 @@ const { responseWithError } = require('../../../helpers/errors');
 const { emailsDB } = require('../../../db');
 
 const deleteEmails = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   try {
     const emails = await emailsDB.find({ deleted_at: null });
 
@@ -40,14 +32,6 @@ const deleteEmails = async (req, res, next) => {
 };
 
 const deleteEmail = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
   if (paramsSchemaError) {
@@ -130,14 +114,6 @@ const addEmail = async (req, res, next) => {
 };
 
 const getEmails = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   try {
     const emails = await emailsDB.find({ deleted_at: null });
 

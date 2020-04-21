@@ -2,7 +2,7 @@ const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))
 
 const dbIdRegExp = /^[a-f\d]{24}$/i;
 
-const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/;
+const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/;
 
 const instagramRegExp = /^https?:\/\/www.instagram.com\/.+$/;
 

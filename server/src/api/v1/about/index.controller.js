@@ -20,13 +20,7 @@ const getAbout = async (req, res, next) => {
 };
 
 const updateAbout = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
+  req.body.information = purify(req.body.information);
 
   const { schemaError, data } = aboutSchema(req.body, true, false);
 
@@ -35,8 +29,6 @@ const updateAbout = async (req, res, next) => {
   }
 
   try {
-    data.information = purify(data.information);
-
     const about = await aboutDB.findOneAndUpdate(
       { _id: data._id },
       {
