@@ -10,6 +10,10 @@ const namePattern = {
   'string.pattern.base': 'Imię jest nieprawidłowe',
 };
 
+const nameNotEmpty = {
+  'string.empty': 'Musisz podać imię',
+};
+
 const nameMin = {
   'string.min': 'Imię musi mieć minimum 3 znaki',
 };
@@ -24,6 +28,7 @@ const nameMessages = {
   ...namePattern,
   ...nameMax,
   ...nameMin,
+  ...nameNotEmpty,
 };
 
 module.exports = {
@@ -31,6 +36,7 @@ module.exports = {
   nameString,
   namePattern,
   nameMax,
+  nameNotEmpty,
   nameMin,
   nameMessages,
 };

@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const rateLimit = require('express-rate-limit');
+const { isLoggedIn } = require('./index.middlewares');
 const {
   loginUser,
   sendRecoveryLink,
@@ -24,22 +25,26 @@ const router = Router();
 router.post(
   '/login',
   loginLimiter,
+  isLoggedIn,
   loginUser,
 );
 
 router.post(
   '/recovery',
   recoveryLimiter,
+  isLoggedIn,
   sendRecoveryLink,
 );
 
 router.get(
   '/recovery/:id',
+  isLoggedIn,
   checkRecoveryLink,
 );
 
 router.put(
   '/recovery/:id',
+  isLoggedIn,
   recoveryPassword,
 );
 

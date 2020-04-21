@@ -19,14 +19,6 @@ const getContact = async (req, res, next) => {
 };
 
 const updateContact = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   const { schemaError, data } = contactSchema(req.body, true, false);
 
   if (schemaError) {

@@ -12,8 +12,10 @@ const aboutDB = db.get('about');
 const mapDB = db.get('map');
 const faqCategoriesDB = db.get('faq-categories');
 const faqDB = db.get('faq');
+const messagesDB = db.get('messages');
 
 emailsDB.createIndex('email, deleted_at');
+messagesDB.createIndex('deleted_at');
 faqCategoriesDB.createIndex('categories');
 faqDB.createIndex('title');
 usersDB.createIndex(
@@ -31,4 +33,5 @@ module.exports = {
   faqCategoriesDB,
   mapDB,
   aboutDB,
+  messagesDB,
 };

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
   getFAQCategories, getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ,
 } = require('./index.controller');
@@ -17,16 +18,22 @@ router.get(
 
 router.post(
   '/',
+  isNotLoggedIn,
+  isAdmin,
   addFAQ,
 );
 
 router.put(
   '/:id',
+  isNotLoggedIn,
+  isAdmin,
   updateFAQ,
 );
 
 router.delete(
   '/:id',
+  isNotLoggedIn,
+  isAdmin,
   deleteFAQ,
 );
 

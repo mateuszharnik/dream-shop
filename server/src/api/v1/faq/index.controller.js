@@ -42,19 +42,14 @@ const getFAQ = async (req, res, next) => {
 };
 
 const updateFAQ = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
   if (paramsSchemaError) {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
+
+  req.body.title = purify(req.body.title);
+  req.body.content = purify(req.body.content);
 
   const { schemaError, data } = faqSchema(req.body, true, false);
 
@@ -68,9 +63,6 @@ const updateFAQ = async (req, res, next) => {
     if (!faq || (faq && faq.deleted_at)) {
       return responseWithError(res, next, 500, 'Podane pytanie nie istnieje');
     }
-
-    data.title = purify(data.title);
-    data.content = purify(data.content);
 
     const updatedFAQ = await faqDB.findOneAndUpdate(
       { _id: params.id },
@@ -95,14 +87,6 @@ const updateFAQ = async (req, res, next) => {
 };
 
 const deleteFAQ = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
   if (paramsSchemaError) {
@@ -134,13 +118,8 @@ const deleteFAQ = async (req, res, next) => {
 };
 
 const addFAQ = async (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
-
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
-  }
+  req.body.title = purify(req.body.title);
+  req.body.content = purify(req.body.content);
 
   const { schemaError, data } = faqSchema(req.body, false, false);
 
@@ -149,9 +128,6 @@ const addFAQ = async (req, res, next) => {
   }
 
   try {
-    data.title = purify(data.title);
-    data.content = purify(data.content);
-
     const faq = await faqDB.findOne({ title: data.title });
 
     if (faq && faq.deleted_at === null) {
