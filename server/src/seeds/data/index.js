@@ -4,7 +4,7 @@ const user = {
   name: '',
   username: 'administrator',
   email: ADMIN_EMAIL,
-  img: '',
+  avatar: '',
   password: ADMIN_PASSWORD,
   reset_password_token: null,
   reset_password_token_exp: null,
