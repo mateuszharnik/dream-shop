@@ -2,6 +2,8 @@ const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))
 
 const dbIdRegExp = /^[a-f\d]{24}$/i;
 
+const avatarRegExp = /^https?:\/\/localhost:3000\/uploads\/avatars\/\d+\.(png|jpeg|jpg)$/;
+
 const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/;
 
 const instagramRegExp = /^https?:\/\/www.instagram.com\/.+$/;
@@ -24,6 +26,10 @@ const mapRegExp = /^\(-?[0-9]+\.[0-9]+,\s-?[0-9]+\.[0-9]+\)$/;
 
 const workingHoursRegExp = /^([0-1][0-9]|[2][0-4]):[0-5][0-9]\s-\s([0-1][0-9]|[2][0-4]):[0-5][0-9]$/;
 
+const pathRegExp = /^uploads\\avatars\\\d+\.(png|jpg|jpeg)$/;
+
+const mimetypeRegExp = /^image\/(jpeg|jpg|png)$/;
+
 module.exports = {
   dbIdRegExp,
   emailRegExp,
@@ -38,4 +44,7 @@ module.exports = {
   workingHoursRegExp,
   zipCodeRegExp,
   mapRegExp,
+  avatarRegExp,
+  pathRegExp,
+  mimetypeRegExp,
 };

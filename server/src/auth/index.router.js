@@ -1,5 +1,5 @@
-const { Router } = require('express');
 const rateLimit = require('express-rate-limit');
+const { Router } = require('express');
 const { isLoggedIn } = require('./index.middlewares');
 const {
   loginUser,

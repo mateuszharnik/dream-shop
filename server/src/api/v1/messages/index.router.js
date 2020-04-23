@@ -1,5 +1,5 @@
-const { Router } = require('express');
 const rateLimit = require('express-rate-limit');
+const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
   getMessages, getMessage, sendMessage, deleteMessages, deleteMessage,

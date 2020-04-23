@@ -41,9 +41,7 @@ const loginUser = async (req, res, next) => {
 
     const token = await signToken(payload, '1d');
 
-    if (token) {
-      res.status(200).json({ ...payload, token });
-    }
+    res.status(200).json({ ...payload, token });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
