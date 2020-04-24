@@ -90,7 +90,7 @@ const deleteMessages = async (req, res, next) => {
     const messages = await messagesDB.find({ deleted_at: null });
 
     if (!messages.length) {
-      return responseWithError(res, next, 500, 'W bazie nie ma żadnych wiadomości');
+      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych wiadomości');
     }
 
     const deletedMessages = await messagesDB.update(

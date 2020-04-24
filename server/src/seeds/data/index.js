@@ -21,6 +21,21 @@ const about = {
   deleted_at: null,
 };
 
+const productCategories = [
+  {
+    name: 'Bestsellery',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    name: 'Nowości',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+];
+
 const faqCategories = [
   {
     category: 'zwroty',
@@ -105,5 +120,6 @@ module.exports = {
   contact,
   map,
   about,
+  productCategories,
   faqCategories,
 };

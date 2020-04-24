@@ -5,12 +5,14 @@ const seedFAQCategories = require('./faq');
 const seedContact = require('./contact');
 const seedMap = require('./map');
 const removeNewsletterEmails = require('./newsletter');
+const seedProductCategories = require('./product-categories');
 const removeMessages = require('./messages');
 
 const seed = async () => {
   try {
     await removeNewsletterEmails();
     await removeMessages();
+    await seedProductCategories();
     await seedFAQCategories();
     await seedUsers();
     await seedSocialMedia();

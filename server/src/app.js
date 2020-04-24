@@ -11,6 +11,7 @@ const faq = require('./api/v1/faq/index.router');
 const map = require('./api/v1/map/index.router');
 const users = require('./api/v1/users/index.router');
 const messages = require('./api/v1/messages/index.router');
+const productCategories = require('./api/v1/product-categories/index.router');
 const { CLIENT_URL } = require('./config');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./auth/index.middlewares');
@@ -36,6 +37,7 @@ app.use('/v1/faq', faq);
 app.use('/v1/newsletter', newsletter);
 app.use('/v1/map', map);
 app.use('/v1/messages', messages);
+app.use('/v1/product-categories', productCategories);
 
 app.use(notFound);
 app.use(errorHandler);
