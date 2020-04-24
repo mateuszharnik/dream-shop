@@ -7,7 +7,7 @@ const deleteEmails = async (req, res, next) => {
     const emails = await emailsDB.find({ deleted_at: null });
 
     if (!emails.length) {
-      return responseWithError(res, next, 500, 'W bazie nie ma żadnych adresów email');
+      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych adresów email');
     }
 
     const deletedEmails = await emailsDB.update(
@@ -73,7 +73,7 @@ const addEmail = async (req, res, next) => {
     const email = await emailsDB.findOne({ email: data.email });
 
     if (email && email.deleted_at === null) {
-      return responseWithError(res, next, 500, 'Adres email znajduje się już w bazie');
+      return responseWithError(res, next, 500, 'Adres email znajduje się już w bazie danych');
     }
 
     let newEmail = null;
@@ -99,7 +99,7 @@ const addEmail = async (req, res, next) => {
     }
 
     if (!newEmail) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać adresu email w bazie');
+      return responseWithError(res, next, 500, 'Nie udało się zapisać adresu email w bazie danych');
     }
 
     res.status(200).json({

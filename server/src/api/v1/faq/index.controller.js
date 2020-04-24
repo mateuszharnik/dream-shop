@@ -61,7 +61,7 @@ const updateFAQ = async (req, res, next) => {
     const faq = await faqDB.findOne({ _id: params.id });
 
     if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Podane pytanie nie istnieje');
+      return responseWithError(res, next, 500, 'Pytanie nie istnieje');
     }
 
     const updatedFAQ = await faqDB.findOneAndUpdate(
@@ -97,7 +97,7 @@ const deleteFAQ = async (req, res, next) => {
     const faq = await faqDB.findOne({ _id: params.id });
 
     if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Podane pytanie nie istnieje');
+      return responseWithError(res, next, 500, 'Pytanie nie istnieje');
     }
 
     const updatedFAQ = await faqDB.findOneAndUpdate(

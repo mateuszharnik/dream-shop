@@ -28,6 +28,10 @@ const workingHoursRegExp = /^([0-1][0-9]|[2][0-4]):[0-5][0-9]\s-\s([0-1][0-9]|[2
 
 const pathRegExp = /^uploads\\avatars\\\d+\.(png|jpg|jpeg)$/;
 
+const productCategoryRegExp = /^([a-zA-Z0-9]+-?)*[a-zA-Z0-9]+$/;
+
+const productCategoryNameRegExp = /^([a-zA-Z0-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?)*[a-zA-Z0-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/;
+
 const mimetypeRegExp = /^image\/(jpeg|jpg|png)$/;
 
 module.exports = {
@@ -47,4 +51,6 @@ module.exports = {
   avatarRegExp,
   pathRegExp,
   mimetypeRegExp,
+  productCategoryRegExp,
+  productCategoryNameRegExp,
 };
