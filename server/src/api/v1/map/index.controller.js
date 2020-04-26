@@ -1,4 +1,5 @@
 const { mapDB } = require('../../../db');
+const { dbIdSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { mapSchema } = require('./index.model');
 
@@ -19,7 +20,13 @@ const getMap = async (req, res, next) => {
 };
 
 const updateMap = async (req, res, next) => {
-  const { schemaError, data } = mapSchema(req.body, true, false);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+
+  if (paramsSchemaError) {
+    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+  }
+
+  const { schemaError, data } = mapSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -27,7 +34,7 @@ const updateMap = async (req, res, next) => {
 
   try {
     const map = await mapDB.findOneAndUpdate(
-      { _id: data._id },
+      { _id: params.id },
       {
         $set: {
           ...data,

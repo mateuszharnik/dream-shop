@@ -10,7 +10,7 @@ router.get(
 );
 
 router.put(
-  '/',
+  '/:id',
   isNotLoggedIn,
   isAdmin,
   updateAbout,

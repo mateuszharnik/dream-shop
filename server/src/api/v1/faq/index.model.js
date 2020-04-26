@@ -2,7 +2,6 @@ const Joi = require('@hapi/joi');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
 const { joiArrayConfigMessages, joiConfigMessages } = require('../../../helpers/errors/messages');
 const { categoryMessages, titleMessages, contentMessages } = require('../../../helpers/errors/messages/faq');
-const { _id } = require('../../../helpers/schemas/index');
 
 const faqConfig = (id = true, timestamp = true) => {
   let config = {
@@ -67,16 +66,7 @@ const faqSchema = (faq, id = true, timestamps = true) => {
   return { schemaError, data };
 };
 
-const dbIdSchema = (id) => {
-  const schema = Joi.object().keys({ id: _id }).required().messages(joiConfigMessages);
-
-  const { error: schemaError, value: data } = schema.validate(id);
-
-  return { schemaError, data };
-};
-
 module.exports = {
   faqCategoriesSchema,
   faqSchema,
-  dbIdSchema,
 };

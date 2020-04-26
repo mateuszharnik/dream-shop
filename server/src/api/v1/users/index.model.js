@@ -13,7 +13,6 @@ const { nameMessages } = require('../../../helpers/errors/messages/name');
 const { resetPasswordTokenExpMessages, resetPasswordTokenMessages } = require('../../../helpers/errors/messages/reset-password-token');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
-const { _id } = require('../../../helpers/schemas/index');
 
 const updateUserConfig = (user, id = true, timestamps = true) => {
   const checkNewPassword = () => user && user.new_password && user.confirm_new_password;
@@ -136,17 +135,8 @@ const updateUserSchema = (user, id = true, timestamps = true) => {
   return { schemaError, data };
 };
 
-const dbIdSchema = (id) => {
-  const schema = Joi.object().keys({ id: _id }).required().messages(joiConfigMessages);
-
-  const { error: schemaError, value: data } = schema.validate(id);
-
-  return { schemaError, data };
-};
-
 module.exports = {
   userSchema,
-  dbIdSchema,
   updateUserSchema,
   fileSchema,
 };

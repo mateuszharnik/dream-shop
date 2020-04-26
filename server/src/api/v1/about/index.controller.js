@@ -1,4 +1,5 @@
 const { aboutSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { aboutDB } = require('../../../db');
 const { purify } = require('../../../helpers/sanitize');
@@ -20,9 +21,15 @@ const getAbout = async (req, res, next) => {
 };
 
 const updateAbout = async (req, res, next) => {
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+
+  if (paramsSchemaError) {
+    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+  }
+
   req.body.information = purify(req.body.information);
 
-  const { schemaError, data } = aboutSchema(req.body, true, false);
+  const { schemaError, data } = aboutSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -30,7 +37,7 @@ const updateAbout = async (req, res, next) => {
 
   try {
     const about = await aboutDB.findOneAndUpdate(
-      { _id: data._id },
+      { _id: params.id },
       {
         $set: {
           ...data,

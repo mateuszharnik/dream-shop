@@ -1,5 +1,6 @@
 const { messagesDB } = require('../../../db');
-const { dbIdSchema, messagesSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
+const { messagesSchema } = require('./index.model');
 const { responseWithError } = require('../../../helpers/errors');
 const { purify } = require('../../../helpers/sanitize');
 
