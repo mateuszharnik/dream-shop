@@ -4,14 +4,16 @@ const seedAbout = require('./about');
 const seedFAQCategories = require('./faq');
 const seedContact = require('./contact');
 const seedMap = require('./map');
-const removeNewsletterEmails = require('./newsletter');
 const seedProductCategories = require('./product-categories');
+const removeNewsletterEmails = require('./newsletter');
+const removeProducts = require('./products');
 const removeMessages = require('./messages');
 
 const seed = async () => {
   try {
     await removeNewsletterEmails();
     await removeMessages();
+    await removeProducts();
     await seedProductCategories();
     await seedFAQCategories();
     await seedUsers();
