@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs');
 const { signToken } = require('../../../helpers/token');
 const { responseWithError } = require('../../../helpers/errors');
-const { dbIdSchema, updateUserSchema, fileSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
+const { updateUserSchema, fileSchema } = require('./index.model');
 const { usersDB } = require('../../../db');
 const { getAvatarUrl } = require('../../../helpers/files');
 
@@ -52,7 +53,7 @@ const updateUser = async (req, res, next) => {
 
   req.body.avatar = getAvatarUrl(file);
 
-  const { schemaError, data } = updateUserSchema(req.body, true, false);
+  const { schemaError, data } = updateUserSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);

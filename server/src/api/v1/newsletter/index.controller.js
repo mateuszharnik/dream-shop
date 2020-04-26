@@ -1,4 +1,5 @@
-const { newsletterSchema, dbIdSchema } = require('./index.model');
+const { newsletterSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { emailsDB } = require('../../../db');
 

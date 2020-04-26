@@ -1,4 +1,5 @@
-const { dbIdSchema, productSchema } = require('./index.model');
+const { productSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { productsDB } = require('../../../db');
 

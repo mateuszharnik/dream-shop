@@ -1,4 +1,5 @@
 const { socialMediaSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { socialMediaDB } = require('../../../db');
 
@@ -19,7 +20,13 @@ const getSocialMedia = async (req, res, next) => {
 };
 
 const updateSocialMedia = async (req, res, next) => {
-  const { schemaError, data } = socialMediaSchema(req.body, true, false);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+
+  if (paramsSchemaError) {
+    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+  }
+
+  const { schemaError, data } = socialMediaSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -27,7 +34,7 @@ const updateSocialMedia = async (req, res, next) => {
 
   try {
     const socialMedia = await socialMediaDB.findOneAndUpdate(
-      { _id: data._id },
+      { _id: params.id },
       {
         $set: {
           ...data,

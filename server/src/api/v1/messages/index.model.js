@@ -5,7 +5,6 @@ const { nameMessages } = require('../../../helpers/errors/messages/name');
 const { subjectMessages, termsMessages, messageMessages } = require('../../../helpers/errors/messages/messages');
 const { emailRegExp, nameRegExp } = require('../../../helpers/regexp');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
-const { _id } = require('../../../helpers/schemas/index');
 
 const messagesConfig = (id = true, timestamps = true) => {
   let config = {
@@ -36,14 +35,6 @@ const messagesConfig = (id = true, timestamps = true) => {
   return config;
 };
 
-const dbIdSchema = (id) => {
-  const schema = Joi.object().keys({ id: _id }).required().messages(joiConfigMessages);
-
-  const { error: schemaError, value: data } = schema.validate(id);
-
-  return { schemaError, data };
-};
-
 const messagesSchema = (message, id = true, timestamps = true) => {
   const schema = Joi.object().keys(messagesConfig(id, timestamps))
     .required().messages(joiConfigMessages);
@@ -54,6 +45,5 @@ const messagesSchema = (message, id = true, timestamps = true) => {
 };
 
 module.exports = {
-  dbIdSchema,
   messagesSchema,
 };
