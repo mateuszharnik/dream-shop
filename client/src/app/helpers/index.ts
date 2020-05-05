@@ -1,5 +1,6 @@
 import { FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import DomPurify from 'dompurify';
+import marked from 'marked';
 
 export const purify = (text: string) => DomPurify.sanitize(text, {
   FORBID_TAGS: [
@@ -18,6 +19,10 @@ export const purify = (text: string) => DomPurify.sanitize(text, {
     'onerror',
     'onload',
   ],
+});
+
+export const markdown = marked.setOptions({
+  headerIds: false,
 });
 
 export const trackID = (index: string, item: any): string => item.id;

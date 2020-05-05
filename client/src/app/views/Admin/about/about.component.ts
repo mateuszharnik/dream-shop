@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { About, Alert } from '@models/index';
-import { purify } from '@helpers/index';
-import { about as aboutData } from '@helpers/fakeAPI';
+import { AboutService } from '@services/about.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -11,11 +11,17 @@ import { about as aboutData } from '@helpers/fakeAPI';
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
+  about: About = null;
+  errors = {
+    server: '',
+    form: '',
+  };
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
+  subscriptions: Subscription[] = [];
 
   informationAlerts: Alert[] = [
     { id: '0', message: 'To pole jest wymagane', key: 'required' },
@@ -23,23 +29,49 @@ export class AboutComponent implements OnInit {
     { id: '2', message: 'Liczba słów może mieć maksymalnie 5000 znaków', key: 'maxlength' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private aboutService: AboutService) {
+    this.subscriptions.push(this.aboutService.getAbout().subscribe((data: About) => {
+      this.about = data;
+    }));
+  }
 
-  ngOnInit() {
-    setTimeout(() => {
+  async ngOnInit() {
+    try {
+      const response = await this.aboutService.getData();
+      this.aboutService.setAbout(response);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setErrors('Brak połączenia z serwerem');
+      }
+    } finally {
       this.isLoading = false;
+      this.createForm(this.about);
       this.toggleSpinner();
-      this.createForm(aboutData);
-    }, 1000);
+    }
+  }
+
+  setErrors(server = '', form = '') {
+    this.errors.server = server;
+    this.errors.form = form;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
   createForm(about: About) {
+    const information = about && about.information ? about.information : '';
+
     this.form = this.formBuilder.group({
-      information: [about.text, { validators: [
-        Validators.minLength(10),
-        Validators.maxLength(5000),
-        Validators.required,
-      ] }],
+      information: [information,
+        {
+          validators: [
+            Validators.minLength(10),
+            Validators.maxLength(5000),
+            Validators.required,
+          ],
+        },
+      ],
     },
     );
   }
@@ -48,7 +80,7 @@ export class AboutComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
@@ -59,7 +91,7 @@ export class AboutComponent implements OnInit {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  submit() {
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -67,7 +99,21 @@ export class AboutComponent implements OnInit {
     }
 
     this.isDisabled = true;
-    console.dir(purify(this.form.controls.information.value));
+
+    try {
+      const response = await this.aboutService.setData(this.about._id, this.form.value);
+      this.aboutService.setAbout(response);
+    } catch (error) {
+      console.error(error);
+      if (error.status === 0) {
+        this.setErrors('Brak połączenia z serwerem');
+      } else if (error.status === 500) {
+        this.setErrors('', error.error.message);
+      }
+    } finally {
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {

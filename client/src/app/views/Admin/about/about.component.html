@@ -6,10 +6,16 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Informacje o sklepie</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!errors.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
       <p>
         Tutaj możesz zmienić informacje dotyczące Twojego sklepu.
       </p>
+      <app-alert *ngIf="errors.form" [alertClass]="'alert alert-danger mb-4'">
+        {{ errors.form }}
+      </app-alert>
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
@@ -46,5 +52,8 @@
         </div>
       </app-form>
     </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ errors.server }}</p>
+    </ng-template>
   </section>
 </ng-template>

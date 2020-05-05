@@ -1,4 +1,4 @@
-import { FAQs, About, Contact, Map, EmailsList, User, SocialMediaLinks, Links, Product, FAQ } from '@models/index';
+import { FAQs, Contact, Map, EmailsList, User, SocialMediaLinks, Links, Product, FAQ } from '@models/index';
 
 export const map: Map = {
   latlng: '(00.00, 00.00)',
@@ -204,15 +204,6 @@ export const contact: Contact = {
     code: '25-100',
   },
   workHours: '08:00 - 18:30',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
-};
-
-export const about: About = {
-  id: '0',
-  // tslint:disable-next-line: max-line-length
-  text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit corrupti ipsam, voluptatibus est, veniam dignissimos adipisci atque eum eligendi esse, voluptatem minima reiciendis temporibus delectus perferendis id ducimus optio voluptate quam? Libero quaerat iure sunt ex qui architecto officiis velit aliquam id quas dicta itaque veritatis quos neque doloribus necessitatibus sequi aliquid, facilis ipsum! Sapiente laborum eveniet fugit illum animi eligendi odio. Nam quo voluptas consectetur dolorem enim alias, doloribus quisquam excepturi fuga consequuntur natus quis mollitia. Rem laboriosam, vero enim porro alias nam illum, similique omnis odio unde dolorem veniam? Distinctio consequatur dolor nisi maxime esse repudiandae aliquid modi! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui inventore voluptatibus repellat fugiat recusandae temporibus dolore sint vitae. Dolor consectetur molestias beatae quia ipsam quae illum, non consequatur dolores libero. Nostrum voluptas dicta nam ipsam iusto facilis alias laboriosam vitae, omnis, facere, odit maiores rem molestiae. Dolor doloribus quae voluptatem.',
   created_at: new Date(),
   updated_at: new Date(),
   deleted_at: null,
