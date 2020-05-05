@@ -9,7 +9,7 @@ const { nipMessages } = require('../../../helpers/errors/messages/nip');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
 const { workingHoursMessages } = require('../../../helpers/errors/messages/hours');
 const {
-  streetMessages, streetNumberMessages, cityMessages, zipCodeMessages, addressMessages,
+  streetMessages, streetNumberMessages, cityMessages, zipCodeMessages,
 } = require('../../../helpers/errors/messages/address');
 
 const emailMessages = {
@@ -19,7 +19,7 @@ const emailMessages = {
 };
 
 const contactConfig = (contact, id = true, timestamp = true) => {
-  const checkAddressObject = (key) => contact && contact.address && contact.address[key];
+  const checkAddressObject = (key) => contact && contact[key];
 
   const street = Joi.string().trim().min(2).max(100)
     .required()
@@ -50,12 +50,10 @@ const contactConfig = (contact, id = true, timestamp = true) => {
     working_hours: Joi.string().trim().regex(workingHoursRegExp).allow('')
       .required()
       .messages(workingHoursMessages),
-    address: Joi.object().keys({
-      street: checkAddressObject('street_number') ? street : street.allow(''),
-      street_number: checkAddressObject('street') ? street_number : street_number.allow(''),
-      city: checkAddressObject('zip_code') ? city : city.allow(''),
-      zip_code: checkAddressObject('city') ? zip_code : zip_code.allow(''),
-    }).required().messages(addressMessages),
+    street: checkAddressObject('street_number') ? street : street.allow(''),
+    street_number: checkAddressObject('street') ? street_number : street_number.allow(''),
+    city: checkAddressObject('zip_code') ? city : city.allow(''),
+    zip_code: checkAddressObject('city') ? zip_code : zip_code.allow(''),
   };
 
   if (id) {

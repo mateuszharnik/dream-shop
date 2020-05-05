@@ -6,7 +6,10 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Ustawienia mapy</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
       <p class="mb-6">
         Tutaj możesz zmienić położenie markera na mapie aby wskazywał miejsce
         Twojego sklepu. Pozycję możesz sprawdzić klikając w wybrane miejsce na
@@ -50,12 +53,22 @@
           </div>
         </div>
       </app-form>
+      <app-alert *ngIf="alerts.error" [alertClass]="'alert alert-danger'">
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+        {{ alerts.success }}
+      </app-alert>
       <div class="mt-6">
         <app-map
           [isAdmin]="true"
+          [mapData]="map"
           (whenMapClick)="setPosition($event)"
         ></app-map>
       </div>
     </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
   </section>
 </ng-template>

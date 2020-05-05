@@ -4,7 +4,8 @@ import { Contact, Links, SocialMediaLinks } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
-import { contact, socialMediaLinks, navLinks } from '@helpers/fakeAPI';
+import { socialMediaLinks, navLinks } from '@helpers/fakeAPI';
+import { ContactService } from '@services/contact.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   isLoading = true;
   subscriptions: Subscription[] = [];
   height: number = null;
-  contactData: Contact = null;
+  contact: Contact = null;
   socialMediaLinks: SocialMediaLinks = null;
   links: Links[] = [
     {
@@ -42,18 +43,27 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private router: Router,
     private navigationService: NavigationService,
     private heightService: HeightService,
-  ) {}
+    private contactService: ContactService,
+  ) {
+    this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
+      this.contact = data;
+    }));
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.setHeight();
     this.closeMenuOnRouteChange();
     this.links = this.links.concat(navLinks);
     this.socialMediaLinks = socialMediaLinks;
-    this.contactData = contact;
 
-    setTimeout(() => {
+    try {
+      const contactResponse = await this.contactService.getData();
+      this.contactService.setContact(contactResponse);
+    } catch (error) {
+      console.error(error);
+    } finally {
       this.isLoading = false;
-    }, 1000);
+    }
   }
 
   ngOnDestroy() {

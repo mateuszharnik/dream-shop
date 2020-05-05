@@ -71,8 +71,15 @@
         <app-fa-icon [faClass]="computedButtonIcon()"></app-fa-icon>
       </app-button>
     </div>
-    <div class="column-12 text-center">
-      * Pole wymagane
-    </div>
   </div>
 </app-form>
+<p class="text-center">* Pole wymagane</p>
+<app-alert
+  *ngIf="alerts.error || alerts.server"
+  [alertClass]="'alert alert-danger'"
+>
+  {{ alerts.server ? alerts.server : alerts.error }}
+</app-alert>
+<app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+  {{ alerts.success }}
+</app-alert>

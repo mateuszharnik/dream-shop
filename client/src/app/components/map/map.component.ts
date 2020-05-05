@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { Map } from '@models/index';
 import * as L from 'leaflet';
-import { map as mapData } from '@helpers/fakeAPI';
 
 @Component({
   selector: 'app-map',
@@ -10,6 +10,7 @@ import { map as mapData } from '@helpers/fakeAPI';
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() isAdmin = false;
+  @Input() mapData: Map = null;
   @Output() whenMapClick: EventEmitter<any> = new EventEmitter<any>();
 
   map = null;
@@ -19,7 +20,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
-    const position = mapData.latlng.replace(/[\(\)]/g, '').split(', ').map(value => parseFloat(value));
+    const position = this.mapData.latlng.replace(/[\(\)]/g, '').split(', ').map(value => parseFloat(value));
     this.position = position;
   }
 

@@ -31,17 +31,28 @@
       </section>
       <div class="sm:container">
         <div class="row column-12 py-10">
-          <div class="column-12 lg:column-7 mb-6 lg:mb-0">
-            <app-map></app-map>
+          <div
+            *ngIf="map && map.latlng"
+            class="column-12 lg:column-7 mb-6 lg:mb-0"
+          >
+            <app-map [mapData]="map"></app-map>
           </div>
-          <div class="column-12 lg:column-5 text-center lg:text-right">
+          <div
+            *ngIf="checkContact(contact)"
+            class="column-12 lg:column-5 text-center lg:text-right"
+          >
             <h3 class="h6 mb-6 bolder text-primary">Informacje kontaktowe</h3>
-            <div *ngIf="contact.adress.street && contact.adress.streetNumber">
-              <p class="mb-0">
-                ul. {{ contact.adress.street }}
-                {{ contact.adress.streetNumber }}
+            <div *ngIf="contact.address">
+              <p
+                *ngIf="contact.address.street && contact.address.street_number"
+                class="mb-0"
+              >
+                ul. {{ contact.address.street }}
+                {{ contact.address.street_number }}
               </p>
-              <p>{{ contact.adress.code }} {{ contact.adress.city }}</p>
+              <p *ngIf="contact.address.zip_code && contact.address.city">
+                {{ contact.address.zip_code }} {{ contact.address.city }}
+              </p>
             </div>
             <div>
               <p class="mb-0" *ngIf="contact.email">
@@ -62,9 +73,9 @@
               </p>
               <p *ngIf="contact.nip">NIP: {{ contact.nip }}</p>
             </div>
-            <p class="mb-0" *ngIf="contact.workHours">
+            <p class="mb-0" *ngIf="contact.working_hours">
               <span class="bold">Godziny pracy:</span>
-              {{ contact.workHours }}
+              {{ contact.working_hours }}
             </p>
           </div>
         </div>

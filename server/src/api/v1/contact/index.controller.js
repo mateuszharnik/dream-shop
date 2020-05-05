@@ -26,18 +26,32 @@ const updateContact = async (req, res, next) => {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
-  const { schemaError, data } = contactSchema(req.body, false, false);
+  const {
+    schemaError, data: {
+      email, phone, nip, street, street_number, zip_code, city, working_hours,
+    },
+  } = contactSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  const newData = {
+    email,
+    phone,
+    nip,
+    address: {
+      street, street_number, zip_code, city,
+    },
+    working_hours,
+  };
 
   try {
     const contact = await contactDB.findOneAndUpdate(
       { _id: params.id },
       {
         $set: {
-          ...data,
+          ...newData,
           updated_at: new Date(),
         },
       },
@@ -47,7 +61,7 @@ const updateContact = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji kontaktowych');
     }
 
-    res.status(200).json({ ...contact });
+    res.status(200).json({ ...newData });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

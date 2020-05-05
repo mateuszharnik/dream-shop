@@ -6,7 +6,10 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Informacje Kontaktowe</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
       <p>
         Tutaj możesz zmienić informacje kontaktowe dla swojej strony.
       </p>
@@ -79,11 +82,11 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'streetNumber'"
+              [inputID]="'street_number'"
               [inputLabel]="'Numer ulicy/lokalu'"
               [inputPlaceholder]="'7/21'"
               [inputClass]="'form__input w-100'"
-              [inputValidation]="validation('streetNumber')"
+              [inputValidation]="validation('street_number')"
               [inputAlerts]="streetNumberAlerts"
               [inputRequired]="false"
               [inputGroup]="form"
@@ -107,12 +110,12 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'code'"
+              [inputID]="'zip_code'"
               [inputLabel]="'Kod pocztowy'"
               [inputPlaceholder]="'10-100'"
               [inputClass]="'form__input w-100'"
-              [inputValidation]="validation('code')"
-              [inputAlerts]="codeAlerts"
+              [inputValidation]="validation('zip_code')"
+              [inputAlerts]="zipCodeAlerts"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -121,12 +124,12 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'workHours'"
+              [inputID]="'working_hours'"
               [inputLabel]="'Godziny pracy'"
               [inputPlaceholder]="'08:30 - 18:30'"
               [inputClass]="'form__input w-100'"
-              [inputValidation]="validation('workHours')"
-              [inputAlerts]="workHoursAlerts"
+              [inputValidation]="validation('working_hours')"
+              [inputAlerts]="workingHoursAlerts"
               [inputRequired]="false"
               [inputMessage]="'Proszę użyć formatu: 00:00 - 00:00'"
               [inputGroup]="form"
@@ -148,6 +151,15 @@
           </div>
         </div>
       </app-form>
+      <app-alert *ngIf="alerts.error" [alertClass]="'alert alert-danger'">
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+        {{ alerts.success }}
+      </app-alert>
     </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
   </section>
 </ng-template>

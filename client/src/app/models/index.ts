@@ -19,17 +19,17 @@ export interface Product {
 }
 
 export interface Contact {
-  id: string;
+  _id?: string;
   email: string;
   phone: string;
   nip: string;
-  adress: {
+  address: {
     street: string;
-    streetNumber: string;
+    street_number: string;
     city: string;
-    code: string;
+    zip_code: string;
   };
-  workHours: string;
+  working_hours: string;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;
@@ -98,7 +98,19 @@ export interface FAQ {
 }
 
 export interface Map {
+  _id?: string;
   latlng: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
+export interface Message {
+  _id?: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;

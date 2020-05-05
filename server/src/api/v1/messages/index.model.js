@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const { nameMessages } = require('../../../helpers/errors/messages/name');
-const { subjectMessages, termsMessages, messageMessages } = require('../../../helpers/errors/messages/messages');
+const { subjectMessages, messageMessages } = require('../../../helpers/errors/messages/messages');
 const { emailRegExp, nameRegExp } = require('../../../helpers/regexp');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
 
@@ -21,7 +21,6 @@ const messagesConfig = (id = true, timestamps = true) => {
     message: Joi.string().trim().min(3).max(2000)
       .required()
       .messages(messageMessages),
-    terms_accepted: Joi.boolean().valid(true).required().messages(termsMessages),
   };
 
   if (id) {
