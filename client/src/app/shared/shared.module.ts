@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AccordionItemComponent } from '@components/Accordion/accordion-item/accordion-item.component';
 import { AccordionComponent } from '@components/Accordion/accordion/accordion.component';
+import { AlertComponent } from '@components/alert/alert.component';
 import { AuthWrapperComponent } from '@components/auth-wrapper/auth-wrapper.component';
 import { ButtonComponent } from '@components/button/button.component';
 import { FaIconComponent } from '@components/fa-icon/fa-icon.component';
@@ -43,6 +44,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     FileInputComponent,
     MapComponent,
     SelectComponent,
+    AlertComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -64,6 +66,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     MapComponent,
     FileInputComponent,
     SelectComponent,
+    AlertComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],

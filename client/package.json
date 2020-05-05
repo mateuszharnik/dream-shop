@@ -27,6 +27,7 @@
     "leaflet": "^1.6.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
+    "marked": "^1.0.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "web-animations-js": "^2.3.2",

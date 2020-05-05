@@ -1,0 +1,29 @@
+@import "../../../assets/scss/variables";
+
+.alert {
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.4rem;
+  background-color: #efefef;
+  border: 0.1rem solid #969696;
+  color: #969696;
+  text-align: center;
+
+  &-danger {
+    border: 0.1rem solid $color-danger;
+    color: $color-danger;
+    background-color: $color-danger-2;
+  }
+
+  &-success {
+    border: 0.1rem solid $color-success;
+    color: $color-success;
+    background-color: $color-success-2;
+  }
+
+  &-warning {
+    border: 0.1rem solid $color-warning;
+    color: $color-warning;
+    background-color: $color-warning-2;
+  }
+}

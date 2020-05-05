@@ -1,3 +1,6 @@
+// Imports
+@import "../assets/scss/variables";
+
 .overflow-hidden {
   overflow: hidden;
   display: block;
@@ -6,4 +9,29 @@
 
 .spinner-z-index {
   z-index: 99999;
+}
+
+.markdown {
+  img {
+    display: block;
+    max-width: 80%;
+    margin: 0rem auto;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 1.6rem;
+    padding-left: 2rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    margin-bottom: 1.6rem;
+  }
 }

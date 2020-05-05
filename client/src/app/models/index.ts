@@ -43,8 +43,8 @@ export interface Navigation {
 }
 
 export interface About {
-  id: string;
-  text: string;
+  _id?: string;
+  information: string;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;
