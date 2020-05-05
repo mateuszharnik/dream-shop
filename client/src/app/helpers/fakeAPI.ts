@@ -1,12 +1,5 @@
 import { FAQs, Contact, Map, EmailsList, User, SocialMediaLinks, Links, Product, FAQ } from '@models/index';
 
-export const map: Map = {
-  latlng: '(00.00, 00.00)',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
-};
-
 export const socialMediaLinks: SocialMediaLinks = {
   facebook: '/',
   linkedin: '/',
@@ -187,23 +180,6 @@ export const user: User = {
   username: 'admin',
   email: 'example@domain.com',
   image: '',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
-};
-
-export const contact: Contact = {
-  id: '0',
-  email: 'kontakt@dream.pl',
-  phone: '+48 123 123 123',
-  nip: '1234567890',
-  adress: {
-    street: 'Street',
-    streetNumber: '7/21',
-    city: 'City',
-    code: '25-100',
-  },
-  workHours: '08:00 - 18:30',
   created_at: new Date(),
   updated_at: new Date(),
   deleted_at: null,

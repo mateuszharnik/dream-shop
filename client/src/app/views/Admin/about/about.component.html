@@ -7,15 +7,12 @@
       <h2 class="h4 text-center mb-6">Informacje o sklepie</h2>
     </header>
     <article
-      *ngIf="!errors.server; else showError"
+      *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
       <p>
         Tutaj możesz zmienić informacje dotyczące Twojego sklepu.
       </p>
-      <app-alert *ngIf="errors.form" [alertClass]="'alert alert-danger mb-4'">
-        {{ errors.form }}
-      </app-alert>
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
@@ -51,9 +48,15 @@
           </div>
         </div>
       </app-form>
+      <app-alert *ngIf="alerts.error" [alertClass]="'alert alert-danger'">
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+        {{ alerts.success }}
+      </app-alert>
     </article>
     <ng-template #showError>
-      <p class="center m-0">{{ errors.server }}</p>
+      <p class="center m-0">{{ alerts.server }}</p>
     </ng-template>
   </section>
 </ng-template>

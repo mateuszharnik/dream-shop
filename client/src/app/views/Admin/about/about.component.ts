@@ -14,9 +14,10 @@ import { Subscription } from 'rxjs';
 export class AboutComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   about: About = null;
-  errors = {
+  alerts = {
     server: '',
-    form: '',
+    error: '',
+    success: '',
   };
   isLoading = true;
   isDisabled = false;
@@ -41,7 +42,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       this.aboutService.setAbout(response);
     } catch (error) {
       if (error.status === 0) {
-        this.setErrors('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem');
       }
     } finally {
       this.isLoading = false;
@@ -50,9 +51,10 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
-  setErrors(server = '', form = '') {
-    this.errors.server = server;
-    this.errors.form = form;
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   ngOnDestroy() {
@@ -103,12 +105,13 @@ export class AboutComponent implements OnInit, OnDestroy {
     try {
       const response = await this.aboutService.setData(this.about._id, this.form.value);
       this.aboutService.setAbout(response);
+      this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
       console.error(error);
       if (error.status === 0) {
-        this.setErrors('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem');
       } else if (error.status === 500) {
-        this.setErrors('', error.error.message);
+        this.setAlerts('', error.error.message);
       }
     } finally {
       this.isDisabled = false;

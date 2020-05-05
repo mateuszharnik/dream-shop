@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trackID } from '@helpers/index';
 import { Alert } from '@models/index';
+import { MessageService } from '@services/message.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -11,6 +12,14 @@ import { Alert } from '@models/index';
 })
 export class ContactFormComponent implements OnInit {
   form: FormGroup = null;
+  alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
+  isDisabled = false;
+  isSubmitted = false;
+  trackID = null;
 
   // TODO: Przenieść do oddzielnego pliku
   nameAlerts: Alert[] = [
@@ -34,11 +43,8 @@ export class ContactFormComponent implements OnInit {
     { id: '1', message: 'Treść wiadomości musi mieć minimum 3 znaki.', key: 'minlength' },
     { id: '2', message: 'Treść wiadomości nie może przekraczać 2000 znaków.', key: 'maxlength' },
   ];
-  isDisabled = false;
-  isSubmitted = false;
-  trackID = null;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private messageService: MessageService) {}
 
   // TODO: Przenieść do oddzielnego pliku
   ngOnInit() {
@@ -89,8 +95,13 @@ export class ContactFormComponent implements OnInit {
     return this.isDisabled ? 'fas fa-spinner fa-spin' : 'far fa-paper-plane';
   }
 
-  // TODO: Dodać połączenie z API
-  submit() {
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
+  }
+
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -98,6 +109,25 @@ export class ContactFormComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response = await this.messageService.sendData(this.form.value);
+      console.log(response);
+      this.setAlerts('', '', 'Pomyślnie zapisano');
+    } catch (error) {
+      console.error(error);
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else if (error.status === 429) {
+        this.setAlerts('', error.error);
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.form.reset();
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   get formControls() {
