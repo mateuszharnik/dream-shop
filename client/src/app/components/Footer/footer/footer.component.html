@@ -4,7 +4,7 @@
       <div
         class="row column-12 text-center"
         [ngClass]="{
-          'mb-6 md:mb-0': checkSocialMediaLinks(),
+          'mb-6 md:mb-0': checkSocialMedia(),
           'sm:column-6 md:column-4 sm:text-left': checkContactInfoAndSocialMedia()
         }"
       >
@@ -19,7 +19,7 @@
       >
         <div
           *ngIf="checkContactInfo()"
-          [ngClass]="{ 'md:\column-6 md:text-center': checkSocialMediaLinks() }"
+          [ngClass]="{ 'md:\column-6 md:text-center': checkSocialMedia() }"
           class="column-12 mb-6 hidden sm:block md:column-6"
         >
           <app-footer-contact
@@ -28,13 +28,13 @@
           ></app-footer-contact>
         </div>
         <div
-          *ngIf="checkSocialMediaLinks()"
+          *ngIf="checkSocialMedia()"
           [ngClass]="{ 'md:\column-6': checkContactInfo() }"
           class="column-12 md:column-6"
         >
           <app-social-media
             (whenLinkFocus)="scrollTo($event)"
-            [socialMediaLinks]="socialMediaLinks"
+            [socialMedia]="socialMedia"
           ></app-social-media>
         </div>
       </div>

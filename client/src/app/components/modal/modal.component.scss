@@ -7,11 +7,10 @@
   color: $color-dark;
   border-radius: 0.4rem;
   border: 0.1rem solid darken($color-white, 7%);
-  z-index: $z-index-3;
   width: 100%;
   max-width: 30rem;
   box-shadow: 0rem 0rem 1rem fade-out($color-gray, 0.5);
-  padding: 6.5rem 1rem;
+  padding: 6.5rem 2rem 2rem;
 
   @media (min-width: $sm) {
     max-width: 50rem;
@@ -19,6 +18,16 @@
 
   @media (min-width: $lg) {
     max-width: 60rem;
+  }
+
+  &-wrapper {
+    top: 0rem;
+    left: 0rem;
+    background-color: fade-out($color-dark, 0.5);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: $z-index-3;
   }
 
   .modal__button {

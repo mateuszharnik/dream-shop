@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
-import { faqs as faqsData } from '@helpers/fakeAPI';
-import { FAQ, FAQs } from '@models/index';
+import { FAQ, Alerts } from '@models/index';
+import { Subscription } from 'rxjs';
+import { FAQService } from '@services/faq.service';
 
 @Component({
   selector: 'app-faq',
@@ -10,29 +10,62 @@ import { FAQ, FAQs } from '@models/index';
   styleUrls: ['./faq.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FAQComponent implements OnInit {
+export class FAQComponent implements OnInit, OnDestroy {
   @ViewChild ('deleteButton') deleteButton: any = null;
 
-  form: FormGroup = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
+  categories: string[] = [];
   questionToDelete: FAQ = null;
-  faqs: FAQs[] = [];
+  subscriptions: Subscription[] = [];
+  faqs: FAQ[] = [];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    setTimeout(() => {
-      this.faqs = faqsData;
-      this.isLoading = false;
-      this.toggleSpinner();
-      this.createForm();
-    }, 1000);
+  constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
+    this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
+      this.faqs = data;
+    }));
   }
 
-  createForm() {
-    this.form = this.formBuilder.group({});
+  async ngOnInit() {
+    try {
+      const response: FAQ[] = await this.faqService.fetchFAQs();
+      this.faqService.setFAQs(response);
+      this.getCategories(response);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isLoading = false;
+      this.toggleSpinner();
+    }
+  }
+
+  getCategories(response: FAQ[]) {
+    this.categories = [];
+    response.forEach((faq: FAQ) => {
+      if (this.categories.indexOf(faq.category) === -1) {
+        this.categories.push(faq.category);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   computedButtonTitle(): 'Usuń pytanie' | 'Usuwanie pytania' {
@@ -47,10 +80,27 @@ export class FAQComponent implements OnInit {
     return `${id}/edytuj`;
   }
 
-  submit() {
+  async submit(id: string) {
     this.isSubmitted = true;
-
     this.isDisabled = true;
+
+    try {
+      const response: FAQ = await this.faqService.deleteFAQ(id);
+      const faqs: FAQ[] = await this.faqService.fetchFAQs();
+      this.faqService.setFAQs(faqs);
+      this.getCategories(faqs);
+      this.setAlerts('', '', 'Pomyślnie usunięto pytanie');
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.closeModal();
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {
@@ -74,9 +124,5 @@ export class FAQComponent implements OnInit {
 
   closeModal() {
     this.questionToDelete = null;
-  }
-
-  get formControls() {
-    return this.form.controls;
   }
 }

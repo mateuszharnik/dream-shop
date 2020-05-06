@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { faqs } from '@helpers/fakeAPI';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { trackID } from '@helpers/index';
-import { FAQs } from '@models/index';
+import { Alerts, FAQ } from '@models/index';
+import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 import jump from 'jump.js';
 
 @Component({
@@ -11,24 +12,70 @@ import jump from 'jump.js';
   styleUrls: ['./faq.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FaqComponent implements OnInit {
+export class FaqComponent implements OnInit, OnDestroy {
   @ViewChildren('accordionHeader') accordionHeader = null;
 
-  accordions: FAQs[] = null;
+  faqs: FAQ[] = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   isLoading = true;
   trackID = null;
   scrollTime = 1000;
+  categories: string[] = [];
+  subscriptions: Subscription[] = [];
 
-  constructor(private spinnerService: SpinnerService) {}
+  constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
+    this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
+      this.faqs = data;
+    }));
 
-  ngOnInit() {
+    this.isLoading = this.faqs ? false : true;
+  }
+
+  async ngOnInit() {
     this.trackID = trackID;
 
-    setTimeout(() => {
-      this.accordions = faqs;
+    if (this.faqs) {
+      this.isLoading = false;
+      return this.toggleSpinner();
+    }
+
+    try {
+      const response: FAQ[] = await this.faqService.fetchFAQs();
+      this.faqService.setFAQs(response);
+      this.getCategories(response);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
       this.isLoading = false;
       this.toggleSpinner();
-    }, 1000);
+    }
+  }
+
+  getCategories(response: FAQ[]) {
+    this.categories = [];
+    response.forEach((faq: FAQ) => {
+      if (this.categories.indexOf(faq.category) === -1) {
+        this.categories.push(faq.category);
+      }
+    });
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
   computedID(link: string): string {

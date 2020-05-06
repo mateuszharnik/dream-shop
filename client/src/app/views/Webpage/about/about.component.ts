@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
-import { About } from '@models/index';
+import { About, Alerts } from '@models/index';
 import { AboutService } from '@services/about.service';
 import { Subscription } from 'rxjs';
 import { markdown } from '@helpers/index';
@@ -14,6 +14,11 @@ import { markdown } from '@helpers/index';
 export class AboutComponent implements OnInit, OnDestroy {
   about: About = null;
   isLoading = true;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   subscriptions: Subscription[] = [];
 
   constructor(private spinnerService: SpinnerService, private aboutService: AboutService) {
@@ -34,14 +39,24 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     try {
-      const response = await this.aboutService.getData();
+      const response = await this.aboutService.fetchAbout();
       this.aboutService.setAbout(response);
     } catch (error) {
-      console.error(error);
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
     } finally {
       this.isLoading = false;
       this.toggleSpinner();
     }
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   ngOnDestroy() {

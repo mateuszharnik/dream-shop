@@ -7,13 +7,13 @@ const router = Router();
 
 router.get(
   '/:id',
-  isNotLoggedIn,
+  // isNotLoggedIn,
   getUser,
 );
 
 router.put(
   '/:id',
-  isNotLoggedIn,
+  // isNotLoggedIn,
   avatarUpload.single('avatar'),
   updateUser,
 );

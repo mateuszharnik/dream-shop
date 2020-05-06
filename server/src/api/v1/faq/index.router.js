@@ -18,28 +18,23 @@ router.get(
 
 router.post(
   '/',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   addFAQ,
 );
 
 router.put(
   '/:id',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   updateFAQ,
 );
 
 router.delete(
   '/:id',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   deleteFAQ,
-);
-
-router.get(
-  '/categories',
-  getFAQCategories,
 );
 
 module.exports = router;

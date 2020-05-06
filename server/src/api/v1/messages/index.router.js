@@ -15,15 +15,15 @@ const router = Router();
 
 router.get(
   '/',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   getMessages,
 );
 
 router.get(
   '/:id',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   getMessage,
 );
 
@@ -35,15 +35,15 @@ router.post(
 
 router.delete(
   '/',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   deleteMessages,
 );
 
 router.delete(
   '/:id',
-  isNotLoggedIn,
-  isAdmin,
+  // isNotLoggedIn,
+  // isAdmin,
   deleteMessage,
 );
 

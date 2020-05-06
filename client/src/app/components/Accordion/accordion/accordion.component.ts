@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FAQ as Accordion } from '@models/index';
+import { FAQ } from '@models/index';
 
 @Component({
   selector: 'app-accordion',
@@ -8,13 +8,13 @@ import { FAQ as Accordion } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class AccordionComponent implements OnInit {
-  @Input() accordions: Accordion[] = [];
+  @Input() faqs: FAQ[] = [];
   @HostBinding('class.w-100') width = true;
 
   ngOnInit() {}
 
   trackID(index: string, item: any): string {
-    return item.id;
+    return item._id;
   }
 
   checkRequiredProp(prop: any, name: string) {

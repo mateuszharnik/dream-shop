@@ -1,11 +1,12 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Contact, Links, SocialMediaLinks } from '@models/index';
+import { Contact, Links, SocialMedia } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
-import { socialMediaLinks, navLinks } from '@helpers/fakeAPI';
+import { navLinks } from '@helpers/fakeAPI';
 import { ContactService } from '@services/contact.service';
+import { SocialMediaService } from '@services/social-media.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   subscriptions: Subscription[] = [];
   height: number = null;
   contact: Contact = null;
-  socialMediaLinks: SocialMediaLinks = null;
+  socialMedia: SocialMedia = null;
   links: Links[] = [
     {
       id: '-1',
@@ -44,9 +45,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private navigationService: NavigationService,
     private heightService: HeightService,
     private contactService: ContactService,
+    private socialMediaService: SocialMediaService,
   ) {
     this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
       this.contact = data;
+    }));
+
+    this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
+      this.socialMedia = data;
     }));
   }
 
@@ -54,14 +60,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.setHeight();
     this.closeMenuOnRouteChange();
     this.links = this.links.concat(navLinks);
-    this.socialMediaLinks = socialMediaLinks;
 
     try {
-      const contactResponse = await this.contactService.getData();
+      const socialMediaResponse = await this.socialMediaService.fetchSocialMedia();
+      const contactResponse = await this.contactService.fetchContact();
+      this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
-    } catch (error) {
-      console.error(error);
-    } finally {
+      console.log(this.socialMedia);
+    } catch (error) {} finally {
       this.isLoading = false;
     }
   }

@@ -41,5 +41,14 @@
         </div>
       </div>
     </app-form>
+    <app-alert
+      *ngIf="alerts.error || alerts.server"
+      [alertClass]="'alert alert-danger'"
+    >
+      {{ alerts.error ? alerts.error : alerts.server }}
+    </app-alert>
+    <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+      {{ alerts.success }}
+    </app-alert>
   </div>
 </div>

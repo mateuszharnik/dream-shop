@@ -3,10 +3,10 @@
   <ul
     class="social-media-list text-center row flex-justify-center sm:flex-justify-end"
   >
-    <li class="social-media-list__item" *ngIf="socialMediaLinks.facebook">
+    <li class="social-media-list__item" *ngIf="socialMedia.facebook">
       <a
         class="social-media-list__link block p-2"
-        [href]="socialMediaLinks.facebook"
+        [href]="socialMedia.facebook"
         title="Nasz profil na Facebook"
         (focus)="onFocus($event)"
       >
@@ -14,10 +14,10 @@
         <app-fa-icon [faClass]="'fab fa-facebook-f'"></app-fa-icon>
       </a>
     </li>
-    <li class="social-media-list__item" *ngIf="socialMediaLinks.linkedin">
+    <li class="social-media-list__item" *ngIf="socialMedia.linkedin">
       <a
         class="social-media-list__link block p-2"
-        [href]="socialMediaLinks.linkedin"
+        [href]="socialMedia.linkedin"
         title="Nasz profil na LinkedIn"
         (focus)="onFocus($event)"
       >
@@ -25,10 +25,10 @@
         <app-fa-icon [faClass]="'fab fa-linkedin-in'"></app-fa-icon>
       </a>
     </li>
-    <li class="social-media-list__item" *ngIf="socialMediaLinks.instagram">
+    <li class="social-media-list__item" *ngIf="socialMedia.instagram">
       <a
         class="social-media-list__link block p-2"
-        [href]="socialMediaLinks.instagram"
+        [href]="socialMedia.instagram"
         title="Nasz profil na Instagram"
         (focus)="onFocus($event)"
       >
@@ -36,10 +36,10 @@
         <app-fa-icon [faClass]="'fab fa-instagram'"></app-fa-icon>
       </a>
     </li>
-    <li class="social-media-list__item" *ngIf="socialMediaLinks.twitter">
+    <li class="social-media-list__item" *ngIf="socialMedia.twitter">
       <a
         class="social-media-list__link block p-2"
-        [href]="socialMediaLinks.twitter"
+        [href]="socialMedia.twitter"
         title="Nasz profil na Twitter"
         (focus)="onFocus($event)"
       >

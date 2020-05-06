@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, ViewEncapsulation, Input } from '@angular/core';
-import { SocialMediaLinks } from '@models/index';
+import { SocialMedia } from '@models/index';
 
 @Component({
   selector: 'app-social-media',
@@ -8,7 +8,7 @@ import { SocialMediaLinks } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class SocialMediaComponent {
-  @Input() socialMediaLinks: SocialMediaLinks = null;
+  @Input() socialMedia: SocialMedia = null;
   @Output() whenLinkFocus: EventEmitter<any> = new EventEmitter<any>();
 
   onFocus(event: FocusEvent) {

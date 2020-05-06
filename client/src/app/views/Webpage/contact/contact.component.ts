@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Contact, Map } from '@models/index';
+import { Contact, Map, Alerts } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 import { MapService } from '@services/map.service';
@@ -15,6 +15,11 @@ export class ContactComponent implements OnInit, OnDestroy {
   isLoading = true;
   contact: Contact = null;
   map: Map = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -44,16 +49,26 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     try {
-      const mapResponse = await this.mapService.getData();
-      const contactResponse = await this.contactService.getData();
+      const mapResponse = await this.mapService.fetchMap();
+      const contactResponse = await this.contactService.fetchContact();
       this.mapService.setMap(mapResponse);
       this.contactService.setContact(contactResponse);
     } catch (error) {
-      console.error(error);
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
     } finally {
       this.isLoading = false;
       this.toggleSpinner();
     }
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   ngOnDestroy() {
@@ -82,6 +97,10 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   computedMailTo(email: string): string {
     return `mailto:${email}`;
+  }
+
+  showMap(): boolean {
+    return this.map && this.map.latlng !== '(00.00, 00.00)';
   }
 
   computedTel(phone: string): string {

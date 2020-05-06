@@ -4,8 +4,14 @@ export interface Alert {
   key: string;
 }
 
+export interface Alerts {
+  server: string;
+  error: string;
+  success: string;
+}
+
 export interface Product {
-  id: string;
+  _id?: string;
   name: string;
   category: string;
   img: string;
@@ -66,7 +72,8 @@ export interface Links {
   deleted_at?: Date | null;
 }
 
-export interface SocialMediaLinks {
+export interface SocialMedia {
+  _id?: string;
   facebook: string;
   linkedin: string;
   twitter: string;
@@ -76,19 +83,16 @@ export interface SocialMediaLinks {
   deleted_at: Date | null;
 }
 
-export interface FAQs {
-  id: string;
+export interface FAQCategories {
+  _id?: string;
   category: string;
-  title: string;
-  icon: string;
-  questions: FAQ[];
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface FAQ {
-  id: string;
+  _id?: string;
   title: string;
   content: string;
   category: string;
@@ -117,6 +121,7 @@ export interface Message {
 }
 
 export interface User {
+  _id?: string;
   name: string;
   username: string;
   email: string;
@@ -126,8 +131,8 @@ export interface User {
   deleted_at: Date | null;
 }
 
-export interface EmailsList {
-  id: string;
+export interface Email {
+  _id?: string;
   email: string;
   created_at: Date;
   updated_at: Date;

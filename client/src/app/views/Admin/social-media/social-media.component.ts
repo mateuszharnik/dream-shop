@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SocialMediaLinks, Alert } from '@models/index';
-import { socialMediaLinks as socialMediaLinksData } from '@helpers/fakeAPI';
+import { SocialMedia, Alert, Alerts } from '@models/index';
+import { Subscription } from 'rxjs';
+import { SocialMediaService } from '@services/social-media.service';
 
 @Component({
   selector: 'app-social-media',
@@ -10,8 +11,15 @@ import { socialMediaLinks as socialMediaLinksData } from '@helpers/fakeAPI';
   styleUrls: ['./social-media.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SocialMediaComponent implements OnInit {
+export class SocialMediaComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
+  socialMedia: SocialMedia = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
+  subscriptions: Subscription[] = [];
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
@@ -30,29 +38,57 @@ export class SocialMediaComponent implements OnInit {
     { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    setTimeout(() => {
-      this.isLoading = false;
-      this.toggleSpinner();
-      this.createForm(socialMediaLinksData);
-    }, 1000);
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private socialMediaService: SocialMediaService) {
+    this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
+      this.socialMedia = data;
+    }));
   }
 
-  createForm(socialMediaLinks: SocialMediaLinks) {
+  async ngOnInit() {
+    try {
+      const response = await this.socialMediaService.fetchSocialMedia();
+      this.socialMediaService.setSocialMedia(response);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isLoading = false;
+      this.createForm(this.socialMedia);
+      this.toggleSpinner();
+    }
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
+
+  createForm(socialMedia: SocialMedia) {
+    const twitter = socialMedia && socialMedia.twitter ? socialMedia.twitter : '';
+    const facebook = socialMedia && socialMedia.facebook ? socialMedia.facebook : '';
+    const instagram = socialMedia && socialMedia.instagram ? socialMedia.instagram : '';
+    const linkedin = socialMedia && socialMedia.linkedin ? socialMedia.linkedin : '';
+
     this.form = this.formBuilder.group({
-      twitter: [socialMediaLinks.twitter, { validators: [
-        Validators.pattern(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/),
+      twitter: [twitter, { validators: [
+        Validators.pattern(/^https?:\/\/www.twitter.com\/.+$/),
       ] }],
-      facebook: [socialMediaLinks.facebook, { validators: [
-        Validators.pattern(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/),
+      facebook: [facebook, { validators: [
+        Validators.pattern(/^https?:\/\/www.facebook.com\/.+$/),
       ] }],
-      linkedin: [socialMediaLinks.linkedin, { validators: [
-        Validators.pattern(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/),
+      linkedin: [linkedin, { validators: [
+        Validators.pattern(/^https?:\/\/www.linkedin.com\/.+$/),
       ] }],
-      instagram: [socialMediaLinks.instagram, { validators: [
-        Validators.pattern(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/),
+      instagram: [instagram, { validators: [
+        Validators.pattern(/^https?:\/\/www.instagram.com\/.+$/),
       ] }],
     },
     );
@@ -73,7 +109,7 @@ export class SocialMediaComponent implements OnInit {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  submit() {
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -81,6 +117,22 @@ export class SocialMediaComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response = await this.socialMediaService.saveSocialMedia(this.socialMedia._id, this.form.value);
+      this.socialMediaService.setSocialMedia(response);
+      this.setAlerts('', '', 'Pomyślnie zapisano');
+    } catch (error) {
+      console.error(error);
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {

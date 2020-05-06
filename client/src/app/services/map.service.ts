@@ -12,11 +12,11 @@ export class MapService {
 
   constructor(private http: HttpClient) {}
 
-  getData(): Promise<Map> {
+  fetchMap(): Promise<Map> {
     return this.http.get<Map>(`http://localhost:3000/v1/map`).toPromise();
   }
 
-  setData(id: string, data: Map): Promise<Map> {
+  saveMap(id: string, data: Map): Promise<Map> {
     return this.http.put<Map>(`http://localhost:3000/v1/map/${id}`, data).toPromise();
   }
 

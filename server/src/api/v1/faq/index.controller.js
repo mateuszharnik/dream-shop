@@ -1,6 +1,7 @@
 const { responseWithError } = require('../../../helpers/errors');
-const { dbIdSchema, faqSchema } = require('./index.model');
-const { faqCategoriesDB, faqDB } = require('../../../db');
+const { faqSchema } = require('./index.model');
+const { dbIdSchema } = require('../../../models');
+const { faqDB } = require('../../../db');
 const { purify } = require('../../../helpers/sanitize');
 
 const getFAQs = async (req, res, next) => {
@@ -51,7 +52,7 @@ const updateFAQ = async (req, res, next) => {
   req.body.title = purify(req.body.title);
   req.body.content = purify(req.body.content);
 
-  const { schemaError, data } = faqSchema(req.body, true, false);
+  const { schemaError, data } = faqSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -168,22 +169,6 @@ const addFAQ = async (req, res, next) => {
   }
 };
 
-const getFAQCategories = async (req, res, next) => {
-  try {
-    const faq = await faqCategoriesDB.find({});
-
-    if (!faq.length) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii najczęściej zadawanych pytań');
-    }
-
-    res.status(200).json(faq);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
-  }
-};
-
 module.exports = {
-  getFAQCategories, getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ,
+  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ,
 };
