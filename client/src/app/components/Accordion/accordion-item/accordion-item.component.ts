@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
-import { FAQ as Accordion } from '@models/index';
+import { FAQ } from '@models/index';
 
 @Component({
   selector: 'app-accordion-item',
@@ -10,7 +10,7 @@ import { FAQ as Accordion } from '@models/index';
   animations: [Slide],
 })
 export class AccordionItemComponent implements OnInit {
-  @Input() accordion: Accordion = null;
+  @Input() faq: FAQ = null;
 
   isOpen = false;
   isDisabled = false;
@@ -33,7 +33,7 @@ export class AccordionItemComponent implements OnInit {
   }
 
   computedID(name: string): string {
-    return `${name}-${this.accordion.id}`;
+    return `${name}-${this.faq._id}`;
   }
 
   computedAriaExpanded(): string {

@@ -3,72 +3,86 @@
 </div>
 <ng-template #faqView>
   <section class="faq-page min-vh-100 w-100">
-    <div class="container">
-      <div class="row">
-        <header class="pt-10 pb-6 text-center column-12">
-          <h3 class="faq-page__title h4 m-auto bolder uppercase">
-            FAQ
-          </h3>
-        </header>
-      </div>
-      <article class="row pb-4">
-        <p class="column-12 lg:column-9 m-auto text-center mb-10">
-          Nie możesz czegoś znaleźć? Nie wiesz jak coś zrobić? A może chcesz się
-          czegoś dowiedzieć? Jeżeli tak to znalazłaś/eś się w odpowiednim
-          miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
-        </p>
-        <div
-          *ngIf="accordions"
-          class="row column-12 m-auto mb-10 flex-justify-center"
-        >
-          <div
-            class="accordions-category m-2"
-            *ngFor="let accordion of accordions; trackBy: trackID"
-          >
-            <app-link
-              [linkClass]="
-                'accordions-category__link block p-2 text-center bold'
-              "
-              [linkRouter]="computedID(accordion.category)"
-              [linkTitle]="computedTitle(accordion.category)"
-              [linkOnClick]="true"
-              (whenLinkClick)="jumpTo($event, accordion.category)"
-            >
-              <app-fa-icon [faClass]="accordion.icon"></app-fa-icon>
-              <div class="mt-1">{{ accordion.title }}</div>
-            </app-link>
-          </div>
+    <div *ngIf="!alerts.server; else showError">
+      <div
+        *ngIf="accordions && accordions.length; else showDefault"
+        class="container"
+      >
+        <div class="row">
+          <header class="pt-10 pb-6 text-center column-12">
+            <h3 class="faq-page__title h4 m-auto bolder uppercase">
+              FAQ
+            </h3>
+          </header>
         </div>
-        <div *ngIf="accordions" class="column-12">
+        <article class="row pb-4">
+          <p class="column-12 lg:column-9 m-auto text-center mb-10">
+            Nie możesz czegoś znaleźć? Nie wiesz jak coś zrobić? A może chcesz
+            się czegoś dowiedzieć? Jeżeli tak to znalazłaś/eś się w odpowiednim
+            miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
+          </p>
           <div
-            class="container-md"
-            *ngFor="let accordion of accordions; trackBy: trackID"
+            *ngIf="accordions"
+            class="row column-12 m-auto mb-10 flex-justify-center"
           >
-            <h4
-              class="m-auto my-3 text-center h6"
-              [id]="computedID(accordion.category)"
-              #accordionHeader
+            <div
+              class="accordions-category m-2"
+              *ngFor="let accordion of accordions; trackBy: trackID"
             >
-              {{ accordion.title }}
-            </h4>
-            <div class="mb-10 m-auto">
-              <app-accordion [accordions]="accordion.questions"></app-accordion>
+              <app-link
+                [linkClass]="
+                  'accordions-category__link block p-2 text-center bold'
+                "
+                [linkRouter]="computedID(accordion.category)"
+                [linkTitle]="computedTitle(accordion.category)"
+                [linkOnClick]="true"
+                (whenLinkClick)="jumpTo($event, accordion.category)"
+              >
+                <app-fa-icon [faClass]="accordion.icon"></app-fa-icon>
+                <div class="mt-1">{{ accordion.title }}</div>
+              </app-link>
             </div>
           </div>
-        </div>
-        <div class="column-12 lg:column-9 m-auto text-center mt-4">
-          <p>
-            Nie znalazłaś/eś odpowiedzi na swoje pytania? Skontaktuj się z nami.
-          </p>
-          <app-router-link
-            [linkClass]="'button button-primary'"
-            [linkRouter]="'/kontakt'"
-            [linkTitle]="'Przejdź do strony kontaktowej'"
-          >
-            Kontakt
-          </app-router-link>
-        </div>
-      </article>
+          <div *ngIf="accordions" class="column-12">
+            <div
+              class="container-md"
+              *ngFor="let accordion of accordions; trackBy: trackID"
+            >
+              <h4
+                class="m-auto my-3 text-center h6"
+                [id]="computedID(accordion.category)"
+                #accordionHeader
+              >
+                {{ accordion.title }}
+              </h4>
+              <div class="mb-10 m-auto">
+                <app-accordion
+                  [accordions]="accordion.questions"
+                ></app-accordion>
+              </div>
+            </div>
+          </div>
+          <div class="column-12 lg:column-9 m-auto text-center mt-4">
+            <p>
+              Nie znalazłaś/eś odpowiedzi na swoje pytania? Skontaktuj się z
+              nami.
+            </p>
+            <app-router-link
+              [linkClass]="'button button-primary'"
+              [linkRouter]="'/kontakt'"
+              [linkTitle]="'Przejdź do strony kontaktowej'"
+            >
+              Kontakt
+            </app-router-link>
+          </div>
+        </article>
+      </div>
+      <ng-template #showDefault>
+        <p class="center m-0">Nie znaleziono pytań.</p>
+      </ng-template>
     </div>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
   </section>
 </ng-template>

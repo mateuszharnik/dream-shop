@@ -1,10 +1,12 @@
-<div class="modal center">
-  <app-button
-    [buttonTitle]="'Zamknij'"
-    [buttonClass]="'button button-primary modal__button'"
-    (click)="closeMenu()"
-  >
-    <app-fa-icon [faClass]="'fas fa-times'"></app-fa-icon>
-  </app-button>
-  <ng-content></ng-content>
+<div class="modal-wrapper">
+  <div class="modal center">
+    <app-button
+      [buttonTitle]="'Zamknij'"
+      [buttonClass]="'button button-primary modal__button'"
+      (click)="closeMenu()"
+    >
+      <app-fa-icon [faClass]="'fas fa-times'"></app-fa-icon>
+    </app-button>
+    <ng-content></ng-content>
+  </div>
 </div>

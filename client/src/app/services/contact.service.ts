@@ -12,11 +12,11 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  getData(): Promise<Contact> {
+  fetchContact(): Promise<Contact> {
     return this.http.get<Contact>(`http://localhost:3000/v1/contact`).toPromise();
   }
 
-  setData(id: string, data: Contact): Promise<Contact> {
+  saveContact(id: string, data: Contact): Promise<Contact> {
     return this.http.put<Contact>(`http://localhost:3000/v1/contact/${id}`, data).toPromise();
   }
 

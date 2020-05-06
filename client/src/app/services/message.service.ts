@@ -12,11 +12,11 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  getData(): Promise<Message> {
+  fetchMessages(): Promise<Message> {
     return this.http.get<Message>(`http://localhost:3000/v1/messages`).toPromise();
   }
 
-  sendData(data: Message): Promise<Message> {
+  saveMessage(data: Message): Promise<Message> {
     return this.http.post<Message>(`http://localhost:3000/v1/messages`, data).toPromise();
   }
 

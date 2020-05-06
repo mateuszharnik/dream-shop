@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Alert, Contact } from '@models/index';
+import { Alert, Contact, Alerts } from '@models/index';
 import { matchRequired } from '@helpers/index';
 import { Subscription } from 'rxjs';
 import { ContactService } from '@services/contact.service';
@@ -15,7 +15,7 @@ import { ContactService } from '@services/contact.service';
 export class ContactComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   contact: Contact = null;
-  alerts = {
+  alerts: Alerts = {
     server: '',
     error: '',
     success: '',
@@ -66,11 +66,13 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response = await this.contactService.getData();
+      const response: Contact = await this.contactService.fetchContact();
       this.contactService.setContact(response);
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
       }
     } finally {
       this.isLoading = false;
@@ -103,7 +105,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       email: [email, {
         validators: [
           // tslint:disable-next-line:max-line-length
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
           Validators.required,
         ],
       }],
@@ -181,14 +183,13 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response = await this.contactService.setData(this.contact._id, this.form.value);
+      const response: Contact = await this.contactService.saveContact(this.contact._id, this.form.value);
       this.contactService.setContact(response);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
-      } else if (error.status === 500) {
+      } else {
         this.setAlerts('', error.error.message);
       }
     } finally {

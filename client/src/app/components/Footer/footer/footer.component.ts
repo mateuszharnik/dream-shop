@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Contact, SocialMediaLinks } from '@models/index';
+import { Contact, SocialMedia } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { WindowRefService } from '@services/window-ref.service';
 import jump from 'jump.js';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class FooterComponent implements OnInit, OnDestroy {
-  @Input() socialMediaLinks: SocialMediaLinks = null;
+  @Input() socialMedia: SocialMedia = null;
   @Input() contact: Contact = null;
   @Output() whenLinkClick: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('footer') footer = null;
@@ -44,16 +44,22 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.whenLinkClick.emit(event);
   }
 
-  checkSocialMediaLinks(): number {
-    return Object.values(this.socialMediaLinks).filter(link => link !== '').length;
+  checkSocialMedia(): string {
+    return (
+      this.socialMedia &&
+      (this.socialMedia.facebook ||
+        this.socialMedia.linkedin ||
+        this.socialMedia.twitter ||
+        this.socialMedia.instagram)
+    );
   }
 
   checkContactInfo(): string {
-    return this.contact.email || this.contact.phone;
+    return this.contact && (this.contact.email || this.contact.phone);
   }
 
   checkContactInfoAndSocialMedia(): string | number {
-    return this.checkContactInfo() || this.checkSocialMediaLinks();
+    return this.checkContactInfo() || this.checkSocialMedia();
   }
 
   scrollTo(event: FocusEvent) {

@@ -12,11 +12,11 @@ export class AboutService {
 
   constructor(private http: HttpClient) {}
 
-  getData(): Promise<About> {
+  fetchAbout(): Promise<About> {
     return this.http.get<About>(`http://localhost:3000/v1/about`).toPromise();
   }
 
-  setData(id: string, data: About): Promise<About> {
+  saveAbout(id: string, data: About): Promise<About> {
     return this.http.put<About>(`http://localhost:3000/v1/about/${id}`, data).toPromise();
   }
 

@@ -3,23 +3,28 @@
 </div>
 <ng-template #aboutView>
   <section class="about-page min-vh-100 w-100">
-    <div *ngIf="hasData(); else showDefault" class="sm:container">
-      <div class="row">
-        <header class="pt-10 pb-6 text-center column-12">
-          <h3 class="about-page__title m-auto h4 bolder uppercase">
-            Nie wiesz kim jesteśmy?
-          </h3>
-        </header>
-      </div>
-      <article class="row">
-        <h3 class="hidden">Informacje o sklepie</h3>
-        <div class="column-12 lg:column-9 m-auto">
-          <div class="markdown" [innerHTML]="about.information"></div>
+    <div *ngIf="!alerts.server; else showError">
+      <div *ngIf="hasData(); else showDefault" class="sm:container">
+        <div class="row">
+          <header class="pt-10 pb-6 text-center column-12">
+            <h3 class="about-page__title m-auto h4 bolder uppercase">
+              Nie wiesz kim jesteśmy?
+            </h3>
+          </header>
         </div>
-      </article>
+        <article class="row relative">
+          <h3 class="hidden">Informacje o sklepie</h3>
+          <div class="column-12 lg:column-9 m-auto">
+            <div class="markdown" [innerHTML]="about.information"></div>
+          </div>
+        </article>
+      </div>
+      <ng-template #showDefault>
+        <p class="center m-0">Strona nie posiada informacji.</p>
+      </ng-template>
     </div>
-    <ng-template #showDefault>
-      <p class="center m-0">Strona nie posiada informacji.</p>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
     </ng-template>
   </section>
 </ng-template>

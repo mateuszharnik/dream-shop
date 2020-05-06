@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { About, Alert } from '@models/index';
+import { About, Alert, Alerts } from '@models/index';
 import { AboutService } from '@services/about.service';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 export class AboutComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   about: About = null;
-  alerts = {
+  alerts: Alerts = {
     server: '',
     error: '',
     success: '',
@@ -38,11 +38,13 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response = await this.aboutService.getData();
+      const response: About = await this.aboutService.fetchAbout();
       this.aboutService.setAbout(response);
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
       }
     } finally {
       this.isLoading = false;
@@ -103,14 +105,13 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response = await this.aboutService.setData(this.about._id, this.form.value);
+      const response: About = await this.aboutService.saveAbout(this.about._id, this.form.value);
       this.aboutService.setAbout(response);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
-      } else if (error.status === 500) {
+      } else {
         this.setAlerts('', error.error.message);
       }
     } finally {

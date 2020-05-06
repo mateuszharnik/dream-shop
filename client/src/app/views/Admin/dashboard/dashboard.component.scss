@@ -3,7 +3,7 @@
 
 // Admin
 .admin-page {
-  z-index: $z-index-1;
+  z-index: 1;
 
   @media (min-width: $lg) {
     padding-left: 32rem;

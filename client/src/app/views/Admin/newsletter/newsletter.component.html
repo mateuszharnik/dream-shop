@@ -6,11 +6,23 @@
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Newsletter</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
       <p>
         Tutaj znajdują się adresy email osób zapisanych na newsletter.
       </p>
-      <div class="w-100">
+      <app-alert
+        *ngIf="alerts.error || alerts.server"
+        [alertClass]="'alert alert-danger'"
+      >
+        {{ alerts.error ? alerts.error : alerts.server }}
+      </app-alert>
+      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+        {{ alerts.success }}
+      </app-alert>
+      <div *ngIf="emails && emails.length; else showDefault" class="mt-4 w-100">
         <app-list-item *ngFor="let email of emails">
           <span class="truncate">
             {{ email.email }}
@@ -25,31 +37,38 @@
           </app-button>
         </app-list-item>
       </div>
-      <app-modal
-        *ngIf="emailToDelete"
-        (whenButtonClick)="!isDisabled && closeModal()"
-      >
-        <p>Czy napewno chcesz usunąć email {{ emailToDelete.email }}&nbsp;?</p>
-        <app-form
-          [formClass]="'form text-left inline-block'"
-          [formName]="form"
-          (whenFormSubmit)="submit()"
-        >
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonClass]="'button button-danger'"
-            [buttonDisabled]="isDisabled"
-            #deleteButton
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
-        </app-form>
-      </app-modal>
+      <ng-template #showDefault>
+        <p class="mt-4 mb-0">Brak zapisanych adresów email.</p>
+      </ng-template>
     </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
   </section>
+  <app-modal
+    *ngIf="emailToDelete"
+    (whenButtonClick)="!isDisabled && closeModal()"
+  >
+    <div class="text-center">
+      <p>
+        <strong>
+          Czy napewno chcesz usunąć email {{ emailToDelete.email }}&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="computedButtonTitle()"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="submit(emailToDelete._id)"
+        #deleteButton
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
 </ng-template>

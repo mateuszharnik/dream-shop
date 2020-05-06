@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trackID } from '@helpers/index';
-import { Alert } from '@models/index';
+import { Alert, Alerts } from '@models/index';
 import { MessageService } from '@services/message.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { MessageService } from '@services/message.service';
 })
 export class ContactFormComponent implements OnInit {
   form: FormGroup = null;
-  alerts = {
+  alerts: Alerts = {
     server: '',
     error: '',
     success: '',
@@ -111,11 +111,10 @@ export class ContactFormComponent implements OnInit {
     this.isDisabled = true;
 
     try {
-      const response = await this.messageService.sendData(this.form.value);
+      const response = await this.messageService.saveMessage(this.form.value);
       console.log(response);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else if (error.status === 429) {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Alert } from '@models/index';
+import { Alert, Alerts } from '@models/index';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NewsletterService } from '@services/newsletter.service';
 
 @Component({
   selector: 'app-newsletter',
@@ -10,6 +11,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class NewsletterComponent implements OnInit {
   form: FormGroup = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
@@ -19,7 +25,7 @@ export class NewsletterComponent implements OnInit {
     { id: '1', message: 'Email jest nieprawidłowy.', key: 'pattern' },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private newsletterService: NewsletterService) {}
 
   ngOnInit() {
     this.createForm();
@@ -33,6 +39,12 @@ export class NewsletterComponent implements OnInit {
         Validators.required,
       ]}],
     });
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   validation(prop: string): boolean {
@@ -50,7 +62,7 @@ export class NewsletterComponent implements OnInit {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  submit() {
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -58,6 +70,21 @@ export class NewsletterComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response = await this.newsletterService.saveEmail(this.form.value);
+      this.setAlerts('', '', 'Pomyślnie zapisano adres email');
+    } catch (error) {
+      console.error(error);
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   get formControls() {

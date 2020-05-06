@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerService } from '@services/spinner.service';
-import { Alert, Map } from '@models/index';
+import { Alert, Map, Alerts } from '@models/index';
 import { Subscription } from 'rxjs';
 import { MapService } from '@services/map.service';
 
@@ -14,7 +14,7 @@ import { MapService } from '@services/map.service';
 export class MapComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   map: Map = null;
-  alerts = {
+  alerts: Alerts = {
     server: '',
     error: '',
     success: '',
@@ -36,12 +36,13 @@ export class MapComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response = await this.mapService.getData();
-      console.log(response);
+      const response: Map = await this.mapService.fetchMap();
       this.mapService.setMap(response);
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
       }
     } finally {
       this.isLoading = false;
@@ -98,14 +99,13 @@ export class MapComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response = await this.mapService.setData(this.map._id, this.form.value);
+      const response: Map = await this.mapService.saveMap(this.map._id, this.form.value);
       this.mapService.setMap(response);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
-      } else if (error.status === 500) {
+      } else {
         this.setAlerts('', error.error.message);
       }
     } finally {
