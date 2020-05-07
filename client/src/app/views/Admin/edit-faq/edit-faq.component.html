@@ -13,6 +13,15 @@
       <p>
         Tutaj możesz edytować już istniejące pytania.
       </p>
+      <div class="text-left mb-4">
+        <app-router-link
+          [linkTitle]="'Wróć do pytań'"
+          [linkRouter]="'/admin/strony/najczesciej-zadawane-pytania'"
+        >
+          <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
+          Wróć
+        </app-router-link>
+      </div>
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"

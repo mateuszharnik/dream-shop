@@ -84,6 +84,24 @@
       </li>
       <li class="dashboard-navigation__item mb-2 mx-2">
         <a
+          routerLink="/admin/wiadomosci"
+          title="Zobacz otrzymane wiadomości"
+          class="dashboard-navigation__link block"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          #rlaLinkNav="routerLinkActive"
+        >
+          <app-fa-icon
+            [faClass]="'far fa-comments mr-1 dashboard-navigation__icon'"
+          ></app-fa-icon>
+          Wiadomości
+          <span *ngIf="rlaLinkNav.isActive" class="hidden">
+            (tutaj jesteś)
+          </span>
+        </a>
+      </li>
+      <li class="dashboard-navigation__item mb-2 mx-2">
+        <a
           routerLink="/admin/social-media"
           title="Edytuj linki do mediów społecznościowych"
           class="dashboard-navigation__link block"

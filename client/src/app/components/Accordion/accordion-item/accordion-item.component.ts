@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
 import { FAQ } from '@models/index';
+import { markdown } from '@helpers/index';
 
 @Component({
   selector: 'app-accordion-item',
@@ -15,7 +16,9 @@ export class AccordionItemComponent implements OnInit {
   isOpen = false;
   isDisabled = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.faq.content = markdown(this.faq.content);
+  }
 
   toggleAccordion() {
     this.isDisabled = true;

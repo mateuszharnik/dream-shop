@@ -1,12 +1,12 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { navLinks } from '@helpers/fakeAPI';
 import { Contact, Links, SocialMedia } from '@models/index';
+import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
 import { NavigationService } from '@services/navigation.service';
-import { Subscription } from 'rxjs';
-import { navLinks } from '@helpers/fakeAPI';
-import { ContactService } from '@services/contact.service';
 import { SocialMediaService } from '@services/social-media.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -62,11 +62,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.links = this.links.concat(navLinks);
 
     try {
-      const socialMediaResponse = await this.socialMediaService.fetchSocialMedia();
-      const contactResponse = await this.contactService.fetchContact();
+      const socialMediaResponse: SocialMedia = await this.socialMediaService.fetchSocialMedia();
+      const contactResponse: Contact = await this.contactService.fetchContact();
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
-      console.log(this.socialMedia);
     } catch (error) {} finally {
       this.isLoading = false;
     }

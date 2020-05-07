@@ -49,8 +49,8 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     try {
-      const mapResponse = await this.mapService.fetchMap();
-      const contactResponse = await this.contactService.fetchContact();
+      const mapResponse: Map = await this.mapService.fetchMap();
+      const contactResponse: Contact = await this.contactService.fetchContact();
       this.mapService.setMap(mapResponse);
       this.contactService.setContact(contactResponse);
     } catch (error) {

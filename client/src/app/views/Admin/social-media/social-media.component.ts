@@ -46,7 +46,7 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response = await this.socialMediaService.fetchSocialMedia();
+      const response: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       this.socialMediaService.setSocialMedia(response);
     } catch (error) {
       if (error.status === 0) {
@@ -119,11 +119,10 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response = await this.socialMediaService.saveSocialMedia(this.socialMedia._id, this.form.value);
+      const response: SocialMedia = await this.socialMediaService.saveSocialMedia(this.socialMedia._id, this.form.value);
       this.socialMediaService.setSocialMedia(response);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {

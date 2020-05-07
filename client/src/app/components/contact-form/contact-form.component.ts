@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trackID } from '@helpers/index';
-import { Alert, Alerts } from '@models/index';
+import { Alert, Alerts, Message } from '@models/index';
 import { MessageService } from '@services/message.service';
 
 @Component({
@@ -111,8 +111,7 @@ export class ContactFormComponent implements OnInit {
     this.isDisabled = true;
 
     try {
-      const response = await this.messageService.saveMessage(this.form.value);
-      console.log(response);
+      const response: Message = await this.messageService.saveMessage(this.form.value);
       this.setAlerts('', '', 'Pomyślnie zapisano');
     } catch (error) {
       if (error.status === 0) {

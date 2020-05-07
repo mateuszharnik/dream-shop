@@ -49,8 +49,17 @@ const updateFAQ = async (req, res, next) => {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
-  req.body.title = purify(req.body.title);
-  req.body.content = purify(req.body.content);
+  if (req.body) {
+    if (req.body.title && typeof req.body.title === 'string') {
+      req.body.title = req.body.title.trim();
+      const lastChar = req.body.title.charAt(req.body.title.length - 1);
+      req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
+    }
+
+    if (req.body.content) {
+      req.body.content = purify(req.body.content);
+    }
+  }
 
   const { schemaError, data } = faqSchema(req.body, false, false);
 
@@ -119,8 +128,17 @@ const deleteFAQ = async (req, res, next) => {
 };
 
 const addFAQ = async (req, res, next) => {
-  req.body.title = purify(req.body.title);
-  req.body.content = purify(req.body.content);
+  if (req.body) {
+    if (req.body.title && typeof req.body.title === 'string') {
+      req.body.title = req.body.title.trim();
+      const lastChar = req.body.title.charAt(req.body.title.length - 1);
+      req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
+    }
+
+    if (req.body.content) {
+      req.body.content = purify(req.body.content);
+    }
+  }
 
   const { schemaError, data } = faqSchema(req.body, false, false);
 

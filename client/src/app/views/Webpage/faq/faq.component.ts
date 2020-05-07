@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { trackID } from '@helpers/index';
-import { Alerts, FAQ } from '@models/index';
+import { Alerts, FAQ, FAQs } from '@models/index';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
+import { categories } from '@helpers/faq';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
 
@@ -15,7 +16,7 @@ import jump from 'jump.js';
 export class FaqComponent implements OnInit, OnDestroy {
   @ViewChildren('accordionHeader') accordionHeader = null;
 
-  faqs: FAQ[] = null;
+  faqs: FAQs[] | FAQ[] = null;
   alerts: Alerts = {
     server: '',
     error: '',
@@ -24,12 +25,11 @@ export class FaqComponent implements OnInit, OnDestroy {
   isLoading = true;
   trackID = null;
   scrollTime = 1000;
-  categories: string[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
-      this.faqs = data;
+      this.faqs = data ? this.getCategories(data) : data;
     }));
 
     this.isLoading = this.faqs ? false : true;
@@ -46,7 +46,6 @@ export class FaqComponent implements OnInit, OnDestroy {
     try {
       const response: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(response);
-      this.getCategories(response);
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
@@ -59,12 +58,18 @@ export class FaqComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCategories(response: FAQ[]) {
-    this.categories = [];
-    response.forEach((faq: FAQ) => {
-      if (this.categories.indexOf(faq.category) === -1) {
-        this.categories.push(faq.category);
+  getCategories(faqs: FAQ[]): FAQs[] {
+    return categories.reduce((prev: FAQs[], next: FAQs): FAQs[] => {
+      const result = faqs.find(category => category.category === next.category);
+
+      if (result) {
+        prev.push(next);
       }
+
+      return prev;
+    }, []).map((category: FAQs) => {
+      category.questions = faqs.filter(question => question.category === category.category);
+      return category;
     });
   }
 

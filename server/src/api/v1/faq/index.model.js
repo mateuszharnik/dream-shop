@@ -1,5 +1,6 @@
 const Joi = require('@hapi/joi');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
+const { faqTitleRegExp } = require('../../../helpers/regexp');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { categoryMessages, titleMessages, contentMessages } = require('../../../helpers/errors/messages/faq');
 
@@ -10,6 +11,7 @@ const faqConfig = (id = true, timestamp = true) => {
       .required()
       .messages(categoryMessages),
     title: Joi.string().trim().min(10).max(1000)
+      .regex(faqTitleRegExp)
       .required()
       .messages(titleMessages),
     content: Joi.string().trim().min(10).max(5000)

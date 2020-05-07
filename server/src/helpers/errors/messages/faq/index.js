@@ -32,6 +32,10 @@ const titleMax = {
   'string.max': 'Tytuł może mieć maksymalnie 1000 znaków',
 };
 
+const titlePattern = {
+  'string.pattern.base': 'Tytuł jest nieprawidłowy',
+};
+
 // CONTENT
 const contentRequired = {
   'any.required': 'Właściwość "content" jest wymagana',
@@ -59,6 +63,7 @@ const titleMessages = {
   ...titleNotEmpty,
   ...titleMin,
   ...titleMax,
+  ...titlePattern,
 };
 
 const contentMessages = {
@@ -86,6 +91,7 @@ module.exports = {
   contentMax,
   contentNotEmpty,
   contentMessages,
+  titlePattern,
   titleRequired,
   titleString,
   titleNotEmpty,
