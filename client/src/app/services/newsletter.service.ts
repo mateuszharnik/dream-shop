@@ -16,8 +16,8 @@ export class NewsletterService {
     return this.http.get<Email[]>(`http://localhost:3000/v1/newsletter`).toPromise();
   }
 
-  deleteEmail(id: string): Promise<Email[]> {
-    return this.http.request<Email[]>('delete', `http://localhost:3000/v1/newsletter/${id}`).toPromise();
+  deleteEmail(id: string): Promise<Email> {
+    return this.http.request<Email>('delete', `http://localhost:3000/v1/newsletter/${id}`).toPromise();
   }
 
   saveEmail(data: Email): Promise<Email> {

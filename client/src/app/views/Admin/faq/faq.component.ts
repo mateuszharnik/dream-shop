@@ -3,6 +3,7 @@ import { SpinnerService } from '@services/spinner.service';
 import { FAQ, Alerts } from '@models/index';
 import { Subscription } from 'rxjs';
 import { FAQService } from '@services/faq.service';
+import { markdown } from '@helpers/index';
 
 @Component({
   selector: 'app-faq',
@@ -28,7 +29,10 @@ export class FAQComponent implements OnInit, OnDestroy {
 
   constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
-      this.faqs = data;
+      this.faqs = data ? data.map((faq: FAQ) => {
+        faq.content = markdown(faq.content);
+        return faq;
+      }) : data;
     }));
   }
 

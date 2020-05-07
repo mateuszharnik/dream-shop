@@ -11,7 +11,7 @@ export class AccordionComponent implements OnInit {
   @Input() faqs: FAQ[] = [];
   @HostBinding('class.w-100') width = true;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   trackID(index: string, item: any): string {
     return item._id;

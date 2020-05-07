@@ -19,9 +19,17 @@ export interface Product {
   price: string;
   quantity: number;
   fullDescription: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
+export interface FAQs {
+  icon: string;
+  title: string;
+  category: string;
+  link: string;
+  questions: FAQ[];
 }
 
 export interface Contact {
@@ -36,9 +44,9 @@ export interface Contact {
     zip_code: string;
   };
   working_hours: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface Navigation {
@@ -51,9 +59,9 @@ export interface Navigation {
 export interface About {
   _id?: string;
   information: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface Slide {
@@ -78,9 +86,9 @@ export interface SocialMedia {
   linkedin: string;
   twitter: string;
   instagram: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface FAQCategories {
@@ -96,17 +104,17 @@ export interface FAQ {
   title: string;
   content: string;
   category: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface Map {
   _id?: string;
   latlng: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface Message {
@@ -115,9 +123,9 @@ export interface Message {
   email: string;
   subject: string;
   message: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface User {
@@ -126,15 +134,15 @@ export interface User {
   username: string;
   email: string;
   image: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }
 
 export interface Email {
   _id?: string;
   email: string;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date | null;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
 }

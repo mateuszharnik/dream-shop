@@ -35,7 +35,6 @@ export class AddFAQComponent implements OnInit, OnDestroy {
   ];
   contentAlerts: Alert[] = [
     { id: '0', message: 'Musisz podać odpowiedź.', key: 'required' },
-    { id: '1', message: 'Odpowiedź zawiera niedozwolone znaki.', key: 'pattern' },
     { id: '2', message: 'Odpowiedź jest za krótka.', key: 'minlength' },
     { id: '3', message: 'Odpowiedź jest za długa.', key: 'maxlength' },
   ];
@@ -85,7 +84,6 @@ export class AddFAQComponent implements OnInit, OnDestroy {
       }],
       content: ['', {
         validators: [
-          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/),
           Validators.minLength(10),
           Validators.maxLength(5000),
           Validators.required,

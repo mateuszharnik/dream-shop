@@ -4,10 +4,7 @@
 <ng-template #faqView>
   <section class="faq-page min-vh-100 w-100">
     <div *ngIf="!alerts.server; else showError">
-      <div
-        *ngIf="accordions && accordions.length; else showDefault"
-        class="container"
-      >
+      <div *ngIf="faqs && faqs.length; else showDefault" class="container">
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="faq-page__title h4 m-auto bolder uppercase">
@@ -22,43 +19,41 @@
             miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
           </p>
           <div
-            *ngIf="accordions"
+            *ngIf="faqs"
             class="row column-12 m-auto mb-10 flex-justify-center"
           >
             <div
               class="accordions-category m-2"
-              *ngFor="let accordion of accordions; trackBy: trackID"
+              *ngFor="let faq of faqs; trackBy: trackID"
             >
               <app-link
                 [linkClass]="
                   'accordions-category__link block p-2 text-center bold'
                 "
-                [linkRouter]="computedID(accordion.category)"
-                [linkTitle]="computedTitle(accordion.category)"
+                [linkRouter]="computedID(faq.link)"
+                [linkTitle]="computedTitle(faq.title)"
                 [linkOnClick]="true"
-                (whenLinkClick)="jumpTo($event, accordion.category)"
+                (whenLinkClick)="jumpTo($event, faq.link)"
               >
-                <app-fa-icon [faClass]="accordion.icon"></app-fa-icon>
-                <div class="mt-1">{{ accordion.title }}</div>
+                <app-fa-icon [faClass]="faq.icon"></app-fa-icon>
+                <div class="mt-1">{{ faq.title | titlecase }}</div>
               </app-link>
             </div>
           </div>
-          <div *ngIf="accordions" class="column-12">
+          <div *ngIf="faqs" class="column-12">
             <div
               class="container-md"
-              *ngFor="let accordion of accordions; trackBy: trackID"
+              *ngFor="let faq of faqs; trackBy: trackID"
             >
               <h4
                 class="m-auto my-3 text-center h6"
-                [id]="computedID(accordion.category)"
+                [id]="computedID(faq.link)"
                 #accordionHeader
               >
-                {{ accordion.title }}
+                {{ faq.title }}
               </h4>
               <div class="mb-10 m-auto">
-                <app-accordion
-                  [accordions]="accordion.questions"
-                ></app-accordion>
+                <app-accordion [faqs]="faq.questions"></app-accordion>
               </div>
             </div>
           </div>

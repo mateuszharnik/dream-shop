@@ -38,7 +38,6 @@ export class EditFAQComponent implements OnInit, OnDestroy {
   ];
   contentAlerts: Alert[] = [
     { id: '0', message: 'Musisz podać odpowiedź.', key: 'required' },
-    { id: '1', message: 'Odpowiedź zawiera niedozwolone znaki.', key: 'pattern' },
     { id: '2', message: 'Odpowiedź jest za krótka.', key: 'minlength' },
     { id: '3', message: 'Odpowiedź jest za długa.', key: 'maxlength' },
   ];
@@ -62,7 +61,6 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       this.faq = await this.faqService.fetchFAQ(this.id);
       this.faqService.setCategories(categoriesResponse);
     } catch (error) {
-      console.log(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
@@ -101,7 +99,6 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       }],
       content: [content, {
         validators: [
-          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/),
           Validators.minLength(10),
           Validators.maxLength(5000),
           Validators.required,

@@ -34,7 +34,10 @@ const productCategoryNameRegExp = /^([a-zA-Z0-9ąĄćĆęĘłŁńŃóÓśŚźŹ�
 
 const mimetypeRegExp = /^image\/(jpeg|jpg|png)$/;
 
+const faqTitleRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&()+=?/]+$/;
+
 module.exports = {
+  faqTitleRegExp,
   dbIdRegExp,
   emailRegExp,
   nameRegExp,

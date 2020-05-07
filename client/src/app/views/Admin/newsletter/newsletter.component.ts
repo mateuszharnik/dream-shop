@@ -33,7 +33,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response = await this.newsletterService.fetchEmails();
+      const response: Email[] = await this.newsletterService.fetchEmails();
       this.newsletterService.setEmails(response);
     } catch (error) {
       if (error.status === 0) {
@@ -70,8 +70,9 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response = await this.newsletterService.deleteEmail(id);
-      this.newsletterService.setEmails(response);
+      const deleteResponse: Email = await this.newsletterService.deleteEmail(id);
+      const emailsResponse: Email[] = await this.newsletterService.fetchEmails();
+      this.newsletterService.setEmails(emailsResponse);
       this.setAlerts('', '', 'Pomyślnie usunięto');
     } catch (error) {
       if (error.status === 0) {

@@ -38,7 +38,7 @@
             <app-list-item *ngIf="faq.category === category">
               <div class="w-100">
                 <h4 class="p">{{ faq.title }}</h4>
-                <p>{{ faq.content }}</p>
+                <div class="markdown" [innerHTML]="faq.content"></div>
                 <app-button
                   [buttonTitle]="'Usuń pytanie'"
                   [buttonClass]="'button button-danger button-small'"
@@ -73,7 +73,7 @@
   >
     <div class="text-center">
       <p>
-        <strong>
+        <strong class="normal">
           Czy napewno chcesz usunąć pytanie: "{{ questionToDelete.title }}" z
           sekcji FAQ&nbsp;?
         </strong>

@@ -4,7 +4,7 @@
 <ng-template #aboutView>
   <section class="about-page min-vh-100 w-100">
     <div *ngIf="!alerts.server; else showError">
-      <div *ngIf="hasData(); else showDefault" class="sm:container">
+      <div *ngIf="show(); else showDefault" class="sm:container">
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="about-page__title m-auto h4 bolder uppercase">

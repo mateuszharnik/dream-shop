@@ -135,6 +135,7 @@ export const navLinks: Links[] = [
 ];
 
 export const user: User = {
+  _id: '1',
   name: 'Admin',
   username: 'admin',
   email: 'example@domain.com',

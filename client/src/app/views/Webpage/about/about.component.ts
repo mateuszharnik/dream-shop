@@ -39,7 +39,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
 
     try {
-      const response = await this.aboutService.fetchAbout();
+      const response: About = await this.aboutService.fetchAbout();
       this.aboutService.setAbout(response);
     } catch (error) {
       if (error.status === 0) {
@@ -63,7 +63,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
-  hasData(): boolean {
+  show(): boolean {
     return this.about && this.about.information !== '';
   }
 

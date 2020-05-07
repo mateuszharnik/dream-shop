@@ -14,6 +14,15 @@
         Tutaj możesz dodać nowe pytanie, które będzie wyświetlane w sekcji
         najczęściej zadawanych pytań na stronie.
       </p>
+      <div class="text-left mb-4">
+        <app-router-link
+          [linkTitle]="'Wróć do pytań'"
+          [linkRouter]="'/admin/strony/najczesciej-zadawane-pytania'"
+        >
+          <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
+          Wróć
+        </app-router-link>
+      </div>
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"

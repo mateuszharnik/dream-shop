@@ -8,7 +8,7 @@
     [buttonOnClick]="true"
     (whenButtonClick)="toggleAccordion()"
   >
-    {{ faq.title }}?
+    {{ faq.title }}
     <app-fa-icon [faClass]="'accordion__icon fas fa-plus'"></app-fa-icon>
   </app-button>
 </h5>
@@ -19,7 +19,5 @@
   [attr.aria-labelledby]="computedID('header')"
   [@Slide]
 >
-  <p class="mb-0 p-4">
-    {{ faq.content }}
-  </p>
+  <div class="markdown p-4" [innerHTML]="faq.content"></div>
 </div>
