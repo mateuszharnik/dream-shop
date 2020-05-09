@@ -12,4 +12,4 @@ import { NewsletterComponent } from './newsletter.component';
     SharedModule,
   ],
 })
-export class NewsletterModule {}
+export class NewsletterModule { }

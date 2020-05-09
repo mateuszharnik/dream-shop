@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert, Alerts } from '@models/index';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NewsletterService } from '@services/newsletter.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class NewsletterComponent implements OnInit {
     { id: '1', message: 'Email jest nieprawidłowy.', key: 'pattern' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private newsletterService: NewsletterService) {}
+  constructor(private formBuilder: FormBuilder, private newsletterService: NewsletterService) { }
 
   ngOnInit() {
     this.createForm();
@@ -33,11 +33,13 @@ export class NewsletterComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      email: ['', { validators: [
-        // tslint:disable-next-line:max-line-length
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-        Validators.required,
-      ]}],
+      email: ['', {
+        validators: [
+          // tslint:disable-next-line:max-line-length
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.required,
+        ],
+      }],
     });
   }
 
@@ -51,7 +53,7 @@ export class NewsletterComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

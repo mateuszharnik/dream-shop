@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./list-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ListItemComponent {}
+export class ListItemComponent { }

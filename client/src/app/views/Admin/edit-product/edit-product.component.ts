@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -14,7 +14,7 @@ export class EditProductComponent implements OnInit {
   isDisabled = false;
   isSubmitted = false;
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     setTimeout(() => {

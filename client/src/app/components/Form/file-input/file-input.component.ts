@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, ViewEncapsulation, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { checkRequiredProp } from '@helpers/index';
 
 @Component({

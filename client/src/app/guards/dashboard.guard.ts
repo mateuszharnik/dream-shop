@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { getToken, decodeToken, removeToken } from '@helpers/token';
-import { UserService } from '@services/user.service';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { decodeToken, getToken } from '@helpers/token';
 import { User } from '@models/index';
+import { UserService } from '@services/user.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -30,7 +30,6 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('Dashboard');
     if (!getToken()) {
       this.router.navigate(['/zaloguj']);
       return false;

@@ -11,7 +11,7 @@ import { checkRequiredProp } from '@helpers/index';
 export class FormComponent implements OnInit, OnChanges {
   @Input() formName: FormGroup = null;
   @Input() formClass = '';
-  @Input() formMethod: 'POST'| 'GET' = 'POST';
+  @Input() formMethod: 'POST' | 'GET' = 'POST';
   @Output() whenFormSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit() {

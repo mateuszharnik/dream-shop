@@ -53,14 +53,18 @@ export class ChangePasswordComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      password: ['', { validators: [
-        Validators.minLength(8),
-        Validators.maxLength(50),
-        Validators.required,
-      ]}],
-      confirmPassword: ['', { validators: [
-        Validators.required,
-      ]}],
+      password: ['', {
+        validators: [
+          Validators.minLength(8),
+          Validators.maxLength(50),
+          Validators.required,
+        ],
+      }],
+      confirmPassword: ['', {
+        validators: [
+          Validators.required,
+        ],
+      }],
     }, { validator: match('password', 'confirmPassword') });
   }
 
@@ -76,7 +80,7 @@ export class ChangePasswordComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   submit() {

@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./logo.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LogoComponent {}
+export class LogoComponent { }

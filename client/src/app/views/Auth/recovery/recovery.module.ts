@@ -17,4 +17,4 @@ import { RecoveryComponent } from './recovery.component';
     ReactiveFormsModule,
   ],
 })
-export class RecoveryModule {}
+export class RecoveryModule { }

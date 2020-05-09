@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { markdown } from '@helpers/index';
 import { About, Alerts } from '@models/index';
 import { AboutService } from '@services/about.service';
+import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { markdown } from '@helpers/index';
 
 @Component({
   selector: 'app-about',

@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./auth-wrapper.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AuthWrapperComponent {}
+export class AuthWrapperComponent { }

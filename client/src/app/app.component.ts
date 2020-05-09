@@ -1,8 +1,8 @@
+import { registerLocaleData } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatchMediaService } from '@services/match-media.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { registerLocaleData } from '@angular/common';
 import localePL from '@angular/common/locales/pl';
 
 @Component({

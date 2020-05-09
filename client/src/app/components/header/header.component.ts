@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     animationTime: 450,
   };
 
-  constructor(private navigationService: NavigationService) {}
+  constructor(private navigationService: NavigationService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.navigationService.getNavigation().subscribe((data: Navigation) => {

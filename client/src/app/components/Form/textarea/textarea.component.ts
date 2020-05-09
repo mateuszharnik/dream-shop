@@ -50,7 +50,7 @@ export class TextareaComponent implements OnInit, OnChanges {
   computeTextareaClass() {
     this.computedTextareaClass = `${this.textareaClass} ${
       this.textareaValidation ? 'invalid' : ''
-    }`;
+      }`;
   }
 
   computeAriaDescribedBy() {

@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Alert, Alerts, FAQCategories, FAQ } from '@models/index';
-import { FAQService } from '@services/faq.service';
 import { purify } from '@helpers/index';
+import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
+import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 
@@ -104,7 +104,7 @@ export class AddFAQComponent implements OnInit, OnDestroy {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

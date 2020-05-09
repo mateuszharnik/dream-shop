@@ -12,4 +12,4 @@ import { AboutComponent } from './about.component';
     SharedModule,
   ],
 })
-export class AboutModule {}
+export class AboutModule { }

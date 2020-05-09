@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { Navigation } from '@models/index';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
-import { Navigation } from '@models/index';
 
 @Component({
   selector: 'app-search-bar',
@@ -25,7 +25,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     animationTime: 450,
   };
 
-  constructor(private navigationService: NavigationService, private renderer: Renderer2) {}
+  constructor(private navigationService: NavigationService, private renderer: Renderer2) { }
 
   ngOnInit() {
     this.subscriptions.push(this.navigationService.getSearchBar().subscribe((data: Navigation) => {

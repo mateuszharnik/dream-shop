@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Alert, Contact, Alerts } from '@models/index';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchRequired } from '@helpers/index';
-import { Subscription } from 'rxjs';
+import { Alert, Alerts, Contact } from '@models/index';
 import { ContactService } from '@services/contact.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact',

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardGuard } from '@guards/dashboard.guard';
+import { InitialGuard } from '@guards/initial.guard';
 import { SpinnerGuard } from '@guards/spinner.guard';
 import { HomeComponent } from '@webpage/home/home.component';
 import { ShowcaseComponent } from '@webpage/showcase/showcase.component';
-import { DashboardGuard } from '@guards/dashboard.guard';
-import { InitialGuard } from '@guards/initial.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     data: { showSpinner: true },
     canActivate: [SpinnerGuard, InitialGuard],
     children: [
-{
+      {
         path: '',
         component: HomeComponent,
         data: { showSpinner: true },
@@ -85,4 +85,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

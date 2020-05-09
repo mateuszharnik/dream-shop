@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Alert, FAQ, FAQCategories, Alerts } from '@models/index';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SpinnerService } from '@services/spinner.service';
-import { Subscription } from 'rxjs';
-import { FAQService } from '@services/faq.service';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { purify } from '@helpers/index';
+import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
+import { FAQService } from '@services/faq.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-faq',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -13,7 +13,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   isLoading = true;
   subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private spinnerService: SpinnerService) {}
+  constructor(private router: Router, private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     this.onRouteChange();

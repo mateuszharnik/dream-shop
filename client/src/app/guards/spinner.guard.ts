@@ -7,13 +7,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SpinnerGuard implements CanActivate {
-  constructor(private spinnerService: SpinnerService) {}
+  constructor(private spinnerService: SpinnerService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this.toggleSpinner(next.data.showSpinner ? true : false);
-      return true;
+    this.toggleSpinner(next.data.showSpinner ? true : false);
+    return true;
   }
 
   toggleSpinner(isLoading = false) {

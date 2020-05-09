@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       const contactResponse: Contact = await this.contactService.fetchContact();
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
-    } catch (error) {} finally {
+    } catch (error) { } finally {
       this.isLoading = false;
     }
   }

@@ -12,4 +12,4 @@ import { AddProductComponent } from './add-product.component';
     SharedModule,
   ],
 })
-export class AddProductModule {}
+export class AddProductModule { }

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { matchValue } from '@helpers/index';
 import { Alert } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
-import { matchValue } from '@helpers/index';
 
 const data = {
   categories: [
@@ -42,7 +42,7 @@ export class NavigationComponent implements OnInit {
     { id: '4', message: 'Taka kategoria już istnieje.', key: 'matchValue' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -55,25 +55,27 @@ export class NavigationComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      category: ['', { validators: [
-        Validators.minLength(3),
-        Validators.maxLength(50),
-        Validators.pattern(/^([a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ]*\s?)+[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ]$/),
-        Validators.required,
-      ]}],
+      category: ['', {
+        validators: [
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern(/^([a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ]*\s?)+[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ]$/),
+          Validators.required,
+        ],
+      }],
     },
-    {
-      validators: [
-        matchValue('category', this.categories.map(category => category.category)),
-      ],
-    });
+      {
+        validators: [
+          matchValue('category', this.categories.map(category => category.category)),
+        ],
+      });
   }
 
   validation(prop: string): boolean {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

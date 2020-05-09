@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { categories } from '@helpers/faq';
 import { trackID } from '@helpers/index';
 import { Alerts, FAQ, FAQs } from '@models/index';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
-import { categories } from '@helpers/faq';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
 

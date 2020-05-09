@@ -12,12 +12,13 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   countdown = 10;
   timer: any = null;
 
-  constructor(private router: Router, private spinnerService: SpinnerService) {}
+  constructor(private router: Router, private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     setTimeout(() => {
       this.toggleSpinner();
     }, 0);
+
     this.timer = window.setInterval(() => {
       if (this.countdown === 0) {
         window.clearInterval(this.timer);

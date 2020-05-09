@@ -12,4 +12,4 @@ import { EditProductComponent } from './edit-product.component';
     SharedModule,
   ],
 })
-export class EditProductModule {}
+export class EditProductModule { }

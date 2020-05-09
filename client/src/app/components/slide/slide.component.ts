@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@models/index';
 
 @Component({

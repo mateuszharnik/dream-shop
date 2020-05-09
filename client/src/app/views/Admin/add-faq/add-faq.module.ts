@@ -12,4 +12,4 @@ import { AddFAQComponent } from './add-faq.component';
     SharedModule,
   ],
 })
-export class AddFAQModule {}
+export class AddFAQModule { }

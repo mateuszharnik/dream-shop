@@ -8,4 +8,4 @@ import { FaqComponent } from './faq.component';
   declarations: [FaqComponent],
   imports: [CommonModule, FaqRoutingModule, SharedModule],
 })
-export class FaqModule {}
+export class FaqModule { }

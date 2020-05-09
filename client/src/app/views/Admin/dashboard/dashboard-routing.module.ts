@@ -1,10 +1,9 @@
 import { DashboardShowcaseComponent } from '@admin/dashboard-showcase/dashboard-showcase.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardGuard } from '@guards/dashboard.guard';
 import { SpinnerGuard } from '@guards/spinner.guard';
 import { DashboardComponent } from './dashboard.component';
-import { DashboardGuard } from '@guards/dashboard.guard';
-import { IsAdminGuard } from '@guards/is-admin.guard';
 
 const routes: Routes = [
   {
@@ -82,4 +81,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }

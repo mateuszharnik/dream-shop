@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Contact, Map, Alerts } from '@models/index';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Alerts, Contact, Map } from '@models/index';
+import { ContactService } from '@services/contact.service';
+import { MapService } from '@services/map.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { MapService } from '@services/map.service';
-import { ContactService } from '@services/contact.service';
 
 @Component({
   selector: 'app-contact',

@@ -10,7 +10,7 @@ import { SpinnerService } from '@services/spinner.service';
 export class CartComponent implements OnInit {
   isLoading = true;
 
-  constructor(private spinnerService: SpinnerService) {}
+  constructor(private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     setTimeout(() => {

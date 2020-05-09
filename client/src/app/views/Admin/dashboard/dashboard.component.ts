@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isDesktop = false;
   subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private navigationService: NavigationService, private matchMediaService: MatchMediaService) {}
+  constructor(private router: Router, private navigationService: NavigationService, private matchMediaService: MatchMediaService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
