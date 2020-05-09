@@ -10,19 +10,22 @@
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
-      <p>
+      <p class="mb-6">
         Tutaj znajdują się adresy email osób zapisanych na newsletter.
       </p>
       <app-alert
         *ngIf="alerts.error || alerts.server"
-        [alertClass]="'alert alert-danger'"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
       >
         {{ alerts.error ? alerts.error : alerts.server }}
       </app-alert>
-      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
         {{ alerts.success }}
       </app-alert>
-      <div *ngIf="emails && emails.length; else showDefault" class="mt-4 w-100">
+      <div *ngIf="emails && emails.length; else showDefault" class="w-100">
         <app-list-item *ngFor="let email of emails">
           <span class="truncate">
             {{ email.email }}
@@ -34,6 +37,7 @@
             (whenButtonClick)="openModal(email)"
           >
             Usuń
+            <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
           </app-button>
         </app-list-item>
       </div>
@@ -66,7 +70,7 @@
         {{ computedButtonText() }}
         <app-fa-icon
           *ngIf="isDisabled"
-          [faClass]="'fas fa-spinner fa-spin'"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
         ></app-fa-icon>
       </app-button>
     </div>

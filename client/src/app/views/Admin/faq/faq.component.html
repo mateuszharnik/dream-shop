@@ -20,42 +20,53 @@
         [linkRouter]="'dodaj'"
       >
         Dodaj pytanie
-        <app-fa-icon [faClass]="'fas fa-plus ml-2'"></app-fa-icon>
+        <app-fa-icon [faClass]="'fas fa-plus ml-1'"></app-fa-icon>
       </app-router-link>
       <app-alert
         *ngIf="alerts.error || alerts.server"
-        [alertClass]="'alert alert-danger'"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
       >
         {{ alerts.error ? alerts.error : alerts.server }}
       </app-alert>
-      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
         {{ alerts.success }}
       </app-alert>
       <div *ngIf="faqs && faqs.length; else showDefault" class="w-100">
-        <div class="mb-4" *ngFor="let category of categories">
-          <h3 class="h5 mb-4">{{ category | titlecase }}</h3>
-          <div *ngFor="let faq of faqs">
-            <app-list-item *ngIf="faq.category === category">
-              <div class="w-100">
-                <h4 class="p">{{ faq.title }}</h4>
-                <div class="markdown" [innerHTML]="faq.content"></div>
-                <app-button
-                  [buttonTitle]="'Usuń pytanie'"
-                  [buttonClass]="'button button-danger button-small'"
-                  [buttonOnClick]="true"
-                  (whenButtonClick)="openModal(faq)"
-                >
-                  Usuń
-                </app-button>
-                <app-router-link
-                  [linkTitle]="'Przejdź do edycji pytania'"
-                  [linkClass]="'button button-primary button-small ml-4'"
-                  [linkRouter]="computedFAQEditLink(faq._id)"
-                >
-                  Edytuj
-                </app-router-link>
+        <div *ngFor="let faq of faqs">
+          <h3 class="h4 mb-6 text-primary">
+            {{ faq.category | titlecase }}
+          </h3>
+          <div *ngFor="let question of faq.questions" class="mb-10">
+            <div class="question overflow-hidden mb-4 text-left">
+              <div class="question__head">
+                <div class="question--border-bottom p-2 break-word">
+                  <span class="bold">Tytuł</span>: {{ question.title }}
+                </div>
               </div>
-            </app-list-item>
+              <div class="markdown p-2" [innerHTML]="question.content"></div>
+            </div>
+            <div>
+              <app-button
+                [buttonTitle]="'Usuń pytanie'"
+                [buttonClass]="'button button-danger button-small'"
+                [buttonOnClick]="true"
+                (whenButtonClick)="openModal(question)"
+              >
+                Usuń pytanie
+                <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+              </app-button>
+              <app-router-link
+                [linkTitle]="'Przejdź do edycji pytania'"
+                [linkClass]="'button button-primary button-small ml-4'"
+                [linkRouter]="computedFAQEditLink(question._id)"
+              >
+                Edytuj
+                <app-fa-icon [faClass]="'fas fa-pencil-alt ml-1'"></app-fa-icon>
+              </app-router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -89,7 +100,7 @@
         {{ computedButtonText() }}
         <app-fa-icon
           *ngIf="isDisabled"
-          [faClass]="'fas fa-spinner fa-spin'"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
         ></app-fa-icon>
       </app-button>
     </div>

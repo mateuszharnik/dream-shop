@@ -58,8 +58,12 @@ export class NewsletterComponent implements OnInit {
     return this.isDisabled ? 'Zapisywanie zmian' : 'Zapisz zmiany';
   }
 
-  computedButtonText(): 'Zapisz' | 'Zapisywanie' {
-    return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
+  computedButtonText(): 'Zapisz się' | 'Zapisywanie' {
+    return this.isDisabled ? 'Zapisywanie' : 'Zapisz się';
+  }
+
+  computedButtonIcon(): 'fas fa-spinner fa-spin ml-1' | 'far fa-paper-plane ml-1' {
+    return this.isDisabled ? 'fas fa-spinner fa-spin ml-1' : 'far fa-paper-plane ml-1';
   }
 
   async submit() {
@@ -75,7 +79,6 @@ export class NewsletterComponent implements OnInit {
       const response = await this.newsletterService.saveEmail(this.form.value);
       this.setAlerts('', '', 'Pomyślnie zapisano adres email');
     } catch (error) {
-      console.error(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {

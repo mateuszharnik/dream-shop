@@ -3,29 +3,13 @@
 
 // Newsletter
 .newsletter {
-  background-color: $color-primary;
-  color: $color-white;
+  background-color: #f3f3f3;
 
   &__wrapper {
-    max-width: 90rem;
+    max-width: 60rem;
   }
 
   .form {
-    &__input {
-      &.invalid {
-        &:focus {
-          box-shadow: inset 0rem 0rem 0rem 0.3rem
-            $form-invalid-focus-outline-color;
-        }
-      }
-
-      &:focus {
-        box-shadow: inset 0rem 0rem 0rem 0.3rem $form-focus-outline-color;
-      }
-    }
-
-    &__errors {
-      color: $color-white;
-    }
+    max-width: 45rem;
   }
 }

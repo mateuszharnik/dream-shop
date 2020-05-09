@@ -45,7 +45,7 @@
             {{ computedButtonText() }}
             <app-fa-icon
               *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
+              [faClass]="'fas fa-spinner fa-spin ml-1'"
             ></app-fa-icon>
           </app-button>
         </div>
@@ -65,8 +65,8 @@
         [linkRouter]="'/'"
         [linkTitle]="'Wróć do strony głównej'"
       >
-        <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
-        Strona główna
+        <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Strona
+        główna
       </app-router-link>
     </div>
   </app-auth-wrapper>

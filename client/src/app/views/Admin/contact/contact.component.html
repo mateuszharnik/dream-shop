@@ -10,7 +10,7 @@
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
-      <p>
+      <p class="mb-6">
         Tutaj możesz zmienić informacje kontaktowe dla swojej strony.
       </p>
       <app-form
@@ -136,7 +136,7 @@
               [inputForm]="form"
             ></app-input>
           </div>
-          <div class="column-12 mb-4 text-center">
+          <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
               [buttonTitle]="computedButtonTitle()"
@@ -145,16 +145,22 @@
               {{ computedButtonText() }}
               <app-fa-icon
                 *ngIf="isDisabled"
-                [faClass]="'fas fa-spinner fa-spin'"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
               ></app-fa-icon>
             </app-button>
           </div>
         </div>
       </app-form>
-      <app-alert *ngIf="alerts.error" [alertClass]="'alert alert-danger'">
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
         {{ alerts.error }}
       </app-alert>
-      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
         {{ alerts.success }}
       </app-alert>
     </article>

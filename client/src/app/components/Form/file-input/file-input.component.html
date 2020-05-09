@@ -11,6 +11,7 @@
   />
   <label class="form__label--file button" [for]="inputID">
     {{ inputLabel }}
+    <app-fa-icon [faClass]="'fas fa-upload ml-1'"></app-fa-icon>
   </label>
   <small class="form__help--file" [id]="computedSmallID" *ngIf="inputMessage">
     {{ inputMessage.name }}

@@ -5,6 +5,7 @@ import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 import { FAQService } from '@services/faq.service';
 import { ActivatedRoute } from '@angular/router';
+import { purify } from '@helpers/index';
 
 @Component({
   selector: 'app-edit-faq',
@@ -147,6 +148,9 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
+        if (error.error.message === 'Musisz podać treść') {
+          this.formControls.content.setValue(purify(this.form.value.content), { onlySelf: true });
+        }
         this.setAlerts('', error.error.message);
       }
     } finally {

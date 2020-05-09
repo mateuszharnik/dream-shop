@@ -91,8 +91,8 @@ export class ContactFormComponent implements OnInit {
     return this.isDisabled ? 'Wysyłanie' : 'Wyślij';
   }
 
-  computedButtonIcon(): 'fas fa-spinner fa-spin' | 'far fa-paper-plane' {
-    return this.isDisabled ? 'fas fa-spinner fa-spin' : 'far fa-paper-plane';
+  computedButtonIcon(): 'fas fa-spinner fa-spin ml-1' | 'far fa-paper-plane ml-1' {
+    return this.isDisabled ? 'fas fa-spinner fa-spin ml-1' : 'far fa-paper-plane ml-1';
   }
 
   setAlerts(server = '', error = '', success = '') {

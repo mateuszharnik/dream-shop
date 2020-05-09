@@ -1,9 +1,9 @@
 <div class="newsletter py-10 px-4">
   <div class="newsletter__wrapper m-auto text-center mt-4">
-    <h3 class="h6">Zapisz się na newsletter</h3>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-      molestiae itaque eligendi tempora?
+    <h3 class="bolder mb-6">NEWSLETTER</h3>
+    <p class="mb-6">
+      Chcesz być na bieżąco ze wszystkimi nowościami. Zapisz się na newsletter
+      już teraz.
     </p>
     <app-form
       [formClass]="'form m-auto text-left'"
@@ -25,29 +25,29 @@
             [inputForm]="form"
           ></app-input>
         </div>
-        <div class="column-12 mb-4 text-center">
+        <div class="column-12 text-center">
           <app-button
             [buttonType]="'submit'"
             [buttonTitle]="computedButtonTitle()"
             [buttonDisabled]="isDisabled"
-            [buttonClass]="button"
+            [buttonClass]="'button button-primary'"
           >
             {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
+            <app-fa-icon [faClass]="computedButtonIcon()"></app-fa-icon>
           </app-button>
         </div>
       </div>
     </app-form>
     <app-alert
       *ngIf="alerts.error || alerts.server"
-      [alertClass]="'alert alert-danger'"
+      [alertClass]="'alert alert-danger m-auto mt-6'"
     >
       {{ alerts.error ? alerts.error : alerts.server }}
     </app-alert>
-    <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+    <app-alert
+      *ngIf="alerts.success"
+      [alertClass]="'alert alert-success m-auto mt-6'"
+    >
       {{ alerts.success }}
     </app-alert>
   </div>

@@ -64,6 +64,14 @@
         color: $color-white;
         text-decoration: none;
       }
+
+      &.active {
+        color: $color-primary;
+
+        &:hover {
+          color: $color-white;
+        }
+      }
     }
   }
 }

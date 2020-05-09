@@ -1,0 +1,105 @@
+<div *ngIf="isLoading; else mapPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #mapPageView>
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Wiadomości</h2>
+    </header>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p class="mb-6">
+        Tutaj znajdują się wiadomości przesłane przez użytkowników strony za
+        pomocą formularza kontaktowego.
+      </p>
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+      <div
+        *ngIf="messages && messages.length; else showDefault"
+        class="messages"
+      >
+        <div *ngFor="let message of messages" class="mb-10">
+          <div class="message overflow-hidden mb-4 text-left">
+            <div class="message__head">
+              <div class="message--border-bottom p-2 break-word">
+                <span class="bold">Od</span>: {{ message.name }} &lt;<a
+                  [href]="'mailto:' + message.email"
+                  title="Email autora wiadomości"
+                  >{{ message.email }}</a
+                >&gt;
+              </div>
+              <div class="message--border-bottom p-2 break-word">
+                <span class="bold">Wysłano</span>:
+                <time [attr.datetime]="message.created_at">
+                  {{ message.created_at | date: "medium":undefined:"pl-PL" }}
+                </time>
+              </div>
+              <div class="message--border-bottom p-2 break-word">
+                <span class="bold">Tytuł</span>: {{ message.subject }}
+              </div>
+            </div>
+            <div class="p-2">
+              {{ message.message }}
+            </div>
+          </div>
+          <div>
+            <app-button
+              [buttonTitle]="'Usuń wiadomość'"
+              [buttonClass]="'button button-danger button-small'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="openModal(message)"
+            >
+              Usuń wiadomość
+              <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+            </app-button>
+          </div>
+        </div>
+      </div>
+      <ng-template #showDefault>
+        <p class="mt-4 mb-0">Brak wiadomości</p>
+      </ng-template>
+    </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
+  </section>
+  <app-modal
+    *ngIf="messageToDelete"
+    (whenButtonClick)="!isDisabled && closeModal()"
+  >
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć wiadomość od:
+          {{ messageToDelete.email }}&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="computedButtonTitle()"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="submit(messageToDelete._id)"
+        #deleteButton
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
+</ng-template>
