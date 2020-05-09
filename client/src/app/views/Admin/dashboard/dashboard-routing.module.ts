@@ -64,6 +64,10 @@ const routes: Routes = [
         loadChildren: '@admin/navigation/navigation.module#NavigationModule',
       },
       {
+        path: 'wiadomosci',
+        loadChildren: '@admin/messages/messages.module#MessagesModule',
+      },
+      {
         path: 'mapa',
         loadChildren: '@admin/map/map.module#MapModule',
       },

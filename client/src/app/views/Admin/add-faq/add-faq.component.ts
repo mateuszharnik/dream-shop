@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert, Alerts, FAQCategories, FAQ } from '@models/index';
 import { FAQService } from '@services/faq.service';
+import { purify } from '@helpers/index';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 
@@ -128,16 +129,19 @@ export class AddFAQComponent implements OnInit, OnDestroy {
       const faqs: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(faqs);
       this.setAlerts('', '', 'Pomyślnie dodano pytanie');
+      const category: string = this.form.value.category;
+      this.form.reset();
+      this.formControls.category.setValue(category, { onlySelf: true });
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
+        if (error.error.message === 'Musisz podać treść') {
+          this.formControls.content.setValue(purify(this.form.value.content), { onlySelf: true });
+        }
         this.setAlerts('', error.error.message);
       }
     } finally {
-      const category: string = this.form.value.category;
-      this.form.reset();
-      this.formControls.category.setValue(category, { onlySelf: true });
       this.isDisabled = false;
       this.isSubmitted = false;
     }

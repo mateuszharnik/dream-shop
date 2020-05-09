@@ -13,13 +13,12 @@
       <p>
         Tutaj możesz edytować już istniejące pytania.
       </p>
-      <div class="text-left mb-4">
+      <div class="text-left mb-6">
         <app-router-link
           [linkTitle]="'Wróć do pytań'"
           [linkRouter]="'/admin/strony/najczesciej-zadawane-pytania'"
         >
-          <app-fa-icon [faClass]="'fas fa-arrow-left'"></app-fa-icon>
-          Wróć
+          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
         </app-router-link>
       </div>
       <app-form
@@ -59,6 +58,9 @@
             <app-textarea
               [textareaID]="'content'"
               [textareaRows]="'6'"
+              [textareaMessage]="
+                'Język Markdown jest wspierany. Niedozwolone znaki zostaną usunięte.'
+              "
               [textareaLabel]="'Odpowiedź'"
               [textareaPlaceholder]="'Podaj odpowiedź pytania'"
               [textareaClass]="'form__textarea w-100'"
@@ -69,7 +71,7 @@
               [textareaLabelClass]="'block mb-2 bold'"
             ></app-textarea>
           </div>
-          <div class="column-12 mb-4 text-center">
+          <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
               [buttonTitle]="computedButtonTitle()"
@@ -78,16 +80,22 @@
               {{ computedButtonText() }}
               <app-fa-icon
                 *ngIf="isDisabled"
-                [faClass]="'fas fa-spinner fa-spin'"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
               ></app-fa-icon>
             </app-button>
           </div>
         </div>
       </app-form>
-      <app-alert *ngIf="alerts.error" [alertClass]="'alert alert-danger'">
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
         {{ alerts.error }}
       </app-alert>
-      <app-alert *ngIf="alerts.success" [alertClass]="'alert alert-success'">
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
         {{ alerts.success }}
       </app-alert>
     </article>

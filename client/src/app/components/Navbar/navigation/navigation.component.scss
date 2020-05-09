@@ -44,6 +44,15 @@
       color: $navigation-link-color-hover;
       text-decoration: none;
     }
+
+    &.active {
+      font-weight: bold;
+
+      &:hover {
+        color: $navigation-link-color-hover;
+        font-weight: bold;
+      }
+    }
   }
 
   &__icon {

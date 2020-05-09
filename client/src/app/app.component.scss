@@ -12,6 +12,10 @@
 }
 
 .markdown {
+  p:last-of-type {
+    margin-bottom: 0rem;
+  }
+
   img {
     display: block;
     max-width: 80%;

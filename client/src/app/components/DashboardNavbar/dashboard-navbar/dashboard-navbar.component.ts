@@ -64,9 +64,9 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
       this.isDesktop = isDesktop;
 
       if (this.isDesktop) {
-        this.toggle(true);
+        this.toggle(true, false);
       } else {
-        this.toggle(false);
+        this.toggle(false, false);
       }
     }));
   }

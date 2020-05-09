@@ -18,6 +18,11 @@
   font-weight: 700;
 }
 
+// Breaks
+.break-word {
+  word-wrap: break-word;
+}
+
 // Aligns
 .text-center {
   text-align: center;
@@ -72,6 +77,10 @@
 
     .#{$media}\:bolder {
       font-weight: 700;
+    }
+
+    .#{$media}\:break-word {
+      word-wrap: break-word;
     }
 
     .#{$media}\:text-center {

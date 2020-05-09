@@ -59,6 +59,15 @@ export class FaqComponent implements OnInit, OnDestroy {
   }
 
   getCategories(faqs: FAQ[]): FAQs[] {
+    const sortByCategory = (a: FAQs, b: FAQs): number => {
+      if (a.category > b.category) {
+        return 1;
+      } else if (a.category < b.category) {
+        return -1;
+      }
+
+      return 0;
+    };
     return categories.reduce((prev: FAQs[], next: FAQs): FAQs[] => {
       const result = faqs.find(category => category.category === next.category);
 
@@ -67,8 +76,9 @@ export class FaqComponent implements OnInit, OnDestroy {
       }
 
       return prev;
-    }, []).map((category: FAQs) => {
+    }, []).sort(sortByCategory).map((category: FAQs) => {
       category.questions = faqs.filter(question => question.category === category.category);
+
       return category;
     });
   }
