@@ -49,7 +49,7 @@ export class InputComponent implements OnInit, OnChanges {
   computeInputClass() {
     this.computedInputClass = `${this.inputClass} ${
       this.inputValidation ? 'invalid' : ''
-    }`;
+      }`;
   }
 
   computeAriaDescribedBy() {

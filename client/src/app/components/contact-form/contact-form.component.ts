@@ -24,8 +24,10 @@ export class ContactFormComponent implements OnInit {
   // TODO: Przenieść do oddzielnego pliku
   nameAlerts: Alert[] = [
     { id: '0', message: 'Imię jest wymagane.', key: 'required' },
-    { id: '1', message: `Imię nie może zawierać cyfr, znaków specjalnych
-     i może składać się maksymalnie z 2 części np. Jan Kowalski.`, key: 'pattern' },
+    {
+      id: '1', message: `Imię nie może zawierać cyfr, znaków specjalnych
+     i może składać się maksymalnie z 2 części np. Jan Kowalski.`, key: 'pattern',
+    },
     { id: '2', message: 'Imię musi mieć minimum 3 znaki.', key: 'minlength' },
     { id: '3', message: 'Imię nie może przekraczać 50 znaków.', key: 'maxlength' },
   ];
@@ -44,34 +46,42 @@ export class ContactFormComponent implements OnInit {
     { id: '2', message: 'Treść wiadomości nie może przekraczać 2000 znaków.', key: 'maxlength' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private messageService: MessageService) {}
+  constructor(private formBuilder: FormBuilder, private messageService: MessageService) { }
 
   // TODO: Przenieść do oddzielnego pliku
   ngOnInit() {
     this.trackID = trackID;
 
     this.form = this.formBuilder.group({
-      name: ['', { validators: [
-        Validators.minLength(3),
-        Validators.maxLength(50),
-        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/),
-        Validators.required,
-      ] }],
-      email: ['', { validators: [
-        // tslint:disable-next-line:max-line-length
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-        Validators.required,
-      ] }],
-      subject: ['', { validators: [
-        Validators.minLength(3),
-        Validators.maxLength(150),
-        Validators.required,
-      ] }],
-      message: ['', { validators: [
-        Validators.minLength(3),
-        Validators.maxLength(2000),
-        Validators.required,
-      ] }],
+      name: ['', {
+        validators: [
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/),
+          Validators.required,
+        ],
+      }],
+      email: ['', {
+        validators: [
+          // tslint:disable-next-line:max-line-length
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.required,
+        ],
+      }],
+      subject: ['', {
+        validators: [
+          Validators.minLength(3),
+          Validators.maxLength(150),
+          Validators.required,
+        ],
+      }],
+      message: ['', {
+        validators: [
+          Validators.minLength(3),
+          Validators.maxLength(2000),
+          Validators.required,
+        ],
+      }],
     });
   }
 
@@ -80,7 +90,7 @@ export class ContactFormComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Wysyłanie wiadomości' | 'Wyślij wiadomość' {

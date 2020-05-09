@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SlideLeft } from '@animations/index';
-import { removeToken } from '@helpers/token';
 import { Navigation, User } from '@models/index';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
@@ -106,8 +105,8 @@ export class DashboardNavbarComponent implements OnDestroy {
   setFocus() {
     setTimeout(() => {
       const element: HTMLElement = this.nav ?
-          this.nav.nativeElement.querySelector('.dashboard-navigation__link') :
-          this.button.nativeElement.firstElementChild.firstElementChild;
+        this.nav.nativeElement.querySelector('.dashboard-navigation__link') :
+        this.button.nativeElement.firstElementChild.firstElementChild;
 
       element.focus();
     }, this.navigation.animationTime);

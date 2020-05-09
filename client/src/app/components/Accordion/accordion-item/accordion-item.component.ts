@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
-import { FAQ } from '@models/index';
 import { markdown } from '@helpers/index';
+import { FAQ } from '@models/index';
 
 @Component({
   selector: 'app-accordion-item',

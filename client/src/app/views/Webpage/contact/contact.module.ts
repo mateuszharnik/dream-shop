@@ -10,4 +10,4 @@ import { ContactComponent } from './contact.component';
   declarations: [ContactComponent, ContactFormComponent],
   imports: [CommonModule, ContactRoutingModule, ReactiveFormsModule, FormsModule, SharedModule],
 })
-export class ContactModule {}
+export class ContactModule { }

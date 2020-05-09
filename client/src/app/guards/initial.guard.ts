@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { getToken, decodeToken, removeToken } from '@helpers/token';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { decodeToken, getToken } from '@helpers/token';
 import { User } from '@models/index';
 import { UserService } from '@services/user.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitialGuard implements CanActivate, CanActivateChild {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,

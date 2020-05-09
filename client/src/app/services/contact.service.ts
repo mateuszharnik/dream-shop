@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Contact } from '@models/index';
+import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
+import { Contact } from '@models/index';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class ContactService {
   contact: Contact = null;
   contactSubject: BehaviorSubject<Contact> = new BehaviorSubject<Contact>(this.contact);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   fetchContact(): Promise<Contact> {
     return this.http.get<Contact>(`http://localhost:3000/v1/contact`).toPromise();

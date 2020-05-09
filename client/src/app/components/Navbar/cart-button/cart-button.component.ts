@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./cart-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CartButtonComponent {}
+export class CartButtonComponent { }

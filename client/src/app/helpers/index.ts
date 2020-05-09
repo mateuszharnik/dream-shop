@@ -1,4 +1,4 @@
-import { FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import DomPurify from 'dompurify';
 import marked from 'marked';
 

@@ -6,4 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./spinner.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SpinnerComponent {}
+export class SpinnerComponent { }

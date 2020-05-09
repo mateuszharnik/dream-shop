@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AddProductComponent } from './add-product.component';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
+import { AddProductComponent } from './add-product.component';
 
 const routes: Routes = [
   {
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AddProductRoutingModule {}
+export class AddProductRoutingModule { }

@@ -40,11 +40,13 @@ export class RecoveryComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      email: ['', { validators: [
-        // tslint:disable-next-line: max-line-length
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-        Validators.required,
-      ]}],
+      email: ['', {
+        validators: [
+          // tslint:disable-next-line: max-line-length
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.required,
+        ],
+      }],
     });
   }
 
@@ -64,7 +66,7 @@ export class RecoveryComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   setAlerts(server = '', error = '', success = '') {

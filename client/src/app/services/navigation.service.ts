@@ -24,7 +24,7 @@ export class NavigationService {
 
     this[prop].isAnimated = true;
     this[prop].isDisabled = true;
-    this[prop].isOpen = typeof(isOpen) === 'boolean' ? isOpen : !this[prop].isOpen;
+    this[prop].isOpen = typeof (isOpen) === 'boolean' ? isOpen : !this[prop].isOpen;
 
     setData(this[prop]);
 

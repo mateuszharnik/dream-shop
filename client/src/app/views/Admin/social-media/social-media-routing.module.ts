@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SocialMediaComponent } from './social-media.component';
 import { DashboardGuard } from '@guards/dashboard.guard';
+import { SocialMediaComponent } from './social-media.component';
 
 const routes: Routes = [
   {
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SocialMediaRoutingModule {}
+export class SocialMediaRoutingModule { }

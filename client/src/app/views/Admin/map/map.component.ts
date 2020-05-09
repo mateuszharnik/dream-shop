@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SpinnerService } from '@services/spinner.service';
-import { Alert, Map, Alerts } from '@models/index';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Alert, Alerts, Map } from '@models/index';
 import { MapService } from '@services/map.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-page',

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Alert, User } from '@models/index';
-import { match, matchRequired } from '@helpers/index';
 import { user as userData } from '@helpers/fakeAPI';
+import { match, matchRequired } from '@helpers/index';
+import { Alert, User } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     { id: '0', message: 'Hasła nie są takie same.', key: 'match' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -53,28 +53,36 @@ export class ProfileComponent implements OnInit {
 
   createForm(user: User) {
     this.form = this.formBuilder.group({
-      email: [user.email, { validators: [
-        // tslint:disable-next-line:max-line-length
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-        Validators.required,
-      ] }],
-      name: [user.name, { validators: [
-        Validators.minLength(2),
-        Validators.maxLength(20),
-        Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/),
-      ] }],
+      email: [user.email, {
+        validators: [
+          // tslint:disable-next-line:max-line-length
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.required,
+        ],
+      }],
+      name: [user.name, {
+        validators: [
+          Validators.minLength(2),
+          Validators.maxLength(20),
+          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/),
+        ],
+      }],
       password: [''],
-      newPassword: ['', { validators: [
-        Validators.minLength(8),
-        Validators.maxLength(50),
-      ] }],
+      newPassword: ['', {
+        validators: [
+          Validators.minLength(8),
+          Validators.maxLength(50),
+        ],
+      }],
       confirmNewPassword: [''],
     },
-      {validators: [
-        matchRequired('newPassword', 'password'),
-        matchRequired('password', 'newPassword'),
-        match('newPassword', 'confirmNewPassword'),
-      ]},
+      {
+        validators: [
+          matchRequired('newPassword', 'password'),
+          matchRequired('password', 'newPassword'),
+          match('newPassword', 'confirmNewPassword'),
+        ],
+      },
     );
   }
 
@@ -82,7 +90,7 @@ export class ProfileComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

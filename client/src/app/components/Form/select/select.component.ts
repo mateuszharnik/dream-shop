@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewEncapsulation, HostBinding, Input, OnChanges } from '@angular/core';
+import { Component, HostBinding, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { checkRequiredProp, trackID } from '@helpers/index';
 import { Alert } from '@models/index';
-import { trackID, checkRequiredProp } from '@helpers/index';
 
 @Component({
   selector: 'app-select',
@@ -49,7 +49,7 @@ export class SelectComponent implements OnInit, OnChanges {
   computeSelectClass() {
     this.computedSelectClass = `${this.selectClass} ${
       this.selectValidation ? 'invalid' : ''
-    }`;
+      }`;
   }
 
   computeAriaDescribedBy() {

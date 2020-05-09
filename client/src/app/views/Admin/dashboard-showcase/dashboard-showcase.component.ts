@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
 import { user } from '@helpers/fakeAPI';
 import { User } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-dashboard-showcase',
@@ -13,7 +13,7 @@ export class DashboardShowcaseComponent implements OnInit {
   isLoading = true;
   user: User = null;
 
-  constructor(private spinnerService: SpinnerService) {}
+  constructor(private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     setTimeout(() => {

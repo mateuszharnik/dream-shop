@@ -12,4 +12,4 @@ import { ContactComponent } from './contact.component';
     SharedModule,
   ],
 })
-export class ContactModule {}
+export class ContactModule { }

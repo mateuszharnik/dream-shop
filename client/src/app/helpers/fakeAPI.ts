@@ -1,4 +1,4 @@
-import { User, Links, Product } from '@models/index';
+import { Links, Product, User } from '@models/index';
 
 export const navLinks: Links[] = [
   {

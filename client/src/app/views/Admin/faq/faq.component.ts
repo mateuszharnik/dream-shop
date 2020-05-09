@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
-import { FAQ, Alerts, FAQs } from '@models/index';
-import { Subscription } from 'rxjs';
-import { FAQService } from '@services/faq.service';
-import { markdown } from '@helpers/index';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { categories } from '@helpers/faq';
+import { markdown } from '@helpers/index';
+import { Alerts, FAQ, FAQs } from '@models/index';
+import { FAQService } from '@services/faq.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-faq',
@@ -13,7 +13,7 @@ import { categories } from '@helpers/faq';
   encapsulation: ViewEncapsulation.None,
 })
 export class FAQComponent implements OnInit, OnDestroy {
-  @ViewChild ('deleteButton') deleteButton: any = null;
+  @ViewChild('deleteButton') deleteButton: any = null;
 
   alerts: Alerts = {
     server: '',

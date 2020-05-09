@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Output, ViewEncapsulation, Input } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-footer-navigation',

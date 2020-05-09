@@ -15,4 +15,4 @@ import { ChangePasswordComponent } from './change-password.component';
     ReactiveFormsModule,
   ],
 })
-export class ChangePasswordModule {}
+export class ChangePasswordModule { }

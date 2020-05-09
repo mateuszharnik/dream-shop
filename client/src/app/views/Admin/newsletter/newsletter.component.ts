@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class NewsletterComponent implements OnInit, OnDestroy {
-  @ViewChild ('deleteButton') deleteButton: any = null;
+  @ViewChild('deleteButton') deleteButton: any = null;
 
   isLoading = true;
   isDisabled = false;

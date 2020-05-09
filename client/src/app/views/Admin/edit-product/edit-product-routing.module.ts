@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { EditProductComponent } from './edit-product.component';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
+import { EditProductComponent } from './edit-product.component';
 
 const routes: Routes = [
   {

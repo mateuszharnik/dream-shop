@@ -11,7 +11,7 @@ import throttle from 'lodash.throttle';
   encapsulation: ViewEncapsulation.None,
 })
 export class ScrollTopButtonComponent implements OnInit, OnDestroy {
-  @Input() scrollTarget: '#'| HTMLElement = '#';
+  @Input() scrollTarget: '#' | HTMLElement = '#';
   @Input() scrollTime = 1000;
   @Output() whenScrollEnd: EventEmitter<any> = new EventEmitter<any>();
 
@@ -22,7 +22,7 @@ export class ScrollTopButtonComponent implements OnInit, OnDestroy {
   isShow = false;
   listenerTime = 100;
 
-  constructor(private windowRefService: WindowRefService, private renderer: Renderer2) {}
+  constructor(private windowRefService: WindowRefService, private renderer: Renderer2) { }
 
   ngOnInit() {
     this.windowEl = this.windowRefService.nativeWindow;

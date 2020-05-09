@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewEncapsulation, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { SocialMedia } from '@models/index';
 
 @Component({

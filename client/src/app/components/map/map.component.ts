@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
 import { Map } from '@models/index';
 import * as L from 'leaflet';
 
@@ -17,7 +17,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   position = null;
   listener = null;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
     const position = this.mapData.latlng.replace(/[\(\)]/g, '').split(', ').map(value => parseFloat(value));

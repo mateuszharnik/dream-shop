@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { products } from '@helpers/fakeAPI';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { Product } from '@models/index';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-browse-product',
@@ -11,7 +11,7 @@ import { Product } from '@models/index';
   encapsulation: ViewEncapsulation.None,
 })
 export class BrowseProductComponent implements OnInit {
-  @ViewChild ('deleteButton') deleteButton: any = null;
+  @ViewChild('deleteButton') deleteButton: any = null;
 
   form: FormGroup = null;
   isLoading = true;
@@ -20,7 +20,7 @@ export class BrowseProductComponent implements OnInit {
   productToDelete: Product = null;
   products: Product[] = [];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) {}
+  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     setTimeout(() => {

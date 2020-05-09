@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Alerts, Message } from '@models/index';
-import { SpinnerService } from '@services/spinner.service';
 import { MessageService } from '@services/message.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-messages',
@@ -11,7 +11,7 @@ import { MessageService } from '@services/message.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class MessagesComponent implements OnInit, OnDestroy {
-  @ViewChild ('deleteButton') deleteButton: any = null;
+  @ViewChild('deleteButton') deleteButton: any = null;
 
   messages: Message[] = null;
   isLoading = true;

@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { SpinnerService } from '@services/spinner.service';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SocialMedia, Alert, Alerts } from '@models/index';
-import { Subscription } from 'rxjs';
+import { Alert, Alerts, SocialMedia } from '@models/index';
 import { SocialMediaService } from '@services/social-media.service';
+import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-social-media',
@@ -78,18 +78,26 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     const linkedin = socialMedia && socialMedia.linkedin ? socialMedia.linkedin : '';
 
     this.form = this.formBuilder.group({
-      twitter: [twitter, { validators: [
-        Validators.pattern(/^https?:\/\/www.twitter.com\/.+$/),
-      ] }],
-      facebook: [facebook, { validators: [
-        Validators.pattern(/^https?:\/\/www.facebook.com\/.+$/),
-      ] }],
-      linkedin: [linkedin, { validators: [
-        Validators.pattern(/^https?:\/\/www.linkedin.com\/.+$/),
-      ] }],
-      instagram: [instagram, { validators: [
-        Validators.pattern(/^https?:\/\/www.instagram.com\/.+$/),
-      ] }],
+      twitter: [twitter, {
+        validators: [
+          Validators.pattern(/^https?:\/\/www.twitter.com\/.+$/),
+        ]
+      }],
+      facebook: [facebook, {
+        validators: [
+          Validators.pattern(/^https?:\/\/www.facebook.com\/.+$/),
+        ]
+      }],
+      linkedin: [linkedin, {
+        validators: [
+          Validators.pattern(/^https?:\/\/www.linkedin.com\/.+$/),
+        ]
+      }],
+      instagram: [instagram, {
+        validators: [
+          Validators.pattern(/^https?:\/\/www.instagram.com\/.+$/),
+        ]
+      }],
     },
     );
   }
@@ -98,7 +106,7 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

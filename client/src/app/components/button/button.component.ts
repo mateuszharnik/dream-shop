@@ -20,7 +20,7 @@ export class ButtonComponent implements OnInit, OnDestroy {
 
   listener: () => void = null;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
     if (this.buttonOnClick) {

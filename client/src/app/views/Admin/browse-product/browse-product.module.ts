@@ -12,4 +12,4 @@ import { BrowseProductComponent } from './browse-product.component';
     SharedModule,
   ],
 })
-export class BrowseProductModule {}
+export class BrowseProductModule { }

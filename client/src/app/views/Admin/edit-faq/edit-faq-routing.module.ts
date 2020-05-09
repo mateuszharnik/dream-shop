@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { EditFAQComponent } from './edit-faq.component';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
+import { EditFAQComponent } from './edit-faq.component';
 
 const routes: Routes = [
   {
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class EditFAQRoutingModule {}
+export class EditFAQRoutingModule { }

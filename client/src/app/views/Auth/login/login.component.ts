@@ -53,14 +53,18 @@ export class LoginComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      username: ['', { validators: [
-        // tslint:disable-next-line: max-line-length
-        Validators.pattern(/^([^@]+|(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$/),
-        Validators.required,
-      ]}],
-      password: ['', { validators: [
-        Validators.required,
-      ]}],
+      username: ['', {
+        validators: [
+          // tslint:disable-next-line: max-line-length
+          Validators.pattern(/^([^@]+|(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$/),
+          Validators.required,
+        ],
+      }],
+      password: ['', {
+        validators: [
+          Validators.required,
+        ],
+      }],
     });
   }
 
@@ -76,7 +80,7 @@ export class LoginComponent implements OnInit {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
-    );
+      );
   }
 
   setAlerts(server = '', error = '', success = '') {

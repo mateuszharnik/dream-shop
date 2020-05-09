@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AddFAQComponent } from './add-faq.component';
+import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
+import { AddFAQComponent } from './add-faq.component';
 
 const routes: Routes = [
   {

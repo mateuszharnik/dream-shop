@@ -12,4 +12,4 @@ import { MapComponent } from './map.component';
     SharedModule,
   ],
 })
-export class MapModule {}
+export class MapModule { }

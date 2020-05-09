@@ -12,4 +12,4 @@ import { NavigationComponent } from './navigation.component';
     SharedModule,
   ],
 })
-export class NavigationModule {}
+export class NavigationModule { }

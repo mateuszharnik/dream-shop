@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, V
 import { Contact, SocialMedia } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { WindowRefService } from '@services/window-ref.service';
-import jump from 'jump.js';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 
 @Component({
   selector: 'app-footer',

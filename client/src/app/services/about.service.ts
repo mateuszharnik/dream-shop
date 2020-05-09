@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { About } from '@models/index';
+import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
+import { About } from '@models/index';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class AboutService {
   about: About = null;
   aboutSubject: BehaviorSubject<About> = new BehaviorSubject<About>(this.about);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   fetchAbout(): Promise<About> {
     return this.http.get<About>(`http://localhost:3000/v1/about`).toPromise();
@@ -32,5 +32,5 @@ export class AboutService {
 
   getAbout(): Observable<About> {
     return this.aboutSubject.asObservable();
- }
+  }
 }

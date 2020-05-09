@@ -12,4 +12,4 @@ import { SocialMediaComponent } from './social-media.component';
     SharedModule,
   ],
 })
-export class SocialMediaModule {}
+export class SocialMediaModule { }
