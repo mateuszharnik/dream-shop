@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SpinnerGuard } from '@guards/spinner.guard';
 import { DashboardComponent } from './dashboard.component';
+import { DashboardGuard } from '@guards/dashboard.guard';
+import { IsAdminGuard } from '@guards/is-admin.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [DashboardGuard],
         component: DashboardShowcaseComponent,
       },
       {

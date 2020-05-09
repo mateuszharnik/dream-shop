@@ -116,7 +116,7 @@ const addEmail = async (req, res, next) => {
 
 const getEmails = async (req, res, next) => {
   try {
-    const emails = await emailsDB.find({ deleted_at: null });
+    const emails = await emailsDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
 
     if (!emails) {
       return responseWithError(res, next, 500, 'Nie udało się pobrać adersów email');

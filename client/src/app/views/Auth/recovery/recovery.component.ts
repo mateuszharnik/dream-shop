@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Alert } from '@models/index';
+import { Alert, Alerts } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 
 @Component({
@@ -15,6 +15,11 @@ export class RecoveryComponent implements OnInit {
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
 
   emailAlerts: Alert[] = [
     { id: '0', message: 'Adres email jest nieprawidłowy', key: 'pattern' },
@@ -60,6 +65,12 @@ export class RecoveryComponent implements OnInit {
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
     );
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   submit() {

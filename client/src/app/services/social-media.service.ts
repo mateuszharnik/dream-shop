@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SocialMedia } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,12 @@ export class SocialMediaService {
   }
 
   saveSocialMedia(id: string, data: SocialMedia): Promise<SocialMedia> {
-    return this.http.put<SocialMedia>(`http://localhost:3000/v1/social-media/${id}`, data).toPromise();
+    return this.http.put<SocialMedia>(`http://localhost:3000/v1/social-media/${id}`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setSocialMedia(socialMedia: SocialMedia) {

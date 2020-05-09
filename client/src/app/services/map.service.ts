@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Map } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,12 @@ export class MapService {
   }
 
   saveMap(id: string, data: Map): Promise<Map> {
-    return this.http.put<Map>(`http://localhost:3000/v1/map/${id}`, data).toPromise();
+    return this.http.put<Map>(`http://localhost:3000/v1/map/${id}`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setMap(about: Map) {

@@ -1,9 +1,12 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { SlideLeft } from '@animations/index';
+import { removeToken } from '@helpers/token';
+import { Navigation, User } from '@models/index';
 import { MatchMediaService } from '@services/match-media.service';
-import { Subscription } from 'rxjs';
 import { NavigationService } from '@services/navigation.service';
-import { Navigation } from '@models/index';
+import { UserService } from '@services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-navbar',
@@ -12,7 +15,7 @@ import { Navigation } from '@models/index';
   encapsulation: ViewEncapsulation.None,
   animations: [SlideLeft],
 })
-export class DashboardNavbarComponent implements OnInit, OnDestroy {
+export class DashboardNavbarComponent implements OnDestroy {
   @ViewChild('nav', { read: ElementRef }) nav: any = null;
   @ViewChild('button', { read: ElementRef }) button: any = null;
 
@@ -22,6 +25,7 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
     isAnimated: false,
     animationTime: 450,
   };
+  user: User = null;
   isDesktop = false;
   subscriptions: Subscription[] = [];
 
@@ -53,9 +57,16 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
     icon: 'fas fa-question',
   }];
 
-  constructor(private matchMediaService: MatchMediaService, private navigationService: NavigationService) {}
+  constructor(
+    private matchMediaService: MatchMediaService,
+    private navigationService: NavigationService,
+    private userService: UserService,
+    private router: Router,
+  ) {
+    this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
+      this.user = user;
+    }));
 
-  ngOnInit() {
     this.subscriptions.push(this.navigationService.getNavigation().subscribe((data: Navigation) => {
       this.navigation = data;
     }));
@@ -81,6 +92,15 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
     if (focus) {
       this.setFocus();
     }
+  }
+
+  logout() {
+    this.userService.removeUser();
+  }
+
+  isAdmin(): boolean {
+    return this.user && Array.isArray(this.user.roles)
+      && this.user.roles.indexOf('administrator') !== -1;
   }
 
   setFocus() {

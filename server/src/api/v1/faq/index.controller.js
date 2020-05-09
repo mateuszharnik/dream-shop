@@ -6,7 +6,7 @@ const { purify } = require('../../../helpers/sanitize');
 
 const getFAQs = async (req, res, next) => {
   try {
-    const faqs = await faqDB.find({ deleted_at: null });
+    const faqs = await faqDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
 
     if (!faqs) {
       return responseWithError(res, next, 500, 'Nie udało się pobrać najczęściej zadawanych pytań');

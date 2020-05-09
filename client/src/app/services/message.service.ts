@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,12 @@ export class MessageService {
   constructor(private http: HttpClient) { }
 
   fetchMessages(): Promise<Message[]> {
-    return this.http.get<Message[]>(`http://localhost:3000/v1/messages`).toPromise();
+    return this.http.get<Message[]>(`http://localhost:3000/v1/messages`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   saveMessage(data: Message): Promise<Message> {
@@ -21,7 +27,12 @@ export class MessageService {
   }
 
   deleteMessage(id: string): Promise<Message> {
-    return this.http.request<Message>('delete', `http://localhost:3000/v1/messages/${id}`).toPromise();
+    return this.http.request<Message>('delete', `http://localhost:3000/v1/messages/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setMessages(messages: Message[]) {

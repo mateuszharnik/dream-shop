@@ -1,9 +1,4 @@
 <div *ngIf="spinnerIsLoading" class="spinner-wrapper spinner-z-index">
   <app-spinner></app-spinner>
 </div>
-<div *ngIf="isLoading; else view" class="spinner-wrapper">
-  <app-spinner></app-spinner>
-</div>
-<ng-template #view>
-  <router-outlet></router-outlet>
-</ng-template>
+<router-outlet></router-outlet>

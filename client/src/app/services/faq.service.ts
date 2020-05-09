@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FAQ, FAQCategories } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -20,23 +21,48 @@ export class FAQService {
   }
 
   fetchFAQ(id: string): Promise<FAQ> {
-    return this.http.get<FAQ>(`http://localhost:3000/v1/faq/${id}`).toPromise();
+    return this.http.get<FAQ>(`http://localhost:3000/v1/faq/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   fetchCategories(): Promise<FAQCategories[]> {
-    return this.http.get<FAQCategories[]>(`http://localhost:3000/v1/faq-categories`).toPromise();
+    return this.http.get<FAQCategories[]>(`http://localhost:3000/v1/faq-categories`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
-  saveFAQ(faq: FAQ): Promise<FAQ> {
-    return this.http.post<FAQ>(`http://localhost:3000/v1/faq`, faq).toPromise();
+  saveFAQ(data: FAQ): Promise<FAQ> {
+    return this.http.post<FAQ>(`http://localhost:3000/v1/faq`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   deleteFAQ(id: string): Promise<FAQ> {
-    return this.http.request<FAQ>('delete', `http://localhost:3000/v1/faq/${id}`).toPromise();
+    return this.http.request<FAQ>('delete', `http://localhost:3000/v1/faq/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
-  updateFAQ(id: string, faq: FAQ): Promise<FAQ> {
-    return this.http.put<FAQ>(`http://localhost:3000/v1/faq/${id}`, faq).toPromise();
+  updateFAQ(id: string, data: FAQ): Promise<FAQ> {
+    return this.http.put<FAQ>(`http://localhost:3000/v1/faq/${id}`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setCategories(categories: FAQCategories[]) {

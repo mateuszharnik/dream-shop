@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Alert } from '@models/index';
+import { Alert, Alerts, UserWithToken } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
+import { AuthService } from '@services/auth.service';
+import { UserService } from '@services/user.service';
+import { setToken } from '@helpers/token';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +18,11 @@ export class LoginComponent implements OnInit {
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
 
   usernameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa użytkownika jest nieprawidłowa', key: 'pattern' },
@@ -25,7 +33,13 @@ export class LoginComponent implements OnInit {
     { id: '0', message: 'Proszę podać hasło', key: 'required' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UserService,
+    private spinnerService: SpinnerService,
+    private authService: AuthService,
+  ) {
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
@@ -65,7 +79,13 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  submit() {
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
+  }
+
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -73,6 +93,21 @@ export class LoginComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response: UserWithToken = await this.authService.login(this.form.value);
+      this.userService.setUser(response.user);
+      setToken(response.token);
+      this.router.navigate(['/admin']);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {

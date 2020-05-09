@@ -6,7 +6,7 @@ const { purify } = require('../../../helpers/sanitize');
 
 const getMessages = async (req, res, next) => {
   try {
-    const messages = await messagesDB.find({ deleted_at: null });
+    const messages = await messagesDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
 
     if (!messages) {
       return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości');

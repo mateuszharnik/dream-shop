@@ -10,6 +10,11 @@ export interface Alerts {
   success: string;
 }
 
+export interface Credentials {
+  password: string;
+  username: string;
+}
+
 export interface Product {
   _id?: string;
   name: string;
@@ -134,9 +139,15 @@ export interface User {
   username: string;
   email: string;
   image: string;
+  roles: string[];
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
+}
+
+export interface UserWithToken {
+  user: User;
+  token?: string;
 }
 
 export interface Email {

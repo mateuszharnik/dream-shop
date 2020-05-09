@@ -13,6 +13,10 @@ const getUser = async (req, res, next) => {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
+  if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
+    return responseWithError(res, next, 400, 'Brak dostępu');
+  }
+
   try {
     const user = await usersDB.findOne({ _id: params.id });
 
@@ -28,9 +32,9 @@ const getUser = async (req, res, next) => {
       _id, name, username, email, avatar, roles, created_at, updated_at,
     };
 
-    const token = await signToken(payload, '1d');
+    // const token = await signToken(payload, '1d');
 
-    res.status(200).json({ ...payload, token });
+    res.status(200).json({ ...payload });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -43,6 +47,10 @@ const updateUser = async (req, res, next) => {
 
   if (paramsSchemaError) {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+  }
+
+  if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
+    return responseWithError(res, next, 400, 'Brak dostępu');
   }
 
   const { schemaError: fileSchemaError, data: file } = fileSchema(req.file);
@@ -121,9 +129,13 @@ const updateUser = async (req, res, next) => {
       _id, name, username, email, avatar, roles, created_at, updated_at,
     };
 
-    const token = await signToken(payload, '1d');
+    if (req.user._id === params.id) {
+      const token = await signToken(payload, '1d');
 
-    res.status(200).json({ ...payload, token });
+      res.status(200).json({ ...payload, token });
+    } else {
+      res.status(200).json({ ...payload });
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

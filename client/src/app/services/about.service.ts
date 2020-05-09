@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { About } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,12 @@ export class AboutService {
   }
 
   saveAbout(id: string, data: About): Promise<About> {
-    return this.http.put<About>(`http://localhost:3000/v1/about/${id}`, data).toPromise();
+    return this.http.put<About>(`http://localhost:3000/v1/about/${id}`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setAbout(about: About) {
