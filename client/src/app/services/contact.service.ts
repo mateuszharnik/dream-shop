@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Contact } from '@models/index';
+import { getFullToken } from '@helpers/token';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,12 @@ export class ContactService {
   }
 
   saveContact(id: string, data: Contact): Promise<Contact> {
-    return this.http.put<Contact>(`http://localhost:3000/v1/contact/${id}`, data).toPromise();
+    return this.http.put<Contact>(`http://localhost:3000/v1/contact/${id}`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
   }
 
   setContact(about: Contact) {

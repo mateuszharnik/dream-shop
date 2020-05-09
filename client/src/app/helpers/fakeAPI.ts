@@ -140,6 +140,7 @@ export const user: User = {
   username: 'admin',
   email: 'example@domain.com',
   image: '',
+  roles: ['user'],
   created_at: new Date(),
   updated_at: new Date(),
   deleted_at: null,

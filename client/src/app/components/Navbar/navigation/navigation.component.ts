@@ -1,6 +1,8 @@
-import { Component, HostBinding, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
-import { Links } from '@models/index';
+import { Links, User } from '@models/index';
+import { UserService } from '@services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -9,7 +11,7 @@ import { Links } from '@models/index';
   encapsulation: ViewEncapsulation.None,
   animations: [Slide],
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnDestroy {
   @ViewChildren('dropdown') dropdown: any = null;
   @ViewChildren('parent') parent: any = null;
   @HostBinding('class.block') display = true;
@@ -19,6 +21,18 @@ export class NavigationComponent {
   isDisabled = false;
   isAnimated = false;
   animationTime = 450;
+  user: User = null;
+  subscriptions: Subscription[] = [];
+
+  constructor(private userService: UserService) {
+    this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
+      this.user = user;
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
 
   trackID(index: string, item: any): string {
     return item.id;

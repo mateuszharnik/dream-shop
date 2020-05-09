@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { match } from '@helpers/index';
-import { Alert } from '@models/index';
+import { Alert, Alerts } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 
 @Component({
@@ -16,6 +16,11 @@ export class ChangePasswordComponent implements OnInit {
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
 
   passwordAlerts: Alert[] = [
     { id: '0', message: 'Proszę podać nowe hasło', key: 'required' },
@@ -38,6 +43,12 @@ export class ChangePasswordComponent implements OnInit {
       this.isLoading = false;
       this.toggleSpinner();
     }, 0);
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
   }
 
   createForm() {

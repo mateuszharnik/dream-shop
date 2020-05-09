@@ -13,8 +13,8 @@ router.get(
 
 router.post(
   '/',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   addProductCategories,
 );
 

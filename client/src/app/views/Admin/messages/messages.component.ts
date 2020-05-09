@@ -35,7 +35,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
     try {
       const response: Message[] = await this.messageService.fetchMessages();
       this.messageService.setMessages(response);
-      console.log(response);
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');

@@ -18,22 +18,22 @@ router.get(
 
 router.post(
   '/',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   addProduct,
 );
 
 router.put(
   '/:id',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   updateProduct,
 );
 
 router.delete(
   '/:id',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   deleteProduct,
 );
 

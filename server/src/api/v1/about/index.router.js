@@ -11,8 +11,8 @@ router.get(
 
 router.put(
   '/:id',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   updateAbout,
 );
 

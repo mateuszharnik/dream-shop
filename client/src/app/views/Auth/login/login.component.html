@@ -36,7 +36,7 @@
             [inputForm]="form"
           ></app-input>
         </div>
-        <div class="column-12 mb-4 text-center">
+        <div class="column-12 text-center">
           <app-button
             [buttonType]="'submit'"
             [buttonTitle]="computedButtonTitle()"
@@ -51,10 +51,16 @@
         </div>
       </div>
     </app-form>
-    <div class="mb-3">
+    <app-alert
+      *ngIf="alerts.server || alerts.error"
+      [alertClass]="'alert alert-danger m-auto my-6'"
+    >
+      {{ alerts.server ? alerts.server : alerts.error }}
+    </app-alert>
+    <div class="my-3">
       Nie pamiętasz hasła?
       <app-router-link
-        [linkRouter]="'/odzyskaj-haslo'"
+        [linkRouter]="'/odzyskaj'"
         [linkTitle]="'Przejdź do strony odzyskiwania hasła'"
       >
         Odzyskaj hasło

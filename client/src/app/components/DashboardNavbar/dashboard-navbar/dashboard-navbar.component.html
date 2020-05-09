@@ -48,7 +48,7 @@
           </span>
         </a>
       </li>
-      <li class="dashboard-navigation__item mb-2">
+      <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
         <app-dashboard-navbar-list
           [buttonTitle]="'Zarządzaj swoimi produktami'"
           [buttonText]="'Produkty'"
@@ -56,7 +56,7 @@
           [items]="productItems"
         ></app-dashboard-navbar-list>
       </li>
-      <li class="dashboard-navigation__item mb-2">
+      <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
         <app-dashboard-navbar-list
           [buttonTitle]="'Zarządzaj swoimi stronami'"
           [buttonText]="'Strony'"
@@ -64,7 +64,7 @@
           [items]="siteItems"
         ></app-dashboard-navbar-list>
       </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
+      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
           routerLink="/admin/nawigacja"
           title="Edytuj nawigację na stronie"
@@ -82,7 +82,7 @@
           </span>
         </a>
       </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
+      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
           routerLink="/admin/wiadomosci"
           title="Zobacz otrzymane wiadomości"
@@ -100,7 +100,7 @@
           </span>
         </a>
       </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
+      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
           routerLink="/admin/social-media"
           title="Edytuj linki do mediów społecznościowych"
@@ -118,7 +118,7 @@
           </span>
         </a>
       </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
+      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
           routerLink="/admin/mapa"
           title="Ustawienia mapy"
@@ -136,7 +136,7 @@
           </span>
         </a>
       </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
+      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
           routerLink="/admin/newsletter"
           title="Zobacz zapisane adresy email"
@@ -159,6 +159,7 @@
           routerLink="/zaloguj"
           title="Wyloguj się z konta"
           class="dashboard-navigation__link block"
+          (click)="logout()"
         >
           <app-fa-icon
             [faClass]="'fas fa-power-off mr-1 dashboard-navigation__icon'"

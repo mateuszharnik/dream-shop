@@ -8,8 +8,8 @@ const router = Router();
 
 router.get(
   '/',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   getEmails,
 );
 
@@ -20,15 +20,15 @@ router.post(
 
 router.delete(
   '/',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   deleteEmails,
 );
 
 router.delete(
   '/:id',
-  // isNotLoggedIn,
-  // isAdmin,
+  isNotLoggedIn,
+  isAdmin,
   deleteEmail,
 );
 
