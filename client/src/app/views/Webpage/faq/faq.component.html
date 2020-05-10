@@ -4,7 +4,7 @@
 <ng-template #faqView>
   <section class="faq-page min-vh-100 w-100">
     <div *ngIf="!alerts.server; else showError">
-      <div *ngIf="faqs && faqs.length; else showDefault" class="container">
+      <div *ngIf="faqs.length; else showDefault" class="container">
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="faq-page__title h4 m-auto bolder uppercase">
@@ -19,7 +19,7 @@
             miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
           </p>
           <div
-            *ngIf="faqs"
+            *ngIf="faqs.length"
             class="row column-12 m-auto mb-10 flex-justify-center"
           >
             <div
@@ -40,7 +40,7 @@
               </app-link>
             </div>
           </div>
-          <div *ngIf="faqs" class="column-12">
+          <div *ngIf="faqs.length" class="column-12">
             <div
               class="container-md"
               *ngFor="let faq of faqs; trackBy: trackID"

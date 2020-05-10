@@ -10,6 +10,14 @@ const routes: Routes = [
     canActivate: [DashboardGuard],
     component: FAQComponent,
   },
+  {
+    path: 'dodaj',
+    loadChildren: '@admin/add-faq/add-faq.module#AddFAQModule',
+  },
+  {
+    path: 'edytuj/:id',
+    loadChildren: '@admin/edit-faq/edit-faq.module#EditFAQModule',
+  },
 ];
 
 @NgModule({

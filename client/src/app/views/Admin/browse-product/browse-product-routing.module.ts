@@ -10,6 +10,18 @@ const routes: Routes = [
     canActivate: [DashboardGuard],
     component: BrowseProductComponent,
   },
+  {
+    path: 'dodaj',
+    loadChildren: '@admin/add-product/add-product.module#AddProductModule',
+  },
+  {
+    path: 'kategorie',
+    loadChildren: '@admin/add-product/add-product.module#AddProductModule',
+  },
+  {
+    path: 'edytuj/:id',
+    loadChildren: '@admin/edit-product/edit-product.module#EditProductModule',
+  },
 ];
 
 @NgModule({

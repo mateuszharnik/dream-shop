@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Alerts, Message } from '@models/index';
+import { Alerts, Message, DeleteResponse } from '@models/index';
 import { MessageService } from '@services/message.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import { MessagesModals } from '@models/modals';
 
 @Component({
   selector: 'app-messages',
@@ -17,8 +18,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
-  messageToDelete: Message = null;
   subscriptions: Subscription[] = [];
+  modals: MessagesModals = {
+    deleteMessages: [],
+    deleteMessage: null,
+  };
   alerts: Alerts = {
     server: '',
     error: '',
@@ -70,7 +74,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  async submit(id: string) {
+  async deleteMessage(id: string) {
     this.isSubmitted = true;
     this.isDisabled = true;
 
@@ -78,7 +82,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       const deleteMessageResponse: Message = await this.messageService.deleteMessage(id);
       const messagesResponse: Message[] = await this.messageService.fetchMessages();
       this.messageService.setMessages(messagesResponse);
-      this.setAlerts('', '', 'Pomyślnie usunięto pytanie');
+      this.setAlerts('', '', 'Pomyślnie usunięto wiadomość');
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
@@ -86,17 +90,45 @@ export class MessagesComponent implements OnInit, OnDestroy {
         this.setAlerts('', error.error.message);
       }
     } finally {
-      this.closeModal();
+      this.closeModal('deleteMessage');
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
+  }
+
+  async deleteMessages() {
+    this.isSubmitted = true;
+    this.isDisabled = true;
+
+    try {
+      const response: DeleteResponse = await this.messageService.deleteMessages();
+      this.messageService.setMessages([]);
+      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie wiadomości');
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.closeModal('deleteMessages');
       this.isDisabled = false;
       this.isSubmitted = false;
     }
   }
 
   openModal(message: Message) {
-    if (!this.messageToDelete) {
-      this.messageToDelete = message;
-      this.setFocus();
+    if (this.modals.deleteMessage || this.modals.deleteMessages.length) {
+      return;
     }
+
+    if (message) {
+      this.modals.deleteMessage = message;
+    } else {
+      this.modals.deleteMessages = this.messages;
+    }
+
+    this.setFocus();
   }
 
   setFocus() {
@@ -105,7 +137,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  closeModal() {
-    this.messageToDelete = null;
+  closeModal(key: 'deleteMessage' | 'deleteMessages') {
+    if (key === 'deleteMessage') {
+      this.modals.deleteMessage = null;
+      return;
+    }
+
+    this.modals.deleteMessages = [];
   }
 }

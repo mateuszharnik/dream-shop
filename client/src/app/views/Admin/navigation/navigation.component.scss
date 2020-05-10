@@ -1,2 +1,11 @@
 // Imports
 @import "../../../../assets/scss/variables";
+
+.categories {
+  border-radius: 0.4rem;
+  border: 0.1rem solid $color-gray;
+
+  &__head {
+    background-color: darken($color-white, 5%);
+  }
+}

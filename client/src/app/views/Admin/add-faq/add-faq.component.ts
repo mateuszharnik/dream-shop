@@ -115,7 +115,7 @@ export class AddFAQComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  async submit() {
+  async addFAQ() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {

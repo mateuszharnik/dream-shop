@@ -16,7 +16,7 @@ import jump from 'jump.js';
 export class FaqComponent implements OnInit, OnDestroy {
   @ViewChildren('accordionHeader') accordionHeader = null;
 
-  faqs: FAQs[] | FAQ[] = null;
+  faqs: FAQs[] | FAQ[] = [];
   alerts: Alerts = {
     server: '',
     error: '',
@@ -29,16 +29,16 @@ export class FaqComponent implements OnInit, OnDestroy {
 
   constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
-      this.faqs = data ? this.getCategories(data) : data;
+      this.faqs = data.length ? this.getCategories(data) : data;
     }));
 
-    this.isLoading = this.faqs ? false : true;
+    this.isLoading = this.faqs.length ? false : true;
   }
 
   async ngOnInit() {
     this.trackID = trackID;
 
-    if (this.faqs) {
+    if (this.faqs.length) {
       this.isLoading = false;
       return this.toggleSpinner();
     }

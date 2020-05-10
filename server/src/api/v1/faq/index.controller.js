@@ -96,6 +96,35 @@ const updateFAQ = async (req, res, next) => {
   }
 };
 
+const deleteFAQs = async (req, res, next) => {
+  try {
+    const faqs = await faqDB.find({ deleted_at: null });
+
+    if (!faqs.length) {
+      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych pytań');
+    }
+
+    const deletedFAQs = await faqDB.update(
+      { deleted_at: null },
+      { $set: { deleted_at: new Date() } },
+      { multi: true },
+    );
+
+    if (!deletedFAQs) {
+      return responseWithError(res, next, 500, 'Nie udało się usunąć pytań');
+    }
+
+    res.status(200).json({
+      message: 'Usunięto wszystkie pytania',
+      deleted_faqs: deletedFAQs.n,
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return responseWithError(res, next, 500, 'Wystąpił błąd');
+  }
+};
+
 const deleteFAQ = async (req, res, next) => {
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
@@ -188,5 +217,5 @@ const addFAQ = async (req, res, next) => {
 };
 
 module.exports = {
-  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ,
+  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ, deleteFAQs,
 };

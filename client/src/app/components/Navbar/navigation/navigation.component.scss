@@ -46,11 +46,10 @@
     }
 
     &.active {
-      font-weight: bold;
+      color: $navigation-link-color-hover;
 
       &:hover {
-        color: $navigation-link-color-hover;
-        font-weight: bold;
+        color: darken($navigation-link-color-hover, 20%);
       }
     }
   }

@@ -15,6 +15,11 @@ export interface Credentials {
   username: string;
 }
 
+export interface DeleteResponse {
+  message: string;
+  itmes: number;
+}
+
 export interface Product {
   _id?: string;
   name: string;
