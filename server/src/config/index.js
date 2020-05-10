@@ -13,6 +13,10 @@ const envSchema = Joi.object().keys({
   ADMIN_EMAIL: Joi.string().trim().regex(emailRegExp).required(),
   ADMIN_PASSWORD: Joi.string().trim().min(8).max(32)
     .required(),
+  EMAIL_LOGIN: Joi.string().trim().regex(emailRegExp).required(),
+  EMAIL_HOST: Joi.string().trim().required(),
+  EMAIL_PORT: Joi.string().trim().required(),
+  EMAIL_PASSWORD: Joi.string().trim().required(),
 }).unknown(true);
 
 const { error, value: config } = envSchema.validate(process.env);

@@ -1,4 +1,8 @@
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const {
+  CLIENT_URL, NODE_ENV, EMAIL_HOST, EMAIL_PORT, EMAIL_LOGIN, EMAIL_PASSWORD,
+} = require('../config');
 const { signToken } = require('../helpers/token');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
@@ -11,6 +15,40 @@ const {
 } = require('./index.model');
 
 const ONE_HOUR = 1000 * 60 * 60;
+
+const transport = nodemailer.createTransport({
+  host: EMAIL_HOST,
+  port: EMAIL_PORT,
+  secure: Number(EMAIL_PORT) === 465,
+  auth: { user: EMAIL_LOGIN, pass: EMAIL_PASSWORD },
+  tls: { rejectUnauthorized: NODE_ENV === 'production' },
+});
+
+const sendEmail = async (user) => new Promise((resolve, reject) => {
+  transport.sendMail({
+    from: `"Dream Shop" <${EMAIL_LOGIN}>`,
+    to: user.email,
+    subject: 'Odzyskiwanie hasła',
+    text: `
+    Aby odzyskać hasło to swojego konta, kliknij w poniższy link i postępuj zgodnie z dalszymi instrukcjami.
+
+    Link do zmiany hasła: ${CLIENT_URL}/odzyskaj/${user.reset_password_token}
+
+    Jeżeli jednak to nie Ty wysyłałeś/wysyłałaś prośbę o przywrócenie hasła, zignoruj tę wiadomość i sprawdź swoje konto.
+    `,
+    html: `
+    <p>Aby odzyskać hasło to swojego konta, kliknij w poniższy link i postępuj zgodnie z dalszymi instrukcjami.</p>
+    <a href="${CLIENT_URL}/odzyskaj/${user.reset_password_token}" style="color:#b045e2;" title="Przejdź do strony zmiany hasła">${CLIENT_URL}/odzyskaj/${user.reset_password_token}</a>
+    <p>Jeżeli jednak to nie Ty wysyłałeś/wysyłałaś prośbę o przywrócenie hasła, zignoruj tę wiadomość i sprawdź swoje konto.</p>
+    `,
+  }, (err, info) => {
+    if (err) {
+      reject(err);
+    }
+
+    resolve(info);
+  });
+});
 
 // eslint-disable-next-line no-unused-vars
 const loginUser = async (req, res, next) => {
@@ -80,10 +118,11 @@ const sendRecoveryLink = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Nie udało się wygenerować tokenu');
     }
 
-    res.status(200).json({
-      reset_password_token: resetPasswordToken,
-      reset_password_token_exp: resetPasswordTokenExp,
-    });
+    const success = await sendEmail(newUser);
+
+    if (success) {
+      res.status(200).json({ message: 'Wiadomość została pomyślnie wysłana' });
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -140,7 +179,7 @@ const recoveryPassword = async (req, res, next) => {
     const token = await signToken(payload, '1d');
 
     if (token) {
-      res.status(200).json({ ...payload, token });
+      res.status(200).json({ user: { ...payload }, token });
     }
   } catch (error) {
     // eslint-disable-next-line no-console

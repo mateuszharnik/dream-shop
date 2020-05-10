@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { match } from '@helpers/index';
-import { Alert, Alerts } from '@models/index';
+import { Alert, Alerts, UserWithToken } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
+import { AuthService } from '@services/auth.service';
+import { UserService } from '@services/user.service';
+import { setToken } from '@helpers/token';
 
 @Component({
   selector: 'app-change-password',
@@ -16,6 +19,8 @@ export class ChangePasswordComponent implements OnInit {
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
+  id: string = null;
+  email: string = null;
   alerts: Alerts = {
     server: '',
     error: '',
@@ -33,16 +38,37 @@ export class ChangePasswordComponent implements OnInit {
     { id: '1', message: 'Hasła nie są takie same', key: 'match' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private spinnerService: SpinnerService,
+    private authService: AuthService,
+    private userService: UserService,
+  ) {
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
-  ngOnInit() {
-    this.createForm();
-    setTimeout(() => {
+  async ngOnInit() {
+    this.id = this.activateRoute.snapshot.params.id;
+
+    try {
+      const response = await this.authService.checkRecoveryToken(this.id);
+
+      this.email = response.email;
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else if (error.status === 500) {
+        this.setAlerts(error.error.message);
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
       this.isLoading = false;
+      this.createForm();
       this.toggleSpinner();
-    }, 0);
+    }
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -83,7 +109,7 @@ export class ChangePasswordComponent implements OnInit {
       );
   }
 
-  submit() {
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -91,6 +117,22 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response: UserWithToken = await this.authService.resetPassword(this.form.value, this.id);
+      this.userService.setUser(response.user);
+      setToken(response.token);
+      this.router.navigate(['/admin']);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { Message, DeleteResponse } from '@models/index';
+import { DeleteResponse, Message } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

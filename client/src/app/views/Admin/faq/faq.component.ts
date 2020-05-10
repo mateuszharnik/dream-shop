@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { categories } from '@helpers/faq';
 import { markdown } from '@helpers/index';
-import { Alerts, FAQ, FAQs, DeleteResponse } from '@models/index';
+import { Alerts, DeleteResponse, FAQ, FAQs } from '@models/index';
+import { FAQModals } from '@models/modals';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { FAQModals } from '@models/modals';
 
 @Component({
   selector: 'app-faq',

@@ -22,6 +22,14 @@ export class UserService {
     }).toPromise();
   }
 
+  updateUser(id: string, data: FormData): Promise<User> {
+    return this.http.put<User>(`http://localhost:3000/v1/users/${id}`, data, {
+      headers: new HttpHeaders({
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
+  }
+
   setUser(user: User) {
     this.userSubject.next(user);
   }
