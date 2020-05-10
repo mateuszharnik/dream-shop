@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Alerts, Email, DeleteResponse } from '@models/index';
+import { Alerts, DeleteResponse, Email } from '@models/index';
+import { EmailsModals } from '@models/modals';
 import { NewsletterService } from '@services/newsletter.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { EmailsModals } from '@models/modals';
 
 @Component({
   selector: 'app-newsletter-page',

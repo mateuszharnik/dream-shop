@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Alerts, Message, DeleteResponse } from '@models/index';
+import { Alerts, DeleteResponse, Message } from '@models/index';
+import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
-import { MessagesModals } from '@models/modals';
 
 @Component({
   selector: 'app-messages',

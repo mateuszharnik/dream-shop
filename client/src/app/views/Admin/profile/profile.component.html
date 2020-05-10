@@ -5,10 +5,13 @@
   <section class="admin-page-section p-6 min-vh-100">
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">
-        Profil użytkownika {{ user.username }}
+        Profil użytkownika
       </h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
       <p>
         Tutaj możesz zmienić ustawienia dla swojego konta.
       </p>
@@ -18,6 +21,20 @@
         (whenFormSubmit)="submit()"
       >
         <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'username'"
+              [inputLabel]="'Nazwa użytkownika'"
+              [inputPlaceholder]="'Nazwa użytkownika'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('username')"
+              [inputAlerts]="usernameAlerts"
+              [inputRequired]="false"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
@@ -65,12 +82,12 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'newPassword'"
+              [inputID]="'new_password'"
               [inputType]="'password'"
               [inputLabel]="'Nowe hasło'"
               [inputPlaceholder]="'********'"
               [inputClass]="'form__input w-100'"
-              [inputValidation]="validation('newPassword')"
+              [inputValidation]="validation('new_password')"
               [inputAlerts]="newPasswordAlerts"
               [inputRequired]="false"
               [inputGroup]="form"
@@ -80,12 +97,12 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'confirmNewPassword'"
+              [inputID]="'confirm_new_password'"
               [inputType]="'password'"
               [inputLabel]="'Powtórz nowe hasło'"
               [inputPlaceholder]="'********'"
               [inputClass]="'form__input w-100'"
-              [inputValidation]="validation('confirmNewPassword')"
+              [inputValidation]="validation('confirm_new_password')"
               [inputAlerts]="confirmNewPasswordAlerts"
               [inputRequired]="false"
               [inputGroup]="form"
@@ -95,7 +112,7 @@
           <div class="column-12 mb-4">
             <app-file-input
               [inputLabelClass]="'block mb-2 bold'"
-              [inputID]="'image'"
+              [inputID]="'avatar'"
               [inputLabel]="'Wgraj zdjęcie'"
               [inputRequired]="false"
               [inputMessage]="file"
@@ -117,6 +134,21 @@
           </div>
         </div>
       </app-form>
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
     </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
   </section>
 </ng-template>

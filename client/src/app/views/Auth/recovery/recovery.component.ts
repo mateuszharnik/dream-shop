@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Alert, Alerts } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-recovery',
@@ -26,7 +26,7 @@ export class RecoveryComponent implements OnInit {
     { id: '1', message: 'Proszę podać adres email', key: 'required' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private spinnerService: SpinnerService) {
+  constructor(private formBuilder: FormBuilder, private spinnerService: SpinnerService, private authService: AuthService) {
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
@@ -75,7 +75,7 @@ export class RecoveryComponent implements OnInit {
     this.alerts.success = success;
   }
 
-  submit() {
+  async submit() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
@@ -83,6 +83,20 @@ export class RecoveryComponent implements OnInit {
     }
 
     this.isDisabled = true;
+
+    try {
+      const response = await this.authService.sendRecoveryEmail(this.form.value);
+      this.setAlerts('', '', response.message);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
   }
 
   toggleSpinner(isLoading = false) {
