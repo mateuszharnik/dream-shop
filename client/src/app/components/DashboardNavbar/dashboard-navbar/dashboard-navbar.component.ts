@@ -38,6 +38,11 @@ export class DashboardNavbarComponent implements OnDestroy {
     text: 'Dodaj',
     title: 'Dodaj nowy produkt',
     icon: 'fas fa-plus',
+  }, {
+    link: '/admin/produkty/kategorie',
+    text: 'Kategorie',
+    title: 'Dodaj nową kategorie produktu',
+    icon: 'fas fa-tag',
   }];
   siteItems = [{
     link: '/admin/strony/o-nas',

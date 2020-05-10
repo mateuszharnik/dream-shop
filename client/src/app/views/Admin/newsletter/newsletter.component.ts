@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Alerts, Email } from '@models/index';
+import { Alerts, Email, DeleteResponse } from '@models/index';
 import { NewsletterService } from '@services/newsletter.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import { EmailsModals } from '@models/modals';
 
 @Component({
   selector: 'app-newsletter-page',
@@ -16,11 +17,14 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
-  emailToDelete: Email = null;
   alerts: Alerts = {
     server: '',
     error: '',
     success: '',
+  };
+  modals: EmailsModals = {
+    deleteEmails: [],
+    deleteEmail: null,
   };
   subscriptions: Subscription[] = [];
   emails: Email[] = [];
@@ -65,7 +69,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Usuwanie' : 'Usuń';
   }
 
-  async submit(id: string) {
+  async deleteEmail(id: string) {
     this.isSubmitted = true;
     this.isDisabled = true;
 
@@ -73,7 +77,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       const deleteResponse: Email = await this.newsletterService.deleteEmail(id);
       const emailsResponse: Email[] = await this.newsletterService.fetchEmails();
       this.newsletterService.setEmails(emailsResponse);
-      this.setAlerts('', '', 'Pomyślnie usunięto');
+      this.setAlerts('', '', 'Pomyślnie usunięto email');
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
@@ -81,7 +85,28 @@ export class NewsletterComponent implements OnInit, OnDestroy {
         this.setAlerts('', error.error.message);
       }
     } finally {
-      this.closeModal();
+      this.closeModal('deleteEmail');
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
+  }
+
+  async deleteEmails() {
+    this.isSubmitted = true;
+    this.isDisabled = true;
+
+    try {
+      const response: DeleteResponse = await this.newsletterService.deleteEmails();
+      this.newsletterService.setEmails([]);
+      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie adresy email');
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.closeModal('deleteEmails');
       this.isDisabled = false;
       this.isSubmitted = false;
     }
@@ -94,10 +119,17 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   }
 
   openModal(email: Email) {
-    if (!this.emailToDelete) {
-      this.emailToDelete = email;
-      this.setFocus();
+    if (this.modals.deleteEmail || this.modals.deleteEmails.length) {
+      return;
     }
+
+    if (email) {
+      this.modals.deleteEmail = email;
+    } else {
+      this.modals.deleteEmails = this.emails;
+    }
+
+    this.setFocus();
   }
 
   setFocus() {
@@ -106,7 +138,12 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  closeModal() {
-    this.emailToDelete = null;
+  closeModal(key: 'deleteEmail' | 'deleteEmails') {
+    if (key === 'deleteEmail') {
+      this.modals.deleteEmail = null;
+      return;
+    }
+
+    this.modals.deleteEmails = [];
   }
 }

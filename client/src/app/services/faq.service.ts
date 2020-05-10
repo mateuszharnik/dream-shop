@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { FAQ, FAQCategories } from '@models/index';
+import { FAQ, FAQCategories, DeleteResponse } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FAQService {
-  faqs: FAQ[] = null;
-  categories: FAQCategories[] = null;
+  faqs: FAQ[] = [];
+  categories: FAQCategories[] = [];
 
   faqsSubject: BehaviorSubject<FAQ[]> = new BehaviorSubject<FAQ[]>(this.faqs);
   categoriesSubject: BehaviorSubject<FAQCategories[]> = new BehaviorSubject<FAQCategories[]>(this.categories);
@@ -49,6 +49,15 @@ export class FAQService {
 
   deleteFAQ(id: string): Promise<FAQ> {
     return this.http.request<FAQ>('delete', `http://localhost:3000/v1/faq/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
+  }
+
+  deleteFAQs(): Promise<DeleteResponse> {
+    return this.http.request<DeleteResponse>('delete', `http://localhost:3000/v1/faq`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),

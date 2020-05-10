@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
-  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ,
+  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ, deleteFAQs,
 } = require('./index.controller');
 
 const router = Router();
@@ -35,6 +35,13 @@ router.delete(
   isNotLoggedIn,
   isAdmin,
   deleteFAQ,
+);
+
+router.delete(
+  '/',
+  isNotLoggedIn,
+  isAdmin,
+  deleteFAQs,
 );
 
 module.exports = router;

@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { categories } from '@helpers/faq';
 import { markdown } from '@helpers/index';
-import { Alerts, FAQ, FAQs } from '@models/index';
+import { Alerts, FAQ, FAQs, DeleteResponse } from '@models/index';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import { FAQModals } from '@models/modals';
 
 @Component({
   selector: 'app-faq',
@@ -26,6 +27,10 @@ export class FAQComponent implements OnInit, OnDestroy {
   questionToDelete: FAQ = null;
   subscriptions: Subscription[] = [];
   faqs: FAQs[] | FAQ[] = [];
+  modals: FAQModals = {
+    deleteFAQs: [],
+    deleteFAQ: null,
+  };
 
   constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
@@ -98,10 +103,10 @@ export class FAQComponent implements OnInit, OnDestroy {
   }
 
   computedFAQEditLink(id: string): string {
-    return `${id}/edytuj`;
+    return `edytuj/${id}`;
   }
 
-  async submit(id: string) {
+  async deleteFAQ(id: string) {
     this.isSubmitted = true;
     this.isDisabled = true;
 
@@ -117,7 +122,28 @@ export class FAQComponent implements OnInit, OnDestroy {
         this.setAlerts('', error.error.message);
       }
     } finally {
-      this.closeModal();
+      this.closeModal('deleteFAQ');
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
+  }
+
+  async deleteFAQs() {
+    this.isSubmitted = true;
+    this.isDisabled = true;
+
+    try {
+      const response: DeleteResponse = await this.faqService.deleteFAQs();
+      this.faqService.setFAQs([]);
+      this.setAlerts('', '', `Pomyślnie usunięto wszystkie pytania`);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.closeModal('deleteFAQs');
       this.isDisabled = false;
       this.isSubmitted = false;
     }
@@ -130,10 +156,17 @@ export class FAQComponent implements OnInit, OnDestroy {
   }
 
   openModal(question: FAQ) {
-    if (!this.questionToDelete) {
-      this.questionToDelete = question;
-      this.setFocus();
+    if (this.modals.deleteFAQ || this.modals.deleteFAQs.length) {
+      return;
     }
+
+    if (question) {
+      this.modals.deleteFAQ = question;
+    } else {
+      this.modals.deleteFAQs = this.faqs;
+    }
+
+    this.setFocus();
   }
 
   setFocus() {
@@ -142,7 +175,12 @@ export class FAQComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  closeModal() {
-    this.questionToDelete = null;
+  closeModal(key: 'deleteFAQ' | 'deleteFAQs') {
+    if (key === 'deleteFAQ') {
+      this.modals.deleteFAQ = null;
+      return;
+    }
+
+    this.modals.deleteFAQs = [];
   }
 }

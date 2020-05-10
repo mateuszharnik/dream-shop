@@ -130,7 +130,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  async submit() {
+  async updateFAQ() {
     this.isSubmitted = true;
 
     if (this.form.invalid) {

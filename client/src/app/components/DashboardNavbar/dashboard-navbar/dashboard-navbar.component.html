@@ -66,17 +66,17 @@
       </li>
       <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
         <a
-          routerLink="/admin/nawigacja"
-          title="Edytuj nawigację na stronie"
+          routerLink="/admin/zamowienia"
+          title="Zamówione produkty"
           class="dashboard-navigation__link block"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           #rlaLinkNav="routerLinkActive"
         >
           <app-fa-icon
-            [faClass]="'far fa-compass mr-1 dashboard-navigation__icon'"
+            [faClass]="'fas fa-truck mr-1 dashboard-navigation__icon'"
           ></app-fa-icon>
-          Nawigacja
+          Zamówienia
           <span *ngIf="rlaLinkNav.isActive" class="hidden">
             (tutaj jesteś)
           </span>

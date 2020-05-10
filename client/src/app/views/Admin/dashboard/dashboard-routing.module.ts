@@ -26,36 +26,25 @@ const routes: Routes = [
         loadChildren: '@admin/browse-product/browse-product.module#BrowseProductModule',
       },
       {
-        path: 'produkty/dodaj',
-        loadChildren: '@admin/add-product/add-product.module#AddProductModule',
-      },
-      {
-        path: 'produkty/:id/edytuj',
-        loadChildren: '@admin/edit-product/edit-product.module#EditProductModule',
-      },
-      {
         path: 'profil',
         loadChildren: '@admin/profile/profile.module#ProfileModule',
       },
       {
-        path: 'strony/kontakt',
-        loadChildren: '@admin/contact/contact.module#ContactModule',
-      },
-      {
-        path: 'strony/o-nas',
-        loadChildren: '@admin/about/about.module#AboutModule',
-      },
-      {
-        path: 'strony/najczesciej-zadawane-pytania',
-        loadChildren: '@admin/faq/faq.module#FAQModule',
-      },
-      {
-        path: 'strony/najczesciej-zadawane-pytania/dodaj',
-        loadChildren: '@admin/add-faq/add-faq.module#AddFAQModule',
-      },
-      {
-        path: 'strony/najczesciej-zadawane-pytania/:id/edytuj',
-        loadChildren: '@admin/edit-faq/edit-faq.module#EditFAQModule',
+        path: 'strony',
+        children: [
+          {
+            path: 'kontakt',
+            loadChildren: '@admin/contact/contact.module#ContactModule',
+          },
+          {
+            path: 'o-nas',
+            loadChildren: '@admin/about/about.module#AboutModule',
+          },
+          {
+            path: 'najczesciej-zadawane-pytania',
+            loadChildren: '@admin/faq/faq.module#FAQModule',
+          },
+        ],
       },
       {
         path: 'newsletter',

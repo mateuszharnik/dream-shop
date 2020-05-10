@@ -44,14 +44,18 @@
           </div>
         </div>
       </app-form>
-      <div class="mt-6">
+      <div *ngIf="categories.length" class="mt-6">
         <p class="bolder">Istniejące kategorie:</p>
         <div class="admin-page-section__categories m-auto">
-          <app-list-item *ngFor="let category of categories">
-            <div class="truncate m-auto">
-              {{ category.category }}
+          <div *ngFor="let category of categories">
+            <div class="categories overflow-hidden mb-4 text-left">
+              <div class="categories__head">
+                <div class="p-2 break-word">
+                  {{ category.category }}
+                </div>
+              </div>
             </div>
-          </app-list-item>
+          </div>
         </div>
       </div>
     </article>

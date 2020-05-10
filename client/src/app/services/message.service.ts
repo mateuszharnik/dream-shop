@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { Message } from '@models/index';
+import { Message, DeleteResponse } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  messages: Message[] = null;
+  messages: Message[] = [];
   messagesSubject: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>(this.messages);
 
   constructor(private http: HttpClient) { }
@@ -28,6 +28,15 @@ export class MessageService {
 
   deleteMessage(id: string): Promise<Message> {
     return this.http.request<Message>('delete', `http://localhost:3000/v1/messages/${id}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
+  }
+
+  deleteMessages(): Promise<DeleteResponse> {
+    return this.http.request<DeleteResponse>('delete', `http://localhost:3000/v1/messages`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),
