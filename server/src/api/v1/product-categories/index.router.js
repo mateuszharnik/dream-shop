@@ -1,7 +1,10 @@
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
-  addProductCategories, getProductCategories,
+  addProductCategory,
+  getProductCategories,
+  deleteProductCategories,
+  deleteProductCategory,
 } = require('./index.controller');
 
 const router = Router();
@@ -15,7 +18,21 @@ router.post(
   '/',
   isNotLoggedIn,
   isAdmin,
-  addProductCategories,
+  addProductCategory,
+);
+
+router.delete(
+  '/',
+  isNotLoggedIn,
+  isAdmin,
+  deleteProductCategories,
+);
+
+router.delete(
+  '/:id',
+  isNotLoggedIn,
+  isAdmin,
+  deleteProductCategory,
 );
 
 module.exports = router;

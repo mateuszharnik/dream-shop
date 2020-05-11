@@ -1,4 +1,5 @@
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { ProductCategory } from '@models/index';
 import DomPurify from 'dompurify';
 import marked from 'marked';
 
@@ -111,7 +112,7 @@ export const imageValidator = (prop: string) => (formGroup: FormGroup) => {
   }
 };
 
-export const matchValue = (prop: string, values: string[]) => (
+export const categoriesValidator = (prop: string, values: ProductCategory[]) => (
   formGroup: FormGroup,
 ) => {
   const propControl: AbstractControl = formGroup.controls[prop];
@@ -123,8 +124,17 @@ export const matchValue = (prop: string, values: string[]) => (
   }
 
   values.some(value => {
-    if (value.toLowerCase() === propControl.value.toLowerCase()) {
-      result = { matchValue: true };
+    const name = value.name.toLowerCase();
+    const category = value.category.toLowerCase();
+    const propValue = propControl.value.toLowerCase();
+
+    if (propValue === 'bestsellery' || propValue === 'nowości' || propValue === 'nowosci') {
+      result = { default: true };
+      return false;
+    }
+
+    if (propValue === name || propValue === category) {
+      result = { exsist: true };
       return false;
     }
   });

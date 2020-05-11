@@ -22,8 +22,12 @@ const routes: Routes = [
         loadChildren: '@admin/social-media/social-media.module#SocialMediaModule',
       },
       {
+        path: 'zamowienia',
+        loadChildren: '@admin/orders/orders.module#OrdersModule',
+      },
+      {
         path: 'produkty',
-        loadChildren: '@admin/browse-product/browse-product.module#BrowseProductModule',
+        loadChildren: '@admin/products/products.module#ProductsModule',
       },
       {
         path: 'profil',
@@ -49,10 +53,6 @@ const routes: Routes = [
       {
         path: 'newsletter',
         loadChildren: '@admin/newsletter/newsletter.module#NewsletterModule',
-      },
-      {
-        path: 'nawigacja',
-        loadChildren: '@admin/navigation/navigation.module#NavigationModule',
       },
       {
         path: 'wiadomosci',

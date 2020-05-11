@@ -10,7 +10,7 @@ const productConfig = (id = true, timestamps = true) => {
     quantity: Joi.number().required(),
     price: Joi.string().trim().required(),
     category: Joi.string().trim().required(),
-    img: Joi.string().trim().allow('').required(),
+    thumbnail: Joi.string().trim().allow('').required(),
     gallery: Joi.string().trim().allow('').required(),
   };
 

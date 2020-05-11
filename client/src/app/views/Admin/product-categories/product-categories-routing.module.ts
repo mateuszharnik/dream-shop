@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
-import { NavigationComponent } from './navigation.component';
+import { ProductCategoriesComponent } from './product-categories.component';
 
 const routes: Routes = [
   {
     path: '',
     data: { isAdmin: true },
     canActivate: [DashboardGuard],
-    component: NavigationComponent,
+    component: ProductCategoriesComponent,
   },
 ];
 
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class NavigationRoutingModule { }
+export class ProductCategoriesRoutingModule { }

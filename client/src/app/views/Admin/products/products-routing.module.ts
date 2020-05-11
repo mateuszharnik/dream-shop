@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
-import { BrowseProductComponent } from './browse-product.component';
+import { ProductsComponent } from './products.component';
 
 const routes: Routes = [
   {
     path: '',
     data: { isAdmin: true },
     canActivate: [DashboardGuard],
-    component: BrowseProductComponent,
+    component: ProductsComponent,
   },
   {
     path: 'dodaj',
@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'kategorie',
-    loadChildren: '@admin/add-product/add-product.module#AddProductModule',
+    loadChildren: '@admin/product-categories/product-categories.module#ProductCategoriesModule',
   },
   {
     path: 'edytuj/:id',
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BrowseProductRoutingModule { }
+export class ProductsRoutingModule { }

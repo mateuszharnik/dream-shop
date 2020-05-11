@@ -20,6 +20,10 @@ const productCategoryRequired = {
   'any.required': 'Właściwość "category" jest wymagana',
 };
 
+const productCategoryInvalid = {
+  'any.invalid': 'Nie możesz utworzyć takiej kategorii',
+};
+
 const productCategoryString = {
   'string.base': 'Właściwość "category" musi być typu "string"',
 };
@@ -44,6 +48,7 @@ const productCategoryMessages = {
   ...productCategoryNotEmpty,
   ...productCategoryString,
   ...productCategoryPattern,
+  ...productCategoryInvalid,
 };
 
 module.exports = {
@@ -52,6 +57,7 @@ module.exports = {
   productCategoryNameString,
   productCategoryNamePattern,
   productCategoryNameMessages,
+  productCategoryInvalid,
   productCategoryRequired,
   productCategoryNotEmpty,
   productCategoryString,

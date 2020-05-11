@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { purify } from '@helpers/index';
 import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
 import { FAQService } from '@services/faq.service';
@@ -47,6 +47,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     private activateRoute: ActivatedRoute,
     private spinnerService: SpinnerService,
     private formBuilder: FormBuilder,
+    private router: Router,
     private faqService: FAQService,
   ) {
     this.subscriptions.push(this.faqService.getCategories().subscribe((data: FAQCategories[]) => {
@@ -61,17 +62,28 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       const categoriesResponse: FAQCategories[] = await this.faqService.fetchCategories();
       this.faq = await this.faqService.fetchFAQ(this.id);
       this.faqService.setCategories(categoriesResponse);
+      this.createForm(this.faq, this.categories);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
+      if (error.status === 404) {
+        this.router.navigate(['/404']);
+        return;
+      } else if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.faq, this.categories);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {

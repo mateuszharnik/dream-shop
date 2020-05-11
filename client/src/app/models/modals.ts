@@ -1,4 +1,4 @@
-import { Email, FAQ, FAQs, Message } from '@models/index';
+import { Email, FAQ, FAQs, Message, ProductCategory } from '@models/index';
 
 export interface EmailsModals {
   deleteEmails: Email[];
@@ -13,4 +13,9 @@ export interface MessagesModals {
 export interface FAQModals {
   deleteFAQs: FAQs[] | FAQ[];
   deleteFAQ: FAQ;
+}
+
+export interface CategoriesModals {
+  deleteCategories: ProductCategory[];
+  deleteCategory: ProductCategory;
 }

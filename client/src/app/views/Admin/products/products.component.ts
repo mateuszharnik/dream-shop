@@ -5,12 +5,12 @@ import { Product } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 
 @Component({
-  selector: 'app-browse-product',
-  templateUrl: './browse-product.component.html',
-  styleUrls: ['./browse-product.component.scss'],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BrowseProductComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   @ViewChild('deleteButton') deleteButton: any = null;
 
   form: FormGroup = null;

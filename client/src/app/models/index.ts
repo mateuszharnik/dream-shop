@@ -20,15 +20,24 @@ export interface DeleteResponse {
   items: number;
 }
 
+export interface ProductCategory {
+  _id?: string;
+  category?: string;
+  name: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
 export interface Product {
   _id?: string;
   name: string;
   category: string;
-  img: string;
-  description: string;
+  thumbnail: string;
+  short_description: string;
   price: string;
   quantity: number;
-  fullDescription: string;
+  description: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
