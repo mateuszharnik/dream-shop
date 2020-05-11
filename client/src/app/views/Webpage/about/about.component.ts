@@ -35,7 +35,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     if (this.about) {
       this.isLoading = false;
-      return this.toggleSpinner();
+      return this.spinnerService.setLoading(this.isLoading);
     }
 
     try {
@@ -49,7 +49,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       }
     } finally {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -65,11 +65,5 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   show(): boolean {
     return this.about && this.about.information !== '';
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 }

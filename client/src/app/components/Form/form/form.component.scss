@@ -5,10 +5,6 @@
 .form {
   max-width: 64rem;
 
-  label {
-    margin-left: 0.1rem;
-  }
-
   &__errors {
     color: $form-errors-color;
     font-size: 1.2rem;

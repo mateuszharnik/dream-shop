@@ -17,7 +17,7 @@ export interface Credentials {
 
 export interface DeleteResponse {
   message: string;
-  itmes: number;
+  items: number;
 }
 
 export interface Product {
@@ -138,12 +138,20 @@ export interface Message {
   deleted_at?: Date | null;
 }
 
+export interface UserEmail {
+  email: string;
+}
+
+export interface Response {
+  message: string;
+}
+
 export interface User {
   _id?: string;
   name: string;
   username: string;
   email: string;
-  image: string;
+  avatar: string | ArrayBuffer;
   roles: string[];
   created_at?: Date;
   updated_at?: Date;
@@ -161,4 +169,9 @@ export interface Email {
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
+}
+
+export interface Passwords {
+  password: string;
+  confirm_password: string;
 }

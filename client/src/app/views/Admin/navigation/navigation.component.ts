@@ -49,7 +49,7 @@ export class NavigationComponent implements OnInit {
       this.categories = data.categories;
       this.isLoading = false;
       this.createForm();
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }, 1000);
   }
 
@@ -94,12 +94,6 @@ export class NavigationComponent implements OnInit {
     }
 
     this.isDisabled = true;
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   get formControls() {

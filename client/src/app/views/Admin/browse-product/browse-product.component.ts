@@ -25,9 +25,9 @@ export class BrowseProductComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.products = products;
-      this.isLoading = false;
-      this.toggleSpinner();
       this.createForm();
+      this.isLoading = false;
+      this.spinnerService.setLoading(this.isLoading);
     }, 1000);
   }
 
@@ -51,12 +51,6 @@ export class BrowseProductComponent implements OnInit {
     this.isSubmitted = true;
 
     this.isDisabled = true;
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   openModal(product: Product) {

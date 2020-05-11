@@ -20,18 +20,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isDesktop = false;
   subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private navigationService: NavigationService, private matchMediaService: MatchMediaService) { }
-
-  ngOnInit() {
+  constructor(private router: Router, private navigationService: NavigationService, private matchMediaService: MatchMediaService) {
     this.subscriptions.push(this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
       this.isDesktop = isDesktop;
     }));
+  }
 
+  ngOnInit() {
     this.closeMenuOnRouteChange();
     this.isDashboard = this.router.url === '/admin';
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
+    this.isLoading = false;
   }
 
   ngOnDestroy() {

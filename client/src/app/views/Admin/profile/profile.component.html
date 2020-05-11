@@ -15,12 +15,46 @@
       <p>
         Tutaj możesz zmienić ustawienia dla swojego konta.
       </p>
+      <app-avatar *ngIf="user" [avatar]="user.avatar"></app-avatar>
       <app-form
-        [formClass]="'form text-left inline-block'"
+        [formClass]="'form text-left inline-block mt-2'"
         [formName]="form"
         (whenFormSubmit)="submit()"
       >
         <div class="row">
+          <div class="column-12 mb-4 text-center">
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="avatar"
+              id="avatar"
+              (change)="addFile($event)"
+              class="form__input--avatar"
+              #fileInput
+            />
+            <label class="form__label--avatar" title="Zmień avatar" for="avatar"
+              >Zmień</label
+            >
+            <app-button
+              *ngIf="(user && user.avatar) || avatar"
+              [buttonClass]="'link ml-6'"
+              [buttonTitle]="'Usuń avatar'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="deleteAvatar()"
+            >
+              Usuń
+            </app-button>
+            <div class="form__errors" *ngIf="validation('avatar')">
+              <div *ngFor="let alert of avatarAlerts; trackBy: trackID">
+                <div
+                  class="mt-1"
+                  *ngIf="form.controls['avatar'].errors[alert.key]"
+                >
+                  {{ alert.message }}
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
@@ -109,7 +143,7 @@
               [inputForm]="form"
             ></app-input>
           </div>
-          <div class="column-12 mb-4">
+          <!-- <div class="column-12 mb-4">
             <app-file-input
               [inputLabelClass]="'block mb-2 bold'"
               [inputID]="'avatar'"
@@ -118,8 +152,8 @@
               [inputMessage]="file"
               (whenFileAdd)="addFile($event)"
             ></app-file-input>
-          </div>
-          <div class="column-12 mb-4 text-center">
+          </div> -->
+          <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
               [buttonTitle]="computedButtonTitle()"

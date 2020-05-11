@@ -60,12 +60,12 @@ const updateUserConfig = (user, id = true, timestamps = true) => {
 };
 
 const fileConfig = {
-  path: Joi.string().trim().regex(pathRegExp).required()
-    .messages(pathMessages),
   mimetype: Joi.string().trim().regex(mimetypeRegExp).required()
     .messages(mimetypeMessages),
   size: Joi.number().max(avatarMaxSize).required()
     .messages(sizeMessages),
+  path: Joi.string().trim().regex(pathRegExp).required()
+    .messages(pathMessages),
 };
 
 const userConfig = (id = true, timestamps = true) => {
@@ -117,8 +117,7 @@ const userSchema = (user, id = true, timestamps = true) => {
 };
 
 const fileSchema = (file) => {
-  const schema = Joi.object().keys(fileConfig)
-    .required().unknown(true)
+  const schema = Joi.object().keys(fileConfig).unknown(true)
     .messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(file);

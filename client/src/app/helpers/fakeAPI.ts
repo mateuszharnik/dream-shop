@@ -1,4 +1,4 @@
-import { Links, Product, User } from '@models/index';
+import { Links, Product } from '@models/index';
 
 export const navLinks: Links[] = [
   {
@@ -133,18 +133,6 @@ export const navLinks: Links[] = [
     deleted_at: null,
   },
 ];
-
-export const user: User = {
-  _id: '1',
-  name: 'Admin',
-  username: 'admin',
-  email: 'example@domain.com',
-  image: '',
-  roles: ['user'],
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
-};
 
 export const product: Product = {
   _id: '1',

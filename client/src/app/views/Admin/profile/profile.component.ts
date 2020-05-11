@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { user as userData } from '@helpers/fakeAPI';
-import { match, matchRequired } from '@helpers/index';
-import { Alert, User, Alerts } from '@models/index';
+import { imageValidator, match, matchRequired } from '@helpers/index';
+import { Alert, Alerts, User } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
+
+declare global {
+  interface Window { FileReader: FileReader; }
+}
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +17,8 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild('fileInput') fileInput: any = null;
+
   form: FormGroup = null;
   isLoading = true;
   isDisabled = false;
@@ -24,13 +29,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     success: '',
   };
   subscriptions: Subscription[] = [];
-  file: File = null;
   user: User = null;
 
   nameAlerts: Alert[] = [
     { id: '0', message: 'Imię jest za krótkie.', key: 'minlength' },
     { id: '1', message: 'Imię jest za długie.', key: 'maxlength' },
     { id: '2', message: 'Imię jest nieprawidłowe.', key: 'pattern' },
+  ];
+  avatarAlerts: Alert[] = [
+    { id: '0', message: 'Plik nie może przekraczać 5 MB.', key: 'maxsize' },
+    { id: '1', message: 'Typ pliku jest niepoprawny.', key: 'type' },
   ];
   usernameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa użytkownika jest za krótka.', key: 'minlength' },
@@ -72,7 +80,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
       this.createForm(this.user);
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -88,6 +96,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   createForm(user: User) {
     const email = user && user.email ? user.email : '';
+    const avatar = user && user.avatar ? user.avatar : '';
     const name = user && user.name ? user.name : '';
     const username = user && user.username ? user.username : '';
 
@@ -120,13 +129,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
           Validators.maxLength(50),
         ],
       }],
-      confirm_new_password: [''],
+      confirm_new_password: ['', {
+        validators: [
+          Validators.minLength(8),
+          Validators.maxLength(50),
+        ],
+      }],
+      avatar: [avatar],
     },
       {
         validators: [
           matchRequired('new_password', 'password'),
           matchRequired('password', 'new_password'),
           match('new_password', 'confirm_new_password'),
+          imageValidator('avatar'),
         ],
       },
     );
@@ -147,6 +163,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
+  deleteAvatar() {
+    this.user.avatar = '';
+    this.form.patchValue({
+      avatar: '',
+    });
+    this.fileInput.nativeElement.value = '';
+  }
+
   async submit() {
     this.isSubmitted = true;
 
@@ -157,7 +181,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     const formData: FormData = new FormData();
-    formData.append('avatar', this.file);
+
+    formData.append('avatar', this.form.value.avatar);
     formData.append('name', this.form.value.name);
     formData.append('email', this.form.value.email);
     formData.append('password', this.form.value.password);
@@ -170,7 +195,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.userService.setUser(response);
       this.setAlerts('', '', 'Pomyślnie zaktualozowano');
     } catch (error) {
-      console.log(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
@@ -182,15 +206,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
-  }
+  addFile(event) {
+    const images: File[] = event.target.files;
 
-  addFile(images: File[]) {
-    if (images.length) {
-      this.file = images[0];
+    if (!images.length) {
+      return;
+    }
+
+    this.form.patchValue({
+      avatar: images[0],
+    });
+
+    const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+
+    if (window.FileReader && imageTypeRegExp.test(images[0].type)) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.user.avatar = reader.result;
+      };
+      reader.readAsDataURL(images[0]);
     }
   }
 

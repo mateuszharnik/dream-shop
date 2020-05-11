@@ -4,18 +4,29 @@
 // Form File Input
 .form {
   &__input {
-    &--file {
+    &--file,
+    &--avatar {
       opacity: 0;
       height: 0;
       width: 0;
       font-size: 0;
       line-height: 0;
       overflow: hidden;
+      position: absolute;
+    }
 
+    &--file {
       &:focus + label {
         transition: background-color 0.3s ease-in-out,
           box-shadow 0.3s ease-in-out;
         box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-gray, 0.5);
+      }
+    }
+
+    &--avatar {
+      &:focus + label {
+        transition: box-shadow 0.3s ease-in-out;
+        box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
       }
     }
   }
@@ -23,6 +34,18 @@
   &__label {
     &--file {
       transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    &--avatar {
+      margin: 0rem;
+      cursor: pointer;
+      color: $a-color;
+      transition: box-shadow 0.3s ease-in-out;
+
+      &:hover {
+        color: $a-color-hover;
+        text-decoration: underline;
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { emailRegExp } = require('../helpers/regexp');
+const { emailRegExp, usernameRegExp } = require('../helpers/regexp');
 const { joiConfigMessages } = require('../helpers/errors/messages');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
 const { emailMessages } = require('../helpers/errors/messages/email');
@@ -38,7 +38,8 @@ const resetPasswordIdConfig = {
 };
 
 const credentialsConfig = {
-  username: Joi.string().trim().required().messages(usernameMessages),
+  username: Joi.string().trim().regex(usernameRegExp).required()
+    .messages(usernameMessages),
   password: Joi.string().trim().required().messages(loginPasswordMessages),
 };
 

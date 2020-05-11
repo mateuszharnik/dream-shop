@@ -40,7 +40,7 @@ export class FaqComponent implements OnInit, OnDestroy {
 
     if (this.faqs.length) {
       this.isLoading = false;
-      return this.toggleSpinner();
+      return this.spinnerService.setLoading(this.isLoading);
     }
 
     try {
@@ -54,7 +54,7 @@ export class FaqComponent implements OnInit, OnDestroy {
       }
     } finally {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -99,12 +99,6 @@ export class FaqComponent implements OnInit, OnDestroy {
 
   computedTitle(category: string): string {
     return `Przejdź do pytań dla kategorii ${category}`;
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   jumpTo(event: Event, target: string) {

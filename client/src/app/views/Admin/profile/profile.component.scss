@@ -1,2 +1,41 @@
 // Imports
 @import "../../../../assets/scss/variables";
+
+.form {
+  &__input {
+    &--avatar {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      font-size: 0;
+      line-height: 0;
+      position: absolute;
+      overflow: hidden;
+
+      &:focus + label {
+        transition: box-shadow 0.3s ease-in-out;
+        box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+      }
+    }
+  }
+
+  &__label {
+    &--avatar {
+      border-radius: 0.4rem;
+      cursor: pointer;
+      color: $a-color;
+      transition: box-shadow 0.3s ease-in-out;
+
+      &:hover {
+        color: $a-color-hover;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__help {
+    &--avatar {
+      margin-left: 0.8rem;
+    }
+  }
+}

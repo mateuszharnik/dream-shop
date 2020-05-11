@@ -6,6 +6,7 @@ import { AccordionItemComponent } from '@components/Accordion/accordion-item/acc
 import { AccordionComponent } from '@components/Accordion/accordion/accordion.component';
 import { AlertComponent } from '@components/alert/alert.component';
 import { AuthWrapperComponent } from '@components/auth-wrapper/auth-wrapper.component';
+import { AvatarComponent } from '@components/avatar/avatar.component';
 import { ButtonComponent } from '@components/button/button.component';
 import { FaIconComponent } from '@components/fa-icon/fa-icon.component';
 import { FileInputComponent } from '@components/Form/file-input/file-input.component';
@@ -45,6 +46,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     MapComponent,
     SelectComponent,
     AlertComponent,
+    AvatarComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -67,6 +69,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     FileInputComponent,
     SelectComponent,
     AlertComponent,
+    AvatarComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],

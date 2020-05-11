@@ -4,6 +4,7 @@ import { navLinks } from '@helpers/fakeAPI';
 import { Contact, Links, SocialMedia } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
+import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
 import { SocialMediaService } from '@services/social-media.service';
 import { Subscription } from 'rxjs';
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   isLoading = true;
   subscriptions: Subscription[] = [];
   height: number = null;
+  isDesktop = false;
   contact: Contact = null;
   socialMedia: SocialMedia = null;
   links: Links[] = [
@@ -45,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private navigationService: NavigationService,
     private heightService: HeightService,
     private contactService: ContactService,
+    private matchMediaService: MatchMediaService,
     private socialMediaService: SocialMediaService,
   ) {
     this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
@@ -53,6 +56,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
       this.socialMedia = data;
+    }));
+
+    this.subscriptions.push(this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
+      this.isDesktop = isDesktop;
     }));
   }
 
