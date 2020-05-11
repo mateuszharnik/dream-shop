@@ -16,8 +16,8 @@ export class NotFoundComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     setTimeout(() => {
-      this.toggleSpinner();
-    }, 0);
+      this.spinnerService.setLoading(false);
+    }, 50);
 
     this.timer = window.setInterval(() => {
       if (this.countdown === 0) {
@@ -27,12 +27,6 @@ export class NotFoundComponent implements OnInit, OnDestroy {
 
       this.countdown--;
     }, 1000);
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   ngOnDestroy() {

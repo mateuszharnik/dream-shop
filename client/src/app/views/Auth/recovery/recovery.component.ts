@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert, Alerts } from '@models/index';
-import { SpinnerService } from '@services/spinner.service';
 import { AuthService } from '@services/auth.service';
+import { SpinnerService } from '@services/spinner.service';
 
 @Component({
   selector: 'app-recovery',
@@ -34,8 +34,8 @@ export class RecoveryComponent implements OnInit {
     this.createForm();
     setTimeout(() => {
       this.isLoading = false;
-      this.toggleSpinner();
-    }, 0);
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   createForm() {
@@ -96,12 +96,6 @@ export class RecoveryComponent implements OnInit {
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { match } from '@helpers/index';
-import { Alert, Alerts, UserWithToken } from '@models/index';
-import { SpinnerService } from '@services/spinner.service';
-import { AuthService } from '@services/auth.service';
-import { UserService } from '@services/user.service';
 import { setToken } from '@helpers/token';
+import { Alert, Alerts, UserWithToken } from '@models/index';
+import { AuthService } from '@services/auth.service';
+import { SpinnerService } from '@services/spinner.service';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -67,7 +67,7 @@ export class ChangePasswordComponent implements OnInit {
     } finally {
       this.isLoading = false;
       this.createForm();
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -86,12 +86,12 @@ export class ChangePasswordComponent implements OnInit {
           Validators.required,
         ],
       }],
-      confirmPassword: ['', {
+      confirm_password: ['', {
         validators: [
           Validators.required,
         ],
       }],
-    }, { validator: match('password', 'confirmPassword') });
+    }, { validator: match('password', 'confirm_password') });
   }
 
   computedButtonTitle(): 'Zmień swoje hasło' | 'Zmiana hasła w toku' {
@@ -132,12 +132,6 @@ export class ChangePasswordComponent implements OnInit {
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

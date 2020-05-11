@@ -15,13 +15,7 @@ export class AddProductComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }, 1000);
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 }

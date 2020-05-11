@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Alert, Alerts, UserWithToken } from '@models/index';
-import { SpinnerService } from '@services/spinner.service';
-import { AuthService } from '@services/auth.service';
-import { UserService } from '@services/user.service';
 import { setToken } from '@helpers/token';
+import { Alert, Alerts, UserWithToken } from '@models/index';
+import { AuthService } from '@services/auth.service';
+import { SpinnerService } from '@services/spinner.service';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
     this.createForm();
     setTimeout(() => {
       this.isLoading = false;
-      this.toggleSpinner();
-    }, 0);
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   createForm() {
@@ -111,12 +111,6 @@ export class LoginComponent implements OnInit {
       }
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

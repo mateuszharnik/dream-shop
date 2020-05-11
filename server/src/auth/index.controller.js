@@ -59,7 +59,12 @@ const loginUser = async (req, res, next) => {
   }
 
   try {
-    const user = await usersDB.findOne({ username: data.username });
+    const user = await usersDB.findOne({
+      $or: [
+        { username: data.username },
+        { email: data.username },
+      ],
+    });
 
     if (!user) {
       return responseWithError(res, next, 500, 'Użytkownik nie istnieje');
@@ -70,11 +75,11 @@ const loginUser = async (req, res, next) => {
     }
 
     const {
-      _id, username, name, email, img, roles, created_at, updated_at,
+      _id, username, name, email, avatar, roles, created_at, updated_at,
     } = user;
 
     const payload = {
-      _id, username, name, email, img, roles, created_at, updated_at,
+      _id, username, name, email, avatar, roles, created_at, updated_at,
     };
 
     const token = await signToken(payload, '1d');
@@ -169,11 +174,11 @@ const recoveryPassword = async (req, res, next) => {
     }
 
     const {
-      _id, username, name, email, img, roles, created_at, updated_at,
+      _id, username, name, email, avatar, roles, created_at, updated_at,
     } = newUser;
 
     const payload = {
-      _id, username, name, email, img, roles, created_at, updated_at,
+      _id, username, name, email, avatar, roles, created_at, updated_at,
     };
 
     const token = await signToken(payload, '1d');

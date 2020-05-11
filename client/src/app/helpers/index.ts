@@ -77,6 +77,39 @@ export const matchRequired = (prop: string, matchingProp: string) => (
   matchingPropControl.setErrors(result);
 };
 
+export const imageValidator = (prop: string) => (formGroup: FormGroup) => {
+  const propControl: AbstractControl = formGroup.controls[prop];
+  const maxSize = 1024 * 1024 * 5;
+  const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+
+  let result: ValidationErrors = null;
+
+  const file = propControl.value;
+
+  if (typeof (file) === 'string') {
+    return;
+  }
+
+  if (!imageTypeRegExp.test(file.type)) {
+    if (!propControl.touched) {
+      propControl.markAsTouched();
+    }
+
+    result = { type: true };
+    propControl.setErrors(result);
+    return;
+  }
+
+  if (file.size > maxSize) {
+    if (!propControl.touched) {
+      propControl.markAsTouched();
+    }
+
+    result = { maxsize: true };
+    propControl.setErrors(result);
+    return;
+  }
+};
 
 export const matchValue = (prop: string, values: string[]) => (
   formGroup: FormGroup,

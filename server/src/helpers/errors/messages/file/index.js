@@ -34,7 +34,7 @@ const mimetypeString = {
 
 // SIZE
 const sizeMax = {
-  'number.max': 'Plik nie może ważyć więcej niż 5 mb',
+  'number.max': 'Plik nie może ważyć więcej niż 5 MB',
 };
 
 const sizeRequired = {

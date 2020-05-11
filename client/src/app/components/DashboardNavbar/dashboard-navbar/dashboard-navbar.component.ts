@@ -4,6 +4,7 @@ import { SlideLeft } from '@animations/index';
 import { Navigation, User } from '@models/index';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
+import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
 
@@ -65,6 +66,7 @@ export class DashboardNavbarComponent implements OnDestroy {
     private matchMediaService: MatchMediaService,
     private navigationService: NavigationService,
     private userService: UserService,
+    private spinnerService: SpinnerService,
     private router: Router,
   ) {
     this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
@@ -99,6 +101,7 @@ export class DashboardNavbarComponent implements OnDestroy {
   }
 
   logout() {
+    this.spinnerService.setLoading(true);
     this.userService.removeUser();
   }
 

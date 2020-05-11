@@ -45,7 +45,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     if (this.map && this.contact) {
       this.isLoading = false;
-      return this.toggleSpinner();
+      return this.spinnerService.setLoading(this.isLoading);
     }
 
     try {
@@ -61,7 +61,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       }
     } finally {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -75,12 +75,6 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   checkContact(contact) {

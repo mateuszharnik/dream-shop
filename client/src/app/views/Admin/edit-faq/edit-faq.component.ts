@@ -70,7 +70,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
       this.createForm(this.faq, this.categories);
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -156,12 +156,6 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

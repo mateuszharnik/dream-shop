@@ -1,0 +1,18 @@
+// Imports
+@import "./variables";
+
+.link {
+  padding: 0rem;
+  color: $a-color;
+  background-color: transparent;
+  line-height: normal;
+
+  &:hover {
+    color: $a-color-hover;
+    text-decoration: underline;
+  }
+
+  &:focus {
+    box-shadow: 0rem 0rem 0rem 0.3rem $focus-outline-color;
+  }
+}

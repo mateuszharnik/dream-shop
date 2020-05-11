@@ -77,7 +77,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
       this.createForm(this.contact);
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -195,12 +195,6 @@ export class ContactComponent implements OnInit, OnDestroy {
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

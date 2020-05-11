@@ -55,7 +55,7 @@ export class FAQComponent implements OnInit, OnDestroy {
       }
     } finally {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -146,12 +146,6 @@ export class FAQComponent implements OnInit, OnDestroy {
       this.closeModal('deleteFAQs');
       this.isDisabled = false;
       this.isSubmitted = false;
-    }
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
     }
   }
 

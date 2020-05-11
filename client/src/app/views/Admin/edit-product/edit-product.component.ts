@@ -19,8 +19,8 @@ export class EditProductComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.isLoading = false;
-      this.toggleSpinner();
       this.createForm();
+      this.spinnerService.setLoading(this.isLoading);
     }, 1000);
   }
 
@@ -32,12 +32,6 @@ export class EditProductComponent implements OnInit {
     this.isSubmitted = true;
 
     this.isDisabled = true;
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   get formControls() {

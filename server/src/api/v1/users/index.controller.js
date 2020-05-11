@@ -52,14 +52,15 @@ const updateUser = async (req, res, next) => {
   if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
     return responseWithError(res, next, 400, 'Brak dostępu');
   }
+  if (req.file) {
+    const { schemaError: fileSchemaError, data: file } = fileSchema(req.file);
 
-  const { schemaError: fileSchemaError, data: file } = fileSchema(req.file);
+    if (fileSchemaError) {
+      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+    }
 
-  if (fileSchemaError) {
-    return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+    req.body.avatar = getAvatarUrl(file);
   }
-
-  req.body.avatar = getAvatarUrl(file);
 
   const { schemaError, data } = updateUserSchema(req.body, false, false);
 

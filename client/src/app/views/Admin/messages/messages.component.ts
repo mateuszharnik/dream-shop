@@ -47,7 +47,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       }
     } finally {
       this.isLoading = false;
-      this.toggleSpinner();
+      this.spinnerService.setLoading(this.isLoading);
     }
   }
 
@@ -66,12 +66,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.alerts.server = server;
     this.alerts.error = error;
     this.alerts.success = success;
-  }
-
-  toggleSpinner(isLoading = false) {
-    if (this.spinnerService.getLoadingValue()) {
-      this.spinnerService.setLoading(isLoading);
-    }
   }
 
   async deleteMessage(id: string) {

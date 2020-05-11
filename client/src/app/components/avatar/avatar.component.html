@@ -1,0 +1,11 @@
+<img
+  *ngIf="avatar; else defaultAvatar"
+  [src]="avatar"
+  class="avatar block m-auto"
+  alt="Avatar użytkownika"
+/>
+<ng-template #defaultAvatar>
+  <div class="avatar avatar--default relative m-auto">
+    <app-fa-icon [faClass]="'far fa-user center'"></app-fa-icon>
+  </div>
+</ng-template>
