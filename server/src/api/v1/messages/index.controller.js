@@ -9,14 +9,14 @@ const getMessages = async (req, res, next) => {
     const messages = await messagesDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
 
     if (!messages) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości.');
     }
 
     res.status(200).json(messages);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -31,7 +31,7 @@ const getMessage = async (req, res, next) => {
     const message = await messagesDB.findOne({ _id: params.id });
 
     if (!message || (message && message.deleted_at)) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości');
+      return responseWithError(res, next, 500, 'Wiadomość nie istnieje.');
     }
 
     const readedMessage = await messagesDB.findOneAndUpdate(
@@ -45,14 +45,14 @@ const getMessage = async (req, res, next) => {
     );
 
     if (!readedMessage) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości.');
     }
 
     res.status(200).json({ ...readedMessage });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -75,14 +75,14 @@ const sendMessage = async (req, res, next) => {
     });
 
     if (!message) {
-      return responseWithError(res, next, 500, 'Nie udało się wysłać wiadomości');
+      return responseWithError(res, next, 500, 'Nie udało się wysłać wiadomości.');
     }
 
     res.status(200).json({ ...message });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -91,7 +91,7 @@ const deleteMessages = async (req, res, next) => {
     const messages = await messagesDB.find({ deleted_at: null });
 
     if (!messages.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych wiadomości');
+      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych wiadomości.');
     }
 
     const deletedMessages = await messagesDB.update(
@@ -101,17 +101,17 @@ const deleteMessages = async (req, res, next) => {
     );
 
     if (!deletedMessages) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości');
+      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości.');
     }
 
     res.status(200).json({
       message: 'Usunięto wszystkie wiadomości',
-      deleted_messages: deletedMessages.n,
+      items: deletedMessages.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -126,23 +126,23 @@ const deleteMessage = async (req, res, next) => {
     const message = await messagesDB.findOne({ _id: params.id });
 
     if (!message || (message && message.deleted_at)) {
-      return responseWithError(res, next, 500, 'Wiadomość nie znajduje się w bazie danych');
+      return responseWithError(res, next, 500, 'Wiadomość nie znajduje się w bazie danych.');
     }
 
-    const updatedMessage = await messagesDB.findOneAndUpdate(
+    const deletedMessage = await messagesDB.findOneAndUpdate(
       { _id: params.id },
       { $set: { deleted_at: new Date() } },
     );
 
-    if (!updatedMessage) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości');
+    if (!deletedMessage) {
+      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości.');
     }
 
-    res.status(200).json({ ...updatedMessage });
+    res.status(200).json({ ...deletedMessage });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

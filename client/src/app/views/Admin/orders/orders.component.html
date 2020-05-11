@@ -1,0 +1,15 @@
+<div *ngIf="isLoading; else navigationPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #navigationPageView>
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Zamówienia</h2>
+    </header>
+    <article class="admin-page-section__article m-auto mt-6 text-center">
+      <p class="mb-6">
+        Tutaj możesz zarządzać zamówieniami od klientów.
+      </p>
+    </article>
+  </section>
+</ng-template>

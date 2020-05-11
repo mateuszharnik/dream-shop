@@ -1,0 +1,167 @@
+<div *ngIf="isLoading; else navigationPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #navigationPageView>
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Kategorie produktów</h2>
+    </header>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p class="mb-6">
+        Tutaj możesz zarządzać kategoriami dla produktów.
+      </p>
+      <app-form
+        [formClass]="'form text-left m-auto'"
+        [formName]="form"
+        (whenFormSubmit)="addCategory()"
+      >
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'name'"
+              [inputLabel]="'Nazwa nowej kategorii'"
+              [inputPlaceholder]="'Perfumy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('name')"
+              [inputAlerts]="nameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="buttonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ buttonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
+        </div>
+      </app-form>
+      <app-alert
+        *ngIf="alerts.error || alerts.server"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
+        {{ alerts.error ? alerts.error : alerts.server }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+      <app-button
+        *ngIf="filteredCategories.length"
+        [buttonTitle]="'Usuń wszystkie kategorie'"
+        [buttonClass]="'button button-danger button-small mt-6'"
+        [buttonOnClick]="true"
+        (whenButtonClick)="openModal()"
+      >
+        Usuń kategorie
+        <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+      </app-button>
+      <div *ngIf="filteredCategories.length; else showDefault" class="mt-6">
+        <p class="bolder">Istniejące kategorie:</p>
+        <div class="admin-page-section__categories m-auto">
+          <div *ngFor="let category of filteredCategories">
+            <div class="categories overflow-hidden mb-4 text-left">
+              <div class="categories__head">
+                <div
+                  class="p-2 break-word flex flex-justify-between flex-align-center"
+                >
+                  {{ category.name | titlecase }}
+                  <app-button
+                    [buttonTitle]="'Usuń kategorię'"
+                    [buttonClass]="'button button-danger button-small'"
+                    [buttonOnClick]="true"
+                    (whenButtonClick)="openModal(category)"
+                  >
+                    Usuń
+                    <app-fa-icon
+                      [faClass]="'far fa-trash-alt ml-1'"
+                    ></app-fa-icon>
+                  </app-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #showDefault>
+        <p class="mt-4 mb-0">Brak kategorii.</p>
+      </ng-template>
+    </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
+  </section>
+  <app-modal
+    *ngIf="modals.deleteCategory"
+    (whenButtonClick)="!isDisabled && closeModal('deleteCategory')"
+  >
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć kategorię
+          {{ modals.deleteCategory.name | titlecase }}&nbsp;?
+          <span class="bold">
+            Usunie to również wszystkie produkty które są przypisane do tej
+            kategorii.
+          </span>
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="deleteButtonTitle()"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteCategory(modals.deleteCategory._id)"
+        #deleteButton
+      >
+        {{ deleteButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
+  <app-modal
+    *ngIf="modals.deleteCategories.length"
+    (whenButtonClick)="!isDisabled && closeModal('deleteCategories')"
+  >
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć wsystkie kategorie&nbsp;?
+          <span class="bold">
+            Usunie to również wszystkie produkty.
+          </span>
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="deleteButtonTitle()"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteCategories()"
+        #deleteButton
+      >
+        {{ deleteButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
+</ng-template>

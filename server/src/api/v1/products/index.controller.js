@@ -8,14 +8,14 @@ const getProducts = async (req, res, next) => {
     const products = await productsDB.find({ deleted_at: null });
 
     if (!products) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać produktów');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać produktów.');
     }
 
     res.status(200).json(products);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -30,14 +30,14 @@ const getProduct = async (req, res, next) => {
     const product = await productsDB.findOne({ _id: params.id });
 
     if (!product || (product && product.deleted_at)) {
-      return responseWithError(res, next, 500, 'Produkt nie istnieje');
+      return responseWithError(res, next, 404, 'Produkt nie istnieje.');
     }
 
     res.status(200).json({ ...product });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -58,14 +58,14 @@ const addProduct = async (req, res, next) => {
     });
 
     if (!product) {
-      return responseWithError(res, next, 500, 'Nie udało się dodać produktu');
+      return responseWithError(res, next, 500, 'Nie udało się dodać produktu.');
     }
 
     res.status(200).json({ ...product });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -80,7 +80,7 @@ const deleteProduct = async (req, res, next) => {
     const product = await productsDB.findOne({ _id: params.id });
 
     if (!product || (product && product.deleted_at)) {
-      return responseWithError(res, next, 500, 'Produkt nie istnieje');
+      return responseWithError(res, next, 500, 'Produkt nie istnieje.');
     }
 
     const updatedProduct = await productsDB.findOneAndUpdate(
@@ -89,14 +89,14 @@ const deleteProduct = async (req, res, next) => {
     );
 
     if (!updatedProduct) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć produktu');
+      return responseWithError(res, next, 500, 'Nie udało się usunąć produktu.');
     }
 
     res.status(200).json({ ...updatedProduct });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -117,7 +117,7 @@ const updateProduct = async (req, res, next) => {
     const product = await productsDB.findOne({ _id: params.id });
 
     if (!product || (product && product.deleted_at)) {
-      return responseWithError(res, next, 500, 'Produkt nie istnieje');
+      return responseWithError(res, next, 500, 'Produkt nie istnieje.');
     }
 
     const updatedProduct = await productsDB.findOneAndUpdate(
@@ -131,14 +131,14 @@ const updateProduct = async (req, res, next) => {
     );
 
     if (!updatedProduct) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować produktu');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować produktu.');
     }
 
     res.status(200).json({ ...updatedProduct });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

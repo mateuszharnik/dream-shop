@@ -24,14 +24,14 @@ const getFAQ = async (req, res, next) => {
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(res, next, 404, paramsSchemaError.details[0].message);
   }
 
   try {
     const faq = await faqDB.findOne({ _id: params.id });
 
     if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać pytania');
+      return responseWithError(res, next, 404, 'Pytanie nie istnieje.');
     }
 
     res.status(200).json({ ...faq });
@@ -116,7 +116,7 @@ const deleteFAQs = async (req, res, next) => {
 
     res.status(200).json({
       message: 'Usunięto wszystkie pytania',
-      deleted_faqs: deletedFAQs.n,
+      items: deletedFAQs.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -139,16 +139,16 @@ const deleteFAQ = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Pytanie nie istnieje');
     }
 
-    const updatedFAQ = await faqDB.findOneAndUpdate(
+    const deletedFAQ = await faqDB.findOneAndUpdate(
       { _id: params.id },
       { $set: { deleted_at: new Date() } },
     );
 
-    if (!updatedFAQ) {
+    if (!deletedFAQ) {
       return responseWithError(res, next, 500, 'Nie udało się usunąć pytania');
     }
 
-    res.status(200).json({ ...updatedFAQ });
+    res.status(200).json({ ...deletedFAQ });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
