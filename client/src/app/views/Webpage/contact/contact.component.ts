@@ -53,16 +53,23 @@ export class ContactComponent implements OnInit, OnDestroy {
       const contactResponse: Contact = await this.contactService.fetchContact();
       this.mapService.setMap(mapResponse);
       this.contactService.setContact(contactResponse);
+      this.setLoading();
     } catch (error) {
       if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
+
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   setAlerts(server = '', error = '', success = '') {

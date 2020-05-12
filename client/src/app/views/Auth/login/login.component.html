@@ -39,10 +39,10 @@
         <div class="column-12 text-center">
           <app-button
             [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
+            [buttonTitle]="buttonTitle(isDisabled)"
             [buttonDisabled]="isDisabled"
           >
-            {{ computedButtonText() }}
+            {{ buttonText(isDisabled) }}
             <app-fa-icon
               *ngIf="isDisabled"
               [faClass]="'fas fa-spinner fa-spin ml-1'"
@@ -56,6 +56,12 @@
       [alertClass]="'alert alert-danger m-auto my-6'"
     >
       {{ alerts.server ? alerts.server : alerts.error }}
+    </app-alert>
+    <app-alert
+      *ngIf="alerts.success"
+      [alertClass]="'alert alert-success m-auto my-6'"
+    >
+      {{ alerts.success }}
     </app-alert>
     <div class="my-3">
       Nie pamiętasz hasła?

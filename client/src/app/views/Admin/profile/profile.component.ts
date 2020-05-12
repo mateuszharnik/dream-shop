@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { imageValidator, match, matchRequired } from '@helpers/index';
 import { Alert, Alerts, User } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
@@ -61,7 +62,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     { id: '0', message: 'Hasła nie są takie same.', key: 'match' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.userService.getUser().subscribe((data: User) => {
       this.user = data;
     }));
@@ -71,17 +77,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
     try {
       const response: User = await this.userService.fetchUser(this.user._id);
       this.userService.setUser(response);
+      this.createForm(this.user);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 404) {
+        this.router.navigate(['/404']);
+        return;
+      } else if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.user);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {
@@ -193,10 +210,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     try {
       const response: User = await this.userService.updateUser(this.user._id, formData);
       this.userService.setUser(response);
-      this.setAlerts('', '', 'Pomyślnie zaktualozowano');
+      this.setAlerts('', '', 'Pomyślnie zaktualozowano.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

@@ -67,10 +67,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
       this.createForm(this.categories);
       this.setLoading();
     } catch (error) {
-      if (error.status === 404) {
-        this.router.navigate(['/404']);
-        return;
-      } else if (error.status === 0) {
+      if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
@@ -155,7 +152,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
       this.createForm(categories);
       this.setAlerts('', '', 'Pomyślnie dodano kategorię.');
     } catch (error) {
-      if (error.status === 0) {
+      if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
@@ -177,7 +174,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
       this.createForm(categories);
       this.setAlerts('', '', 'Pomyślnie usunięto kategorię.');
     } catch (error) {
-      if (error.status === 0) {
+      if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
@@ -200,7 +197,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
       this.createForm(categories);
       this.setAlerts('', '', 'Pomyślnie usunięto wszystkie kategorie.');
     } catch (error) {
-      if (error.status === 0) {
+      if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);

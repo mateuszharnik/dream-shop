@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Alerts, DeleteResponse, Email } from '@models/index';
 import { EmailsModals } from '@models/modals';
 import { NewsletterService } from '@services/newsletter.service';
@@ -29,7 +30,11 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   emails: Email[] = [];
 
-  constructor(private spinnerService: SpinnerService, private newsletterService: NewsletterService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private newsletterService: NewsletterService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.newsletterService.getEmails().subscribe((data: Email[]) => {
       this.emails = data;
     }));
@@ -39,16 +44,23 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     try {
       const response: Email[] = await this.newsletterService.fetchEmails();
       this.newsletterService.setEmails(response);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
+
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {
@@ -77,10 +89,10 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       const deleteResponse: Email = await this.newsletterService.deleteEmail(id);
       const emailsResponse: Email[] = await this.newsletterService.fetchEmails();
       this.newsletterService.setEmails(emailsResponse);
-      this.setAlerts('', '', 'Pomyślnie usunięto email');
+      this.setAlerts('', '', 'Pomyślnie usunięto email.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
@@ -98,10 +110,10 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     try {
       const response: DeleteResponse = await this.newsletterService.deleteEmails();
       this.newsletterService.setEmails([]);
-      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie adresy email');
+      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie adresy email.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

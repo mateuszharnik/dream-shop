@@ -74,14 +74,24 @@
           <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
-              [buttonTitle]="computedButtonTitle()"
+              [buttonTitle]="buttonTitle(isDisabled && !modal)"
               [buttonDisabled]="isDisabled"
             >
-              {{ computedButtonText() }}
+              {{ buttonText(isDisabled && !modal) }}
               <app-fa-icon
-                *ngIf="isDisabled"
+                *ngIf="isDisabled && !modal"
                 [faClass]="'fas fa-spinner fa-spin ml-1'"
               ></app-fa-icon>
+            </app-button>
+            <app-button
+              [buttonTitle]="'Usuń pytanie'"
+              [buttonClass]="'button button-danger ml-4'"
+              [buttonDisabled]="isDisabled"
+              [buttonOnClick]="true"
+              (whenButtonClick)="openModal(faq)"
+            >
+              Usuń
+              <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
             </app-button>
           </div>
         </div>
@@ -103,4 +113,26 @@
       <p class="center m-0">{{ alerts.server }}</p>
     </ng-template>
   </section>
+  <app-modal *ngIf="modal" (whenButtonClick)="!isDisabled && closeModal()">
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć pytanie: "{{ modal.title }}"&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="deleteButtonTitle(isDisabled && modal)"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteFAQ(modal._id)"
+      >
+        {{ deleteButtonText(isDisabled && modal) }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
 </ng-template>

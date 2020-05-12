@@ -64,7 +64,7 @@
               <app-router-link
                 [linkTitle]="'Edytuj pytanie'"
                 [linkClass]="'button button-primary button-small'"
-                [linkRouter]="computedFAQEditLink(question._id)"
+                [linkRouter]="editLink(question._id)"
               >
                 Edytuj
                 <app-fa-icon [faClass]="'fas fa-pencil-alt ml-1'"></app-fa-icon>
@@ -102,14 +102,13 @@
         </strong>
       </p>
       <app-button
-        [buttonTitle]="computedButtonTitle()"
+        [buttonTitle]="buttonTitle(isDisabled)"
         [buttonClass]="'button button-danger'"
         [buttonDisabled]="isDisabled"
         [buttonOnClick]="true"
         (whenButtonClick)="deleteFAQ(modals.deleteFAQ._id)"
-        #deleteButton
       >
-        {{ computedButtonText() }}
+        {{ buttonText(isDisabled) }}
         <app-fa-icon
           *ngIf="isDisabled"
           [faClass]="'fas fa-spinner fa-spin ml-1'"
@@ -128,14 +127,13 @@
         </strong>
       </p>
       <app-button
-        [buttonTitle]="computedButtonTitle()"
+        [buttonTitle]="buttonTitle(isDisabled)"
         [buttonClass]="'button button-danger'"
         [buttonDisabled]="isDisabled"
         [buttonOnClick]="true"
         (whenButtonClick)="deleteFAQs()"
-        #deleteButton
       >
-        {{ computedButtonText() }}
+        {{ buttonText(isDisabled) }}
         <app-fa-icon
           *ngIf="isDisabled"
           [faClass]="'fas fa-spinner fa-spin ml-1'"

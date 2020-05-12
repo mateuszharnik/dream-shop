@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { categories } from '@helpers/faq';
 import { markdown } from '@helpers/index';
 import { Alerts, DeleteResponse, FAQ, FAQs } from '@models/index';
 import { FAQModals } from '@models/modals';
+import { AlertsService } from '@services/alerts.service';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -14,8 +16,6 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class FAQComponent implements OnInit, OnDestroy {
-  @ViewChild('deleteButton') deleteButton: any = null;
-
   alerts: Alerts = {
     server: '',
     error: '',
@@ -32,7 +32,12 @@ export class FAQComponent implements OnInit, OnDestroy {
     deleteFAQ: null,
   };
 
-  constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private faqService: FAQService,
+    private alertsService: AlertsService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
       const faqs = data ? data.map((faq: FAQ) => {
         faq.content = markdown(faq.content);
@@ -41,22 +46,33 @@ export class FAQComponent implements OnInit, OnDestroy {
 
       this.faqs = faqs ? this.getCategories(faqs) : faqs;
     }));
+
+    this.subscriptions.push(this.alertsService.getAlert().subscribe((data: string) => {
+      this.setAlerts('', '', data);
+    }));
   }
 
   async ngOnInit() {
     try {
       const response: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(response);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
+
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   getCategories(faqs: FAQ[]): FAQs[] {
@@ -85,6 +101,7 @@ export class FAQComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.alertsService.setAlert('');
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
@@ -94,15 +111,15 @@ export class FAQComponent implements OnInit, OnDestroy {
     this.alerts.success = success;
   }
 
-  computedButtonTitle(): 'Usuń pytanie' | 'Usuwanie pytania' {
-    return this.isDisabled ? 'Usuwanie pytania' : 'Usuń pytanie';
+  buttonTitle(value: boolean): 'Usuń pytanie' | 'Usuwanie pytania' {
+    return value ? 'Usuwanie pytania' : 'Usuń pytanie';
   }
 
-  computedButtonText(): 'Usuń' | 'Usuwanie' {
-    return this.isDisabled ? 'Usuwanie' : 'Usuń';
+  buttonText(value: boolean): 'Usuń' | 'Usuwanie' {
+    return value ? 'Usuwanie' : 'Usuń';
   }
 
-  computedFAQEditLink(id: string): string {
+  editLink(id: string): string {
     return `edytuj/${id}`;
   }
 
@@ -114,10 +131,10 @@ export class FAQComponent implements OnInit, OnDestroy {
       const response: FAQ = await this.faqService.deleteFAQ(id);
       const faqs: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(faqs);
-      this.setAlerts('', '', 'Pomyślnie usunięto pytanie');
+      this.setAlerts('', '', 'Pomyślnie usunięto pytanie.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
@@ -135,10 +152,10 @@ export class FAQComponent implements OnInit, OnDestroy {
     try {
       const response: DeleteResponse = await this.faqService.deleteFAQs();
       this.faqService.setFAQs([]);
-      this.setAlerts('', '', `Pomyślnie usunięto wszystkie pytania`);
+      this.setAlerts('', '', `Pomyślnie usunięto wszystkie pytania.`);
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
@@ -159,14 +176,6 @@ export class FAQComponent implements OnInit, OnDestroy {
     } else {
       this.modals.deleteFAQs = this.faqs;
     }
-
-    this.setFocus();
-  }
-
-  setFocus() {
-    setTimeout(() => {
-      this.deleteButton.button.nativeElement.focus();
-    }, 50);
   }
 
   closeModal(key: 'deleteFAQ' | 'deleteFAQs') {

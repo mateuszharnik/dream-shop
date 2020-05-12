@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { purify } from '@helpers/index';
 import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
+import { AlertsService } from '@services/alerts.service';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -22,6 +23,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     error: '',
     success: '',
   };
+  modal: FAQ = null;
   id: string = null;
   isSubmitted = false;
   categories: FAQCategories[] = [];
@@ -48,6 +50,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private alertsService: AlertsService,
     private faqService: FAQService,
   ) {
     this.subscriptions.push(this.faqService.getCategories().subscribe((data: FAQCategories[]) => {
@@ -69,7 +72,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
         this.router.navigate(['/404']);
         return;
       } else if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
@@ -134,12 +137,20 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       );
   }
 
-  computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
-    return this.isDisabled ? 'Zapisywanie zmian' : 'Zapisz zmiany';
+  buttonText(value: boolean): 'Zapisz' | 'Zapisywanie' {
+    return value ? 'Zapisywanie' : 'Zapisz';
   }
 
-  computedButtonText(): 'Zapisz' | 'Zapisywanie' {
-    return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
+  buttonTitle(value: boolean): 'Zapisz zmiany' | 'Zapisywanie zmian' {
+    return value ? 'Zapisywanie zmian' : 'Zapisz zmiany';
+  }
+
+  deleteButtonText(value: boolean): 'Usuń' | 'Usuwanie' {
+    return value ? 'Usuwanie' : 'Usuń';
+  }
+
+  deleteButtonTitle(value: boolean): 'Usuń pytanie' | 'Usuwanie pytania' {
+    return value ? 'Usuwanie pytania' : 'Usuń pytanie';
   }
 
   async updateFAQ() {
@@ -155,12 +166,12 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       const response: FAQ = await this.faqService.updateFAQ(this.id, this.form.value);
       const faqs: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(faqs);
-      this.setAlerts('', '', 'Pomyślnie zaktualizowano pytanie');
+      this.setAlerts('', '', 'Pomyślnie zaktualizowano pytanie.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
-        if (error.error.message === 'Musisz podać treść') {
+        if (error.error.message === 'Musisz podać treść.') {
           this.formControls.content.setValue(purify(this.form.value.content), { onlySelf: true });
         }
         this.setAlerts('', error.error.message);
@@ -169,6 +180,41 @@ export class EditFAQComponent implements OnInit, OnDestroy {
       this.isDisabled = false;
       this.isSubmitted = false;
     }
+  }
+
+  async deleteFAQ(id: string) {
+    this.isSubmitted = true;
+    this.isDisabled = true;
+
+    try {
+      const response: FAQ = await this.faqService.deleteFAQ(id);
+      const faqs: FAQ[] = await this.faqService.fetchFAQs();
+      this.faqService.setFAQs(faqs);
+      this.router.navigate(['/admin/strony/najczesciej-zadawane-pytania']);
+      this.alertsService.setAlert('Pomyślnie usunięto pytanie.');
+    } catch (error) {
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+
+      this.closeModal();
+      this.isDisabled = false;
+      this.isSubmitted = false;
+    }
+  }
+
+  openModal(question: FAQ) {
+    if (this.modal) {
+      return;
+    }
+
+    this.modal = question;
+  }
+
+  closeModal() {
+    this.modal = null;
   }
 
   get formControls() {

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Alert, Alerts, SocialMedia } from '@models/index';
 import { SocialMediaService } from '@services/social-media.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -38,7 +39,12 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private socialMediaService: SocialMediaService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private formBuilder: FormBuilder,
+    private socialMediaService: SocialMediaService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
       this.socialMedia = data;
     }));
@@ -48,17 +54,25 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     try {
       const response: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       this.socialMediaService.setSocialMedia(response);
+      this.createForm(this.socialMedia);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.socialMedia);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -129,10 +143,10 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     try {
       const response: SocialMedia = await this.socialMediaService.saveSocialMedia(this.socialMedia._id, this.form.value);
       this.socialMediaService.setSocialMedia(response);
-      this.setAlerts('', '', 'Pomyślnie zapisano');
+      this.setAlerts('', '', 'Pomyślnie zapisano.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

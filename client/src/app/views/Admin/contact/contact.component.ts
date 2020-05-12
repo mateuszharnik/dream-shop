@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { matchRequired } from '@helpers/index';
 import { Alert, Alerts, Contact } from '@models/index';
 import { ContactService } from '@services/contact.service';
@@ -58,7 +59,12 @@ export class ContactComponent implements OnInit, OnDestroy {
     { id: '0', message: 'Godziny pracy są nieprawidłowe.', key: 'pattern' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private contactService: ContactService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private formBuilder: FormBuilder,
+    private contactService: ContactService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
       this.contact = data;
     }));
@@ -68,17 +74,25 @@ export class ContactComponent implements OnInit, OnDestroy {
     try {
       const response: Contact = await this.contactService.fetchContact();
       this.contactService.setContact(response);
+      this.createForm(this.contact);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.contact);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {
@@ -185,10 +199,10 @@ export class ContactComponent implements OnInit, OnDestroy {
     try {
       const response: Contact = await this.contactService.saveContact(this.contact._id, this.form.value);
       this.contactService.setContact(response);
-      this.setAlerts('', '', 'Pomyślnie zapisano');
+      this.setAlerts('', '', 'Pomyślnie zapisano.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

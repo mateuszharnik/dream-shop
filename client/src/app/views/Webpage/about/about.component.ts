@@ -41,16 +41,23 @@ export class AboutComponent implements OnInit, OnDestroy {
     try {
       const response: About = await this.aboutService.fetchAbout();
       this.aboutService.setAbout(response);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
+
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   setAlerts(server = '', error = '', success = '') {
