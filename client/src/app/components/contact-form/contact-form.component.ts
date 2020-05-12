@@ -21,7 +21,6 @@ export class ContactFormComponent implements OnInit {
   isSubmitted = false;
   trackID = null;
 
-  // TODO: Przenieść do oddzielnego pliku
   nameAlerts: Alert[] = [
     { id: '0', message: 'Imię jest wymagane.', key: 'required' },
     {
@@ -44,6 +43,9 @@ export class ContactFormComponent implements OnInit {
     { id: '0', message: 'Treść wiadomości jest wymagana.', key: 'required' },
     { id: '1', message: 'Treść wiadomości musi mieć minimum 3 znaki.', key: 'minlength' },
     { id: '2', message: 'Treść wiadomości nie może przekraczać 2000 znaków.', key: 'maxlength' },
+  ];
+  termsAlerts: Alert[] = [
+    { id: '0', message: 'Musisz zaakceptować regulamin.', key: 'required' },
   ];
 
   constructor(private formBuilder: FormBuilder, private messageService: MessageService) { }
@@ -82,15 +84,21 @@ export class ContactFormComponent implements OnInit {
           Validators.required,
         ],
       }],
+      terms_accepted: [false, Validators.requiredTrue],
     });
   }
 
-  // TODO: Stworzyć funkcję
   validation(prop: string): boolean {
     return (
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
       );
+  }
+
+  toggleCheckbox() {
+    this.form.patchValue({
+      terms_accepted: !this.form.get('terms_accepted').value,
+    });
   }
 
   computedButtonTitle(): 'Wysyłanie wiadomości' | 'Wyślij wiadomość' {

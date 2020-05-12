@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -6,8 +6,21 @@ import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/cor
   styleUrls: ['./modal.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit {
+  @ViewChild('button') button: any = null;
+
   @Output() whenButtonClick: EventEmitter<any> = new EventEmitter<any>();
+
+  ngOnInit() {
+    this.setFocus();
+  }
+
+  setFocus() {
+    setTimeout(() => {
+      this.button.button.nativeElement.focus();
+    }, 50);
+  }
+
 
   closeMenu() {
     this.whenButtonClick.emit();

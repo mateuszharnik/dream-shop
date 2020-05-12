@@ -25,6 +25,10 @@ export class NewsletterComponent implements OnInit {
     { id: '1', message: 'Email jest nieprawidłowy.', key: 'pattern' },
   ];
 
+  termsAlerts: Alert[] = [
+    { id: '0', message: 'Musisz zaakceptować regulamin.', key: 'required' },
+  ];
+
   constructor(private formBuilder: FormBuilder, private newsletterService: NewsletterService) { }
 
   ngOnInit() {
@@ -40,6 +44,7 @@ export class NewsletterComponent implements OnInit {
           Validators.required,
         ],
       }],
+      terms_accepted: [false, Validators.requiredTrue],
     });
   }
 
@@ -54,6 +59,12 @@ export class NewsletterComponent implements OnInit {
       this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
       || (this.formControls[prop].errors && this.isSubmitted
       );
+  }
+
+  toggleCheckbox() {
+    this.form.patchValue({
+      terms_accepted: !this.form.get('terms_accepted').value,
+    });
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {

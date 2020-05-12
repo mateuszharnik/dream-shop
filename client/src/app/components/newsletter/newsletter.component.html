@@ -15,7 +15,6 @@
           <app-input
             [inputLabelClass]="'hidden'"
             [inputID]="'email'"
-            [inputGroupClass]="'md:mr-1'"
             [inputLabel]="'Adres email'"
             [inputPlaceholder]="'example@domain.com'"
             [inputClass]="'form__input w-100'"
@@ -24,6 +23,17 @@
             [inputGroup]="form"
             [inputForm]="form"
           ></app-input>
+        </div>
+        <div class="column-12 mb-4">
+          <app-checkbox
+            [checkboxID]="'terms_accepted'"
+            [checkboxLabel]="'Akceptuję regulamin.'"
+            [checkboxValidation]="validation('terms_accepted')"
+            [checkboxAlerts]="termsAlerts"
+            [checkboxGroup]="form"
+            [checkboxForm]="form"
+            (whenClickEnter)="toggleCheckbox()"
+          ></app-checkbox>
         </div>
         <div class="column-12 text-center">
           <app-button

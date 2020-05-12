@@ -61,6 +61,17 @@
         [textareaLabelClass]="'block mb-2 bold'"
       ></app-textarea>
     </div>
+    <div class="column-12 mb-4">
+      <app-checkbox
+        [checkboxID]="'terms_accepted'"
+        [checkboxLabel]="'Akceptuję regulamin.'"
+        [checkboxValidation]="validation('terms_accepted')"
+        [checkboxAlerts]="termsAlerts"
+        [checkboxGroup]="form"
+        [checkboxForm]="form"
+        (whenClickEnter)="toggleCheckbox()"
+      ></app-checkbox>
+    </div>
     <div class="column-12 mb-4 text-center">
       <app-button
         [buttonType]="'submit'"

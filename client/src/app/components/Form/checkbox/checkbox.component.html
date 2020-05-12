@@ -1,0 +1,29 @@
+<div [formGroup]="checkboxGroup" [ngClass]="checkboxGroupClass">
+  <input
+    type="checkbox"
+    [ngClass]="getCheckboxClass()"
+    [name]="checkboxID"
+    [id]="checkboxID"
+    [formControlName]="checkboxID"
+    [autofocus]="checkboxFocus"
+    [required]="checkboxRequired"
+    [attr.aria-describedby]="getAriaDescribedBy()"
+    (keydown)="onKeydown($event)"
+  />
+  <label [ngClass]="getCheckboxLabelClass()" [for]="checkboxID">{{
+    checkboxLabel
+  }}</label>
+  <small class="form__help" [id]="getSmallID()" *ngIf="checkboxMessage">
+    {{ checkboxMessage }}
+  </small>
+  <div class="form__errors" *ngIf="checkboxValidation">
+    <div *ngFor="let alert of checkboxAlerts; trackBy: trackID">
+      <div
+        class="mt-1"
+        *ngIf="checkboxForm.controls[checkboxID].errors[alert.key]"
+      >
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,12 +3,14 @@ const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
 const { emailRegExp } = require('../../../helpers/regexp');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
+const { termsMessages } = require('../../../helpers/errors/messages/terms');
 
 const newsletterConfig = (id = true, timestamps = true) => {
   let config = {
     email: Joi.string().trim().regex(emailRegExp)
       .required()
       .messages(emailMessages),
+    terms_accepted: Joi.boolean().valid(true).required().messages(termsMessages),
   };
 
   if (id) {
