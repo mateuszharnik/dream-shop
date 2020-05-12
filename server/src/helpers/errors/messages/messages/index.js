@@ -40,25 +40,6 @@ const messageMax = {
   'string.max': 'Treść wiadomości może mieć maksymalnie 2000 znaków',
 };
 
-// TERMS
-const termsRequired = {
-  'any.required': 'Właściwość "terms_accepted" jest wymagana',
-};
-
-const termsOnly = {
-  'any.only': 'Musisz zaakceptować regulamin',
-};
-
-const termsBoolean = {
-  'boolean.base': 'Właściwość "terms_accepted" musi być typu "boolean"',
-};
-
-const termsMessages = {
-  ...termsRequired,
-  ...termsBoolean,
-  ...termsOnly,
-};
-
 const subjectMessages = {
   ...subjectRequired,
   ...subjectString,
@@ -88,8 +69,4 @@ module.exports = {
   messageMin,
   messageMax,
   messageMessages,
-  termsRequired,
-  termsOnly,
-  termsBoolean,
-  termsMessages,
 };

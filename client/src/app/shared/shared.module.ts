@@ -9,6 +9,7 @@ import { AuthWrapperComponent } from '@components/auth-wrapper/auth-wrapper.comp
 import { AvatarComponent } from '@components/avatar/avatar.component';
 import { ButtonComponent } from '@components/button/button.component';
 import { FaIconComponent } from '@components/fa-icon/fa-icon.component';
+import { CheckboxComponent } from '@components/Form/checkbox/checkbox.component';
 import { FileInputComponent } from '@components/Form/file-input/file-input.component';
 import { FormComponent } from '@components/Form/form/form.component';
 import { InputComponent } from '@components/Form/input/input.component';
@@ -47,6 +48,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     SelectComponent,
     AlertComponent,
     AvatarComponent,
+    CheckboxComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -70,6 +72,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     SelectComponent,
     AlertComponent,
     AvatarComponent,
+    CheckboxComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],

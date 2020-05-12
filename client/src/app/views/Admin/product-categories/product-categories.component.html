@@ -70,7 +70,7 @@
         <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
       </app-button>
       <div *ngIf="filteredCategories.length; else showDefault" class="mt-6">
-        <p class="bolder">Istniejące kategorie:</p>
+        <h3 class="h4 text-primary mb-6">Istniejące kategorie:</h3>
         <div class="admin-page-section__categories m-auto">
           <div *ngFor="let category of filteredCategories">
             <div class="categories overflow-hidden mb-4 text-left">
@@ -113,10 +113,10 @@
         <strong class="normal">
           Czy napewno chcesz usunąć kategorię
           {{ modals.deleteCategory.name | titlecase }}&nbsp;?
-          <span class="bold">
+          <div class="bolder">
             Usunie to również wszystkie produkty które są przypisane do tej
             kategorii.
-          </span>
+          </div>
         </strong>
       </p>
       <app-button
@@ -143,9 +143,9 @@
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wsystkie kategorie&nbsp;?
-          <span class="bold">
+          <div class="bolder">
             Usunie to również wszystkie produkty.
-          </span>
+          </div>
         </strong>
       </p>
       <app-button

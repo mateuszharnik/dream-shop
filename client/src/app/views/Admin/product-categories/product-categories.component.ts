@@ -139,9 +139,9 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
   async addCategory() {
     this.isSubmitted = true;
 
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
 
     this.isDisabled = true;
 
