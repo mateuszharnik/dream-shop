@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Alert, Alerts, Map } from '@models/index';
 import { MapService } from '@services/map.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -28,7 +29,12 @@ export class MapComponent implements OnInit, OnDestroy {
     { id: '0', message: 'Podana pozycja nie jest prawidłowa.', key: 'pattern' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private mapService: MapService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private formBuilder: FormBuilder,
+    private mapService: MapService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.mapService.getMap().subscribe((data: Map) => {
       this.map = data;
     }));
@@ -38,21 +44,29 @@ export class MapComponent implements OnInit, OnDestroy {
     try {
       const response: Map = await this.mapService.fetchMap();
       this.mapService.setMap(response);
+      this.createForm(this.map);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.map);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -101,10 +115,10 @@ export class MapComponent implements OnInit, OnDestroy {
     try {
       const response: Map = await this.mapService.saveMap(this.map._id, this.form.value);
       this.mapService.setMap(response);
-      this.setAlerts('', '', 'Pomyślnie zapisano');
+      this.setAlerts('', '', 'Pomyślnie zapisano.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

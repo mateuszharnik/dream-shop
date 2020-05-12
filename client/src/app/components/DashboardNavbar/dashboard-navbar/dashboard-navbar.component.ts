@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { SlideLeft } from '@animations/index';
 import { Navigation, User } from '@models/index';
+import { AlertsService } from '@services/alerts.service';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -67,7 +67,7 @@ export class DashboardNavbarComponent implements OnDestroy {
     private navigationService: NavigationService,
     private userService: UserService,
     private spinnerService: SpinnerService,
-    private router: Router,
+    private alertsService: AlertsService,
   ) {
     this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
       this.user = user;
@@ -101,6 +101,9 @@ export class DashboardNavbarComponent implements OnDestroy {
   }
 
   logout() {
+    setTimeout(() => {
+      this.alertsService.setAlert('Pomyślnie wylogowano.');
+    }, 50);
     this.spinnerService.setLoading(true);
     this.userService.removeUser();
   }

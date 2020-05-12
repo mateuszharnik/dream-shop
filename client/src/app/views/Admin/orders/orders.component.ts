@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { SpinnerService } from '@services/spinner.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class OrdersComponent implements OnInit {
   isDisabled = false;
   isSubmitted = false;
 
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(
+    private spinnerService: SpinnerService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     setTimeout(() => {

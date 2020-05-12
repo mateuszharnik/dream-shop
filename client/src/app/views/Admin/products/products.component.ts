@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { products } from '@helpers/fakeAPI';
 import { Product } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
@@ -20,7 +21,11 @@ export class ProductsComponent implements OnInit {
   productToDelete: Product = null;
   products: Product[] = [];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder) { }
+  constructor(
+    private spinnerService: SpinnerService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
     setTimeout(() => {

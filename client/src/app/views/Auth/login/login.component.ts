@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { setToken } from '@helpers/token';
 import { Alert, Alerts, UserWithToken } from '@models/index';
+import { AlertsService } from '@services/alerts.service';
 import { AuthService } from '@services/auth.service';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +15,12 @@ import { UserService } from '@services/user.service';
   styleUrls: ['./login.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
+  subscriptions: Subscription[] = [];
   alerts: Alerts = {
     server: '',
     error: '',
@@ -25,12 +28,12 @@ export class LoginComponent implements OnInit {
   };
 
   usernameAlerts: Alert[] = [
-    { id: '0', message: 'Nazwa użytkownika jest nieprawidłowa', key: 'pattern' },
-    { id: '1', message: 'Proszę podać nazwę użytkownika', key: 'required' },
+    { id: '0', message: 'Nazwa użytkownika jest nieprawidłowa.', key: 'pattern' },
+    { id: '1', message: 'Proszę podać nazwę użytkownika.', key: 'required' },
   ];
 
   passwordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę podać hasło', key: 'required' },
+    { id: '0', message: 'Proszę podać hasło.', key: 'required' },
   ];
 
   constructor(
@@ -39,7 +42,16 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private spinnerService: SpinnerService,
     private authService: AuthService,
+    private alertsService: AlertsService,
   ) {
+    this.subscriptions.push(this.alertsService.getAlert().subscribe((data: string) => {
+      if (data === 'Sesja wygasła.') {
+        this.setAlerts('', data);
+      } else {
+        this.setAlerts('', '', data);
+      }
+    }));
+
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
@@ -49,6 +61,11 @@ export class LoginComponent implements OnInit {
       this.isLoading = false;
       this.spinnerService.setLoading(this.isLoading);
     }, 50);
+  }
+
+  ngOnDestroy() {
+    this.alertsService.setAlert('');
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
   createForm() {
@@ -68,12 +85,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  computedButtonTitle(): 'Zaloguj się' | 'Logowanie' {
-    return this.isDisabled ? 'Logowanie' : 'Zaloguj się';
+  buttonTitle(value: boolean): 'Zaloguj się' | 'Logowanie' {
+    return value ? 'Logowanie' : 'Zaloguj się';
   }
 
-  computedButtonText(): 'Zaloguj' | 'Logowanie' {
-    return this.isDisabled ? 'Logowanie' : 'Zaloguj';
+  buttonText(value: boolean): 'Zaloguj' | 'Logowanie' {
+    return value ? 'Logowanie' : 'Zaloguj';
   }
 
   validation(prop: string): boolean {
@@ -105,7 +122,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/admin']);
     } catch (error) {
       if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

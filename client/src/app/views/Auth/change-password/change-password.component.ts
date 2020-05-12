@@ -28,14 +28,14 @@ export class ChangePasswordComponent implements OnInit {
   };
 
   passwordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę podać nowe hasło', key: 'required' },
-    { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków', key: 'minlength' },
-    { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków', key: 'maxlength' },
+    { id: '0', message: 'Proszę podać nowe hasło', key: 'required.' },
+    { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków.', key: 'minlength' },
+    { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków.', key: 'maxlength' },
   ];
 
   confirmPasswordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę powtórzyć nowe hasło', key: 'required' },
-    { id: '1', message: 'Hasła nie są takie same', key: 'match' },
+    { id: '0', message: 'Proszę powtórzyć nowe hasło.', key: 'required' },
+    { id: '1', message: 'Hasła nie są takie same.', key: 'match' },
   ];
 
   constructor(
@@ -56,19 +56,30 @@ export class ChangePasswordComponent implements OnInit {
       const response = await this.authService.checkRecoveryToken(this.id);
 
       this.email = response.email;
+      this.createForm();
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 404) {
+        this.router.navigate(['/404']);
+        return;
+      } else if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else if (error.status === 500) {
         this.setAlerts(error.error.message);
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm();
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -124,8 +135,8 @@ export class ChangePasswordComponent implements OnInit {
       setToken(response.token);
       this.router.navigate(['/admin']);
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

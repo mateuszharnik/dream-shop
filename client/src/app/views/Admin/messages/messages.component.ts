@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Alerts, DeleteResponse, Message } from '@models/index';
 import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
@@ -29,7 +30,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
     success: '',
   };
 
-  constructor(private spinnerService: SpinnerService, private messageService: MessageService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.messageService.getMessages().subscribe((data: Message[]) => {
       this.messages = data;
     }));
@@ -39,16 +44,23 @@ export class MessagesComponent implements OnInit, OnDestroy {
     try {
       const response: Message[] = await this.messageService.fetchMessages();
       this.messageService.setMessages(response);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
+      if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
+
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {
@@ -76,10 +88,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
       const deleteMessageResponse: Message = await this.messageService.deleteMessage(id);
       const messagesResponse: Message[] = await this.messageService.fetchMessages();
       this.messageService.setMessages(messagesResponse);
-      this.setAlerts('', '', 'Pomyślnie usunięto wiadomość');
+      this.setAlerts('', '', 'Pomyślnie usunięto wiadomość.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
@@ -97,10 +109,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
     try {
       const response: DeleteResponse = await this.messageService.deleteMessages();
       this.messageService.setMessages([]);
-      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie wiadomości');
+      this.setAlerts('', '', 'Pomyślnie usunięto wszystkie wiadomości.');
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

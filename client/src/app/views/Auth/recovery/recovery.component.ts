@@ -22,8 +22,8 @@ export class RecoveryComponent implements OnInit {
   };
 
   emailAlerts: Alert[] = [
-    { id: '0', message: 'Adres email jest nieprawidłowy', key: 'pattern' },
-    { id: '1', message: 'Proszę podać adres email', key: 'required' },
+    { id: '0', message: 'Adres email jest nieprawidłowy.', key: 'pattern' },
+    { id: '1', message: 'Proszę podać adres email.', key: 'required' },
   ];
 
   constructor(private formBuilder: FormBuilder, private spinnerService: SpinnerService, private authService: AuthService) {
@@ -32,8 +32,12 @@ export class RecoveryComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.setLoading();
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
     setTimeout(() => {
-      this.isLoading = false;
       this.spinnerService.setLoading(this.isLoading);
     }, 50);
   }
@@ -88,8 +92,8 @@ export class RecoveryComponent implements OnInit {
       const response = await this.authService.sendRecoveryEmail(this.form.value);
       this.setAlerts('', '', response.message);
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

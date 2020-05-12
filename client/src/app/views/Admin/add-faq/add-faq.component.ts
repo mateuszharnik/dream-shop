@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { purify } from '@helpers/index';
 import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
 import { FAQService } from '@services/faq.service';
@@ -40,7 +41,12 @@ export class AddFAQComponent implements OnInit, OnDestroy {
     { id: '3', message: 'Odpowiedź jest za długa.', key: 'maxlength' },
   ];
 
-  constructor(private spinnerService: SpinnerService, private formBuilder: FormBuilder, private faqService: FAQService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private formBuilder: FormBuilder,
+    private faqService: FAQService,
+    private router: Router,
+  ) {
     this.subscriptions.push(this.faqService.getCategories().subscribe((data: FAQCategories[]) => {
       this.categories = data;
     }));
@@ -50,17 +56,25 @@ export class AddFAQComponent implements OnInit, OnDestroy {
     try {
       const response: FAQCategories[] = await this.faqService.fetchCategories();
       this.faqService.setCategories(response);
+      this.createForm(this.categories);
+      this.setLoading();
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }
-    } finally {
-      this.isLoading = false;
+
       this.createForm(this.categories);
-      this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
+    setTimeout(() => {
+      this.spinnerService.setLoading(this.isLoading);
+    }, 50);
   }
 
   ngOnDestroy() {
@@ -128,15 +142,15 @@ export class AddFAQComponent implements OnInit, OnDestroy {
       const response: FAQ = await this.faqService.saveFAQ(this.form.value);
       const faqs: FAQ[] = await this.faqService.fetchFAQs();
       this.faqService.setFAQs(faqs);
-      this.setAlerts('', '', 'Pomyślnie dodano pytanie');
+      this.setAlerts('', '', 'Pomyślnie dodano pytanie.');
       const category: string = this.form.value.category;
       this.form.reset();
       this.formControls.category.setValue(category, { onlySelf: true });
     } catch (error) {
-      if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
-        if (error.error.message === 'Musisz podać treść') {
+        if (error.error.message === 'Musisz podać treść.') {
           this.formControls.content.setValue(purify(this.form.value.content), { onlySelf: true });
         }
         this.setAlerts('', error.error.message);

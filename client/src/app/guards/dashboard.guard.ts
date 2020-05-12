@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { decodeToken, getToken } from '@helpers/token';
 import { User } from '@models/index';
+import { AlertsService } from '@services/alerts.service';
 import { UserService } from '@services/user.service';
 import { Observable } from 'rxjs';
 
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DashboardGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService, private alertsService: AlertsService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -32,6 +33,9 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     if (!getToken()) {
       this.router.navigate(['/zaloguj']);
+      setTimeout(() => {
+        this.alertsService.setAlert('Sesja wygasła.');
+      }, 50);
       return false;
     }
 
@@ -40,6 +44,9 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     if (!user || (user && !user._id)) {
       this.userService.removeUser();
       this.router.navigate(['/zaloguj']);
+      setTimeout(() => {
+        this.alertsService.setAlert('Sesja wygasła.');
+      }, 50);
       return false;
     }
 
@@ -54,6 +61,9 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
       .catch(error => {
         this.userService.removeUser();
         this.router.navigate(['/zaloguj']);
+        setTimeout(() => {
+          this.alertsService.setAlert('Sesja wygasła.');
+        }, 50);
         return false;
       });
   }

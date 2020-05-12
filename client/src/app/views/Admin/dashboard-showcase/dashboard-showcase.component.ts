@@ -21,7 +21,7 @@ export class DashboardShowcaseComponent implements OnInit, OnDestroy {
     }));
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     setTimeout(() => {
       this.isLoading = false;
       this.spinnerService.setLoading(this.isLoading);

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { SpinnerService } from '@services/spinner.service';
 
 @Component({
@@ -10,7 +11,10 @@ import { SpinnerService } from '@services/spinner.service';
 export class AddProductComponent implements OnInit {
   isLoading = true;
 
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(
+    private spinnerService: SpinnerService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     setTimeout(() => {
