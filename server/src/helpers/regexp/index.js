@@ -28,7 +28,9 @@ const mapRegExp = /^\(-?[0-9]+\.[0-9]+,\s-?[0-9]+\.[0-9]+\)$/;
 
 const workingHoursRegExp = /^([0-1][0-9]|[2][0-4]):[0-5][0-9]\s-\s([0-1][0-9]|[2][0-4]):[0-5][0-9]$/;
 
-const pathRegExp = /^uploads\\avatars\\\d+\.(png|jpg|jpeg)$/;
+const avatarPathRegExp = /^uploads\\avatars\\\d+\.(png|jpg|jpeg)$/;
+
+const thumbnailPathRegExp = /^uploads\\products\\\d+\.(png|jpg|jpeg)$/;
 
 const productCategoryRegExp = /^([a-zA-Z0-9]+-?)*[a-zA-Z0-9]+$/;
 
@@ -54,7 +56,8 @@ module.exports = {
   zipCodeRegExp,
   mapRegExp,
   avatarRegExp,
-  pathRegExp,
+  avatarPathRegExp,
+  thumbnailPathRegExp,
   mimetypeRegExp,
   productCategoryRegExp,
   productCategoryNameRegExp,

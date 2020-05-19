@@ -6,7 +6,9 @@ const { addCategory } = require('../../helpers/product-categories');
 const seedProductCategories = async () => {
   const newProductCategories = productCategories.map((product) => {
     const newProduct = { ...product };
-    newProduct.category = addCategory(product);
+    if (newProduct.name && typeof newProduct.name === 'string') {
+      newProduct.category = addCategory(product.name);
+    }
     return newProduct;
   });
 

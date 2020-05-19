@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const { signToken } = require('../../../helpers/token');
 const { responseWithError } = require('../../../helpers/errors');
-const { dbIdSchema } = require('../../../models');
-const { updateUserSchema, fileSchema } = require('./index.model');
+const { dbIdSchema, avatarFileSchema } = require('../../../models');
+const { updateUserSchema } = require('./index.model');
 const { usersDB } = require('../../../db');
 const { getAvatarUrl } = require('../../../helpers/files');
 
@@ -52,8 +52,9 @@ const updateUser = async (req, res, next) => {
   if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
     return responseWithError(res, next, 400, 'Brak dostępu');
   }
+
   if (req.file) {
-    const { schemaError: fileSchemaError, data: file } = fileSchema(req.file);
+    const { schemaError: fileSchemaError, data: file } = avatarFileSchema(req.file);
 
     if (fileSchemaError) {
       return responseWithError(res, next, 400, fileSchemaError.details[0].message);

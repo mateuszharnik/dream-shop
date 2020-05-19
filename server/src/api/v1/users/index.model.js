@@ -1,14 +1,10 @@
 const Joi = require('@hapi/joi');
-const {
-  nameRegExp, emailRegExp, avatarRegExp, mimetypeRegExp, pathRegExp,
-} = require('../../../helpers/regexp');
+const { nameRegExp, emailRegExp, avatarRegExp } = require('../../../helpers/regexp');
 const { usernameMessages } = require('../../../helpers/errors/messages/username');
 const { passwordMessages, confirmPasswordMessages, newPasswordMessages } = require('../../../helpers/errors/messages/password');
-const { avatarMaxSize } = require('../../../helpers/files');
 const { userRolesMessages } = require('../../../helpers/errors/messages/roles');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const { imgMessages } = require('../../../helpers/errors/messages/avatar');
-const { mimetypeMessages, pathMessages, sizeMessages } = require('../../../helpers/errors/messages/file');
 const { nameMessages } = require('../../../helpers/errors/messages/name');
 const { resetPasswordTokenExpMessages, resetPasswordTokenMessages } = require('../../../helpers/errors/messages/reset-password-token');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
@@ -59,15 +55,6 @@ const updateUserConfig = (user, id = true, timestamps = true) => {
   return config;
 };
 
-const fileConfig = {
-  mimetype: Joi.string().trim().regex(mimetypeRegExp).required()
-    .messages(mimetypeMessages),
-  size: Joi.number().max(avatarMaxSize).required()
-    .messages(sizeMessages),
-  path: Joi.string().trim().regex(pathRegExp).required()
-    .messages(pathMessages),
-};
-
 const userConfig = (id = true, timestamps = true) => {
   let config = {
     name: Joi.string().trim().regex(nameRegExp).min(3)
@@ -116,15 +103,6 @@ const userSchema = (user, id = true, timestamps = true) => {
   return { schemaError, data };
 };
 
-const fileSchema = (file) => {
-  const schema = Joi.object().keys(fileConfig).unknown(true)
-    .messages(joiConfigMessages);
-
-  const { error: schemaError, value: data } = schema.validate(file);
-
-  return { schemaError, data };
-};
-
 const updateUserSchema = (user, id = true, timestamps = true) => {
   const schema = Joi.object().keys(updateUserConfig(user, id, timestamps))
     .required().messages(joiConfigMessages);
@@ -137,5 +115,4 @@ const updateUserSchema = (user, id = true, timestamps = true) => {
 module.exports = {
   userSchema,
   updateUserSchema,
-  fileSchema,
 };

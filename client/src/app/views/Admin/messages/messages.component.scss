@@ -3,6 +3,7 @@
 
 .message {
   border-radius: 0.4rem;
+  overflow: hidden;
   border: 0.1rem solid $color-gray;
 
   &__head {

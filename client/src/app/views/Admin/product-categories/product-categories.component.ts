@@ -7,6 +7,7 @@ import { CategoriesModals } from '@models/modals';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 
 @Component({
   selector: 'app-product-categories',
@@ -158,6 +159,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
         this.setAlerts('', error.error.message);
       }
     } finally {
+      this.form.reset();
       this.isDisabled = false;
       this.isSubmitted = false;
     }
@@ -183,6 +185,9 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
       this.closeModal('deleteCategory');
       this.isDisabled = false;
       this.isSubmitted = false;
+      jump('.admin-page', {
+        duration: 1000,
+      });
     }
   }
 

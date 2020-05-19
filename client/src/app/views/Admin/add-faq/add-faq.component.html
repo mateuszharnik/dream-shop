@@ -19,8 +19,9 @@
           [linkTitle]="'Wróć do pytań'"
           [linkRouter]="'/admin/strony/najczesciej-zadawane-pytania'"
         >
-          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
-        </app-router-link>
+          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon
+          >Wróć</app-router-link
+        >
       </div>
       <app-form
         [formClass]="'form text-left inline-block'"
@@ -101,7 +102,9 @@
       </app-alert>
     </article>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <p class="center text-center m-0">
+        {{ alerts.server }}
+      </p>
     </ng-template>
   </section>
 </ng-template>

@@ -33,9 +33,6 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     if (!getToken()) {
       this.router.navigate(['/zaloguj']);
-      setTimeout(() => {
-        this.alertsService.setAlert('Sesja wygasła.');
-      }, 50);
       return false;
     }
 
@@ -44,9 +41,6 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     if (!user || (user && !user._id)) {
       this.userService.removeUser();
       this.router.navigate(['/zaloguj']);
-      setTimeout(() => {
-        this.alertsService.setAlert('Sesja wygasła.');
-      }, 50);
       return false;
     }
 

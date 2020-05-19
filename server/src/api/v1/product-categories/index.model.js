@@ -9,7 +9,6 @@ const categoriesConfig = (id = true, timestamps = true) => {
     name: Joi.string().regex(productCategoryNameRegExp).trim().required()
       .messages(productCategoryNameMessages),
     category: Joi.string().trim().lowercase().regex(productCategoryRegExp)
-      .invalid('bestsellery', 'nowosci')
       .messages(productCategoryMessages),
   };
 

@@ -24,8 +24,17 @@ export class ProductsService {
     return this.http.get<Product>(`http://localhost:3000/v1/products/${id}`).toPromise();
   }
 
-  saveProduct(data: Product): Promise<Product> {
-    return this.http.post<Product>(`http://localhost:3000/v1/product`, data, {
+  saveProduct(data: FormData): Promise<Product> {
+    console.log(data);
+    return this.http.post<Product>(`http://localhost:3000/v1/products`, data, {
+      headers: new HttpHeaders({
+        Authorization: getFullToken(),
+      }),
+    }).toPromise();
+  }
+
+  deleteProduct(id: string): Promise<Product> {
+    return this.http.request<Product>('delete', `http://localhost:3000/v1/products/${id}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),
@@ -33,17 +42,8 @@ export class ProductsService {
     }).toPromise();
   }
 
-  deleteProduc(id: string): Promise<Product> {
-    return this.http.request<Product>('delete', `http://localhost:3000/v1/product/${id}`, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: getFullToken(),
-      }),
-    }).toPromise();
-  }
-
-  deleteProducs(): Promise<DeleteResponse> {
-    return this.http.request<DeleteResponse>('delete', `http://localhost:3000/v1/product`, {
+  deleteProducts(): Promise<DeleteResponse> {
+    return this.http.request<DeleteResponse>('delete', `http://localhost:3000/v1/products`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),

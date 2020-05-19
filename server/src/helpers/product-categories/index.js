@@ -11,13 +11,6 @@ const letters = {
   ' ': '-',
 };
 
-const addCategory = (body) => {
-  if (body && body.name && typeof body.name === 'string') {
-    return body.name.toLowerCase().split('')
-      .map((letter) => (letters[letter] ? letters[letter] : letter)).join('');
-  }
-
-  return '';
-};
+const addCategory = (category) => category.toLowerCase().split('').map((letter) => (letters[letter] ? letters[letter] : letter)).join('');
 
 module.exports = { addCategory };
