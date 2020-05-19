@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Map } from '@models/index';
 import * as L from 'leaflet';
 
@@ -8,11 +19,12 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() isAdmin = false;
   @Input() mapData: Map = null;
   @Output() whenMapClick: EventEmitter<any> = new EventEmitter<any>();
 
+  marker = null;
   map = null;
   position = null;
   listener = null;
@@ -20,8 +32,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    const position = this.mapData.latlng.replace(/[\(\)]/g, '').split(', ').map(value => parseFloat(value));
-    this.position = position;
+    this.calculatePosition();
+  }
+
+  ngOnChanges() {
+    if (this.map) {
+      this.calculatePosition();
+      this.map.removeLayer(this.marker);
+      this.setMarker(this.position);
+    }
   }
 
   ngAfterViewInit() {
@@ -50,7 +69,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    L.marker(position, {
+    this.setMarker(position);
+  }
+
+  setMarker(position) {
+    this.marker = L.marker(position, {
       title: 'Tutaj znajduje się nasz sklep',
       alt: 'Znacznik',
       icon: L.icon({
@@ -59,7 +82,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         iconAnchor: [10, 17],
       }),
     }).addTo(this.map);
+  }
 
+  calculatePosition() {
+    const position = this.mapData.latlng.replace(/[\(\)]/g, '').split(', ').map(value => parseFloat(value));
+    this.position = position;
   }
 
   getPosition(event) {

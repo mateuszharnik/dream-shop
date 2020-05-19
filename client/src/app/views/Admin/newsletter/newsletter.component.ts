@@ -5,6 +5,7 @@ import { EmailsModals } from '@models/modals';
 import { NewsletterService } from '@services/newsletter.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 
 @Component({
   selector: 'app-newsletter-page',
@@ -100,6 +101,9 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       this.closeModal('deleteEmail');
       this.isDisabled = false;
       this.isSubmitted = false;
+      jump('.admin-page', {
+        duration: 1000,
+      });
     }
   }
 

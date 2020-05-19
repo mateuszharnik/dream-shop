@@ -5,6 +5,7 @@ import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 
 @Component({
   selector: 'app-messages',
@@ -99,6 +100,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.closeModal('deleteMessage');
       this.isDisabled = false;
       this.isSubmitted = false;
+      jump('.admin-page', {
+        duration: 1000,
+      });
     }
   }
 

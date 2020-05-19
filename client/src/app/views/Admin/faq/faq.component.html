@@ -15,24 +15,31 @@
         lub edytuj pytania.
       </p>
       <div class="mb-6">
-        <app-router-link
-          [linkTitle]="'Dodaj nowe pytanie'"
-          [linkClass]="'button button-success button-small mr-4'"
-          [linkRouter]="'dodaj'"
+        <div
+          [ngClass]="{
+            'mb-4 sm:mb-0 sm:mr-4 sm:inline-block': faqs.length
+          }"
         >
-          Dodaj pytanie
-          <app-fa-icon [faClass]="'fas fa-plus ml-1'"></app-fa-icon>
-        </app-router-link>
-        <app-button
-          *ngIf="faqs.length"
-          [buttonTitle]="'Usuń wszystkie pytania'"
-          [buttonClass]="'button button-danger button-small'"
-          [buttonOnClick]="true"
-          (whenButtonClick)="openModal()"
-        >
-          Usuń pytania
-          <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
-        </app-button>
+          <app-router-link
+            [linkTitle]="'Dodaj nowe pytanie'"
+            [linkClass]="'button button-success button-small'"
+            [linkRouter]="'dodaj'"
+          >
+            Dodaj pytanie
+            <app-fa-icon [faClass]="'fas fa-plus ml-1'"></app-fa-icon>
+          </app-router-link>
+        </div>
+        <div *ngIf="faqs.length" class="sm:inline-block">
+          <app-button
+            [buttonTitle]="'Usuń wszystkie pytania'"
+            [buttonClass]="'button button-danger button-small'"
+            [buttonOnClick]="true"
+            (whenButtonClick)="openModal()"
+          >
+            Usuń pytania
+            <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+          </app-button>
+        </div>
       </div>
       <app-alert
         *ngIf="alerts.error || alerts.server"
@@ -52,7 +59,7 @@
             {{ faq.category | titlecase }}
           </h3>
           <div *ngFor="let question of faq.questions" class="mb-10">
-            <div class="question overflow-hidden mb-4 text-left">
+            <div class="question mb-4 text-left">
               <div class="question__head">
                 <div class="question--border-bottom p-2 break-word">
                   <span class="bold">Tytuł</span>: {{ question.title }}
@@ -83,11 +90,11 @@
         </div>
       </div>
       <ng-template #showDefault>
-        <p class="mt-4 mb-0">Brak pytań.</p>
+        <p>Brak pytań.</p>
       </ng-template>
     </article>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <p class="center">{{ alerts.server }}</p>
     </ng-template>
   </section>
   <app-modal

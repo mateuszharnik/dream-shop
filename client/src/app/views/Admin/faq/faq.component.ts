@@ -8,6 +8,7 @@ import { AlertsService } from '@services/alerts.service';
 import { FAQService } from '@services/faq.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 
 @Component({
   selector: 'app-faq',
@@ -142,6 +143,9 @@ export class FAQComponent implements OnInit, OnDestroy {
       this.closeModal('deleteFAQ');
       this.isDisabled = false;
       this.isSubmitted = false;
+      jump('.admin-page', {
+        duration: 1000,
+      });
     }
   }
 

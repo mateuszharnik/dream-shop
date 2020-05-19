@@ -38,7 +38,7 @@
       </app-alert>
       <div *ngIf="messages.length; else showDefault" class="messages">
         <div *ngFor="let message of messages" class="mb-10">
-          <div class="message overflow-hidden mb-4 text-left">
+          <div class="message mb-4 text-left">
             <div class="message__head">
               <div class="message--border-bottom p-2 break-word">
                 <span class="bold">Od</span>: {{ message.name }} &lt;<a
@@ -75,11 +75,11 @@
         </div>
       </div>
       <ng-template #showDefault>
-        <p class="mt-4 mb-0">Brak wiadomości</p>
+        <p>Brak wiadomości</p>
       </ng-template>
     </article>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <p class="center">{{ alerts.server }}</p>
     </ng-template>
   </section>
   <app-modal

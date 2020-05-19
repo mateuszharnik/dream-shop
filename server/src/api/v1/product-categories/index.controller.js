@@ -9,7 +9,9 @@ const addProductCategory = async (req, res, next) => {
     return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
   }
 
-  req.body.category = addCategory(req.body);
+  if (req.body.name && typeof req.body.name === 'string') {
+    req.body.category = addCategory(req.body.name);
+  }
 
   const { schemaError, data } = productCategorySchema(req.body, false, false);
 
@@ -161,7 +163,7 @@ const deleteProductCategory = async (req, res, next) => {
     }
 
     const deletedProducts = await productsDB.update(
-      { category: deletedCategory.category },
+      { category: deletedCategory.name },
       { $set: { deleted_at: new Date() } },
       { multi: true },
     );
