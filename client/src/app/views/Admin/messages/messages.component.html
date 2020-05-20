@@ -40,20 +40,20 @@
         <div *ngFor="let message of messages" class="mb-10">
           <div class="message mb-4 text-left">
             <div class="message__head">
-              <div class="message--border-bottom p-2 break-word">
+              <div class="message--border-bottom p-2">
                 <span class="bold">Od</span>: {{ message.name }} &lt;<a
                   [href]="'mailto:' + message.email"
                   title="Email autora wiadomości"
                   >{{ message.email }}</a
                 >&gt;
               </div>
-              <div class="message--border-bottom p-2 break-word">
+              <div class="message--border-bottom p-2">
                 <span class="bold">Wysłano</span>:
                 <time [attr.datetime]="message.created_at">
                   {{ message.created_at | date: "medium":undefined:"pl-PL" }}
                 </time>
               </div>
-              <div class="message--border-bottom p-2 break-word">
+              <div class="message--border-bottom p-2">
                 <span class="bold">Tytuł</span>: {{ message.subject }}
               </div>
             </div>

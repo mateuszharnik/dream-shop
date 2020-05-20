@@ -1,84 +1,146 @@
-<div *ngIf="isLoading; else browseProductView" class="spinner-wrapper">
+<div *ngIf="isLoading; else productsPageView" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #browseProductView>
-  <section class="admin-page-section min-vh-100">
+<ng-template #productsPageView>
+  <section class="admin-page-section p-6 min-vh-100">
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Przeglądaj produkty</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article admin-page-section__article--products m-auto mt-6 text-center"
+    >
       <p class="mb-6">
         Tutaj możesz zarządzać swoimi produktami.
       </p>
-      <app-router-link
-        [linkTitle]="'Dodaj nowy produkt'"
-        [linkClass]="'button button-success mb-6'"
-        [linkRouter]="'dodaj'"
+      <div class="mb-6">
+        <div
+          [ngClass]="{
+            'mb-4 sm:mb-0 sm:mr-4 sm:inline-block': products.length
+          }"
+        >
+          <app-router-link
+            [linkTitle]="'Dodaj nowy produkt'"
+            [linkClass]="'button button-success button-small'"
+            [linkRouter]="'dodaj'"
+          >
+            Dodaj produkt
+            <app-fa-icon [faClass]="'fas fa-plus ml-1'"></app-fa-icon>
+          </app-router-link>
+        </div>
+        <div *ngIf="products.length" class="sm:inline-block">
+          <app-button
+            [buttonTitle]="'Usuń wszystkie produkty'"
+            [buttonClass]="'button button-danger button-small'"
+            [buttonOnClick]="true"
+            (whenButtonClick)="openModal()"
+          >
+            Usuń produkty
+            <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+          </app-button>
+        </div>
+      </div>
+      <app-alert
+        *ngIf="alerts.error || alerts.server"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
       >
-        Dodaj produkt
-        <app-fa-icon [faClass]="'fas fa-plus ml-2'"></app-fa-icon>
-      </app-router-link>
-      <div class="w-100">
-        <app-list-item *ngFor="let product of products">
-          <div class="w-100">
-            <img
-              *ngIf="product.img"
-              [src]="product.img"
-              alt="Zdjęcie produktu"
-            />
-            <h4 class="p">{{ product.name }}</h4>
-            <p>{{ product.description }}</p>
-            <p>Liczba dostępnych sztuk: {{ product.quantity }}</p>
-            <p>Cena produktu: {{ product.price }}</p>
+        {{ alerts.error ? alerts.error : alerts.server }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+      <div
+        *ngIf="products.length; else showDefault"
+        class="w-100 row flex-justify-center"
+      >
+        <div
+          *ngFor="let product of products; let i = index"
+          class="mb-10 column-12 lg:column-5"
+          [ngClass]="{ 'lg:mr-4': i % 2 === 0 }"
+        >
+          <app-product-showcase [product]="product"></app-product-showcase>
+          <div>
+            <app-router-link
+              [linkTitle]="'Edytuj produkt'"
+              [linkClass]="'button button-primary button-small'"
+              [linkRouter]="editLink(product._id)"
+            >
+              Edytuj
+              <app-fa-icon [faClass]="'fas fa-pencil-alt ml-1'"></app-fa-icon>
+            </app-router-link>
             <app-button
               [buttonTitle]="'Usuń produkt'"
-              [buttonClass]="'button button-danger button-small'"
+              [buttonClass]="'button button-danger button-small ml-4'"
               [buttonOnClick]="true"
               (whenButtonClick)="openModal(product)"
             >
               Usuń
+              <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
             </app-button>
-            <app-router-link
-              [linkTitle]="'Przejdź do edycji produktu'"
-              [linkClass]="'button button-primary button-small ml-4'"
-              [linkRouter]="computedProductEditLink(product.id)"
-            >
-              Edytuj
-            </app-router-link>
           </div>
-        </app-list-item>
+        </div>
       </div>
-      <app-modal
-        *ngIf="productToDelete"
-        (whenButtonClick)="!isDisabled && closeModal()"
-      >
-        <p>
-          <strong>
-            Czy napewno chcesz usunąć produkt: "{{
-              productToDelete.name
-            }}"&nbsp;?
-          </strong>
-        </p>
-        <app-form
-          [formClass]="'form text-left inline-block'"
-          [formName]="form"
-          (whenFormSubmit)="submit()"
-        >
-          <app-button
-            [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
-            [buttonClass]="'button button-danger'"
-            [buttonDisabled]="isDisabled"
-            #deleteButton
-          >
-            {{ computedButtonText() }}
-            <app-fa-icon
-              *ngIf="isDisabled"
-              [faClass]="'fas fa-spinner fa-spin'"
-            ></app-fa-icon>
-          </app-button>
-        </app-form>
-      </app-modal>
+      <ng-template #showDefault>
+        <p>Brak produktów.</p>
+      </ng-template>
     </article>
+    <ng-template #showError>
+      <p class="center">{{ alerts.server }}</p>
+    </ng-template>
   </section>
+  <app-modal
+    *ngIf="modals.deleteProduct"
+    (whenButtonClick)="!isDisabled && closeModal('deleteProduct')"
+  >
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć produkt: "{{
+            modals.deleteProduct.name
+          }}"&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="buttonTitle(isDisabled)"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteProduct(modals.deleteProduct._id)"
+      >
+        {{ buttonText(isDisabled) }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
+  <app-modal
+    *ngIf="modals.deleteProducts.length"
+    (whenButtonClick)="!isDisabled && closeModal('deleteProducts')"
+  >
+    <div class="text-center">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć wszystkie produkty&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="buttonTitle(isDisabled)"
+        [buttonClass]="'button button-danger'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteProducts()"
+      >
+        {{ buttonText(isDisabled) }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
 </ng-template>

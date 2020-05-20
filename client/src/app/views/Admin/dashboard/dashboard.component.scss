@@ -25,6 +25,12 @@
     &__article {
       width: 100%;
       max-width: 60rem;
+
+      &--products {
+        @media (min-width: $lg) {
+          max-width: 90rem;
+        }
+      }
     }
   }
 }

@@ -25,7 +25,6 @@ export class ProductsService {
   }
 
   saveProduct(data: FormData): Promise<Product> {
-    console.log(data);
     return this.http.post<Product>(`http://localhost:3000/v1/products`, data, {
       headers: new HttpHeaders({
         Authorization: getFullToken(),
