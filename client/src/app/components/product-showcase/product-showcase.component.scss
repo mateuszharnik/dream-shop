@@ -1,0 +1,17 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+.product-showcase {
+  max-width: 36rem;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  border: 0.1rem solid $color-gray;
+
+  &__head {
+    background-color: darken($color-white, 5%);
+  }
+
+  &--border-bottom {
+    border-bottom: 0.1rem solid $color-gray;
+  }
+}

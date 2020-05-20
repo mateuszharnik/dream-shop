@@ -39,9 +39,7 @@
         <div *ngFor="let email of emails" class="mb-10">
           <div class="email overflow-hidden mb-4 text-left">
             <div class="email__head">
-              <div
-                class="p-2 break-word flex flex-justify-between flex-align-center"
-              >
+              <div class="p-2 flex flex-justify-between flex-align-center">
                 {{ email.email }}
                 <app-button
                   [buttonTitle]="'Usuń email'"

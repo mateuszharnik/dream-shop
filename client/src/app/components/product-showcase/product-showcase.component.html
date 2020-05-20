@@ -1,0 +1,51 @@
+<div class="product-showcase mb-4 text-left m-auto">
+  <div class="product-showcase__head">
+    <div class="product-showcase--border-bottom">
+      <img
+        class="block w-100"
+        [src]="product.thumbnail"
+        alt="Zdjęcie główne produktu"
+      />
+    </div>
+    <div class="product-showcase--border-bottom p-2 truncate">
+      <span class="bold">Nazwa</span>: {{ product.name }}
+    </div>
+    <div class="product-showcase--border-bottom p-2 truncate">
+      <span class="bold">Kategoria</span>: {{ product.category }}
+    </div>
+    <div class="product-showcase--border-bottom p-2 truncate">
+      <span class="bold">Cena</span>: {{ product.price }}
+    </div>
+    <div class="product-showcase--border-bottom p-2 truncate">
+      <span class="bold">Dostępnych sztuk</span>:
+      {{ product.quantity }}
+    </div>
+  </div>
+  <div *ngIf="isOpen" class="overflow-hidden" [@Slide]>
+    <div class="p-2 product-showcase--border-bottom">
+      <div *ngIf="product.gallery">
+        <div class="bold">Galeria zdjęć</div>
+        :
+        <img
+          class="product-showcase__gallery"
+          [src]="image"
+          alt="Zdjęcie produktu"
+          *ngFor="let image of product.gallery"
+        />
+      </div>
+      <div class="markdown truncate" [innerHTML]="product.description"></div>
+    </div>
+  </div>
+  <div class="p-2">
+    <app-button
+      [buttonClass]="'block w-100 button-small button button-primary'"
+      [buttonTitle]="buttonTitle()"
+      [buttonOnClick]="true"
+      [buttonAriaExpanded]="isOpen"
+      [buttonDisabled]="isAnimated"
+      (whenButtonClick)="toggleDescription()"
+    >
+      {{ buttonText() }}
+    </app-button>
+  </div>
+</div>

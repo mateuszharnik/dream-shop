@@ -16,6 +16,7 @@ export class FileInputComponent implements OnInit, OnChanges {
   @Input() inputGroupClass = '';
   @Input() inputMessage = '';
   @Input() inputRequired = true;
+  @Input() inputMultiple = false;
   @Input() inputFocus = false;
   @Output() whenFileAdd: EventEmitter<any> = new EventEmitter<any>();
 
