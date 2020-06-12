@@ -1,4 +1,4 @@
-<div [ngClass]="inputGroupClass">
+<div [formGroup]="inputGroup" [ngClass]="inputGroupClass">
   <input
     type="file"
     class="form__input--file"
@@ -6,6 +6,7 @@
     [multiple]="inputMultiple"
     [name]="inputID"
     [id]="inputID"
+    [formControlName]="inputID"
     [required]="inputRequired"
     [attr.aria-describedby]="computedAriaDescribedBy"
     (change)="sendFileName($event)"
@@ -15,6 +16,13 @@
     <app-fa-icon [faClass]="'fas fa-upload ml-1'"></app-fa-icon>
   </label>
   <small class="form__help--file" [id]="computedSmallID" *ngIf="inputMessage">
-    {{ inputMessage.name }}
+    {{ inputMessage }}
   </small>
+  <div class="form__errors" *ngIf="inputValidation">
+    <div *ngFor="let alert of inputAlerts; trackBy: trackID">
+      <div class="mt-1" *ngIf="inputForm.controls[inputID].errors[alert.key]">
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
 </div>

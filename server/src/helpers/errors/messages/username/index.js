@@ -1,25 +1,25 @@
 const usernameRequired = {
-  'any.required': 'Właściwość "username" jest wymagana',
+  'any.required': 'Właściwość "username" jest wymagana.',
 };
 
 const usernameNotEmpty = {
-  'string.empty': 'Musisz podać nazwę użytkownika',
+  'string.empty': 'Musisz podać nazwę użytkownika.',
 };
 
 const usernameString = {
-  'string.base': 'Właściwość "username" musi być typu "string"',
+  'string.base': 'Właściwość "username" musi być typu "string".',
 };
 
 const usernameMin = {
-  'string.min': 'Nazwa użytkownika musi mieć minimum 3 znaki',
+  'string.min': 'Nazwa użytkownika musi mieć minimum 3 znaki.',
 };
 
 const usernameMax = {
-  'string.max': 'Nazwa użytkownika może mieć maksymalnie 30 znaków',
+  'string.max': 'Nazwa użytkownika może mieć maksymalnie 30 znaków.',
 };
 
 const usernameAlphanum = {
-  'string.alphanum': 'Nazwa użytkownika może zawierać tylko cyfry i litery',
+  'string.alphanum': 'Nazwa użytkownika może zawierać tylko cyfry i litery.',
 };
 
 const usernameMessages = {

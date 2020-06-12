@@ -20,20 +20,35 @@
       <span class="bold">Dostępnych sztuk</span>:
       {{ product.quantity }}
     </div>
+    <div class="product-showcase--border-bottom p-2 truncate">
+      <span class="bold">Sprzedanych sztuk</span>:
+      {{ product.selled }}
+    </div>
   </div>
-  <div *ngIf="isOpen" class="overflow-hidden" [@Slide]>
+  <div *ngIf="isOpen" [@Slide] class="product-showcase__body">
     <div class="p-2 product-showcase--border-bottom">
-      <div *ngIf="product.gallery">
-        <div class="bold">Galeria zdjęć</div>
-        :
-        <img
-          class="product-showcase__gallery"
-          [src]="image"
-          alt="Zdjęcie produktu"
-          *ngFor="let image of product.gallery"
-        />
+      <div *ngIf="product.gallery.length">
+        <span class="bold">Galeria zdjęć</span>:
+        <div class="row my-2">
+          <img
+            class="column-6"
+            [src]="image"
+            alt="Zdjęcie produktu"
+            (load)="imageLoaded()"
+            [hidden]="!imagesLoaded || loadedImages !== product.gallery.length"
+            *ngFor="let image of product.gallery"
+          />
+          <div
+            *ngIf="!imagesLoaded || loadedImages !== product.gallery.length"
+            class="product-showcase__spinner"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-3x fa-circle-notch fa-spin'"
+            ></app-fa-icon>
+          </div>
+        </div>
       </div>
-      <div class="markdown truncate" [innerHTML]="product.description"></div>
+      <div class="markdown" [innerHTML]="product.description"></div>
     </div>
   </div>
   <div class="p-2">
@@ -41,8 +56,8 @@
       [buttonClass]="'block w-100 button-small button button-primary'"
       [buttonTitle]="buttonTitle()"
       [buttonOnClick]="true"
-      [buttonAriaExpanded]="isOpen"
       [buttonDisabled]="isAnimated"
+      [buttonAriaExpanded]="isOpen"
       (whenButtonClick)="toggleDescription()"
     >
       {{ buttonText() }}

@@ -1,13 +1,16 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { markdown } from '@helpers/index';
-import { Alerts, DeleteResponse, Product } from '@models/index';
+import { Alerts, DeleteResponse, Pagination, Product, ProductWithPagination } from '@models/index';
 import { ProductsModals } from '@models/modals';
 import { AlertsService } from '@services/alerts.service';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
+import { WindowRefService } from '@services/window-ref.service';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 @Component({
   selector: 'app-products',
@@ -17,6 +20,7 @@ import jump from 'jump.js';
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   @ViewChild('deleteButton') deleteButton: any = null;
+  @ViewChild('productsWrapper') productsWrapper: any = null;
 
   alerts: Alerts = {
     server: '',
@@ -24,10 +28,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
     success: '',
   };
   isLoading = true;
+  isLoadingProducts = false;
   isDisabled = false;
   isSubmitted = false;
   products: Product[] = [];
+  pagination: Pagination = null;
   subscriptions: Subscription[] = [];
+  listenerTime = 100;
+  throttleListener: () => void = null;
+  debounceListener: () => void = null;
+  windowEl: Window = null;
   modals: ProductsModals = {
     deleteProducts: [],
     deleteProduct: null,
@@ -38,6 +48,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private router: Router,
     private alertsService: AlertsService,
     private productsService: ProductsService,
+    private renderer: Renderer2,
+    private windowRefService: WindowRefService,
   ) {
     this.subscriptions.push(this.productsService.getProducts().subscribe((data: Product[]) => {
       this.products = data.length ? data.map((product: Product) => {
@@ -49,12 +61,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.alertsService.getAlert().subscribe((data: string) => {
       this.setAlerts('', '', data);
     }));
+
+    this.windowEl = this.windowRefService.nativeWindow;
+    this.throttleListener = this.renderer.listen('window', 'scroll', throttle(this.loadProducts, this.listenerTime));
+    this.debounceListener = this.renderer.listen('window', 'scroll', debounce(this.loadProducts, this.listenerTime));
   }
 
   async ngOnInit() {
     try {
-      const response: Product[] = await this.productsService.fetchProducts();
-      this.productsService.setProducts(response);
+      const response: ProductWithPagination = await this.productsService.fetchProducts();
+      this.pagination = response.pagination;
+      this.productsService.setProducts(response.products);
       this.setLoading();
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -68,6 +85,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.throttleListener) {
+      this.throttleListener();
+    }
+
+    if (this.debounceListener) {
+      this.debounceListener();
+    }
+
     this.alertsService.setAlert('');
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
@@ -103,8 +128,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     try {
       const response: Product = await this.productsService.deleteProduct(id);
-      const products: Product[] = await this.productsService.fetchProducts();
-      this.productsService.setProducts(products);
+      const products: ProductWithPagination = await this.productsService.fetchProducts();
+      this.productsService.setProducts(products.products);
       this.setAlerts('', '', 'Pomyślnie usunięto produkt.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -119,6 +144,36 @@ export class ProductsComponent implements OnInit, OnDestroy {
       jump('.admin-page', {
         duration: 1000,
       });
+    }
+  }
+
+  loadProducts = async () => {
+    if (!this.productsWrapper) {
+      return;
+    }
+
+    const rect = this.productsWrapper.nativeElement.getBoundingClientRect();
+    const shouldLoad = rect.bottom - 200 < this.windowEl.innerHeight;
+
+    if (shouldLoad && !this.isLoadingProducts && this.pagination.remaining) {
+      try {
+        this.isLoadingProducts = true;
+        const skip = this.pagination.skip + this.pagination.limit;
+        const response: ProductWithPagination = await this.productsService.fetchProducts(skip);
+        this.pagination = response.pagination;
+        this.productsService.setProducts([
+          ...this.products,
+          ...response.products,
+        ]);
+      } catch (error) {
+        if (error.status === 0 || error.status === 404) {
+          this.setAlerts('Brak połączenia z serwerem.');
+        } else {
+          this.setAlerts('', error.error.message);
+        }
+      } finally {
+        this.isLoadingProducts = false;
+      }
     }
   }
 

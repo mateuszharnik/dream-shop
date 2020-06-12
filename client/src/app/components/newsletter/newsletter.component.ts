@@ -90,14 +90,17 @@ export class NewsletterComponent implements OnInit {
 
     try {
       const response = await this.newsletterService.saveEmail(this.form.value);
-      this.setAlerts('', '', 'Pomyślnie zapisano adres email');
+      this.setAlerts('', '', 'Pomyślnie zapisano adres email.');
     } catch (error) {
       if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else if (error.status === 429) {
+        this.setAlerts('', error.error);
       } else {
         this.setAlerts('', error.error.message);
       }
     } finally {
+      this.form.reset();
       this.isDisabled = false;
       this.isSubmitted = false;
     }

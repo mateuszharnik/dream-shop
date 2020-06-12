@@ -38,6 +38,7 @@ const addProductCategory = async (req, res, next) => {
         { name: data.name },
         {
           $set: {
+            count: 0,
             created_at: new Date(),
             updated_at: new Date(),
             deleted_at: null,
@@ -47,6 +48,7 @@ const addProductCategory = async (req, res, next) => {
     } else {
       newCategory = await productCategoriesDB.insert({
         ...data,
+        count: 0,
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null,
@@ -67,6 +69,12 @@ const addProductCategory = async (req, res, next) => {
 
 const getProductCategories = async (req, res, next) => {
   try {
+    const total = await productCategoriesDB.count({ deleted_at: null });
+
+    if (!total) {
+      return responseWithError(res, next, 500, 'Nie udało się pobrać liczby kategorii.');
+    }
+
     const categories = await productCategoriesDB.find(
       { deleted_at: null },
       { sort: { created_at: -1 } },
@@ -106,7 +114,7 @@ const deleteProductCategories = async (req, res, next) => {
           { category: { $not: /^(bestsellery|nowosci)$/ } },
         ],
       },
-      { $set: { deleted_at: new Date() } },
+      { $set: { deleted_at: new Date(), count: 0 } },
       { multi: true },
     );
 
@@ -155,7 +163,7 @@ const deleteProductCategory = async (req, res, next) => {
 
     const deletedCategory = await productCategoriesDB.findOneAndUpdate(
       { _id: params.id },
-      { $set: { deleted_at: new Date() } },
+      { $set: { deleted_at: new Date(), count: 0 } },
     );
 
     if (!deletedCategory) {

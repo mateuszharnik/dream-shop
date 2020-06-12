@@ -20,8 +20,13 @@ const seedProductCategories = async () => {
   }
 
   try {
+    const updatedProductCategories = data.map((category) => {
+      const updatedCategory = { ...category, count: 0 };
+      return updatedCategory;
+    });
+
     await productCategoriesDB.remove({});
-    await productCategoriesDB.insert(data);
+    await productCategoriesDB.insert(updatedProductCategories);
 
     // eslint-disable-next-line no-console
     console.log('Database seeded with product categories data');

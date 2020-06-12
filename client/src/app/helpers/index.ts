@@ -85,9 +85,13 @@ export const imageValidator = (prop: string) => (formGroup: FormGroup) => {
 
   let result: ValidationErrors = null;
 
+  if (propControl.value === null) {
+    return;
+  }
+
   const file = propControl.value;
 
-  if (typeof (file) === 'string') {
+  if (!(file instanceof File)) {
     return;
   }
 
@@ -110,6 +114,53 @@ export const imageValidator = (prop: string) => (formGroup: FormGroup) => {
     propControl.setErrors(result);
     return;
   }
+};
+
+export const imagesValidator = (prop: string) => (formGroup: FormGroup) => {
+  const propControl: AbstractControl = formGroup.controls[prop];
+  const maxSize = 1024 * 1024 * 5;
+  const maxLength = 9;
+  const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+
+  let result: ValidationErrors = null;
+
+  if (propControl.value === null) {
+    return;
+  }
+
+  const files: File[] = propControl.value.filter((file: File) => file instanceof File);
+
+  if (files.length > maxLength) {
+    if (!propControl.touched) {
+      propControl.markAsTouched();
+    }
+
+    result = { maxlength: true };
+    propControl.setErrors(result);
+    return;
+  }
+
+  files.some(file => {
+    if (!imageTypeRegExp.test(file.type)) {
+      if (!propControl.touched) {
+        propControl.markAsTouched();
+      }
+
+      result = { type: true };
+      propControl.setErrors(result);
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      if (!propControl.touched) {
+        propControl.markAsTouched();
+      }
+
+      result = { maxsize: true };
+      propControl.setErrors(result);
+      return false;
+    }
+  });
 };
 
 export const categoriesValidator = (prop: string, values: ProductCategory[]) => (

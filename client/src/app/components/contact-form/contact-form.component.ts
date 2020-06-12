@@ -31,8 +31,8 @@ export class ContactFormComponent implements OnInit {
     { id: '3', message: 'Imię nie może przekraczać 50 znaków.', key: 'maxlength' },
   ];
   emailAlerts: Alert[] = [
-    { id: '0', message: 'Adres email jest nieprawidłowy', key: 'pattern' },
-    { id: '1', message: 'Proszę podać adres email', key: 'required' },
+    { id: '0', message: 'Adres email jest nieprawidłowy.', key: 'pattern' },
+    { id: '1', message: 'Proszę podać adres email.', key: 'required' },
   ];
   subjectAlerts: Alert[] = [
     { id: '0', message: 'Temat jest wymagany.', key: 'required' },
@@ -50,7 +50,6 @@ export class ContactFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private messageService: MessageService) { }
 
-  // TODO: Przenieść do oddzielnego pliku
   ngOnInit() {
     this.trackID = trackID;
 
@@ -130,10 +129,10 @@ export class ContactFormComponent implements OnInit {
 
     try {
       const response: Message = await this.messageService.saveMessage(this.form.value);
-      this.setAlerts('', '', 'Pomyślnie zapisano');
+      this.setAlerts('', '', 'Pomyślnie zapisano.');
     } catch (error) {
       if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
       } else if (error.status === 429) {
         this.setAlerts('', error.error);
       } else {

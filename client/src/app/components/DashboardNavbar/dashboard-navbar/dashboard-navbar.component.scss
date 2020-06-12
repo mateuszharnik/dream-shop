@@ -7,7 +7,7 @@
     overflow-x: hidden;
 
     @media (min-width: $lg) {
-      overflow: hidden;
+      overflow: scroll;
     }
 
     &::-webkit-scrollbar {
@@ -38,6 +38,10 @@
 
     @media (min-width: $lg) {
       max-width: 32rem;
+    }
+
+    &__logo {
+      width: 8rem;
     }
 
     &-wrapper {

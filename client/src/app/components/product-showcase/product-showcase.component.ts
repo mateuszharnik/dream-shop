@@ -14,9 +14,23 @@ export class ProductShowcaseComponent {
 
   isOpen = false;
   isAnimated = false;
+  loadedImages = 0;
+  imagesLoaded = false;
 
   buttonText(): 'Mniej' | 'Więcej' {
     return this.isOpen ? 'Mniej' : 'Więcej';
+  }
+
+  imageLoaded() {
+    setTimeout(() => {
+      if (this.loadedImages !== this.product.gallery.length) {
+        this.loadedImages += 1;
+      }
+
+      if (this.loadedImages === this.product.gallery.length) {
+        this.imagesLoaded = true;
+      }
+    }, 450);
   }
 
   buttonTitle(): 'Pokaż mniej' | 'Pokaż więcej' {

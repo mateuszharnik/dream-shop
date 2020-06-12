@@ -6,6 +6,8 @@ const dbIdRegExp = /^[a-f\d]{24}$/i;
 
 const avatarRegExp = /^https?:\/\/localhost:3000\/uploads\/avatars\/\d+\.(png|jpeg|jpg)$/;
 
+const thumbnailRegExp = /^https?:\/\/localhost:3000\/uploads\/products\/\d+\.(png|jpeg|jpg)$/;
+
 const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/;
 
 const instagramRegExp = /^https?:\/\/www.instagram.com\/.+$/;
@@ -36,12 +38,20 @@ const productCategoryRegExp = /^([a-zA-Z0-9]+-?)*[a-zA-Z0-9]+$/;
 
 const productCategoryNameRegExp = /^([a-zA-Z0-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?)*[a-zA-Z0-9ąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/;
 
+const productNameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&()+=?/]+$/;
+
 const mimetypeRegExp = /^image\/(jpeg|jpg|png)$/;
 
 const faqTitleRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&()+=?/]+$/;
 
+const productPriceRegExp = /^(0|[1-9][0-9]{0,8}),[0-9]{2} zł$/;
+
+const quantityRegExp = /^[0-9]{1,10}$/;
+
 module.exports = {
   faqTitleRegExp,
+  productPriceRegExp,
+  quantityRegExp,
   dbIdRegExp,
   emailRegExp,
   nameRegExp,
@@ -51,6 +61,8 @@ module.exports = {
   linkedinRegExp,
   phoneRegExp,
   nipRegExp,
+  thumbnailRegExp,
+  productNameRegExp,
   streetNumberRegExp,
   workingHoursRegExp,
   zipCodeRegExp,

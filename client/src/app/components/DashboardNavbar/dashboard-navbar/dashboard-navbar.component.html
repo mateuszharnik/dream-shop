@@ -11,9 +11,16 @@
     *ngIf="navigation.isOpen"
     [@SlideLeft]="navigation.isOpen && !isDesktop"
     class="dashboard-navigation-wrapper vh-100 fixed"
-    [ngStyle]="{ 'padding-top': isDesktop ? '2rem' : '' }"
+    [ngStyle]="{ padding: isDesktop ? '2rem 0rem' : '' }"
     #nav
   >
+    <div *ngIf="isDesktop" class="text-center mb-4">
+      <app-image
+        [imageClass]="'dashboard-navigation__logo m-auto block'"
+        [imageSrc]="'../../../assets/img/logo.svg'"
+        [imageAltText]="'Napis Dream'"
+      ></app-image>
+    </div>
     <ul
       id="navigationControls"
       class="dashboard-navigation dashboard-scrollbar"

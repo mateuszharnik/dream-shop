@@ -16,9 +16,8 @@
           [linkTitle]="'Wróć do wszyskitch produktów'"
           [linkRouter]="'/admin/produkty'"
         >
-          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon
-          >Wróć</app-router-link
-        >
+          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
+        </app-router-link>
       </div>
       <app-form
         [formClass]="'form text-left inline-block'"
@@ -37,7 +36,8 @@
               [inputAlerts]="nameAlerts"
               [inputGroup]="form"
               [inputForm]="form"
-            ></app-input>
+            >
+            </app-input>
           </div>
           <div class="column-12 mb-4">
             <app-input
@@ -96,22 +96,78 @@
               [textareaLabelClass]="'block mb-2 bold'"
             ></app-textarea>
           </div>
-          <div class="column-12 mb-4">
-            <app-file-input
-              [inputID]="'thumbnail'"
-              [inputLabel]="'Zdjęcie główne'"
-              [inputLabelClass]="'block mb-2 bold'"
-              (whenFileAdd)="addThumbnail($event)"
-            ></app-file-input>
+          <div class="column-12 mb-4 relative">
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="thumbnail"
+              id="thumbnail"
+              class="form__input--thumbnail"
+              (change)="addThumbnail($event)"
+              (blur)="setTouched('thumbnail')"
+              #thumbnailInput
+            />
+            <label
+              class="form__label--thumbnail inline-block bold"
+              for="thumbnail"
+              [ngClass]="{ change: thumbnail }"
+              [title]="thumbnailTitle(thumbnail)"
+            >
+              Zdjęcie główne
+            </label>
+            <img
+              *ngIf="thumbnail"
+              [src]="thumbnail"
+              class="preview inline-block absolute"
+              alt="Zdjęcie produktu"
+            />
+            <div class="form__errors" *ngIf="validation('thumbnail')">
+              <div *ngFor="let alert of thumbnailAlerts; trackBy: trackID">
+                <div
+                  class="mt-1"
+                  *ngIf="form.controls['thumbnail'].errors[alert.key]"
+                >
+                  {{ alert.message }}
+                </div>
+              </div>
+            </div>
           </div>
           <div class="column-12 mb-4">
-            <app-file-input
-              [inputID]="'gallery'"
-              [inputLabel]="'Galeria'"
-              [inputMultiple]="true"
-              [inputLabelClass]="'block mb-2 bold'"
-              (whenFileAdd)="addGallery($event)"
-            ></app-file-input>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="gallery"
+              id="gallery"
+              class="form__input--gallery"
+              multiple
+              (change)="addGallery($event)"
+              (blur)="setTouched('gallery')"
+              #galleryInput
+            />
+            <label
+              class="form__label--gallery inline-block bold mb-2"
+              for="gallery"
+            >
+              Galeria
+            </label>
+            <div class="row" *ngIf="gallery.length">
+              <img
+                *ngFor="let image of gallery"
+                [src]="image"
+                class="preview"
+                alt="Zdjęcie produktu"
+              />
+            </div>
+            <div class="form__errors" *ngIf="validation('gallery')">
+              <div *ngFor="let alert of galleryAlerts; trackBy: trackID">
+                <div
+                  class="mt-1"
+                  *ngIf="form.controls['gallery'].errors[alert.key]"
+                >
+                  {{ alert.message }}
+                </div>
+              </div>
+            </div>
           </div>
           <div class="column-12 text-center">
             <app-button

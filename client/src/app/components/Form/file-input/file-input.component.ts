@@ -1,5 +1,7 @@
 import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { checkRequiredProp } from '@helpers/index';
+import { checkRequiredProp, trackID } from '@helpers/index';
+import { Alert } from '@models/index';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-file-input',
@@ -10,19 +12,28 @@ import { checkRequiredProp } from '@helpers/index';
 export class FileInputComponent implements OnInit, OnChanges {
   @HostBinding('class.block') display = true;
   @HostBinding('class.w-100') width = true;
+  @Input() inputAlerts: Alert[] = [];
   @Input() inputLabel: string = null;
   @Input() inputID: string = null;
+  @Input() inputForm: AbstractControl = null;
+  @Input() inputGroup: FormGroup = null;
   @Input() inputLabelClass = '';
   @Input() inputGroupClass = '';
   @Input() inputMessage = '';
   @Input() inputRequired = true;
   @Input() inputMultiple = false;
+  @Input() inputValidation = false;
   @Input() inputFocus = false;
   @Output() whenFileAdd: EventEmitter<any> = new EventEmitter<any>();
 
   computedInputClass: string = null;
   computedAriaDescribedBy: string = null;
   computedSmallID: string = null;
+  trackByID = null;
+
+  constructor() {
+    this.trackByID = trackID;
+  }
 
   ngOnInit() {
     this.checkAllRequiredProp();

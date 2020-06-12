@@ -24,8 +24,7 @@ router.post(
   productUpload.fields([{
     name: 'thumbnail', maxCount: 1,
   }, {
-    name: 'gallery',
-    maxCount: 9,
+    name: 'gallery', maxCount: 9,
   }]),
   addProduct,
 );

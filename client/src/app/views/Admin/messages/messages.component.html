@@ -36,8 +36,12 @@
       >
         {{ alerts.success }}
       </app-alert>
-      <div *ngIf="messages.length; else showDefault" class="messages">
-        <div *ngFor="let message of messages" class="mb-10">
+      <div
+        *ngIf="messages.length; else showDefault"
+        class="messages"
+        #messagesWrapper
+      >
+        <div *ngFor="let message of messages" class="mb-4">
           <div class="message mb-4 text-left">
             <div class="message__head">
               <div class="message--border-bottom p-2">
@@ -73,6 +77,7 @@
             </app-button>
           </div>
         </div>
+        <p *ngIf="isLoadingMessages" class="text-primary">Wczytywanie...</p>
       </div>
       <ng-template #showDefault>
         <p>Brak wiadomości</p>

@@ -5,14 +5,39 @@ const { responseWithError } = require('../../../helpers/errors');
 const { purify } = require('../../../helpers/sanitize');
 
 const getMessages = async (req, res, next) => {
+  const { sort = 'desc' } = req.query;
+  let { skip = 0, limit = 6 } = req.query;
+
+  skip = parseInt(skip, 10) || 0;
+  limit = parseInt(limit, 10) || 6;
+
+  skip = skip < 0 ? 0 : skip;
+
+  limit = Math.min(50, Math.max(1, limit));
+
   try {
-    const messages = await messagesDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
+    const total = await messagesDB.count({ deleted_at: null });
+    const messages = await messagesDB.find({ deleted_at: null }, {
+      skip: Number(skip),
+      limit: Number(limit),
+      sort: {
+        created_at: sort === 'desc' ? -1 : 1,
+      },
+    });
 
     if (!messages) {
       return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości.');
     }
 
-    res.status(200).json(messages);
+    res.status(200).json({
+      total,
+      messages,
+      pagination: {
+        skip,
+        limit,
+        remaining: total - (skip + limit) > 0,
+      },
+    });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
