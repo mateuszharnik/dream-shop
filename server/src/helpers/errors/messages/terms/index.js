@@ -1,14 +1,14 @@
 // TERMS
 const termsRequired = {
-  'any.required': 'Właściwość "terms_accepted" jest wymagana',
+  'any.required': 'Właściwość "terms_accepted" jest wymagana.',
 };
 
 const termsOnly = {
-  'any.only': 'Musisz zaakceptować regulamin',
+  'any.only': 'Musisz zaakceptować regulamin.',
 };
 
 const termsBoolean = {
-  'boolean.base': 'Właściwość "terms_accepted" musi być typu "boolean"',
+  'boolean.base': 'Właściwość "terms_accepted" musi być typu "boolean".',
 };
 
 const termsMessages = {

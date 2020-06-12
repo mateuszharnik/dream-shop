@@ -1,90 +1,90 @@
 // STREET
 const streetRequired = {
-  'any.required': 'Właściwość "street" jest wymagana',
+  'any.required': 'Właściwość "street" jest wymagana.',
 };
 
 const streetString = {
-  'string.base': 'Właściwość "street" musi być typu "string"',
+  'string.base': 'Właściwość "street" musi być typu "string".',
 };
 
 const streetNotEmpty = {
-  'string.empty': 'Musisz podać nazwę ulicy',
+  'string.empty': 'Musisz podać nazwę ulicy.',
 };
 
 const streetMin = {
-  'string.min': 'Nazwa ulicy musi mieć minimum 2 znaki',
+  'string.min': 'Nazwa ulicy musi mieć minimum 2 znaki.',
 };
 
 const streetMax = {
-  'string.max': 'Nazwa ulicy może mieć maksymalnie 100 znaków',
+  'string.max': 'Nazwa ulicy może mieć maksymalnie 100 znaków.',
 };
 
 // STREET NUMBER
 const streetNumberRequired = {
-  'any.required': 'Właściwość "street_number" jest wymagana',
+  'any.required': 'Właściwość "street_number" jest wymagana.',
 };
 
 const streetNumberString = {
-  'string.base': 'Właściwość "street_number" musi być typu "string"',
+  'string.base': 'Właściwość "street_number" musi być typu "string".',
 };
 
 const streetNumberNotEmpty = {
-  'string.empty': 'Musisz podać numer ulicy/lokalu',
+  'string.empty': 'Musisz podać numer ulicy/lokalu.',
 };
 
 const streetNumberPattern = {
-  'string.pattern.base': 'Numer ulicy/lokalu jest nieprawidłowy',
+  'string.pattern.base': 'Numer ulicy/lokalu jest nieprawidłowy.',
 };
 
 // CITY
 const cityRequired = {
-  'any.required': 'Właściwość "city" jest wymagana',
+  'any.required': 'Właściwość "city" jest wymagana.',
 };
 
 const cityString = {
-  'string.base': 'Właściwość "city" musi być typu "string"',
+  'string.base': 'Właściwość "city" musi być typu "string".',
 };
 
 const cityNotEmpty = {
-  'string.empty': 'Musisz podać nazwę miasta',
+  'string.empty': 'Musisz podać nazwę miasta.',
 };
 
 const cityMin = {
-  'string.min': 'Nazwa miasta musi mieć minimum 2 znaki',
+  'string.min': 'Nazwa miasta musi mieć minimum 2 znaki.',
 };
 
 const cityMax = {
-  'string.max': 'Nazwa miasta może mieć maksymalnie 100 znaków',
+  'string.max': 'Nazwa miasta może mieć maksymalnie 100 znaków.',
 };
 
 // ZIP CODE
 const zipCodeRequired = {
-  'any.required': 'Właściwość "zip_code" jest wymagana',
+  'any.required': 'Właściwość "zip_code" jest wymagana.',
 };
 
 const zipCodeString = {
-  'string.base': 'Właściwość "zip_code" musi być typu "string"',
+  'string.base': 'Właściwość "zip_code" musi być typu "string".',
 };
 
 const zipCodeNotEmpty = {
-  'string.empty': 'Musisz podać numer pocztowy',
+  'string.empty': 'Musisz podać numer pocztowy.',
 };
 
 const zipCodePattern = {
-  'string.pattern.base': 'Numer pocztowy jest nieprawidłowy',
+  'string.pattern.base': 'Numer pocztowy jest nieprawidłowy.',
 };
 
 // ADDRESS
 const addressObject = {
-  'object.base': 'Właściwość "address" musi być typu "object"',
+  'object.base': 'Właściwość "address" musi być typu "object".',
 };
 
 const addressObjectUnknow = {
-  'object.unknown': 'Właściwość {#label} jest niedozwolona',
+  'object.unknown': 'Właściwość {#label} jest niedozwolona.',
 };
 
 const addressRequired = {
-  'any.required': 'Właściwość "address" jest wymagana',
+  'any.required': 'Właściwość "address" jest wymagana.',
 };
 
 const addressMessages = {

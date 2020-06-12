@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { DeleteResponse, Email } from '@models/index';
+import { DeleteResponse, Email, EmailWithPagination } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class NewsletterService {
 
   constructor(private http: HttpClient) { }
 
-  fetchEmails(): Promise<Email[]> {
-    return this.http.get<Email[]>(`http://localhost:3000/v1/newsletter`, {
+  fetchEmails(skip?: number, limit?: number): Promise<EmailWithPagination> {
+    return this.http.get<EmailWithPagination>(`http://localhost:3000/v1/newsletter?skip=${skip}&limit=${limit}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),

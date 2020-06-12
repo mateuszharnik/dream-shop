@@ -47,7 +47,7 @@ const passwordsConfig = {
   password: Joi.string().trim().min(8).max(32)
     .required()
     .messages(passwordMessages),
-  confirmPassword: Joi.string().trim().valid(Joi.ref('password')).required()
+  confirm_password: Joi.string().trim().valid(Joi.ref('password')).required()
     .messages(confirmPasswordMessages),
 };
 

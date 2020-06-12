@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { DeleteResponse, Message } from '@models/index';
+import { DeleteResponse, Message, MessageWithPagination } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  fetchMessages(): Promise<Message[]> {
-    return this.http.get<Message[]>(`http://localhost:3000/v1/messages`, {
+  fetchMessages(skip?: number, limit?: number): Promise<MessageWithPagination> {
+    return this.http.get<MessageWithPagination>(`http://localhost:3000/v1/messages?skip=${skip}&limit=${limit}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: getFullToken(),

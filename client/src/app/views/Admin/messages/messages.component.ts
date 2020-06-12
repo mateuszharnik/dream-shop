@@ -1,11 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Alerts, DeleteResponse, Message } from '@models/index';
+import { Alerts, DeleteResponse, Message, MessageWithPagination, Pagination } from '@models/index';
 import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
 import { SpinnerService } from '@services/spinner.service';
+import { WindowRefService } from '@services/window-ref.service';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 @Component({
   selector: 'app-messages',
@@ -15,12 +18,19 @@ import jump from 'jump.js';
 })
 export class MessagesComponent implements OnInit, OnDestroy {
   @ViewChild('deleteButton') deleteButton: any = null;
+  @ViewChild('messagesWrapper') messagesWrapper: any = null;
 
   messages: Message[] = null;
   isLoading = true;
+  isLoadingMessages = false;
   isDisabled = false;
   isSubmitted = false;
+  pagination: Pagination = null;
+  windowEl: Window = null;
   subscriptions: Subscription[] = [];
+  listenerTime = 100;
+  throttleListener: () => void = null;
+  debounceListener: () => void = null;
   modals: MessagesModals = {
     deleteMessages: [],
     deleteMessage: null,
@@ -34,17 +44,24 @@ export class MessagesComponent implements OnInit, OnDestroy {
   constructor(
     private spinnerService: SpinnerService,
     private messageService: MessageService,
+    private renderer: Renderer2,
+    private windowRefService: WindowRefService,
     private router: Router,
   ) {
     this.subscriptions.push(this.messageService.getMessages().subscribe((data: Message[]) => {
       this.messages = data;
     }));
+
+    this.windowEl = this.windowRefService.nativeWindow;
+    this.throttleListener = this.renderer.listen('window', 'scroll', throttle(this.loadMessages, this.listenerTime));
+    this.debounceListener = this.renderer.listen('window', 'scroll', debounce(this.loadMessages, this.listenerTime));
   }
 
   async ngOnInit() {
     try {
-      const response: Message[] = await this.messageService.fetchMessages();
-      this.messageService.setMessages(response);
+      const response: MessageWithPagination = await this.messageService.fetchMessages();
+      this.pagination = response.pagination;
+      this.messageService.setMessages(response.messages);
       this.setLoading();
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -65,6 +82,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.throttleListener) {
+      this.throttleListener();
+    }
+
+    if (this.debounceListener) {
+      this.debounceListener();
+    }
+
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
   computedButtonTitle(): 'Usuń pytanie' | 'Usuwanie pytania' {
@@ -87,8 +112,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     try {
       const deleteMessageResponse: Message = await this.messageService.deleteMessage(id);
-      const messagesResponse: Message[] = await this.messageService.fetchMessages();
-      this.messageService.setMessages(messagesResponse);
+      const messagesResponse: MessageWithPagination = await this.messageService.fetchMessages();
+      this.messageService.setMessages(messagesResponse.messages);
       this.setAlerts('', '', 'Pomyślnie usunięto wiadomość.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -103,6 +128,36 @@ export class MessagesComponent implements OnInit, OnDestroy {
       jump('.admin-page', {
         duration: 1000,
       });
+    }
+  }
+
+  loadMessages = async () => {
+    if (!this.messagesWrapper) {
+      return;
+    }
+
+    const rect = this.messagesWrapper.nativeElement.getBoundingClientRect();
+    const shouldLoad = rect.bottom - 200 < this.windowEl.innerHeight;
+
+    if (shouldLoad && !this.isLoadingMessages && this.pagination.remaining) {
+      try {
+        this.isLoadingMessages = true;
+        const skip = this.pagination.skip + this.pagination.limit;
+        const response: MessageWithPagination = await this.messageService.fetchMessages(skip);
+        this.pagination = response.pagination;
+        this.messageService.setMessages([
+          ...this.messages,
+          ...response.messages,
+        ]);
+      } catch (error) {
+        if (error.status === 0 || error.status === 404) {
+          this.setAlerts('Brak połączenia z serwerem.');
+        } else {
+          this.setAlerts('', error.error.message);
+        }
+      } finally {
+        this.isLoadingMessages = false;
+      }
     }
   }
 

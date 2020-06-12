@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { purify } from '@helpers/index';
-import { Alerts, Product, ProductCategory, Alert } from '@models/index';
+import { imagesValidator, imageValidator, purify } from '@helpers/index';
+import { Alert, Alerts, Product, ProductCategory, ProductWithPagination } from '@models/index';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -31,6 +31,18 @@ export class AddProductComponent implements OnInit, OnDestroy {
   categories: ProductCategory[] = [];
   filteredCategories: ProductCategory[] = [];
   subscriptions: Subscription[] = [];
+
+  thumbnailAlerts: Alert[] = [
+    { id: '0', message: 'Plik nie może przekraczać 5 MB.', key: 'maxsize' },
+    { id: '1', message: 'Typ pliku jest niepoprawny.', key: 'type' },
+    { id: '2', message: 'Musisz dodać zdjęcie główne.', key: 'required' },
+  ];
+
+  galleryAlerts: Alert[] = [
+    { id: '0', message: 'Pliki nie mogą przekraczać 5 MB.', key: 'maxsize' },
+    { id: '1', message: 'Pliki nie są niepoprawnego typu.', key: 'type' },
+    { id: '2', message: 'Możesz dodać maksymalnie 9 plików.', key: 'maxlength' },
+  ];
 
   nameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa produktu jest za krótka.', key: 'minlength' },
@@ -111,7 +123,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       }],
       price: ['', {
         validators: [
-          Validators.pattern(/^[0-6]{1,10},[0-9]{2} zł$/),
+          Validators.pattern(/^(0|[1-9][0-9]{0,8}),[0-9]{2} zł$/),
           Validators.required,
         ],
       }],
@@ -133,9 +145,20 @@ export class AddProductComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
       }],
-      thumbnail: [''],
-      gallery: [],
-    });
+      thumbnail: ['', {
+        validators: [
+          Validators.required,
+        ],
+      }],
+      gallery: [[]],
+    },
+      {
+        validators: [
+          imageValidator('thumbnail'),
+          imagesValidator('gallery'),
+        ],
+      },
+    );
 
     this.formControls.category.setValue(categories[0].name, { onlySelf: true });
   }
@@ -147,6 +170,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
       );
   }
 
+  setTouched(prop: string) {
+    this.formControls[prop].markAsTouched();
+  }
+
+  thumbnailTitle(value: boolean): 'Dodaj' | 'Zmień' {
+    return value ? 'Zmień' : 'Dodaj';
+  }
+
   buttonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
     return this.isDisabled ? 'Zapisywanie zmian' : 'Zapisz zmiany';
   }
@@ -155,8 +186,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
   }
 
-  addThumbnail(files) {
-    const images: File[] = files;
+  addThumbnail(event: Event) {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    const images: FileList = target.files;
 
     if (!images.length) {
       return;
@@ -166,10 +198,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
       thumbnail: images[0],
     });
 
-    const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+    const imageTypeRegExp: RegExp = /^image\/(png|jpg|jpeg)$/;
 
     if (window.FileReader && imageTypeRegExp.test(images[0].type)) {
-      const reader = new FileReader();
+      const reader: FileReader = new FileReader();
       reader.onload = () => {
         this.thumbnail = reader.result;
       };
@@ -177,8 +209,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  addGallery(files) {
-    const images = Object.entries(files).map((file) => file[1]);
+  addGallery(event: Event) {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
+    const images: File[] = Object.entries(target.files).map((file) => file[1]);
 
     if (!images.length) {
       return;
@@ -188,15 +221,14 @@ export class AddProductComponent implements OnInit, OnDestroy {
       gallery: images,
     });
 
-    const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+    const imageTypeRegExp: RegExp = /^image\/(png|jpg|jpeg)$/;
 
-    const validImages = images.filter((image: File) => {
-      return imageTypeRegExp.test(image.type);
-    });
+    const validImages: File[] = images.filter((image: File): boolean => imageTypeRegExp.test(image.type));
 
     if (window.FileReader && validImages.length) {
+      this.gallery = [];
       images.forEach((image: File) => {
-        const reader = new FileReader();
+        const reader: FileReader = new FileReader();
         reader.onload = () => {
           this.gallery.push(reader.result);
         };
@@ -230,22 +262,28 @@ export class AddProductComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
 
     formData.append('thumbnail', this.form.value.thumbnail);
-    formData.append('gallery', this.form.value.gallery);
     formData.append('name', this.form.value.name);
     formData.append('price', this.form.value.price);
     formData.append('quantity', this.form.value.quantity);
     formData.append('description', this.form.value.description);
     formData.append('category', this.form.value.category);
+    this.form.value.gallery.forEach(file => formData.append('gallery', file));
 
     try {
       const response: Product = await this.productsService.saveProduct(formData);
-      const products: Product[] = await this.productsService.fetchProducts();
-      this.productsService.setProducts(products);
+      const products: ProductWithPagination = await this.productsService.fetchProducts();
+      this.productsService.setProducts(products.products);
       this.setAlerts('', '', 'Pomyślnie dodano produkt.');
+      this.gallery = [];
+      this.galleryInput.nativeElement.value = '';
+      this.thumbnail = '';
+      this.thumbnailInput.nativeElement.value = '';
       const category: string = this.form.value.category;
       this.form.reset();
       this.formControls.category.setValue(category, { onlySelf: true });
+      this.formControls.gallery.setValue([], { onlySelf: true });
     } catch (error) {
+      console.log(error);
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {

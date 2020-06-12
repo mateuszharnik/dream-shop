@@ -1,20 +1,39 @@
 const Joi = require('@hapi/joi');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
+const {
+  productNameMessages,
+  priceMessages,
+  quantityMessages,
+  descriptionMessages,
+  categoryMessages,
+  thumbnailMessages,
+  galleryMessages,
+} = require('../../../helpers/errors/messages/product');
+const {
+  quantityRegExp, thumbnailRegExp, productPriceRegExp, productNameRegExp,
+} = require('../../../helpers/regexp');
 
 const productConfig = (id = true, timestamps = true) => {
   let config = {
     name: Joi.string().trim().min(3).max(256)
-      .regex(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&()+=?/]+$/)
-      .required(),
+      .regex(productNameRegExp)
+      .required()
+      .messages(productNameMessages),
     description: Joi.string().trim().min(3).max(10000)
-      .required(),
-    quantity: Joi.string().regex(/^[0-9]{1,10}$/).required(),
-    price: Joi.string().trim().regex(/^[0-6]{1,10},[0-9]{2} zł$/).required(),
+      .required()
+      .messages(descriptionMessages),
+    quantity: Joi.string().regex(quantityRegExp).required().messages(quantityMessages),
+    price: Joi.string().trim().regex(productPriceRegExp).required()
+      .messages(priceMessages),
     category: Joi.string().trim().invalid('bestsellery', 'nowosci')
-      .required(),
-    thumbnail: Joi.string().trim().required(),
-    // gallery: Joi.string().trim().allow('').required(),
+      .required()
+      .messages(categoryMessages),
+    thumbnail: Joi.string().trim().regex(thumbnailRegExp).required()
+      .messages(thumbnailMessages),
+    gallery: Joi.array().items(
+      Joi.string().trim().regex(thumbnailRegExp),
+    ).messages(galleryMessages),
   };
 
   if (id) {

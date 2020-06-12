@@ -1,11 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Alerts, DeleteResponse, Email } from '@models/index';
+import { Alerts, DeleteResponse, Email, Pagination, EmailWithPagination } from '@models/index';
 import { EmailsModals } from '@models/modals';
 import { NewsletterService } from '@services/newsletter.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
+import { WindowRefService } from '@services/window-ref.service';
 
 @Component({
   selector: 'app-newsletter-page',
@@ -15,10 +18,17 @@ import jump from 'jump.js';
 })
 export class NewsletterComponent implements OnInit, OnDestroy {
   @ViewChild('deleteButton') deleteButton: any = null;
+  @ViewChild('emailsWrapper') emailsWrapper: any = null;
 
   isLoading = true;
+  isLoadingEmails = false;
   isDisabled = false;
   isSubmitted = false;
+  pagination: Pagination = null;
+  listenerTime = 100;
+  throttleListener: () => void = null;
+  debounceListener: () => void = null;
+  windowEl: Window = null;
   alerts: Alerts = {
     server: '',
     error: '',
@@ -32,6 +42,8 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   emails: Email[] = [];
 
   constructor(
+    private renderer: Renderer2,
+    private windowRefService: WindowRefService,
     private spinnerService: SpinnerService,
     private newsletterService: NewsletterService,
     private router: Router,
@@ -39,12 +51,17 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.newsletterService.getEmails().subscribe((data: Email[]) => {
       this.emails = data;
     }));
+
+    this.windowEl = this.windowRefService.nativeWindow;
+    this.throttleListener = this.renderer.listen('window', 'scroll', throttle(this.loadEmails, this.listenerTime));
+    this.debounceListener = this.renderer.listen('window', 'scroll', debounce(this.loadEmails, this.listenerTime));
   }
 
   async ngOnInit() {
     try {
-      const response: Email[] = await this.newsletterService.fetchEmails();
-      this.newsletterService.setEmails(response);
+      const response: EmailWithPagination = await this.newsletterService.fetchEmails();
+      this.pagination = response.pagination;
+      this.newsletterService.setEmails(response.emails);
       this.setLoading();
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -65,6 +82,14 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.throttleListener) {
+      this.throttleListener();
+    }
+
+    if (this.debounceListener) {
+      this.debounceListener();
+    }
+
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
@@ -88,8 +113,8 @@ export class NewsletterComponent implements OnInit, OnDestroy {
 
     try {
       const deleteResponse: Email = await this.newsletterService.deleteEmail(id);
-      const emailsResponse: Email[] = await this.newsletterService.fetchEmails();
-      this.newsletterService.setEmails(emailsResponse);
+      const emailsResponse: EmailWithPagination = await this.newsletterService.fetchEmails();
+      this.newsletterService.setEmails(emailsResponse.emails);
       this.setAlerts('', '', 'Pomyślnie usunięto email.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -104,6 +129,36 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       jump('.admin-page', {
         duration: 1000,
       });
+    }
+  }
+
+  loadEmails = async () => {
+    if (!this.emailsWrapper) {
+      return;
+    }
+
+    const rect = this.emailsWrapper.nativeElement.getBoundingClientRect();
+    const shouldLoad = rect.bottom - 200 < this.windowEl.innerHeight;
+
+    if (shouldLoad && !this.isLoadingEmails && this.pagination.remaining) {
+      try {
+        this.isLoadingEmails = true;
+        const skip = this.pagination.skip + this.pagination.limit;
+        const response: EmailWithPagination = await this.newsletterService.fetchEmails(skip);
+        this.pagination = response.pagination;
+        this.newsletterService.setEmails([
+          ...this.emails,
+          ...response.emails,
+        ]);
+      } catch (error) {
+        if (error.status === 0 || error.status === 404) {
+          this.setAlerts('Brak połączenia z serwerem.');
+        } else {
+          this.setAlerts('', error.error.message);
+        }
+      } finally {
+        this.isLoadingEmails = false;
+      }
     }
   }
 

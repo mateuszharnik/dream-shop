@@ -49,8 +49,29 @@ const thumbnailFileSchema = (file) => {
   return { schemaError, data };
 };
 
+const galleryFileConfig = {
+  mimetype: Joi.string().trim().regex(mimetypeRegExp).required()
+    .messages(mimetypeMessages),
+  size: Joi.number().max(thumbnailMaxSize).required()
+    .messages(sizeMessages),
+  path: Joi.string().trim().regex(thumbnailPathRegExp).required()
+    .messages(pathMessages),
+};
+
+const galleryFileSchema = (file) => {
+  const schema = Joi.array().items(
+    Joi.object().keys(galleryFileConfig).unknown(true)
+      .messages(joiConfigMessages),
+  ).required();
+
+  const { error: schemaError, value: data } = schema.validate(file);
+
+  return { schemaError, data };
+};
+
 module.exports = {
   dbIdSchema,
   avatarFileSchema,
   thumbnailFileSchema,
+  galleryFileSchema,
 };

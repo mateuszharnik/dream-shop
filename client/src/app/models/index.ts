@@ -10,6 +10,30 @@ export interface Alerts {
   success: string;
 }
 
+export interface Pagination {
+  remaining: number;
+  skip: number;
+  limit: number;
+}
+
+export interface ProductWithPagination {
+  total: number;
+  products: Product[];
+  pagination: Pagination;
+}
+
+export interface MessageWithPagination {
+  total: number;
+  messages: Message[];
+  pagination: Pagination;
+}
+
+export interface EmailWithPagination {
+  total: number;
+  emails: Email[];
+  pagination: Pagination;
+}
+
 export interface Credentials {
   password: string;
   username: string;
@@ -24,6 +48,7 @@ export interface ProductCategory {
   _id?: string;
   category?: string;
   name: string;
+  count?: number;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
@@ -37,6 +62,7 @@ export interface Product {
   gallery: string[];
   price: string;
   quantity: number;
+  selled: number;
   description: string;
   created_at?: Date;
   updated_at?: Date;

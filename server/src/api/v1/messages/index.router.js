@@ -8,7 +8,7 @@ const {
 const sendMessageLimiter = rateLimit({
   windowMs: 1000 * 60 * 5,
   max: 2,
-  message: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później',
+  message: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.',
 });
 
 const router = Router();

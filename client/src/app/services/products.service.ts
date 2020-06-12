@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { DeleteResponse, Product, ProductCategory } from '@models/index';
+import { DeleteResponse, Product, ProductCategory, ProductWithPagination } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  fetchProducts(): Promise<Product[]> {
-    return this.http.get<Product[]>(`http://localhost:3000/v1/products`).toPromise();
+  fetchProducts(skip?: number, limit?: number): Promise<ProductWithPagination> {
+    return this.http.get<ProductWithPagination>(`http://localhost:3000/v1/products?skip=${skip}&limit=${limit}`).toPromise();
   }
 
   fetchProduct(id: string): Promise<Product> {
@@ -89,8 +89,8 @@ export class ProductsService {
     return this.categoriesSubject.asObservable();
   }
 
-  setProducts(faqs: Product[]) {
-    this.productsSubject.next(faqs);
+  setProducts(products: Product[]) {
+    this.productsSubject.next(products);
   }
 
   getProducts(): Observable<Product[]> {

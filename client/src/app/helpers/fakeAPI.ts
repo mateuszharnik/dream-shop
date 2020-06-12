@@ -1,4 +1,4 @@
-import { Links, Product } from '@models/index';
+import { Links } from '@models/index';
 
 export const navLinks: Links[] = [
   {
@@ -128,49 +128,6 @@ export const navLinks: Links[] = [
         deleted_at: null,
       },
     ],
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-];
-
-export const product: Product = {
-  _id: '1',
-  name: 'Buty',
-  thumbnail: '',
-  description: 'Opis',
-  gallery: [],
-  category: 'buty',
-  price: '100 zł',
-  quantity: 4,
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
-};
-
-export const products: Product[] = [
-  {
-    _id: '1',
-    name: 'Buty',
-    thumbnail: '',
-    description: 'Opis',
-    gallery: [],
-    category: 'buty',
-    price: '100 zł',
-    quantity: 4,
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    _id: '2',
-    name: 'Koszulka',
-    thumbnail: '',
-    description: 'Opis',
-    gallery: [],
-    category: 'koszulki',
-    price: '15 zł',
-    quantity: 10,
     created_at: new Date(),
     updated_at: new Date(),
     deleted_at: null,

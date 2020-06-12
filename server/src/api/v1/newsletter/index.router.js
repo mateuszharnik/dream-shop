@@ -1,3 +1,4 @@
+const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
@@ -5,6 +6,12 @@ const {
 } = require('./index.controller');
 
 const router = Router();
+
+const sendNewsletterLimiter = rateLimit({
+  windowMs: 1000 * 60 * 5,
+  max: 2,
+  message: 'Przekroczono limit. Spróbuj zapisać się ponownie później.',
+});
 
 router.get(
   '/',
@@ -15,6 +22,7 @@ router.get(
 
 router.post(
   '/',
+  sendNewsletterLimiter,
   addEmail,
 );
 

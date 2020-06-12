@@ -55,10 +55,11 @@
       <div
         *ngIf="products.length; else showDefault"
         class="w-100 row flex-justify-center"
+        #productsWrapper
       >
         <div
           *ngFor="let product of products; let i = index"
-          class="mb-10 column-12 lg:column-5"
+          class="mb-4 column-12 lg:column-5"
           [ngClass]="{ 'lg:mr-4': i % 2 === 0 }"
         >
           <app-product-showcase [product]="product"></app-product-showcase>
@@ -82,6 +83,7 @@
             </app-button>
           </div>
         </div>
+        <p *ngIf="isLoadingProducts" class="text-primary">Wczytywanie...</p>
       </div>
       <ng-template #showDefault>
         <p>Brak produktów.</p>
