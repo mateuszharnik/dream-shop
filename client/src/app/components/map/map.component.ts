@@ -74,7 +74,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges
 
   setMarker(position) {
     this.marker = L.marker(position, {
-      title: 'Tutaj znajduje się nasz sklep',
+      title: 'Tutaj znajduje się nasz sklep!',
       alt: 'Znacznik',
       icon: L.icon({
         iconUrl: '../../../assets/img/marker.png',

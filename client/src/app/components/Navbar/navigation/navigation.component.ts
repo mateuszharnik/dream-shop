@@ -1,5 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { trackID } from '@helpers/index';
 import { Links, User } from '@models/index';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
@@ -21,10 +22,13 @@ export class NavigationComponent implements OnDestroy {
   isDisabled = false;
   isAnimated = false;
   animationTime = 450;
+  trackID = null;
   user: User = null;
   subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
       this.user = user;
     }));
@@ -32,10 +36,6 @@ export class NavigationComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-  }
-
-  trackID(index: string, item: any): string {
-    return item.id;
   }
 
   computedIconClass(): string {

@@ -1,17 +1,17 @@
 const emailRequired = {
-  'any.required': 'Właściwość "email" jest wymagana',
+  'any.required': 'Właściwość "email" jest wymagana.',
 };
 
 const emailNotEmpty = {
-  'string.empty': 'Musisz podać email',
+  'string.empty': 'Musisz podać email.',
 };
 
 const emailString = {
-  'string.base': 'Właściwość "email" musi być typu "string"',
+  'string.base': 'Właściwość "email" musi być typu "string".',
 };
 
 const emailPattern = {
-  'string.pattern.base': 'Email jest nieprawidłowy',
+  'string.pattern.base': 'Email jest nieprawidłowy.',
 };
 
 const emailMessages = {

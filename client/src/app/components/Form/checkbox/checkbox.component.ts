@@ -24,10 +24,10 @@ export class CheckboxComponent implements OnInit, OnChanges {
   @Input() checkboxValidation = false;
   @Output() whenClickEnter: EventEmitter<any> = new EventEmitter<any>();
 
-  trackByID = null;
+  trackID = null;
 
   constructor() {
-    this.trackByID = trackID;
+    this.trackID = trackID;
   }
 
   ngOnInit() { }

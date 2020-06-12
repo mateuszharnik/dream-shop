@@ -27,16 +27,16 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
   trackID = null;
 
   facebookAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
+    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
   ];
   instagramAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
+    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
   ];
   twitterAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
+    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
   ];
   linkedinAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy. Upewnij się czy link zaczyna się od http://', key: 'pattern' },
+    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
   ];
 
   constructor(

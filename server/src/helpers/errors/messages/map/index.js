@@ -1,17 +1,17 @@
 const mapRequired = {
-  'any.required': 'Właściwość "latlng" jest wymagana',
+  'any.required': 'Właściwość "latlng" jest wymagana.',
 };
 
 const mapNotEmpty = {
-  'string.empty': 'Musisz podać długość i szerokość geograficzną',
+  'string.empty': 'Musisz podać długość i szerokość geograficzną.',
 };
 
 const mapString = {
-  'string.base': 'Właściwość "latlng" musi być typu "string"',
+  'string.base': 'Właściwość "latlng" musi być typu "string".',
 };
 
 const mapPattern = {
-  'string.pattern.base': 'Długość i szerokość geograficzna jest nieprawidłowa',
+  'string.pattern.base': 'Długość i szerokość geograficzna jest nieprawidłowa.',
 };
 
 const mapMessages = {

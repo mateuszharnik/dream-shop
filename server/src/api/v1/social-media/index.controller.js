@@ -8,14 +8,14 @@ const getSocialMedia = async (req, res, next) => {
     const socialMedia = await socialMediaDB.findOne({});
 
     if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać linków do mediów społecznościowych');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać linków do mediów społecznościowych.');
     }
 
     res.status(200).json({ ...socialMedia });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -44,14 +44,14 @@ const updateSocialMedia = async (req, res, next) => {
     );
 
     if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować linków do mediów społecznościowych');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować linków do mediów społecznościowych.');
     }
 
     res.status(200).json({ ...socialMedia });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

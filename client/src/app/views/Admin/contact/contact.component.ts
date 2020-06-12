@@ -28,7 +28,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   trackID = null;
 
   emailAlerts: Alert[] = [
-    { id: '0', message: 'Adres email jest wymagany', key: 'required' },
+    { id: '0', message: 'Adres email jest wymagany.', key: 'required' },
     { id: '1', message: 'Adres email jest nieprawidłowy.', key: 'pattern' },
   ];
   phoneAlerts: Alert[] = [

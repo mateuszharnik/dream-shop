@@ -1,13 +1,13 @@
 const nipRequired = {
-  'any.required': 'Właściwość "nip" jest wymagana',
+  'any.required': 'Właściwość "nip" jest wymagana.',
 };
 
 const nipString = {
-  'string.base': 'Właściwość "nip" musi być typu "string"',
+  'string.base': 'Właściwość "nip" musi być typu "string".',
 };
 
 const nipPattern = {
-  'string.pattern.base': 'Numer NIP jest nieprawidłowy',
+  'string.pattern.base': 'Numer NIP jest nieprawidłowy.',
 };
 
 const nipMessages = {

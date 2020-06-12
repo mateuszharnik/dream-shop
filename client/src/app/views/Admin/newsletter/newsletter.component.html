@@ -36,7 +36,7 @@
         {{ alerts.success }}
       </app-alert>
       <div *ngIf="emails.length; else showDefault" class="w-100" #emailsWrapper>
-        <div *ngFor="let email of emails">
+        <div *ngFor="let email of emails; trackBy: trackID">
           <div class="email overflow-hidden mb-4 text-left">
             <div class="email__head">
               <div class="p-2 flex flex-justify-between flex-align-center">

@@ -26,7 +26,7 @@ export const markdown = marked.setOptions({
   headerIds: false,
 });
 
-export const trackID = (index: string, item: any): string => item.id;
+export const trackID = (index: number, item: any): string | number => item._id || item.id || index;
 
 export const checkRequiredProp = (prop: any, name: string) => {
   if (!prop) { throw new Error(`Property "${name}" is required.`); }

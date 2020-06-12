@@ -22,7 +22,10 @@
   #dropdown
 >
   <div class="dashboard-navigation--wrapper p-2 mt-2">
-    <li class="dashboard-navigation__item mb-2" *ngFor="let item of items">
+    <li
+      class="dashboard-navigation__item mb-2"
+      *ngFor="let item of items; trackBy: trackID"
+    >
       <app-dashboard-navbar-item [item]="item"></app-dashboard-navbar-item>
     </li>
   </div>

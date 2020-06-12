@@ -1,13 +1,13 @@
 const avatarRequired = {
-  'any.required': 'Właściwość "avatar" jest wymagana',
+  'any.required': 'Właściwość "avatar" jest wymagana.',
 };
 
 const avatarString = {
-  'string.base': 'Właściwość "avatar" musi być typu "string"',
+  'string.base': 'Właściwość "avatar" musi być typu "string".',
 };
 
 const avatarPattern = {
-  'string.pattern.base': 'Ścieżka do pliku jest nieprawidłowa',
+  'string.pattern.base': 'Ścieżka do pliku jest nieprawidłowa.',
 };
 
 const avatarMessages = {

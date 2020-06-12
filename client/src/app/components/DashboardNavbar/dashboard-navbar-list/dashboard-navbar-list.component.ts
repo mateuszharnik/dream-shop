@@ -1,5 +1,6 @@
 import { Component, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { trackID } from '@helpers/index';
 
 @Component({
   selector: 'app-dashboard-navbar-list',
@@ -20,6 +21,11 @@ export class DashboardNavbarListComponent {
   isDisabled = false;
   isAnimated = false;
   animationTime = 450;
+  trackID = null;
+
+  constructor() {
+    this.trackID = trackID;
+  }
 
   computedIconClass(icon: string): string {
     return `${icon} mr-1 dashboard-navigation__icon`;

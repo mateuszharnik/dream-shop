@@ -67,11 +67,11 @@ const loginUser = async (req, res, next) => {
     });
 
     if (!user) {
-      return responseWithError(res, next, 500, 'Użytkownik nie istnieje');
+      return responseWithError(res, next, 500, 'Użytkownik nie istnieje.');
     }
 
     if (!await bcrypt.compare(data.password, user.password)) {
-      return responseWithError(res, next, 500, 'Błędne hasło lub nazwa użytkownika');
+      return responseWithError(res, next, 500, 'Błędne hasło lub nazwa użytkownika.');
     }
 
     const {
@@ -88,7 +88,7 @@ const loginUser = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -103,7 +103,7 @@ const sendRecoveryLink = async (req, res, next) => {
     const user = await usersDB.findOne({ email: data.email });
 
     if (!user) {
-      return responseWithError(res, next, 500, 'Podany email nie znajduje się w bazie danych');
+      return responseWithError(res, next, 500, 'Podany email nie znajduje się w bazie danych.');
     }
 
     const resetPasswordToken = await generateRandomBytes(user._id);
@@ -120,18 +120,18 @@ const sendRecoveryLink = async (req, res, next) => {
     );
 
     if (!newUser) {
-      return responseWithError(res, next, 500, 'Nie udało się wygenerować tokenu');
+      return responseWithError(res, next, 500, 'Nie udało się wygenerować tokenu.');
     }
 
     const success = await sendEmail(newUser);
 
     if (success) {
-      res.status(200).json({ message: 'Wiadomość została pomyślnie wysłana' });
+      res.status(200).json({ message: 'Wiadomość została pomyślnie wysłana.' });
     }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -152,7 +152,7 @@ const recoveryPassword = async (req, res, next) => {
     const user = await usersDB.findOne({ reset_password_token: params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
-      return responseWithError(res, next, 500, 'Link wygasł');
+      return responseWithError(res, next, 500, 'Link wygasł.');
     }
 
     const password = await bcrypt.hash(data.password, 12);
@@ -170,7 +170,7 @@ const recoveryPassword = async (req, res, next) => {
     );
 
     if (!newUser) {
-      return responseWithError(res, next, 500, 'Link wygasł');
+      return responseWithError(res, next, 500, 'Link wygasł.');
     }
 
     const {
@@ -189,7 +189,7 @@ const recoveryPassword = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -204,14 +204,14 @@ const checkRecoveryLink = async (req, res, next) => {
     const user = await usersDB.findOne({ reset_password_token: params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
-      return responseWithError(res, next, 500, 'Link wygasł');
+      return responseWithError(res, next, 500, 'Link wygasł.');
     }
 
     res.status(200).json({ email: user.email });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

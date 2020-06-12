@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { Product } from '@models/index';
 import { Slide } from '@animations/index';
+import { trackID } from '@helpers/index';
+import { Product } from '@models/index';
 
 @Component({
   selector: 'app-product-showcase',
@@ -16,6 +17,11 @@ export class ProductShowcaseComponent {
   isAnimated = false;
   loadedImages = 0;
   imagesLoaded = false;
+  trackID = null;
+
+  constructor() {
+    this.trackID = trackID;
+  }
 
   buttonText(): 'Mniej' | 'Więcej' {
     return this.isOpen ? 'Mniej' : 'Więcej';

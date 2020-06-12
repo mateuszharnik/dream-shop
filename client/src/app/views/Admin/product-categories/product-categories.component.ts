@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { categoriesValidator } from '@helpers/index';
+import { categoriesValidator, trackID } from '@helpers/index';
 import { Alert, Alerts, DeleteResponse, ProductCategory } from '@models/index';
 import { CategoriesModals } from '@models/modals';
 import { ProductsService } from '@services/products.service';
@@ -22,6 +22,7 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
+  trackID = null;
   filteredCategories: ProductCategory[] = [];
   categories: ProductCategory[] = [];
   subscriptions: Subscription[] = [];
@@ -50,6 +51,8 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
     private productsService: ProductsService,
     private router: Router,
   ) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.productsService.getCategories().subscribe((data: ProductCategory[]) => {
       this.categories = data;
 

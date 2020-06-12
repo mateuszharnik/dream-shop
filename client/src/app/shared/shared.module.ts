@@ -17,7 +17,6 @@ import { SelectComponent } from '@components/Form/select/select.component';
 import { TextareaComponent } from '@components/Form/textarea/textarea.component';
 import { ImageComponent } from '@components/image/image.component';
 import { LinkComponent } from '@components/link/link.component';
-import { ListItemComponent } from '@components/list-item/list-item.component';
 import { MapComponent } from '@components/map/map.component';
 import { ModalComponent } from '@components/modal/modal.component';
 import { HamburgerButtonComponent } from '@components/Navbar/hamburger-button/hamburger-button.component';
@@ -41,7 +40,6 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     LinkComponent,
     ImageComponent,
     HamburgerButtonComponent,
-    ListItemComponent,
     ModalComponent,
     FileInputComponent,
     MapComponent,
@@ -65,7 +63,6 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     LinkComponent,
     ImageComponent,
     HamburgerButtonComponent,
-    ListItemComponent,
     ModalComponent,
     MapComponent,
     FileInputComponent,

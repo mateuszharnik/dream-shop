@@ -9,14 +9,14 @@ const getAbout = async (req, res, next) => {
     const about = await aboutDB.findOne({});
 
     if (!about) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji o sklepie');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji o sklepie.');
     }
 
     res.status(200).json({ ...about });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -47,14 +47,14 @@ const updateAbout = async (req, res, next) => {
     );
 
     if (!about) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji o sklepie');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji o sklepie.');
     }
 
     res.status(200).json({ ...about });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

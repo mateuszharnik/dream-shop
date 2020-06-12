@@ -6,14 +6,14 @@ const getFAQCategories = async (req, res, next) => {
     const faq = await faqCategoriesDB.find({}, { sort: { category: 1 } });
 
     if (!faq.length) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii najczęściej zadawanych pytań');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii najczęściej zadawanych pytań.');
     }
 
     res.status(200).json(faq);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

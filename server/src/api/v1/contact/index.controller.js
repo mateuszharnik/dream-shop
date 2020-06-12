@@ -8,14 +8,14 @@ const getContact = async (req, res, next) => {
     const contact = await contactDB.findOne({});
 
     if (!contact) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji kontaktowych');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji kontaktowych.');
     }
 
     res.status(200).json({ ...contact });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -58,14 +58,14 @@ const updateContact = async (req, res, next) => {
     );
 
     if (!contact) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji kontaktowych');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji kontaktowych.');
     }
 
     res.status(200).json({ ...newData });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

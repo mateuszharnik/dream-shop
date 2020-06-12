@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { categories } from '@helpers/faq';
-import { markdown } from '@helpers/index';
+import { markdown, trackID } from '@helpers/index';
 import { Alerts, DeleteResponse, FAQ, FAQs } from '@models/index';
 import { FAQModals } from '@models/modals';
 import { AlertsService } from '@services/alerts.service';
@@ -22,6 +22,7 @@ export class FAQComponent implements OnInit, OnDestroy {
     error: '',
     success: '',
   };
+  trackID = null;
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
@@ -51,6 +52,8 @@ export class FAQComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.alertsService.getAlert().subscribe((data: string) => {
       this.setAlerts('', '', data);
     }));
+
+    this.trackID = trackID;
   }
 
   async ngOnInit() {

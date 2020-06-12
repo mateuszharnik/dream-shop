@@ -72,7 +72,7 @@
       <div *ngIf="filteredCategories.length; else showDefault" class="mt-6">
         <h3 class="h4 text-primary mb-6">Istniejące kategorie:</h3>
         <div class="admin-page-section__categories m-auto">
-          <div *ngFor="let category of filteredCategories">
+          <div *ngFor="let category of filteredCategories; trackBy: trackID">
             <div class="categories overflow-hidden mb-4 text-left">
               <div class="categories__head">
                 <div class="p-2 flex flex-justify-between flex-align-center">

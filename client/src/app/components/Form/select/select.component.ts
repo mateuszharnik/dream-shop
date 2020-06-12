@@ -27,13 +27,13 @@ export class SelectComponent implements OnInit, OnChanges {
   @Input() selectFocus = false;
   @Input() selectValidation = false;
 
-  trackByID = null;
+  trackID = null;
   computedSelectClass: string = null;
   computedAriaDescribedBy: string = null;
   computedSmallID: string = null;
 
   constructor() {
-    this.trackByID = trackID;
+    this.trackID = trackID;
   }
 
   ngOnInit() {

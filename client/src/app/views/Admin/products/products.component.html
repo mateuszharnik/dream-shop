@@ -58,7 +58,7 @@
         #productsWrapper
       >
         <div
-          *ngFor="let product of products; let i = index"
+          *ngFor="let product of products; let i = index; trackBy: trackID"
           class="mb-4 column-12 lg:column-5"
           [ngClass]="{ 'lg:mr-4': i % 2 === 0 }"
         >
