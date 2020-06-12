@@ -210,7 +210,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     try {
       const response: User = await this.userService.updateUser(this.user._id, formData);
       this.userService.setUser(response);
-      this.setAlerts('', '', 'Pomyślnie zaktualozowano.');
+      this.setAlerts('', '', 'Pomyślnie zaktualizowano.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');

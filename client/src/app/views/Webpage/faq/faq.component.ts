@@ -28,6 +28,8 @@ export class FaqComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
       this.faqs = data.length ? this.getCategories(data) : data;
     }));
@@ -36,8 +38,6 @@ export class FaqComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.trackID = trackID;
-
     if (this.faqs.length) {
       this.isLoading = false;
       return this.spinnerService.setLoading(this.isLoading);

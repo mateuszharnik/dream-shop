@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Fade } from '@animations/index';
+import { trackID } from '@helpers/index';
 import { Slide } from '@models/index';
 
 @Component({
@@ -14,6 +15,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   timeout = null;
   isFirst = true;
   isFocus = false;
+  trackID = null;
   currentIndex = 0;
   animationTime = 7000;
   images: Slide[] = [
@@ -30,6 +32,10 @@ export class SliderComponent implements OnInit, OnDestroy {
       href: 'produkty/',
     },
   ];
+
+  constructor() {
+    this.trackID = trackID;
+  }
 
   ngOnInit() {
     this.startSlide();

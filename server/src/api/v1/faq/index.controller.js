@@ -9,14 +9,14 @@ const getFAQs = async (req, res, next) => {
     const faqs = await faqDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
 
     if (!faqs) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać najczęściej zadawanych pytań');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać najczęściej zadawanych pytań.');
     }
 
     res.status(200).json(faqs);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -38,7 +38,7 @@ const getFAQ = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -71,7 +71,7 @@ const updateFAQ = async (req, res, next) => {
     const faq = await faqDB.findOne({ _id: params.id });
 
     if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Pytanie nie istnieje');
+      return responseWithError(res, next, 500, 'Pytanie nie istnieje.');
     }
 
     const updatedFAQ = await faqDB.findOneAndUpdate(
@@ -85,14 +85,14 @@ const updateFAQ = async (req, res, next) => {
     );
 
     if (!updatedFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować pytania');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować pytania.');
     }
 
     res.status(200).json({ ...updatedFAQ });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -101,7 +101,7 @@ const deleteFAQs = async (req, res, next) => {
     const faqs = await faqDB.find({ deleted_at: null });
 
     if (!faqs.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych pytań');
+      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych pytań.');
     }
 
     const deletedFAQs = await faqDB.update(
@@ -111,17 +111,17 @@ const deleteFAQs = async (req, res, next) => {
     );
 
     if (!deletedFAQs) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć pytań');
+      return responseWithError(res, next, 500, 'Nie udało się usunąć pytań.');
     }
 
     res.status(200).json({
-      message: 'Usunięto wszystkie pytania',
+      message: 'Usunięto wszystkie pytania.',
       items: deletedFAQs.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -136,7 +136,7 @@ const deleteFAQ = async (req, res, next) => {
     const faq = await faqDB.findOne({ _id: params.id });
 
     if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Pytanie nie istnieje');
+      return responseWithError(res, next, 500, 'Pytanie nie istnieje.');
     }
 
     const deletedFAQ = await faqDB.findOneAndUpdate(
@@ -145,14 +145,14 @@ const deleteFAQ = async (req, res, next) => {
     );
 
     if (!deletedFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć pytania');
+      return responseWithError(res, next, 500, 'Nie udało się usunąć pytania.');
     }
 
     res.status(200).json({ ...deletedFAQ });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -179,7 +179,7 @@ const addFAQ = async (req, res, next) => {
     const faq = await faqDB.findOne({ title: data.title });
 
     if (faq && faq.deleted_at === null) {
-      return responseWithError(res, next, 500, 'Pytanie znajduje się już w bazie danych');
+      return responseWithError(res, next, 500, 'Pytanie znajduje się już w bazie danych.');
     }
 
     let newFAQ = null;
@@ -205,14 +205,14 @@ const addFAQ = async (req, res, next) => {
     }
 
     if (!newFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać pytania w bazie danych');
+      return responseWithError(res, next, 500, 'Nie udało się zapisać pytania w bazie danych.');
     }
 
     res.status(200).json({ ...newFAQ });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

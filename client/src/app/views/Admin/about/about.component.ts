@@ -26,9 +26,9 @@ export class AboutComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   informationAlerts: Alert[] = [
-    { id: '0', message: 'To pole jest wymagane', key: 'required' },
-    { id: '1', message: 'Liczba słów musi mieć więcej niż 10 znaków', key: 'minlength' },
-    { id: '2', message: 'Liczba słów może mieć maksymalnie 5000 znaków', key: 'maxlength' },
+    { id: '0', message: 'To pole jest wymagane.', key: 'required' },
+    { id: '1', message: 'Liczba słów musi mieć więcej niż 10 znaków.', key: 'minlength' },
+    { id: '2', message: 'Liczba słów może mieć maksymalnie 5000 znaków.', key: 'maxlength' },
   ];
 
   constructor(

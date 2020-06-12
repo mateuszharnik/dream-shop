@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { markdown } from '@helpers/index';
+import { markdown, trackID } from '@helpers/index';
 import { Alerts, DeleteResponse, Pagination, Product, ProductWithPagination } from '@models/index';
 import { ProductsModals } from '@models/modals';
 import { AlertsService } from '@services/alerts.service';
@@ -22,11 +22,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   @ViewChild('deleteButton') deleteButton: any = null;
   @ViewChild('productsWrapper') productsWrapper: any = null;
 
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
   isLoading = true;
   isLoadingProducts = false;
   isDisabled = false;
@@ -35,9 +30,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   pagination: Pagination = null;
   subscriptions: Subscription[] = [];
   listenerTime = 100;
-  throttleListener: () => void = null;
-  debounceListener: () => void = null;
+  trackID = null;
+  throttleListener = null;
+  debounceListener = null;
   windowEl: Window = null;
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
   modals: ProductsModals = {
     deleteProducts: [],
     deleteProduct: null,
@@ -51,6 +52,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private windowRefService: WindowRefService,
   ) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.productsService.getProducts().subscribe((data: Product[]) => {
       this.products = data.length ? data.map((product: Product) => {
         product.description = markdown(product.description);

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { imagesValidator, imageValidator, purify } from '@helpers/index';
+import { imagesValidator, imageValidator, purify, trackID } from '@helpers/index';
 import { Alert, Alerts, Product, ProductCategory, ProductWithPagination } from '@models/index';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -24,6 +24,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     error: '',
     success: '',
   };
+  trackID = null;
   isDisabled = false;
   isSubmitted = false;
   gallery: Array<string | ArrayBuffer> = [];
@@ -75,6 +76,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private productsService: ProductsService,
   ) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.productsService.getCategories().subscribe((data: ProductCategory[]) => {
       this.categories = data;
 

@@ -36,7 +36,7 @@
             alt="Zdjęcie produktu"
             (load)="imageLoaded()"
             [hidden]="!imagesLoaded || loadedImages !== product.gallery.length"
-            *ngFor="let image of product.gallery"
+            *ngFor="let image of product.gallery; trackBy: trackID"
           />
           <div
             *ngIf="!imagesLoaded || loadedImages !== product.gallery.length"

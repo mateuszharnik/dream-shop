@@ -29,10 +29,10 @@ export class FileInputComponent implements OnInit, OnChanges {
   computedInputClass: string = null;
   computedAriaDescribedBy: string = null;
   computedSmallID: string = null;
-  trackByID = null;
+  trackID = null;
 
   constructor() {
-    this.trackByID = trackID;
+    this.trackID = trackID;
   }
 
   ngOnInit() {

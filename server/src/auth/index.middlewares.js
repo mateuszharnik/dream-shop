@@ -17,7 +17,7 @@ const checkToken = async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
+    return responseWithError(res, next, 500, 'Brak dostępu.');
   }
 
   next();
@@ -25,7 +25,7 @@ const isAdmin = (req, res, next) => {
 
 const isNotLoggedIn = (req, res, next) => {
   if (!req.user) {
-    return responseWithError(res, next, 500, 'Brak dostępu');
+    return responseWithError(res, next, 500, 'Brak dostępu.');
   }
 
   next();
@@ -33,7 +33,7 @@ const isNotLoggedIn = (req, res, next) => {
 
 const isLoggedIn = (req, res, next) => {
   if (req.user) {
-    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany');
+    return responseWithError(res, next, 404, 'Użytkownik jest aktualnie zalogowany.');
   }
 
   next();

@@ -152,7 +152,7 @@
             </label>
             <div class="row" *ngIf="gallery.length">
               <img
-                *ngFor="let image of gallery"
+                *ngFor="let image of gallery; trackBy: trackID"
                 [src]="image"
                 class="preview"
                 alt="Zdjęcie produktu"

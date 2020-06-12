@@ -28,13 +28,13 @@ export class TextareaComponent implements OnInit, OnChanges {
   @Input() textareaFocus = false;
   @Input() textareaValidation = false;
 
-  trackByID = null;
+  trackID = null;
   computedTextareaClass: string = null;
   computedAriaDescribedBy: string = null;
   computedSmallID: string = null;
 
   constructor() {
-    this.trackByID = trackID;
+    this.trackID = trackID;
   }
 
   ngOnInit() {

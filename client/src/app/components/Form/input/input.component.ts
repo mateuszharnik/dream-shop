@@ -27,13 +27,13 @@ export class InputComponent implements OnInit, OnChanges {
   @Input() inputFocus = false;
   @Input() inputValidation = false;
 
-  trackByID = null;
+  trackID = null;
   computedInputClass: string = null;
   computedAriaDescribedBy: string = null;
   computedSmallID: string = null;
 
   constructor() {
-    this.trackByID = trackID;
+    this.trackID = trackID;
   }
 
   ngOnInit() {

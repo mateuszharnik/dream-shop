@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { trackID } from '@helpers/index';
 import { Alerts, DeleteResponse, Message, MessageWithPagination, Pagination } from '@models/index';
 import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
@@ -27,10 +28,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
   isSubmitted = false;
   pagination: Pagination = null;
   windowEl: Window = null;
+  trackID = null;
   subscriptions: Subscription[] = [];
   listenerTime = 100;
-  throttleListener: () => void = null;
-  debounceListener: () => void = null;
+  throttleListener = null;
+  debounceListener = null;
   modals: MessagesModals = {
     deleteMessages: [],
     deleteMessage: null,
@@ -48,6 +50,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
     private windowRefService: WindowRefService,
     private router: Router,
   ) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.messageService.getMessages().subscribe((data: Message[]) => {
       this.messages = data;
     }));
@@ -65,7 +69,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.setLoading();
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem');
+        this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);
       }

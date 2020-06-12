@@ -8,14 +8,14 @@ const getMap = async (req, res, next) => {
     const map = await mapDB.findOne({});
 
     if (!map) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać danych dla mapy');
+      return responseWithError(res, next, 500, 'Nie udało się pobrać danych dla mapy.');
     }
 
     res.status(200).json({ ...map });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -44,14 +44,14 @@ const updateMap = async (req, res, next) => {
     );
 
     if (!map) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować koordynatów mapy');
+      return responseWithError(res, next, 500, 'Nie udało się zaktualizować koordynatów mapy.');
     }
 
     res.status(200).json({ ...map });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

@@ -41,7 +41,7 @@
         class="messages"
         #messagesWrapper
       >
-        <div *ngFor="let message of messages" class="mb-4">
+        <div *ngFor="let message of messages; trackBy: trackID" class="mb-4">
           <div class="message mb-4 text-left">
             <div class="message__head">
               <div class="message--border-bottom p-2">

@@ -1,29 +1,29 @@
 const joiConfigObject = {
-  'object.base': 'Dane muszą być typu "object"',
+  'object.base': 'Dane muszą być typu "object".',
 };
 
 const joiConfigObjectUnknow = {
-  'object.unknown': 'Właściwość {#label} jest niedozwolona',
+  'object.unknown': 'Właściwość {#label} jest niedozwolona.',
 };
 
 const joiConfigRequired = {
-  'any.required': 'Dane są wymagane',
+  'any.required': 'Dane są wymagane.',
 };
 
 const joiConfigArray = {
-  'array.base': 'Dane muszą być typu "array"',
+  'array.base': 'Dane muszą być typu "array".',
 };
 
 const joiConfigArrayLength = {
-  'array.length': 'Kategorii najczęściej zadawanych pytań powinno być {#limit}',
+  'array.length': 'Kategorii najczęściej zadawanych pytań powinno być {#limit}.',
 };
 
 const joiConfigArrayIncludesRequiredUnknowns = {
-  'array.includesRequiredUnknowns': 'Dane nie posiadają wymaganych elementów',
+  'array.includesRequiredUnknowns': 'Dane nie posiadają wymaganych elementów.',
 };
 
 const joiConfigArrayOnly = {
-  'any.only': 'Dane mogą zawierać tylko następujące elementy: {#valids}',
+  'any.only': 'Dane mogą zawierać tylko następujące elementy: {#valids}.',
 };
 
 const joiConfigMessages = {

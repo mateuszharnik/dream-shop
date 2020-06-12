@@ -1,5 +1,6 @@
 import { Component, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
+import { trackID } from '@helpers/index';
 import { Links } from '@models/index';
 
 @Component({
@@ -17,15 +18,16 @@ export class NavigationItemComponent {
   isOpen = false;
   isDisabled = false;
   isAnimated = false;
+  trackID = null;
   animationTime = 450;
+
+  constructor() {
+    this.trackID = trackID;
+  }
 
   computedIconClass(): string {
     const className = 'navigation__icon absolute ml-1 fas fa-chevron-right';
     return this.isOpen ? `${className} open` : className;
-  }
-
-  trackID(index: string, item: any): string {
-    return item.id;
   }
 
   computedRouterLink(link: string): string {

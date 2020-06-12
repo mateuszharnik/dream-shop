@@ -11,13 +11,13 @@ const {
 const loginLimiter = rateLimit({
   windowMs: 1000 * 60 * 15,
   max: 20,
-  message: 'Przekroczono limit. Spróbuj zalogować się ponownie później',
+  message: 'Przekroczono limit. Spróbuj zalogować się ponownie później.',
 });
 
 const recoveryLimiter = rateLimit({
   windowMs: 1000 * 60 * 60,
   max: 10,
-  message: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później',
+  message: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.',
 });
 
 const router = Router();

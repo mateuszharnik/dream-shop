@@ -14,14 +14,14 @@ const getUser = async (req, res, next) => {
   }
 
   if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 400, 'Brak dostępu');
+    return responseWithError(res, next, 400, 'Brak dostępu.');
   }
 
   try {
     const user = await usersDB.findOne({ _id: params.id });
 
     if (!user) {
-      return responseWithError(res, next, 500, 'Użytkownik nie istnieje');
+      return responseWithError(res, next, 500, 'Użytkownik nie istnieje.');
     }
 
     const {
@@ -38,7 +38,7 @@ const getUser = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 
@@ -50,7 +50,7 @@ const updateUser = async (req, res, next) => {
   }
 
   if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, 400, 'Brak dostępu');
+    return responseWithError(res, next, 400, 'Brak dostępu.');
   }
 
   if (req.file) {
@@ -73,7 +73,7 @@ const updateUser = async (req, res, next) => {
     const user = await usersDB.findOne({ _id: params.id });
 
     if (!user) {
-      return responseWithError(res, next, 500, 'Użytkownik nie istnieje');
+      return responseWithError(res, next, 500, 'Użytkownik nie istnieje.');
     }
 
     const newUser = {
@@ -85,7 +85,7 @@ const updateUser = async (req, res, next) => {
       const email = await usersDB.findOne({ email: data.email });
 
       if (email && email._id.toString() !== params.id) {
-        return responseWithError(res, next, 500, 'Adres email jest już zajęty');
+        return responseWithError(res, next, 500, 'Adres email jest już zajęty.');
       }
 
       newUser.email = data.email;
@@ -95,7 +95,7 @@ const updateUser = async (req, res, next) => {
       const username = await usersDB.findOne({ username: data.username });
 
       if (username && username._id.toString() !== params.id) {
-        return responseWithError(res, next, 500, 'Nazwa użytkownika jest już zajęta');
+        return responseWithError(res, next, 500, 'Nazwa użytkownika jest już zajęta.');
       }
 
       newUser.username = data.username;
@@ -103,7 +103,7 @@ const updateUser = async (req, res, next) => {
 
     if (data.password && data.new_password && data.confirm_new_password) {
       if (!await bcrypt.compare(data.password, user.password)) {
-        return responseWithError(res, next, 500, 'Błędne hasło');
+        return responseWithError(res, next, 500, 'Błędne hasło.');
       }
 
       newUser.password = await bcrypt.hash(data.new_password, 12);
@@ -120,7 +120,7 @@ const updateUser = async (req, res, next) => {
     );
 
     if (!updatedUser) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać zmian');
+      return responseWithError(res, next, 500, 'Nie udało się zapisać zmian.');
     }
 
     const {
@@ -141,7 +141,7 @@ const updateUser = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd');
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
   }
 };
 

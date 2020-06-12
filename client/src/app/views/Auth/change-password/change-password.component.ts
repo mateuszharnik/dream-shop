@@ -28,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
   };
 
   passwordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę podać nowe hasło', key: 'required.' },
+    { id: '0', message: 'Proszę podać nowe hasło.', key: 'required.' },
     { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków.', key: 'minlength' },
     { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków.', key: 'maxlength' },
   ];

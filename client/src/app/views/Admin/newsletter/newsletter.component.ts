@@ -1,14 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Alerts, DeleteResponse, Email, Pagination, EmailWithPagination } from '@models/index';
+import { trackID } from '@helpers/index';
+import { Alerts, DeleteResponse, Email, EmailWithPagination, Pagination } from '@models/index';
 import { EmailsModals } from '@models/modals';
 import { NewsletterService } from '@services/newsletter.service';
 import { SpinnerService } from '@services/spinner.service';
+import { WindowRefService } from '@services/window-ref.service';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-import { WindowRefService } from '@services/window-ref.service';
 
 @Component({
   selector: 'app-newsletter-page',
@@ -26,8 +27,9 @@ export class NewsletterComponent implements OnInit, OnDestroy {
   isSubmitted = false;
   pagination: Pagination = null;
   listenerTime = 100;
-  throttleListener: () => void = null;
-  debounceListener: () => void = null;
+  trackID = null;
+  throttleListener = null;
+  debounceListener = null;
   windowEl: Window = null;
   alerts: Alerts = {
     server: '',
@@ -48,6 +50,8 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     private newsletterService: NewsletterService,
     private router: Router,
   ) {
+    this.trackID = trackID;
+
     this.subscriptions.push(this.newsletterService.getEmails().subscribe((data: Email[]) => {
       this.emails = data;
     }));

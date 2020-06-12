@@ -5,7 +5,10 @@
   (touchend)="startSlide()"
   (mouseleave)="startSlide()"
 >
-  <div class="w-100 h-100 absolute" *ngFor="let slide of images; let i = index">
+  <div
+    class="w-100 h-100 absolute"
+    *ngFor="let slide of images; let i = index; trackBy: trackID"
+  >
     <app-slide
       *ngIf="i === currentIndex"
       [@Fade]="isFirst && 0 === currentIndex ? 'first' : ''"
