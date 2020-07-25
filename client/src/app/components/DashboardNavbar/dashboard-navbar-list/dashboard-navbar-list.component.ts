@@ -20,7 +20,7 @@ export class DashboardNavbarListComponent {
   isOpen = false;
   isDisabled = false;
   isAnimated = false;
-  animationTime = 450;
+  animationTime = 350;
   trackID = null;
 
   constructor() {

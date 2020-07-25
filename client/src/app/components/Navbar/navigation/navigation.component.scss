@@ -52,6 +52,10 @@
         color: darken($navigation-link-color-hover, 20%);
       }
     }
+
+    &--no-hover:hover {
+      color: $navigation-link-color;
+    }
   }
 
   &__icon {

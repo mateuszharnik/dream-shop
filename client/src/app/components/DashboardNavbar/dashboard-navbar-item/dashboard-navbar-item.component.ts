@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { DashboardNavigation } from '@models/index';
 
 @Component({
   selector: 'app-dashboard-navbar-item',
@@ -7,7 +8,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardNavbarItemComponent {
-  @Input() item = [];
+  @Input() item: DashboardNavigation = null;
 
   computedIconClass(icon: string): string {
     return `${icon} mr-1 dashboard-navigation__icon`;

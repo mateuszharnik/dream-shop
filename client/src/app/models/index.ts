@@ -47,6 +47,7 @@ export interface DeleteResponse {
 export interface ProductCategory {
   _id?: string;
   category?: string;
+  categories?: ProductCategory[];
   name: string;
   count?: number;
   created_at?: Date;
@@ -54,10 +55,18 @@ export interface ProductCategory {
   deleted_at?: Date | null;
 }
 
+export interface DashboardNavigation {
+  link: string;
+  text: string;
+  title: string;
+  icon: string;
+}
+
 export interface Product {
   _id?: string;
   name: string;
   category: string;
+  category_name: string;
   thumbnail: string;
   gallery: string[];
   price: string;
@@ -112,17 +121,6 @@ export interface About {
 export interface Slide {
   img: string;
   href: string;
-}
-
-export interface Links {
-  id: string;
-  category: string;
-  title: string;
-  link?: string;
-  links?: Links[];
-  created_at?: Date;
-  updated_at?: Date;
-  deleted_at?: Date | null;
 }
 
 export interface SocialMedia {

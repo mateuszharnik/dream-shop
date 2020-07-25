@@ -4,13 +4,4 @@
 // Main
 .main {
   z-index: $z-index-1;
-  margin-bottom: 49.1rem;
-
-  @media (min-width: $sm) {
-    margin-bottom: 41.4rem;
-  }
-
-  @media (min-width: $md) {
-    margin-bottom: 36.9rem;
-  }
 }

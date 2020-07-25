@@ -269,7 +269,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     formData.append('price', this.form.value.price);
     formData.append('quantity', this.form.value.quantity);
     formData.append('description', this.form.value.description);
-    formData.append('category', this.form.value.category);
+    formData.append('category_name', this.form.value.category);
     this.form.value.gallery.forEach(file => formData.append('gallery', file));
 
     try {

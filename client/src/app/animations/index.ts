@@ -36,21 +36,21 @@ export const Fade = trigger('Fade', [
 export const Slide = trigger('Slide', [
   transition('void => *', [
     style({ height: '0' }),
-    animate('0.4s', style({ height: '*' })),
+    animate('0.3s', style({ height: '*' })),
   ]),
   transition('* => void', [
     style({ height: '*' }),
-    animate('0.4s', style({ height: '0' })),
+    animate('0.3s', style({ height: '0' })),
   ]),
 ]);
 
 export const SlideLeft = trigger('SlideLeft', [
   transition('void => true', [
     style({ width: '0' }),
-    animate('0.4s', style({ width: '*' })),
+    animate('0.3s', style({ width: '*' })),
   ]),
   transition('true => void', [
     style({ width: '*' }),
-    animate('0.4s', style({ width: '0' })),
+    animate('0.3s', style({ width: '0' })),
   ]),
 ]);

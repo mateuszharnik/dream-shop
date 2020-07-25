@@ -94,22 +94,22 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       twitter: [twitter, {
         validators: [
-          Validators.pattern(/^https?:\/\/www.twitter.com\/.+$/),
+          Validators.pattern(/^https?:\/\/(www.)?twitter.com\/.+$/),
         ],
       }],
       facebook: [facebook, {
         validators: [
-          Validators.pattern(/^https?:\/\/www.facebook.com\/.+$/),
+          Validators.pattern(/^https?:\/\/(www.)?facebook.com\/.+$/),
         ],
       }],
       linkedin: [linkedin, {
         validators: [
-          Validators.pattern(/^https?:\/\/www.linkedin.com\/.+$/),
+          Validators.pattern(/^https?:\/\/(www.)?linkedin.com\/.+$/),
         ],
       }],
       instagram: [instagram, {
         validators: [
-          Validators.pattern(/^https?:\/\/www.instagram.com\/.+$/),
+          Validators.pattern(/^https?:\/\/(www.)?instagram.com\/.+$/),
         ],
       }],
     },

@@ -1,7 +1,7 @@
 import { Component, Input, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
 import { trackID } from '@helpers/index';
-import { Links } from '@models/index';
+import { ProductCategory } from '@models/index';
 
 @Component({
   selector: 'app-navigation-item',
@@ -13,13 +13,13 @@ import { Links } from '@models/index';
 export class NavigationItemComponent {
   @ViewChildren('dropdown') dropdown: any = null;
   @ViewChildren('parent') parent: any = null;
-  @Input() link: Links = null;
+  @Input() category: ProductCategory = null;
 
   isOpen = false;
   isDisabled = false;
   isAnimated = false;
   trackID = null;
-  animationTime = 450;
+  animationTime = 350;
 
   constructor() {
     this.trackID = trackID;
@@ -30,12 +30,20 @@ export class NavigationItemComponent {
     return this.isOpen ? `${className} open` : className;
   }
 
+  linkTitle(name: string): string {
+    return `Wyświetl produkty z kategorii ${name.toLowerCase()}`;
+  }
+
+  buttonTitle(value: boolean): 'Zwiń' | 'Rozwiń' {
+    return value ? 'Zwiń' : 'Rozwiń';
+  }
+
   computedRouterLink(link: string): string {
-    return `/produkty${link}`;
+    return `/produkty/${link}`;
   }
 
   isLinkBestsellers(link: string): boolean {
-    return link === '/bestsellery';
+    return link === 'bestsellery';
   }
 
   checkRequiredProp(prop: any, name: string) {
@@ -70,6 +78,6 @@ export class NavigationItemComponent {
   }
 
   computedID(id: string): string {
-    return `dropdown${id}`;
+    return `dropdown-${id}`;
   }
 }

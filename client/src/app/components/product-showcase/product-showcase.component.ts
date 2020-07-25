@@ -36,7 +36,7 @@ export class ProductShowcaseComponent {
       if (this.loadedImages === this.product.gallery.length) {
         this.imagesLoaded = true;
       }
-    }, 450);
+    }, 350);
   }
 
   buttonTitle(): 'Pokaż mniej' | 'Pokaż więcej' {
@@ -49,6 +49,6 @@ export class ProductShowcaseComponent {
 
     setTimeout(() => {
       this.isAnimated = false;
-    }, 450);
+    }, 350);
   }
 }

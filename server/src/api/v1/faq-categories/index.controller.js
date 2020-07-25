@@ -3,7 +3,10 @@ const { faqCategoriesDB } = require('../../../db');
 
 const getFAQCategories = async (req, res, next) => {
   try {
-    const faq = await faqCategoriesDB.find({}, { sort: { category: 1 } });
+    const faq = await faqCategoriesDB.find({}, {
+      sort: { category: 1 },
+      collation: { locale: 'pl', numericOrdering: true },
+    });
 
     if (!faq.length) {
       return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii najczęściej zadawanych pytań.');

@@ -1,7 +1,18 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Contact, SocialMedia } from '@models/index';
 import { HeightService } from '@services/height.service';
 import { WindowRefService } from '@services/window-ref.service';
+import { FooterService } from '@services/footer.service';
 import { Subscription } from 'rxjs';
 import jump from 'jump.js';
 
@@ -11,18 +22,23 @@ import jump from 'jump.js';
   styleUrls: ['./footer.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class FooterComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() socialMedia: SocialMedia = null;
   @Input() contact: Contact = null;
   @Output() whenLinkClick: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('footer') footer = null;
 
   height = 0;
+  footerHeight = 0;
   windowEl: Window = null;
   scrollTime = 0;
   subscriptions: Subscription[] = [];
 
-  constructor(private heightService: HeightService, private windowRefService: WindowRefService) {
+  constructor(
+    private heightService: HeightService,
+    private windowRefService: WindowRefService,
+    private footerService: FooterService,
+  ) {
     this.windowEl = this.windowRefService.nativeWindow;
   }
 
@@ -32,6 +48,15 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
+
+  ngAfterViewChecked() {
+    const height = this.footer.nativeElement.offsetHeight;
+
+    if (this.footerHeight !== height) {
+      this.footerHeight = height;
+      this.footerService.setHeight(this.footerHeight);
+    }
   }
 
   setHeight() {
