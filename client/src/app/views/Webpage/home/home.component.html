@@ -3,9 +3,13 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #homeView>
-  <app-header [links]="links"></app-header>
+  <app-header></app-header>
   <span id="tresc" class="invisible" [tabindex]="tabIndex" #header></span>
-  <main class="main relative bg-white" #mainEl>
+  <main
+    class="main relative bg-white"
+    [ngStyle]="{ 'margin-bottom': footerMargin }"
+    #mainEl
+  >
     <router-outlet #outlet="outlet"></router-outlet>
   </main>
   <app-footer

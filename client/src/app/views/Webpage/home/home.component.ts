@@ -1,19 +1,20 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { navLinks } from '@helpers/fakeAPI';
-import { Contact, Links, SocialMedia } from '@models/index';
+import { Contact, SocialMedia, ProductCategory } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
 import { SocialMediaService } from '@services/social-media.service';
 import { Subscription } from 'rxjs';
+import { FooterService } from '@services/footer.service';
+import { ProductsService } from '@services/products.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [NavigationService, HeightService],
+  providers: [NavigationService, HeightService, FooterService],
   encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
@@ -24,23 +25,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   isLoading = true;
   subscriptions: Subscription[] = [];
   height: number = null;
+  footerMargin = '0px';
   isDesktop = false;
   contact: Contact = null;
   socialMedia: SocialMedia = null;
-  links: Links[] = [
-    {
-      id: '-1',
-      category: 'Wszystkie',
-      title: 'Nasze wszystkie produkty',
-      link: '/',
-    },
-    {
-      id: '-2',
-      category: 'Bestsellery',
-      title: 'Najlepiej sprzedające się produkty',
-      link: '/bestsellery',
-    },
-  ];
 
   constructor(
     private router: Router,
@@ -49,6 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private contactService: ContactService,
     private matchMediaService: MatchMediaService,
     private socialMediaService: SocialMediaService,
+    private footerService: FooterService,
+    private productsService: ProductsService,
   ) {
     this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
       this.contact = data;
@@ -66,11 +56,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   async ngOnInit() {
     this.setHeight();
     this.closeMenuOnRouteChange();
-    this.links = this.links.concat(navLinks);
 
     try {
       const socialMediaResponse: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       const contactResponse: Contact = await this.contactService.fetchContact();
+      const productCategories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      this.productsService.setCategories(productCategories);
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
     } catch (error) { } finally {
@@ -84,6 +75,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
+    setTimeout(() => {
+      this.footerMargin = `${this.footerService.getHeight()}px`;
+    }, 0);
+
     if (this.mainEl) {
       const height: number = this.mainEl.nativeElement.offsetHeight + this.mainEl.nativeElement.offsetTop;
 

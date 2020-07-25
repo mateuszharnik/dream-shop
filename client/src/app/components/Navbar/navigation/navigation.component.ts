@@ -1,9 +1,10 @@
-import { Component, HostBinding, Input, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
 import { trackID } from '@helpers/index';
-import { Links, User } from '@models/index';
+import { User, ProductCategory } from '@models/index';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
+import { ProductsService } from '@services/products.service';
 
 @Component({
   selector: 'app-navigation',
@@ -16,21 +17,32 @@ export class NavigationComponent implements OnDestroy {
   @ViewChildren('dropdown') dropdown: any = null;
   @ViewChildren('parent') parent: any = null;
   @HostBinding('class.block') display = true;
-  @Input() links: Links[] = [];
 
   isOpen = false;
   isDisabled = false;
   isAnimated = false;
-  animationTime = 450;
+  animationTime = 350;
   trackID = null;
   user: User = null;
+  categories: ProductCategory[] = [];
   subscriptions: Subscription[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private productsService: ProductsService) {
     this.trackID = trackID;
 
     this.subscriptions.push(this.userService.getUser().subscribe((user: User) => {
       this.user = user;
+    }));
+
+    this.subscriptions.push(this.productsService.getCategories().subscribe((categories: ProductCategory[]) => {
+      const categoriesWithCount: ProductCategory[] = categories.filter((category: ProductCategory): boolean => category.count > 0);
+
+      this.categories = categories.filter((category: ProductCategory): boolean => {
+        const showBestsellers: boolean = categoriesWithCount.length
+          && (category.category === 'bestsellery' || category.category === 'nowosci');
+
+        return !!category.count || showBestsellers;
+      });
     }));
   }
 

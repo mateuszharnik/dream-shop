@@ -11,12 +11,13 @@
         (whenHamburgerButtonClick)="toggle()"
         #button
       ></app-hamburger-button>
-      <app-navigation
-        *ngIf="navigation.isOpen"
-        [links]="links"
-        [@Slide]
-        #nav
-      ></app-navigation>
+      <div [ngClass]="{ 'no-pointer-event': navigation.isAnimated }">
+        <app-navigation
+          *ngIf="navigation.isOpen"
+          [@Slide]
+          #nav
+        ></app-navigation>
+      </div>
     </nav>
   </div>
 </header>

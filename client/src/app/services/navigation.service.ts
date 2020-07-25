@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Navigation } from '@models/index';
 
 @Injectable()
 export class NavigationService {
@@ -7,13 +8,13 @@ export class NavigationService {
     isOpen: false,
     isDisabled: false,
     isAnimated: false,
-    animationTime: 450,
+    animationTime: 350,
   };
   navigation: Navigation = {
     isOpen: false,
     isDisabled: false,
     isAnimated: false,
-    animationTime: 450,
+    animationTime: 350,
   };
 
   searchBarSubject: BehaviorSubject<Navigation> = new BehaviorSubject<Navigation>(this.searchBar);
@@ -72,11 +73,4 @@ export class NavigationService {
   getSearchBar(): Observable<Navigation> {
     return this.searchBarSubject.asObservable();
   }
-}
-
-interface Navigation {
-  isOpen: boolean;
-  isDisabled: boolean;
-  isAnimated: boolean;
-  animationTime: number;
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SlideLeft } from '@animations/index';
-import { Navigation, User } from '@models/index';
+import { Navigation, User, DashboardNavigation } from '@models/index';
 import { AlertsService } from '@services/alerts.service';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
@@ -23,13 +23,13 @@ export class DashboardNavbarComponent implements OnDestroy {
     isOpen: false,
     isDisabled: false,
     isAnimated: false,
-    animationTime: 450,
+    animationTime: 350,
   };
   user: User = null;
   isDesktop = false;
   subscriptions: Subscription[] = [];
 
-  productItems = [{
+  productItems: DashboardNavigation[] = [{
     link: '/admin/produkty',
     text: 'Przeglądaj',
     title: 'Zobacz wszystkie produkty',

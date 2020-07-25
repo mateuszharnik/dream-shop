@@ -17,15 +17,54 @@
       </button>
     </div>
     <ul
-      *ngIf="links && isOpen"
+      *ngIf="isOpen"
       class="navigation navigation--dropdown"
       aria-labelledby="productsDropdown"
       [@Slide]
       #dropdown
     >
-      <li class="navigation__item" *ngFor="let link of links; trackBy: trackID">
-        <app-navigation-item [link]="link"></app-navigation-item>
+      <li
+        *ngIf="!categories.length; else showCategories"
+        class="navigation__item"
+      >
+        <div class="navigation__wrapper">
+          <span
+            class="navigation__link navigation__link--no-hover relative block text-left"
+          >
+            Brak produktów
+          </span>
+        </div>
       </li>
+      <ng-template #showCategories>
+        <li class="navigation__">
+          <div class="navigation__wrapper">
+            <a
+              class="navigation__link relative block text-left"
+              routerLinkActive="active"
+              [title]="'Zobacz wszystkie produkty'"
+              [routerLink]="'/produkty'"
+              [routerLinkActiveOptions]="{ exact: true }"
+              #rlaLink="routerLinkActive"
+            >
+              Wszystkie
+              <span *ngIf="rlaLink.isActive" class="hidden">
+                (tutaj jesteś)
+              </span>
+              <app-fa-icon
+                [faClass]="
+                  'navigation__icon absolute ml-1 fas fa-chevron-right'
+                "
+              ></app-fa-icon>
+            </a>
+          </div>
+        </li>
+        <li
+          class="navigation__item"
+          *ngFor="let category of categories; trackBy: trackID"
+        >
+          <app-navigation-item [category]="category"></app-navigation-item>
+        </li>
+      </ng-template>
     </ul>
   </li>
   <li class="navigation__item">

@@ -71,6 +71,19 @@ const categoryString = {
   'string.base': 'Właściwość "category" musi być typu "string".',
 };
 
+// CATEGORY NAME
+const categoryNameRequired = {
+  'any.required': 'Właściwość "category_name" jest wymagana.',
+};
+
+const categoryNameString = {
+  'string.base': 'Właściwość "category_name" musi być typu "string".',
+};
+
+const categoryNamePattern = {
+  'string.pattern.base': 'Nazwa kategorii jest nieprawidłowa.',
+};
+
 // THUMBNAIL
 const thumbnailRequired = {
   'any.required': 'Właściwość "thumbnail" jest wymagana.',
@@ -107,6 +120,12 @@ const thumbnailMessages = {
 const categoryMessages = {
   ...categoryRequired,
   ...categoryString,
+};
+
+const categoryNameMessages = {
+  ...categoryNameRequired,
+  ...categoryNameString,
+  ...categoryNamePattern,
 };
 
 const priceMessages = {
@@ -148,6 +167,10 @@ module.exports = {
   categoryString,
   categoryMessages,
   priceRequired,
+  categoryNameMessages,
+  categoryNameRequired,
+  categoryNameString,
+  categoryNamePattern,
   priceString,
   pricePattern,
   priceMessages,

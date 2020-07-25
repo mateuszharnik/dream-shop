@@ -7,173 +7,175 @@
     #button
     *ngIf="!isDesktop"
   ></app-hamburger-button>
-  <div
-    *ngIf="navigation.isOpen"
-    [@SlideLeft]="navigation.isOpen && !isDesktop"
-    class="dashboard-navigation-wrapper vh-100 fixed"
-    [ngStyle]="{ padding: isDesktop ? '2rem 0rem' : '' }"
-    #nav
-  >
-    <div *ngIf="isDesktop" class="text-center mb-4">
-      <app-image
-        [imageClass]="'dashboard-navigation__logo m-auto block'"
-        [imageSrc]="'../../../assets/img/logo.svg'"
-        [imageAltText]="'Napis Dream'"
-      ></app-image>
-    </div>
-    <ul
-      id="navigationControls"
-      class="dashboard-navigation dashboard-scrollbar"
+  <div [ngClass]="{ 'no-pointer-event': navigation.isAnimated }">
+    <div
+      *ngIf="navigation.isOpen"
+      [@SlideLeft]="navigation.isOpen && !isDesktop"
+      class="dashboard-navigation-wrapper vh-100 fixed"
+      [ngStyle]="{ padding: isDesktop ? '2rem 0rem' : '' }"
+      #nav
     >
-      <li class="dashboard-navigation__item mb-2 mx-2">
-        <a
-          routerLink="/"
-          title="Przejdź do strony głównej"
-          class="dashboard-navigation__link block"
-        >
-          <app-fa-icon
-            [faClass]="'fas fa-home mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Strona główna
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2">
-        <a
-          routerLink="/admin/profil"
-          title="Przejdź do ustawień swojego profilu"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkProfile="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'fas fa-user mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Profil
-          <span *ngIf="rlaLinkProfile.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
-        <app-dashboard-navbar-list
-          [buttonTitle]="'Zarządzaj swoimi produktami'"
-          [buttonText]="'Produkty'"
-          [icon]="'fas fa-shopping-basket'"
-          [items]="productItems"
-        ></app-dashboard-navbar-list>
-      </li>
-      <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
-        <app-dashboard-navbar-list
-          [buttonTitle]="'Zarządzaj swoimi stronami'"
-          [buttonText]="'Strony'"
-          [icon]="'fas fa-cogs'"
-          [items]="siteItems"
-        ></app-dashboard-navbar-list>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
-        <a
-          routerLink="/admin/zamowienia"
-          title="Zamówione produkty"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkNav="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'fas fa-truck mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Zamówienia
-          <span *ngIf="rlaLinkNav.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
-        <a
-          routerLink="/admin/wiadomosci"
-          title="Zobacz otrzymane wiadomości"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkNav="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'far fa-comments mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Wiadomości
-          <span *ngIf="rlaLinkNav.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
-        <a
-          routerLink="/admin/social-media"
-          title="Edytuj linki do mediów społecznościowych"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkSocialMedia="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'far fa-thumbs-up mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Media społecznościowe
-          <span *ngIf="rlaLinkSocialMedia.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
-        <a
-          routerLink="/admin/mapa"
-          title="Ustawienia mapy"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkMap="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'far fa-map mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Mapa
-          <span *ngIf="rlaLinkMap.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
-        <a
-          routerLink="/admin/newsletter"
-          title="Zobacz zapisane adresy email"
-          class="dashboard-navigation__link block"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          #rlaLinkNewsletter="routerLinkActive"
-        >
-          <app-fa-icon
-            [faClass]="'far fa-newspaper mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Newsletter
-          <span *ngIf="rlaLinkNewsletter.isActive" class="hidden">
-            (tutaj jesteś)
-          </span>
-        </a>
-      </li>
-      <li class="dashboard-navigation__item mx-2">
-        <a
-          routerLink="/zaloguj"
-          title="Wyloguj się z konta"
-          class="dashboard-navigation__link block"
-          (click)="logout()"
-        >
-          <app-fa-icon
-            [faClass]="'fas fa-power-off mr-1 dashboard-navigation__icon'"
-          ></app-fa-icon>
-          Wyloguj
-        </a>
-      </li>
-    </ul>
+      <div *ngIf="isDesktop" class="text-center mb-4">
+        <app-image
+          [imageClass]="'dashboard-navigation__logo m-auto block'"
+          [imageSrc]="'../../../assets/img/logo.svg'"
+          [imageAltText]="'Napis Dream'"
+        ></app-image>
+      </div>
+      <ul
+        id="navigationControls"
+        class="dashboard-navigation dashboard-scrollbar"
+      >
+        <li class="dashboard-navigation__item mb-2 mx-2">
+          <a
+            routerLink="/"
+            title="Przejdź do strony głównej"
+            class="dashboard-navigation__link block"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-home mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Strona główna
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2">
+          <a
+            routerLink="/admin/profil"
+            title="Przejdź do ustawień swojego profilu"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkProfile="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-user mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Profil
+            <span *ngIf="rlaLinkProfile.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
+          <app-dashboard-navbar-list
+            [buttonTitle]="'Zarządzaj swoimi produktami'"
+            [buttonText]="'Produkty'"
+            [icon]="'fas fa-shopping-basket'"
+            [items]="productItems"
+          ></app-dashboard-navbar-list>
+        </li>
+        <li class="dashboard-navigation__item mb-2" *ngIf="isAdmin()">
+          <app-dashboard-navbar-list
+            [buttonTitle]="'Zarządzaj swoimi stronami'"
+            [buttonText]="'Strony'"
+            [icon]="'fas fa-cogs'"
+            [items]="siteItems"
+          ></app-dashboard-navbar-list>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
+            routerLink="/admin/zamowienia"
+            title="Zamówione produkty"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkNav="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-truck mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Zamówienia
+            <span *ngIf="rlaLinkNav.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
+            routerLink="/admin/wiadomosci"
+            title="Zobacz otrzymane wiadomości"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkNav="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'far fa-comments mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Wiadomości
+            <span *ngIf="rlaLinkNav.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
+            routerLink="/admin/social-media"
+            title="Edytuj linki do mediów społecznościowych"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkSocialMedia="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'far fa-thumbs-up mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Media społecznościowe
+            <span *ngIf="rlaLinkSocialMedia.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
+            routerLink="/admin/mapa"
+            title="Ustawienia mapy"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkMap="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'far fa-map mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Mapa
+            <span *ngIf="rlaLinkMap.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
+            routerLink="/admin/newsletter"
+            title="Zobacz zapisane adresy email"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkNewsletter="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'far fa-newspaper mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Newsletter
+            <span *ngIf="rlaLinkNewsletter.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mx-2">
+          <a
+            routerLink="/zaloguj"
+            title="Wyloguj się z konta"
+            class="dashboard-navigation__link block"
+            (click)="logout()"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-power-off mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Wyloguj
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

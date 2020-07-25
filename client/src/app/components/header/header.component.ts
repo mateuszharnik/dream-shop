@@ -1,7 +1,8 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
+import { Navigation } from '@models/index';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +14,13 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('nav', { read: ElementRef }) nav: any = null;
   @ViewChild('button', { read: ElementRef }) button: any = null;
-  @Input() links: Links[] = [];
 
   subscriptions: Subscription[] = [];
   navigation: Navigation = {
     isOpen: false,
     isDisabled: false,
     isAnimated: false,
-    animationTime: 450,
+    animationTime: 350,
   };
 
   constructor(private navigationService: NavigationService) { }
@@ -53,19 +53,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   computedAriaExpanded(): string {
     return `${this.navigation.isOpen}`;
   }
-}
-
-interface Links {
-  id: string;
-  category: string;
-  title: string;
-  link?: string;
-  links?: Links[];
-}
-
-interface Navigation {
-  isOpen: boolean;
-  isDisabled: boolean;
-  isAnimated: boolean;
-  animationTime: number;
 }

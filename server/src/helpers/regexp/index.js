@@ -10,13 +10,13 @@ const thumbnailRegExp = /^https?:\/\/localhost:3000\/uploads\/products\/\d+\.(pn
 
 const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/;
 
-const instagramRegExp = /^https?:\/\/www.instagram.com\/.+$/;
+const instagramRegExp = /^https?:\/\/(www.)?instagram.com\/.+$/;
 
-const facebookRegExp = /^https?:\/\/www.facebook.com\/.+$/;
+const facebookRegExp = /^https?:\/\/(www.)?facebook.com\/.+$/;
 
-const twitterRegExp = /^https?:\/\/www.twitter.com\/.+$/;
+const twitterRegExp = /^https?:\/\/(www.)?twitter.com\/.+$/;
 
-const linkedinRegExp = /^https?:\/\/www.linkedin.com\/.+$/;
+const linkedinRegExp = /^https?:\/\/(www.)?linkedin.com\/.+$/;
 
 const phoneRegExp = /^(\+[1-9]{1}([0-9]{1,})?\s)?[0-9]{3}\s[0-9]{3}\s[0-9]{3}$/;
 

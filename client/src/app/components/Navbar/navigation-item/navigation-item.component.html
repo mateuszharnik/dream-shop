@@ -1,19 +1,19 @@
 <div class="navigation__wrapper" #parent>
   <a
-    *ngIf="link.link; else button"
+    *ngIf="!category.categories; else button"
     class="navigation__link relative block text-left"
     routerLinkActive="active"
-    [title]="link.title"
-    [routerLink]="computedRouterLink(link.link)"
+    [title]="linkTitle(category.name)"
+    [routerLink]="computedRouterLink(category.category)"
     [routerLinkActiveOptions]="{ exact: true }"
     #rlaLink="routerLinkActive"
   >
-    {{ link.category }}
+    {{ category.name }}
     <span *ngIf="rlaLink.isActive" class="hidden">
       (tutaj jesteś)
     </span>
     <app-fa-icon
-      *ngIf="isLinkBestsellers(link.link)"
+      *ngIf="isLinkBestsellers(category.category)"
       [faClass]="'ml-1 far fa-star'"
     ></app-fa-icon>
     <app-fa-icon
@@ -25,28 +25,28 @@
       class="navigation__link relative block text-left"
       type="button"
       aria-haspopup="true"
-      [id]="computedID(link.id)"
-      [title]="link.title"
+      [id]="computedID(category._id)"
+      [title]="buttonTitle(isOpen)"
       [disabled]="isDisabled"
       [attr.aria-expanded]="computedAriaExpanded()"
       (click)="toggle()"
     >
-      {{ link.category }}
+      {{ category.name }}
       <app-fa-icon [faClass]="computedIconClass()"></app-fa-icon>
     </button>
   </ng-template>
 </div>
 <ul
-  *ngIf="link.links && isOpen"
+  *ngIf="category.categories && isOpen"
   class="navigation navigation--dropdown"
-  [attr.aria-labelledby]="computedID(link.id)"
+  [attr.aria-labelledby]="computedID(category._id)"
   [@Slide]
   #dropdown
 >
   <li
     class="navigation__item"
-    *ngFor="let link of link.links; trackBy: trackID"
+    *ngFor="let subcategory of category.categories; trackBy: trackID"
   >
-    <app-navigation-item [link]="link"></app-navigation-item>
+    <app-navigation-item [category]="subcategory"></app-navigation-item>
   </li>
 </ul>

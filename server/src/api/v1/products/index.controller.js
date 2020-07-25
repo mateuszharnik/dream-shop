@@ -2,11 +2,18 @@ const { productSchema } = require('./index.model');
 const { dbIdSchema, thumbnailFileSchema, galleryFileSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
 const { productsDB, productCategoriesDB } = require('../../../db');
+const { addCategory } = require('../../../helpers/product-categories');
 const { purify } = require('../../../helpers/sanitize');
 const { getThumbnailUrl } = require('../../../helpers/files');
 
 const getProducts = async (req, res, next) => {
-  const { sort = 'desc' } = req.query;
+  const {
+    sortType = 'desc',
+    category = '',
+    sort = '',
+    search = '',
+    available = false,
+  } = req.query;
   let { skip = 0, limit = 6 } = req.query;
 
   skip = parseInt(skip, 10) || 0;
@@ -16,14 +23,63 @@ const getProducts = async (req, res, next) => {
 
   limit = Math.min(50, Math.max(1, limit));
 
+  const query = {
+    deleted_at: null,
+  };
+
+  if (available) {
+    query.quantity = { $gte: '0' };
+  }
+
+  if (category !== '' && category !== 'bestsellery') {
+    const categories = category.split(',');
+    if (categories.length > 1) {
+      query.$or = [];
+
+      categories.forEach((cat) => {
+        query.$or.push({ category: cat });
+      });
+    } else {
+      query.category = category;
+    }
+  }
+
+  if (search !== '') {
+    const regexp = new RegExp(`.*${search}.*`, 'i');
+
+    query.$or = [
+      { name: regexp },
+      { category: regexp },
+      { description: regexp },
+    ];
+  }
+
+  const sortQuery = {};
+
+  if (sort === 'nowosci') {
+    sortQuery.created_at = sortType === 'desc' ? -1 : 1;
+  } else if (sort === 'cena') {
+    sortQuery.price = sortType === 'desc' ? -1 : 1;
+  } else if (sort === 'alfabet') {
+    sortQuery.name = sortType === 'desc' ? -1 : 1;
+  } else if (category === 'bestsellery') {
+    sortQuery.selled = -1;
+  } else {
+    sortQuery.created_at = sortType === 'desc' ? -1 : 1;
+  }
+
   try {
+    const options = {
+      sort: sortQuery,
+      collation: { locale: 'pl', numericOrdering: true },
+    };
+
     const total = await productsDB.count({ deleted_at: null });
-    const products = await productsDB.find({ deleted_at: null }, {
+    const results = await productsDB.count(query, options);
+    const products = await productsDB.find(query, {
+      ...options,
       skip: Number(skip),
       limit: Number(limit),
-      sort: {
-        created_at: sort === 'desc' ? -1 : 1,
-      },
     });
 
     if (!products) {
@@ -32,11 +88,12 @@ const getProducts = async (req, res, next) => {
 
     res.status(200).json({
       total,
+      results,
       products,
       pagination: {
         skip,
         limit,
-        remaining: total - (skip + limit) > 0,
+        remaining: results - (skip + limit) > 0,
       },
     });
   } catch (error) {
@@ -69,6 +126,14 @@ const getProduct = async (req, res, next) => {
 };
 
 const addProduct = async (req, res, next) => {
+  if (req.body.category) {
+    return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
+  }
+
+  if (req.body.category_name && typeof req.body.category_name === 'string') {
+    req.body.category = addCategory(req.body.category_name);
+  }
+
   if (req.body.description) {
     req.body.description = purify(req.body.description);
   }
@@ -111,6 +176,8 @@ const addProduct = async (req, res, next) => {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
+  // data.quantity = Number(data.quantity);
+
   try {
     const product = await productsDB.insert({
       ...data,
@@ -126,7 +193,7 @@ const addProduct = async (req, res, next) => {
 
     const total = await productsDB.count({ category: product.category, deleted_at: null });
     const category = await productCategoriesDB.findOneAndUpdate(
-      { name: product.category },
+      { category: product.category },
       { $set: { count: total } },
     );
 

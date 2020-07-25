@@ -32,12 +32,23 @@
         </section>
         <div *ngIf="checkContact(contact) || showMap()" class="sm:container">
           <div class="row column-12 py-10">
-            <div *ngIf="showMap()" class="column-12 lg:column-7 mb-6 lg:mb-0">
+            <div
+              *ngIf="showMap()"
+              class="column-12 lg:column-7 mb-6"
+              [ngClass]="{
+                'lg:m-auto': !checkContact(contact),
+                'lg:mb-0': checkContact(contact)
+              }"
+            >
               <app-map [mapData]="map"></app-map>
             </div>
             <div
               *ngIf="checkContact(contact)"
-              class="column-12 lg:column-5 text-center lg:text-right"
+              class="column-12 lg:column-5 text-center"
+              [ngClass]="{
+                'lg:m-auto': !showMap(),
+                'lg:text-right': showMap()
+              }"
             >
               <h3 class="h6 mb-6 bolder text-primary">Informacje kontaktowe</h3>
               <div *ngIf="contact.address">
@@ -83,7 +94,7 @@
       </article>
     </div>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <p class="center text-center m-0">{{ alerts.server }}</p>
     </ng-template>
   </section>
 </ng-template>

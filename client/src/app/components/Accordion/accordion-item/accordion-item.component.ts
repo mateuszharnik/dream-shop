@@ -26,7 +26,7 @@ export class AccordionItemComponent implements OnInit {
 
     setTimeout(() => {
       this.isDisabled = false;
-    }, 400);
+    }, 300);
   }
 
   checkRequiredProp(prop: any, name: string) {

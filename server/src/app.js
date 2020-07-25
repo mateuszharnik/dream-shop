@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const compression = require('compression');
 const helmet = require('helmet');
 const auth = require('./auth/index.router');
 const socialMedia = require('./api/v1/social-media/index.router');
@@ -21,6 +22,7 @@ const { checkToken } = require('./auth/index.middlewares');
 const app = express();
 
 app.use(morgan('dev'));
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
