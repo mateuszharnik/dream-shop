@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
-    "dompurify": "^2.0.8",
+    "dompurify": "^2.0.17",
     "jump.js": "^1.0.2",
     "leaflet": "^1.6.0",
     "lodash.debounce": "^4.0.8",
