@@ -141,13 +141,13 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const rect = this.emailsWrapper.nativeElement.getBoundingClientRect();
-    const shouldLoad = rect.bottom - 200 < this.windowEl.innerHeight;
+    const rect: DOMRect = this.emailsWrapper.nativeElement.getBoundingClientRect();
+    const shouldLoad: boolean = rect.bottom - 200 < this.windowEl.innerHeight;
 
     if (shouldLoad && !this.isLoadingEmails && this.pagination.remaining) {
       try {
         this.isLoadingEmails = true;
-        const skip = this.pagination.skip + this.pagination.limit;
+        const skip: number = this.pagination.skip + this.pagination.limit;
         const response: EmailWithPagination = await this.newsletterService.fetchEmails(skip);
         this.pagination = response.pagination;
         this.newsletterService.setEmails([

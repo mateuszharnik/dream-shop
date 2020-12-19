@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Data, NavigationEnd, Router, RouterOutlet, Event } from '@angular/router';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   closeMenuOnRouteChange() {
-    this.subscriptions.push(this.router.events.subscribe(event => {
+    this.subscriptions.push(this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         if (!this.isDesktop) {
           this.navigationService.closeAdminMenu();

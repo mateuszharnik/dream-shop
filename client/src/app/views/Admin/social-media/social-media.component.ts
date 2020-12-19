@@ -86,10 +86,10 @@ export class SocialMediaComponent implements OnInit, OnDestroy {
   }
 
   createForm(socialMedia: SocialMedia) {
-    const twitter = socialMedia && socialMedia.twitter ? socialMedia.twitter : '';
-    const facebook = socialMedia && socialMedia.facebook ? socialMedia.facebook : '';
-    const instagram = socialMedia && socialMedia.instagram ? socialMedia.instagram : '';
-    const linkedin = socialMedia && socialMedia.linkedin ? socialMedia.linkedin : '';
+    const twitter: string = socialMedia && socialMedia.twitter ? socialMedia.twitter : '';
+    const facebook: string = socialMedia && socialMedia.facebook ? socialMedia.facebook : '';
+    const instagram: string = socialMedia && socialMedia.instagram ? socialMedia.instagram : '';
+    const linkedin: string = socialMedia && socialMedia.linkedin ? socialMedia.linkedin : '';
 
     this.form = this.formBuilder.group({
       twitter: [twitter, {

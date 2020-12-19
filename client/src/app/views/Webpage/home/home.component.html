@@ -7,7 +7,7 @@
   <span id="tresc" class="invisible" [tabindex]="tabIndex" #header></span>
   <main
     class="main relative bg-white"
-    [ngStyle]="{ 'margin-bottom': footerMargin }"
+    [ngStyle]="{ 'margin-bottom': footerMargin + 'px' }"
     #mainEl
   >
     <router-outlet #outlet="outlet"></router-outlet>
