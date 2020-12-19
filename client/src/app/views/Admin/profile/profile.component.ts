@@ -112,10 +112,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   createForm(user: User) {
-    const email = user && user.email ? user.email : '';
-    const avatar = user && user.avatar ? user.avatar : '';
-    const name = user && user.name ? user.name : '';
-    const username = user && user.username ? user.username : '';
+    const email: string = user && user.email ? user.email : '';
+    const avatar: string | ArrayBuffer = user && user.avatar ? user.avatar : '';
+    const name: string = user && user.name ? user.name : '';
+    const username: string = user && user.username ? user.username : '';
 
     this.form = this.formBuilder.group({
       email: [email, {
@@ -234,10 +234,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       avatar: images[0],
     });
 
-    const imageTypeRegExp = /^image\/(png|jpg|jpeg)$/;
+    const imageTypeRegExp: RegExp = /^image\/(png|jpg|jpeg)$/;
 
     if (window.FileReader && imageTypeRegExp.test(images[0].type)) {
-      const reader = new FileReader();
+      const reader: FileReader = new FileReader();
       reader.onload = () => {
         this.user.avatar = reader.result;
       };

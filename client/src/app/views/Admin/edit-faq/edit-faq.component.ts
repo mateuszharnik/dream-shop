@@ -100,9 +100,9 @@ export class EditFAQComponent implements OnInit, OnDestroy {
   }
 
   createForm(faq: FAQ, categories: FAQCategories[]) {
-    const title = faq && faq.title ? faq.title : '';
-    const content = faq && faq.content ? faq.content : '';
-    const category = faq && faq.category ? faq.category : '';
+    const title: string = faq && faq.title ? faq.title : '';
+    const content: string = faq && faq.content ? faq.content : '';
+    const category: string = faq && faq.category ? faq.category : '';
 
     this.form = this.formBuilder.group({
       title: [title, {

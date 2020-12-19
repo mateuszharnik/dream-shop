@@ -84,15 +84,15 @@ export class ContactComponent implements OnInit, OnDestroy {
     );
   }
 
-  checkContact(contact) {
-    const address =
-      contact.address &&
-      (contact.address.street ||
-        contact.address.street_number ||
-        contact.address.zip_city ||
-        contact.address.code);
+  checkContact(contact: Contact): boolean {
+    const address: boolean =
+      !!(contact.address &&
+        (contact.address.street ||
+          contact.address.street_number ||
+          contact.address.zip_code ||
+          contact.address.city));
 
-    const result = contact && (address || contact.email || contact.phone || contact.working_hours || contact.nip);
+    const result: boolean = !!(contact && (address || contact.email || contact.phone || contact.working_hours || contact.nip));
     return result;
   }
 

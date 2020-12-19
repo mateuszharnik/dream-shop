@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   isLoading = true;
   subscriptions: Subscription[] = [];
   height: number = null;
-  footerMargin = '0px';
+  footerMargin = 0;
   isDesktop = false;
   contact: Contact = null;
   socialMedia: SocialMedia = null;
@@ -75,9 +75,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    setTimeout(() => {
-      this.footerMargin = `${this.footerService.getHeight()}px`;
-    }, 0);
+    if (this.footerMargin !== this.footerService.getHeight()) {
+      setTimeout(() => {
+        this.footerMargin = this.footerService.getHeight();
+      }, 0);
+    }
 
     if (this.mainEl) {
       const height: number = this.mainEl.nativeElement.offsetHeight + this.mainEl.nativeElement.offsetTop;
