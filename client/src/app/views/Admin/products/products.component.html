@@ -10,9 +10,7 @@
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article admin-page-section__article--products m-auto mt-6 text-center"
     >
-      <p class="mb-6">
-        Tutaj możesz zarządzać swoimi produktami.
-      </p>
+      <p class="mb-6">Tutaj możesz zarządzać swoimi produktami.</p>
       <div class="mb-6">
         <div
           [ngClass]="{
@@ -54,16 +52,15 @@
       </app-alert>
       <div
         *ngIf="products.length; else showDefault"
-        class="w-100 row flex-justify-center"
+        class="row flex-align-end"
         #productsWrapper
       >
         <div
-          *ngFor="let product of products; let i = index; trackBy: trackID"
-          class="mb-4 column-12 lg:column-5"
-          [ngClass]="{ 'lg:mr-4': i % 2 === 0 }"
+          *ngFor="let product of products; trackBy: trackID"
+          class="column-12 sm:column-6 lg:column-4"
         >
           <app-product-showcase [product]="product"></app-product-showcase>
-          <div>
+          <div class="mt-4 mb-8">
             <app-router-link
               [linkTitle]="'Edytuj produkt'"
               [linkClass]="'button button-primary button-small'"
@@ -83,7 +80,12 @@
             </app-button>
           </div>
         </div>
-        <p *ngIf="isLoadingProducts" class="text-primary">Wczytywanie...</p>
+      </div>
+      <div *ngIf="isLoadingProducts" class="text-center text-primary">
+        <app-fa-icon
+          [faClass]="'fas fa-circle-notch fa-spin mr-1'"
+        ></app-fa-icon>
+        Wczytywanie...
       </div>
       <ng-template #showDefault>
         <p>Brak produktów.</p>

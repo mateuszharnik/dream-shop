@@ -1,6 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
-import { trackID } from '@helpers/index';
 import { Product } from '@models/index';
 
 @Component({
@@ -13,42 +12,7 @@ import { Product } from '@models/index';
 export class ProductShowcaseComponent {
   @Input() product: Product = null;
 
-  isOpen = false;
-  isAnimated = false;
-  loadedImages = 0;
-  imagesLoaded = false;
-  trackID = null;
-
-  constructor() {
-    this.trackID = trackID;
-  }
-
-  buttonText(): 'Mniej' | 'Więcej' {
-    return this.isOpen ? 'Mniej' : 'Więcej';
-  }
-
-  imageLoaded() {
-    setTimeout(() => {
-      if (this.loadedImages !== this.product.gallery.length) {
-        this.loadedImages += 1;
-      }
-
-      if (this.loadedImages === this.product.gallery.length) {
-        this.imagesLoaded = true;
-      }
-    }, 350);
-  }
-
-  buttonTitle(): 'Pokaż mniej' | 'Pokaż więcej' {
-    return this.isOpen ? 'Pokaż mniej' : 'Pokaż więcej';
-  }
-
-  toggleDescription() {
-    this.isAnimated = true;
-    this.isOpen = !this.isOpen;
-
-    setTimeout(() => {
-      this.isAnimated = false;
-    }, 350);
+  productLink(id: string): string {
+    return `/produkt/${id}`;
   }
 }

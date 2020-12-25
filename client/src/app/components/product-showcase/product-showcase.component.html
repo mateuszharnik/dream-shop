@@ -1,66 +1,25 @@
-<div class="product-showcase mb-4 text-left m-auto">
-  <div class="product-showcase__head">
-    <div class="product-showcase--border-bottom">
-      <img
-        class="block w-100"
-        [src]="product.thumbnail"
-        alt="Zdjęcie główne produktu"
-      />
+<div class="m-2">
+  <app-router-link
+    [linkClass]="'flex'"
+    [linkRouter]="productLink(product._id)"
+    [linkTitle]="'Przejdź do produktu'"
+  >
+    <div class="product-card__image">
+      <img class="w-100 h-100" [src]="product.thumbnail" />
     </div>
-    <div class="product-showcase--border-bottom p-2 truncate">
-      <span class="bold">Nazwa</span>: {{ product.name }}
+  </app-router-link>
+  <div class="product-cart__body text-center mt-2">
+    <div class="product-card__title bold mb-2">
+      {{ product.name }}
     </div>
-    <div class="product-showcase--border-bottom p-2 truncate">
-      <span class="bold">Kategoria</span>: {{ product.category_name }}
+    <div class="product-card__price mb-2">
+      {{ product.price }}
     </div>
-    <div class="product-showcase--border-bottom p-2 truncate">
-      <span class="bold">Cena</span>: {{ product.price }}
-    </div>
-    <div class="product-showcase--border-bottom p-2 truncate">
-      <span class="bold">Dostępnych sztuk</span>:
-      {{ product.quantity }}
-    </div>
-    <div class="product-showcase--border-bottom p-2 truncate">
-      <span class="bold">Sprzedanych sztuk</span>:
-      {{ product.selled }}
-    </div>
-  </div>
-  <div *ngIf="isOpen" [@Slide] class="product-showcase__body">
-    <div class="p-2 product-showcase--border-bottom">
-      <div *ngIf="product.gallery.length">
-        <span class="bold">Galeria zdjęć</span>:
-        <div class="row my-2">
-          <img
-            class="column-6"
-            [src]="image"
-            alt="Zdjęcie produktu"
-            (load)="imageLoaded()"
-            [hidden]="!imagesLoaded || loadedImages !== product.gallery.length"
-            *ngFor="let image of product.gallery; trackBy: trackID"
-          />
-          <div
-            *ngIf="!imagesLoaded || loadedImages !== product.gallery.length"
-            class="product-showcase__spinner"
-          >
-            <app-fa-icon
-              [faClass]="'fas fa-3x fa-circle-notch fa-spin'"
-            ></app-fa-icon>
-          </div>
-        </div>
-      </div>
-      <div class="markdown" [innerHTML]="product.description"></div>
-    </div>
-  </div>
-  <div class="p-2">
-    <app-button
-      [buttonClass]="'block w-100 button-small button button-primary'"
-      [buttonTitle]="buttonTitle()"
-      [buttonOnClick]="true"
-      [buttonDisabled]="isAnimated"
-      [buttonAriaExpanded]="isOpen"
-      (whenButtonClick)="toggleDescription()"
+    <app-router-link
+      [linkRouter]="productLink(product._id)"
+      [linkTitle]="'Przejdź do produktu'"
     >
-      {{ buttonText() }}
-    </app-button>
+      Zobacz
+    </app-router-link>
   </div>
 </div>
