@@ -3,6 +3,39 @@
 </div>
 <ng-template #productsView>
   <section class="products-page min-vh-100 w-100">
-    Products
+    <div *ngIf="!alerts.server; else showError">
+      <div class="container-xl py-10">
+        <div class="row" #productsWrapper>
+          <div class="column-12 lg:column-3">Filtry</div>
+          <div class="column-12 lg:column-9">
+            <div
+              class="row flex-align-end"
+              *ngIf="products.length; else noProducts"
+            >
+              <div
+                class="column-12 xs:column-6 md:column-4 lg:column-3"
+                *ngFor="let product of products; trackBy: trackID"
+              >
+                <app-product-showcase
+                  [product]="product"
+                ></app-product-showcase>
+              </div>
+            </div>
+            <div *ngIf="isLoadingProducts" class="text-center text-primary">
+              <app-fa-icon
+                [faClass]="'fas fa-circle-notch fa-spin mr-1'"
+              ></app-fa-icon>
+              Wczytywanie...
+            </div>
+            <ng-template #noProducts>
+              <p class="text-center m-0">Brak produktów.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #showError>
+      <div class="center text-center">{{ alerts.server }}</div>
+    </ng-template>
   </section>
 </ng-template>

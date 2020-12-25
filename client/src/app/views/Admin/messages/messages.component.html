@@ -77,7 +77,12 @@
             </app-button>
           </div>
         </div>
-        <p *ngIf="isLoadingMessages" class="text-primary">Wczytywanie...</p>
+        <div *ngIf="isLoadingMessages" class="text-primary text-center">
+          <app-fa-icon
+            [faClass]="'fas fa-circle-notch fa-spin mr-1'"
+          ></app-fa-icon>
+          Wczytywanie...
+        </div>
       </div>
       <ng-template #showDefault>
         <p>Brak wiadomości</p>

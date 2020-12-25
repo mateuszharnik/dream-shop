@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ProductShowcaseComponent } from '@components/product-showcase/product-showcase.component';
 import { AccordionItemComponent } from '@components/Accordion/accordion-item/accordion-item.component';
 import { AccordionComponent } from '@components/Accordion/accordion/accordion.component';
 import { AlertComponent } from '@components/alert/alert.component';
@@ -47,6 +48,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     AlertComponent,
     AvatarComponent,
     CheckboxComponent,
+    ProductShowcaseComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -70,6 +72,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     AlertComponent,
     AvatarComponent,
     CheckboxComponent,
+    ProductShowcaseComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],
