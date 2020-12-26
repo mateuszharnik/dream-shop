@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: ':id',
     component: ProductsComponent,
-    runGuardsAndResolvers: 'paramsChange',
+    // runGuardsAndResolvers: 'paramsChange',
   },
 ];
 

@@ -16,11 +16,15 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  fetchProducts(skip?: number, limit?: number, category?: string): Promise<ProductWithPagination> {
+  fetchProducts(skip?: number, limit?: number, category?: string, search?: string): Promise<ProductWithPagination> {
     let url = `http://localhost:3000/v1/products?skip=${skip}&limit=${limit}`;
 
     if (category) {
       url = `${url}&category=${category}`;
+    }
+
+    if (search) {
+      url = `${url}&search=${search}`;
     }
 
     return this.http.get<ProductWithPagination>(url).toPromise();
