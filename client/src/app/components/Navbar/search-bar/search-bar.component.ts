@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { Slide } from '@animations/index';
 import { Navigation } from '@models/index';
 import { NavigationService } from '@services/navigation.service';
@@ -18,6 +26,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   listener: () => void = null;
   subscriptions: Subscription[] = [];
   isFocus = false;
+  searchText = '';
   searchBar: Navigation = {
     isOpen: false,
     isDisabled: false,
@@ -25,22 +34,42 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     animationTime: 450,
   };
 
-  constructor(private navigationService: NavigationService, private renderer: Renderer2) { }
+  constructor(
+    private navigationService: NavigationService,
+    private renderer: Renderer2,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
-    this.subscriptions.push(this.navigationService.getSearchBar().subscribe((data: Navigation) => {
-      this.searchBar = data;
-    }));
+    this.subscriptions.push(
+      this.navigationService.getSearchBar().subscribe((data: Navigation) => {
+        this.searchBar = data;
+      }),
+    );
 
-    this.listener = this.renderer.listen('document', 'keyup', this.focusSearchBar);
+    this.listener = this.renderer.listen(
+      'document',
+      'keyup',
+      this.focusSearchBar,
+    );
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
 
     if (this.listener) {
       this.listener();
     }
+  }
+
+  searchProducts() {
+    this.router.navigate(['/produkty'], {
+      queryParams: { search: this.searchText },
+    });
+
+    this.searchText = '';
   }
 
   focusSearchBar = (event: KeyboardEvent) => {
@@ -71,7 +100,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   setFocus(animationTime: number) {
     setTimeout(() => {
-      const element: HTMLElement = this.searchBar.isOpen ? this.search.nativeElement : this.button.nativeElement;
+      const element: HTMLElement = this.searchBar.isOpen
+        ? this.search.nativeElement
+        : this.button.nativeElement;
 
       element.focus();
     }, animationTime);

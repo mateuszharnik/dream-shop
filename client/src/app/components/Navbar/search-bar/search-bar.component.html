@@ -18,7 +18,7 @@
   id="searchBarControls"
   [@Slide]
 >
-  <div class="search-bar-form__row">
+  <form class="search-bar-form__row" (ngSubmit)="searchProducts($event)">
     <label class="hidden" for="search">Wyszukaj produkt: </label>
     <input
       class="search-bar-form__input"
@@ -28,7 +28,8 @@
       placeholder="Wyszukaj (Naciśnij / aby zaznaczyć)"
       (focus)="onFocus()"
       (blur)="onBlur()"
+      [(ngModel)]="searchText"
       #search
     />
-  </div>
+  </form>
 </form>

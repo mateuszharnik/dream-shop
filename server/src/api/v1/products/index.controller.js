@@ -45,12 +45,11 @@ const getProducts = async (req, res, next) => {
   }
 
   if (search !== '') {
-    const regexp = new RegExp(`.*${search}.*`, 'i');
+    const regexp = new RegExp(`.*(${search.replace(' ', '|')}).*`, 'i');
 
     query.$or = [
       { name: regexp },
       { category: regexp },
-      { description: regexp },
     ];
   }
 
@@ -234,7 +233,7 @@ const deleteProduct = async (req, res, next) => {
 
     const total = await productsDB.count({ category: updatedProduct.category, deleted_at: null });
     const category = await productCategoriesDB.findOneAndUpdate(
-      { name: updatedProduct.category },
+      { category: updatedProduct.category },
       { $set: { count: total } },
     );
 

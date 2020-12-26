@@ -6,6 +6,7 @@
   color: fade-out($color-white, 0.5);
   bottom: 0rem;
   left: 0rem;
+  z-index: -1;
 
   &-logo {
     height: 2.4rem;
