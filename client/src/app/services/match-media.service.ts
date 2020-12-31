@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MatchMediaService {
   isDesktop = false;
 
-  isDesktopSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isDesktop);
+  isDesktopSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    this.isDesktop,
+  );
 
   initMatchMedia(width: string = '1024px'): void {
     const media = window.matchMedia(`(min-width: ${width})`);

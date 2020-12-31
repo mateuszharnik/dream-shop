@@ -55,9 +55,7 @@ const getProducts = async (req, res, next) => {
 
   const sortQuery = {};
 
-  if (sort === 'nowosci') {
-    sortQuery.created_at = sortType === 'desc' ? -1 : 1;
-  } else if (sort === 'cena') {
+  if (sort === 'cena') {
     sortQuery.price = sortType === 'desc' ? -1 : 1;
   } else if (sort === 'alfabet') {
     sortQuery.name = sortType === 'desc' ? -1 : 1;

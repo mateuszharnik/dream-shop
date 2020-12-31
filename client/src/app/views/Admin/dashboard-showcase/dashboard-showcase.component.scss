@@ -1,9 +1,11 @@
 // Imports
 @import "../../../../assets/scss/variables";
+@import "../../../../assets/scss/animations";
 
 .dashboard-page {
   color: #2c2c2c;
   max-width: 26rem;
+  animation: fade 2s forwards;
 
   @media (min-width: $sm) {
     max-width: 50rem;

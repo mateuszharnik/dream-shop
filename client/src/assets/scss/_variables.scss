@@ -1,3 +1,6 @@
+// Imports
+@import "~swiper/swiper-vars.scss";
+
 // Font Family
 $font-family: "Montserrat", sans-serif;
 
@@ -15,6 +18,9 @@ $color-danger: #da201a;
 $color-danger-2: #ffbfbd;
 $color-success: #51c757;
 $color-success-2: #d5ffd7;
+
+// Swiper
+$themeColor: $color-primary;
 
 // Media
 $xs: 425px;

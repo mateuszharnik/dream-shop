@@ -6,10 +6,34 @@
     <header>
       <h2 class="hidden">Strona główna</h2>
     </header>
-    <div class="slider-wrapper m-auto lg:my-5">
+    <div class="slider-wrapper fade-animation m-auto lg:mt-5">
       <app-slider></app-slider>
     </div>
-    <article>
+    <div
+      class="slider-wrapper m-auto px-2 my-15"
+      data-aos="fade-right"
+      data-aos-offset="-500"
+      data-aos-duration="500"
+    >
+      <div class="text-center">
+        <h3 class="text-primary h5 bolder uppercase">Bestsellery</h3>
+        <p>Zobacz nasze najlepiej sprzedające się produkty.</p>
+      </div>
+      <app-swiper-slider [products]="bestsellerProducts"></app-swiper-slider>
+    </div>
+    <div
+      class="slider-wrapper m-auto px-2 mb-5"
+      data-aos="fade-left"
+      data-aos-offset="-400"
+      data-aos-duration="500"
+    >
+      <div class="text-center">
+        <h3 class="text-primary h5 bolder uppercase">Nowości</h3>
+        <p>Zobacz nasze najnowsze produkty.</p>
+      </div>
+      <app-swiper-slider [products]="newProducts"></app-swiper-slider>
+    </div>
+    <article data-aos="fade" data-aos-offset="-200" data-aos-duration="300">
       <app-newsletter></app-newsletter>
     </article>
   </section>

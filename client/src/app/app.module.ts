@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { SwiperModule } from 'swiper/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterContactComponent } from '@components/Footer/footer-contact/footer-contact.component';
 import { FooterNavigationComponent } from '@components/Footer/footer-navigation/footer-navigation.component';
@@ -17,6 +18,8 @@ import { NewsletterComponent } from '@components/newsletter/newsletter.component
 import { ScrollTopButtonComponent } from '@components/scroll-top-button/scroll-top-button.component';
 import { SlideComponent } from '@components/slide/slide.component';
 import { SliderComponent } from '@components/slider/slider.component';
+import { SwiperSliderComponent } from '@components/swiper-slider/swiper-slider.component';
+import { MatchMediaService } from '@services/match-media.service';
 import { SharedModule } from '@shared/shared.module';
 import { HomeComponent } from '@webpage/home/home.component';
 import { ShowcaseComponent } from '@webpage/showcase/showcase.component';
@@ -42,6 +45,7 @@ import { AppComponent } from './app.component';
     SliderComponent,
     SlideComponent,
     NewsletterComponent,
+    SwiperSliderComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,8 +55,9 @@ import { AppComponent } from './app.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    SwiperModule,
   ],
-  providers: [],
+  providers: [MatchMediaService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

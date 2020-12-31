@@ -1,10 +1,16 @@
 // Imports
 @import "../assets/scss/variables";
+@import "../assets/scss/animations";
+@import "~aos/dist/aos.css";
 
 .overflow-hidden {
   overflow: hidden;
   display: block;
   max-height: 100vh;
+}
+
+.fade-animation {
+  animation: fade 2s forwards;
 }
 
 .no-pointer-event {

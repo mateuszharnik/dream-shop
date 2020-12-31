@@ -1,14 +1,14 @@
-<div class="m-2">
+<div class="product-card m-2">
   <app-router-link
     [linkClass]="'flex'"
     [linkRouter]="productLink(product._id)"
     [linkTitle]="'Przejdź do produktu'"
   >
-    <div class="product-card__image">
+    <div class="product-card__image p-1">
       <img class="w-100 h-100" [src]="product.thumbnail" />
     </div>
   </app-router-link>
-  <div class="product-card__body text-center mt-2">
+  <div class="product-card__body text-center mt-1">
     <div class="product-card__title bold mb-2">
       {{ product.name }}
     </div>
