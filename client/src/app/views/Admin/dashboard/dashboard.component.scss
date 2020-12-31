@@ -1,5 +1,6 @@
 // Imports
 @import "../../../../assets/scss/variables";
+@import "../../../../assets/scss/animations";
 
 // Admin
 .admin-page {
@@ -10,6 +11,7 @@
   }
 
   &-section {
+    animation: fade 2s forwards;
     position: relative;
     background-color: $color-white;
     padding-top: 8.9rem;

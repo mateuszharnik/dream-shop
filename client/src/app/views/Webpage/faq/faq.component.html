@@ -7,13 +7,16 @@
       <div *ngIf="faqs.length; else showDefault" class="container">
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
-            <h3 class="faq-page__title h4 m-auto bolder uppercase">
-              FAQ
-            </h3>
+            <h3 class="faq-page__title h4 m-auto bolder uppercase">FAQ</h3>
           </header>
         </div>
         <article class="row pb-6">
-          <p class="column-12 lg:column-9 m-auto text-center mb-10">
+          <p
+            class="column-12 lg:column-9 m-auto text-center mb-10"
+            data-aos="fade-down"
+            data-aos-offset="-500"
+            data-aos-duration="1000"
+          >
             Nie możesz czegoś znaleźć? Nie wiesz jak coś zrobić? A może chcesz
             się czegoś dowiedzieć? Jeżeli tak to znalazłaś/eś się w odpowiednim
             miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
@@ -21,6 +24,9 @@
           <div
             *ngIf="faqs.length"
             class="row column-12 m-auto mb-10 flex-justify-center"
+            data-aos="fade"
+            data-aos-offset="-500"
+            data-aos-duration="2000"
           >
             <div
               class="accordions-category m-2"
@@ -40,7 +46,13 @@
               </app-link>
             </div>
           </div>
-          <div *ngIf="faqs.length" class="column-12">
+          <div
+            *ngIf="faqs.length"
+            class="column-12"
+            data-aos="fade"
+            data-aos-offset="-500"
+            data-aos-duration="2000"
+          >
             <div
               class="container-md"
               *ngFor="let faq of faqs; trackBy: trackID"
@@ -57,7 +69,12 @@
               </div>
             </div>
           </div>
-          <div class="column-12 lg:column-9 m-auto text-center mt-4">
+          <div
+            class="column-12 lg:column-9 m-auto text-center mt-4"
+            data-aos="fade-up"
+            data-aos-offset="-500"
+            data-aos-duration="500"
+          >
             <p>
               Nie znalazłaś/eś odpowiedzi na swoje pytania? Skontaktuj się z
               nami.

@@ -1,4 +1,11 @@
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  group,
+  query,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 // Router Animations
 export const RouterFade = trigger('RouterFade', [
@@ -20,9 +27,7 @@ export const RouterFade = trigger('RouterFade', [
 
 // Animations
 export const Fade = trigger('Fade', [
-  transition('void => first', [
-    style({ opacity: 1 }),
-  ]),
+  transition('void => first', [style({ opacity: 1 })]),
   transition('void => *', [
     style({ opacity: 0 }),
     animate('1s', style({ opacity: 1 })), // Dealy

@@ -1,0 +1,28 @@
+// Imports
+@import "../../../assets/scss/variables";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/a11y/a11y.scss";
+@import "~swiper/components/navigation/navigation.scss";
+@import "~swiper/components/pagination/pagination.scss";
+
+.swpier-slider {
+  margin: 0px 40px;
+}
+
+.swiper-container {
+  padding-bottom: 40px;
+  position: static;
+}
+
+.swiper-button-next {
+  right: -30px;
+}
+
+.swiper-button-prev {
+  left: -30px;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 3rem;
+}

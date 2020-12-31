@@ -4,17 +4,13 @@
 <ng-template #profilePageView>
   <section class="admin-page-section p-6 min-vh-100">
     <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">
-        Profil użytkownika
-      </h2>
+      <h2 class="h4 text-center mb-6">Profil użytkownika</h2>
     </header>
     <article
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
-      <p>
-        Tutaj możesz zmienić ustawienia dla swojego konta.
-      </p>
+      <p>Tutaj możesz zmienić ustawienia dla swojego konta.</p>
       <app-avatar *ngIf="user" [avatar]="user.avatar"></app-avatar>
       <app-form
         [formClass]="'form text-left inline-block mt-2'"

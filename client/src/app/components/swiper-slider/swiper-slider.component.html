@@ -1,0 +1,12 @@
+<div class="swpier-slider relative">
+  <swiper
+    [slidesPerView]="isDesktop ? 3 : 1"
+    [spaceBetween]="0"
+    [navigation]="true"
+    [pagination]="{ clickable: true }"
+  >
+    <ng-template swiperSlide *ngFor="let product of products">
+      <app-product-showcase [product]="product"></app-product-showcase>
+    </ng-template>
+  </swiper>
+</div>
