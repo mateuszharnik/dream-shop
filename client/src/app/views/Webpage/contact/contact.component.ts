@@ -20,6 +20,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     error: '',
     success: '',
   };
+  modal = null;
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -65,6 +66,18 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
   }
 
+  openModal() {
+    if (this.modal) {
+      return;
+    }
+
+    this.modal = true;
+  }
+
+  closeModal() {
+    this.modal = false;
+  }
+
   setLoading(loading = false) {
     this.isLoading = loading;
     setTimeout(() => {
@@ -85,14 +98,22 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   checkContact(contact: Contact): boolean {
-    const address: boolean =
-      !!(contact.address &&
-        (contact.address.street ||
-          contact.address.street_number ||
-          contact.address.zip_code ||
-          contact.address.city));
+    const address: boolean = !!(
+      contact.address &&
+      (contact.address.street ||
+        contact.address.street_number ||
+        contact.address.zip_code ||
+        contact.address.city)
+    );
 
-    const result: boolean = !!(contact && (address || contact.email || contact.phone || contact.working_hours || contact.nip));
+    const result: boolean = !!(
+      contact &&
+      (address ||
+        contact.email ||
+        contact.phone ||
+        contact.working_hours ||
+        contact.nip)
+    );
     return result;
   }
 

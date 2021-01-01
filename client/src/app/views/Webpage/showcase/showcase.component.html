@@ -34,7 +34,27 @@
       <app-swiper-slider [products]="newProducts"></app-swiper-slider>
     </div>
     <article data-aos="fade" data-aos-offset="-200" data-aos-duration="300">
-      <app-newsletter></app-newsletter>
+      <app-newsletter (whenOpenModal)="openModal()"></app-newsletter>
     </article>
   </section>
+  <app-modal *ngIf="modal" (whenButtonClick)="closeModal()">
+    <div class="text-justify">
+      <div class="modal-term px-5">
+        <h4 class="text-center">Regulamin</h4>
+        <p class="m-0">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et, ducimus
+          beatae pariatur ex fugiat harum nulla. Maxime, eum facere. Dolore
+          explicabo sint expedita velit qui labore unde officia nemo omnis,
+          inventore enim nostrum nihil voluptatem sed hic quos reiciendis
+          tempora beatae doloremque est optio libero quibusdam ipsum architecto.
+          Iste voluptatem rerum, aliquam nobis natus, magni cumque delectus
+          omnis odit, aspernatur a nesciunt quo non harum deleniti. Neque
+          consequatur repellat possimus, vero cupiditate pariatur eveniet!
+          Deserunt eaque optio culpa voluptatem quos? Hic dignissimos, quaerat
+          beatae ratione a ex nisi, repudiandae deserunt sit blanditiis, ipsum
+          porro. Tempore blanditiis itaque ipsa odit incidunt.
+        </p>
+      </div>
+    </div>
+  </app-modal>
 </ng-template>

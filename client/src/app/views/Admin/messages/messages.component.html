@@ -96,7 +96,7 @@
     *ngIf="modals.deleteMessage"
     (whenButtonClick)="!isDisabled && closeModal('deleteMessage')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wiadomość od:
@@ -123,7 +123,7 @@
     *ngIf="modals.deleteMessages.length"
     (whenButtonClick)="!isDisabled && closeModal('deleteMessages')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wszystkie wiadomości&nbsp;?

@@ -104,7 +104,7 @@
     *ngIf="modals.deleteFAQ"
     (whenButtonClick)="!isDisabled && closeModal('deleteFAQ')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć pytanie: "{{ modals.deleteFAQ.title }}" z
@@ -130,7 +130,7 @@
     *ngIf="modals.deleteFAQs.length"
     (whenButtonClick)="!isDisabled && closeModal('deleteFAQs')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wszystkie pytania&nbsp;?

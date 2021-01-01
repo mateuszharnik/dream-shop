@@ -10,6 +10,7 @@ const {
   thumbnailMessages,
   galleryMessages,
   categoryNameMessages,
+  productCompanyNameMessages,
 } = require('../../../helpers/errors/messages/product');
 const {
   quantityRegExp, thumbnailRegExp, productPriceRegExp, productNameRegExp, productCategoryRegExp,
@@ -21,6 +22,9 @@ const productConfig = (id = true, timestamps = true) => {
       .regex(productNameRegExp)
       .required()
       .messages(productNameMessages),
+    company_name: Joi.string().trim().min(3).max(512)
+      .required()
+      .messages(productCompanyNameMessages),
     description: Joi.string().trim().min(3).max(10000)
       .required()
       .messages(descriptionMessages),

@@ -42,7 +42,11 @@ export class AddProductComponent implements OnInit, OnDestroy {
   galleryAlerts: Alert[] = [
     { id: '0', message: 'Pliki nie mogą przekraczać 5 MB.', key: 'maxsize' },
     { id: '1', message: 'Pliki nie są niepoprawnego typu.', key: 'type' },
-    { id: '2', message: 'Możesz dodać maksymalnie 9 plików.', key: 'maxlength' },
+    {
+      id: '2',
+      message: 'Możesz dodać maksymalnie 9 plików.',
+      key: 'maxlength',
+    },
   ];
 
   nameAlerts: Alert[] = [
@@ -50,6 +54,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
     { id: '1', message: 'Nazwa produktu jest za długa.', key: 'maxlength' },
     { id: '2', message: 'Nazwa produktu jest nieprawidłowa.', key: 'pattern' },
     { id: '3', message: 'Musisz podać nazwę produktu.', key: 'required' },
+  ];
+
+  companyNameAlerts: Alert[] = [
+    { id: '0', message: 'Nazwa firmy jest za krótka.', key: 'minlength' },
+    { id: '1', message: 'Nazwa firmy jest za długa.', key: 'maxlength' },
+    { id: '3', message: 'Musisz podać nazwę firmy.', key: 'required' },
   ];
 
   categoryAlerts: Alert[] = [
@@ -62,8 +72,16 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ];
 
   quantityAlerts: Alert[] = [
-    { id: '0', message: 'Liczba dostępnych sztuk jest nieprawidłowa.', key: 'pattern' },
-    { id: '1', message: 'Musisz podać liczbę dostępnych sztuk.', key: 'required' },
+    {
+      id: '0',
+      message: 'Liczba dostępnych sztuk jest nieprawidłowa.',
+      key: 'pattern',
+    },
+    {
+      id: '1',
+      message: 'Musisz podać liczbę dostępnych sztuk.',
+      key: 'required',
+    },
   ];
 
   descriptionAlerts: Alert[] = [
@@ -78,19 +96,27 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ) {
     this.trackID = trackID;
 
-    this.subscriptions.push(this.productsService.getCategories().subscribe((data: ProductCategory[]) => {
-      this.categories = data;
+    this.subscriptions.push(
+      this.productsService
+        .getCategories()
+        .subscribe((data: ProductCategory[]) => {
+          this.categories = data;
 
-      if (data.length) {
-        this.filteredCategories = data.filter(
-          (category: ProductCategory) => category.category !== 'nowosci' && category.category !== 'bestsellery',
-        );
-      }
-    }));
+          if (data.length) {
+            this.filteredCategories = data.filter(
+              (category: ProductCategory) =>
+                category.category !== 'nowosci' &&
+                category.category !== 'bestsellery',
+            );
+          }
+        }),
+    );
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   async ngOnInit() {
@@ -98,7 +124,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
       const response: ProductCategory[] = await this.productsService.fetchProductCategories();
       this.productsService.setCategories(response);
       if (response.length <= 2) {
-        this.setAlerts('Zanim dodasz produkt musisz najpierw utworzyć co najmniej 1 kategorię.');
+        this.setAlerts(
+          'Zanim dodasz produkt musisz najpierw utworzyć co najmniej 1 kategorię.',
+        );
       }
       this.createForm(this.categories);
       this.setLoading();
@@ -115,51 +143,75 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   createForm(categories: ProductCategory[]) {
-    this.form = this.formBuilder.group({
-      name: ['', {
-        validators: [
-          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/),
-          Validators.minLength(10),
-          Validators.maxLength(256),
-          Validators.required,
-        ],
-      }],
-      price: ['', {
-        validators: [
-          Validators.pattern(/^(0|[1-9][0-9]{0,8}),[0-9]{2} zł$/),
-          Validators.required,
-        ],
-      }],
-      quantity: [null, {
-        validators: [
-          Validators.pattern(/^[0-9]{1,10}$/),
-          Validators.required,
-        ],
-      }],
-      description: ['', {
-        validators: [
-          Validators.minLength(10),
-          Validators.maxLength(10000),
-          Validators.required,
-        ],
-      }],
-      category: [null, {
-        validators: [
-          Validators.required,
-        ],
-      }],
-      thumbnail: ['', {
-        validators: [
-          Validators.required,
-        ],
-      }],
-      gallery: [[]],
-    },
+    this.form = this.formBuilder.group(
       {
-        validators: [
-          imageValidator('thumbnail'),
-          imagesValidator('gallery'),
+        name: [
+          '',
+          {
+            validators: [
+              Validators.pattern(
+                /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!&\(\)+=?/]+$/,
+              ),
+              Validators.minLength(10),
+              Validators.maxLength(256),
+              Validators.required,
+            ],
+          },
         ],
+        company_name: [
+          '',
+          {
+            validators: [
+              Validators.minLength(3),
+              Validators.maxLength(512),
+              Validators.required,
+            ],
+          },
+        ],
+        price: [
+          '',
+          {
+            validators: [
+              Validators.pattern(/^(0|[1-9][0-9]{0,8}),[0-9]{2} zł$/),
+              Validators.required,
+            ],
+          },
+        ],
+        quantity: [
+          null,
+          {
+            validators: [
+              Validators.pattern(/^[0-9]{1,10}$/),
+              Validators.required,
+            ],
+          },
+        ],
+        description: [
+          '',
+          {
+            validators: [
+              Validators.minLength(10),
+              Validators.maxLength(10000),
+              Validators.required,
+            ],
+          },
+        ],
+        category: [
+          null,
+          {
+            validators: [Validators.required],
+          },
+        ],
+        thumbnail: [
+          '',
+          {
+            validators: [Validators.required],
+          },
+        ],
+        gallery: [[]],
+      },
+      {
+        validators: [imageValidator('thumbnail'), imagesValidator('gallery')],
       },
     );
 
@@ -168,9 +220,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   validation(prop: string): boolean {
     return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
+      (this.formControls[prop].errors &&
+        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
+      (this.formControls[prop].errors && this.isSubmitted)
+    );
   }
 
   setTouched(prop: string) {
@@ -226,7 +279,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     const imageTypeRegExp: RegExp = /^image\/(png|jpg|jpeg)$/;
 
-    const validImages: File[] = images.filter((image: File): boolean => imageTypeRegExp.test(image.type));
+    const validImages: File[] = images.filter((image: File): boolean =>
+      imageTypeRegExp.test(image.type),
+    );
 
     if (window.FileReader && validImages.length) {
       this.gallery = [];
@@ -266,14 +321,17 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     formData.append('thumbnail', this.form.value.thumbnail);
     formData.append('name', this.form.value.name);
+    formData.append('company_name', this.form.value.company_name);
     formData.append('price', this.form.value.price);
     formData.append('quantity', this.form.value.quantity);
     formData.append('description', this.form.value.description);
     formData.append('category_name', this.form.value.category);
-    this.form.value.gallery.forEach(file => formData.append('gallery', file));
+    this.form.value.gallery.forEach((file) => formData.append('gallery', file));
 
     try {
-      const response: Product = await this.productsService.saveProduct(formData);
+      const response: Product = await this.productsService.saveProduct(
+        formData,
+      );
       const products: ProductWithPagination = await this.productsService.fetchProducts();
       this.productsService.setProducts(products.products);
       this.setAlerts('', '', 'Pomyślnie dodano produkt.');
@@ -291,7 +349,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         if (error.error.message === 'Musisz podać treść.') {
-          this.formControls.description.setValue(purify(this.form.value.description), { onlySelf: true });
+          this.formControls.description.setValue(
+            purify(this.form.value.description),
+            { onlySelf: true },
+          );
         }
         this.setAlerts('', error.error.message);
       }

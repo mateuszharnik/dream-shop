@@ -42,6 +42,20 @@
           <div class="column-12 mb-4">
             <app-input
               [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'company_name'"
+              [inputLabel]="'Nazwa firmy'"
+              [inputPlaceholder]="'Podaj nazwę firmy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('company_name')"
+              [inputAlerts]="companyNameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            >
+            </app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
               [inputID]="'quantity'"
               [inputLabel]="'Liczba sztuk'"
               [inputPlaceholder]="'10'"

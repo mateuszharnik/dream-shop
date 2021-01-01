@@ -9,6 +9,11 @@
   max-height: 100vh;
 }
 
+.modal-term {
+  max-height: 35rem;
+  overflow-y: scroll;
+}
+
 .fade-animation {
   animation: fade 2s forwards;
 }

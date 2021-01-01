@@ -18,8 +18,12 @@ export class ShowcaseComponent implements OnInit {
   isLoading = true;
   bestsellerProducts: Product[] = [];
   newProducts: Product[] = [];
+  modal = null;
 
-  constructor(private spinnerService: SpinnerService, private productsService: ProductsService) {}
+  constructor(
+    private spinnerService: SpinnerService,
+    private productsService: ProductsService,
+  ) {}
 
   async ngOnInit() {
     this.isLoading = true;
@@ -53,6 +57,18 @@ export class ShowcaseComponent implements OnInit {
     setTimeout(() => {
       this.spinnerService.setLoading(this.isLoading);
     }, 50);
+  }
+
+  openModal() {
+    if (this.modal) {
+      return;
+    }
+
+    this.modal = true;
+  }
+
+  closeModal() {
+    this.modal = false;
   }
 
   setAlerts(server = '', error = '', success = '') {

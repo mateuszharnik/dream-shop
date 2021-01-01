@@ -3,8 +3,6 @@ import {
   EventEmitter,
   HostBinding,
   Input,
-  OnChanges,
-  OnInit,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
@@ -13,18 +11,16 @@ import { trackID } from '@helpers/index';
 import { Alert } from '@models/index';
 
 @Component({
-  selector: 'app-checkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  selector: 'app-terms-checkbox',
+  templateUrl: './terms-checkbox.component.html',
+  styleUrls: ['./terms-checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CheckboxComponent implements OnInit, OnChanges {
-  @HostBinding('class.block') display = true;
-  @HostBinding('w-100') width = true;
+export class TermsCheckboxComponent {
+  @HostBinding('class.inline-block') display = true;
   @Input() checkboxAlerts: Alert[] = [];
   @Input() checkboxForm: AbstractControl = null;
   @Input() checkboxGroup: FormGroup = null;
-  @Input() checkboxLabel: string = null;
   @Input() checkboxID: string = null;
   @Input() checkboxLabelClass = '';
   @Input() checkboxGroupClass = 'text-center';
@@ -33,16 +29,13 @@ export class CheckboxComponent implements OnInit, OnChanges {
   @Input() checkboxFocus = false;
   @Input() checkboxValidation = false;
   @Output() whenClickEnter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() whenClickLink: EventEmitter<any> = new EventEmitter<any>();
 
   trackID = null;
 
   constructor() {
     this.trackID = trackID;
   }
-
-  ngOnInit() {}
-
-  ngOnChanges() {}
 
   getCheckboxClass(): string {
     return `form__checkbox ${this.checkboxValidation ? 'invalid' : ''}`;
@@ -61,6 +54,11 @@ export class CheckboxComponent implements OnInit, OnChanges {
       event.preventDefault();
       this.whenClickEnter.emit(event);
     }
+  }
+
+  onLinkClick(event) {
+    event.preventDefault();
+    this.whenClickLink.emit(event);
   }
 
   getSmallID() {
