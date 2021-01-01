@@ -19,6 +19,23 @@ const productNameMax = {
   'string.max': 'Nazwa produktu może mieć maksymalnie 256 znaków.',
 };
 
+// COMPANY NAME
+const productCompanyNameRequired = {
+  'any.required': 'Właściwość "name" jest wymagana.',
+};
+
+const productCompanyNameString = {
+  'string.base': 'Właściwość "name" musi być typu "string".',
+};
+
+const productCompanyNameMin = {
+  'string.min': 'Nazwa firmy musi mieć minimum 3 znaki.',
+};
+
+const productCompanyNameMax = {
+  'string.max': 'Nazwa firmy może mieć maksymalnie 512 znaków.',
+};
+
 // DESCRIPTION
 const descriptionRequired = {
   'any.required': 'Właściwość "description" jest wymagana.',
@@ -128,6 +145,13 @@ const categoryNameMessages = {
   ...categoryNamePattern,
 };
 
+const productCompanyNameMessages = {
+  ...productCompanyNameRequired,
+  ...productCompanyNameString,
+  ...productCompanyNameMin,
+  ...productCompanyNameMax,
+};
+
 const priceMessages = {
   ...priceRequired,
   ...priceString,
@@ -189,4 +213,9 @@ module.exports = {
   quantityString,
   quantityPattern,
   quantityMessages,
+  productCompanyNameRequired,
+  productCompanyNameString,
+  productCompanyNameMin,
+  productCompanyNameMax,
+  productCompanyNameMessages,
 };

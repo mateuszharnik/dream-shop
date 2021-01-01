@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert, Alerts } from '@models/index';
 import { NewsletterService } from '@services/newsletter.service';
@@ -10,6 +10,8 @@ import { NewsletterService } from '@services/newsletter.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class NewsletterComponent implements OnInit {
+  @Output() whenOpenModal: EventEmitter<any> = new EventEmitter<any>();
+
   form: FormGroup = null;
   alerts: Alerts = {
     server: '',
@@ -29,7 +31,10 @@ export class NewsletterComponent implements OnInit {
     { id: '0', message: 'Musisz zaakceptować regulamin.', key: 'required' },
   ];
 
-  constructor(private formBuilder: FormBuilder, private newsletterService: NewsletterService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private newsletterService: NewsletterService,
+  ) {}
 
   ngOnInit() {
     this.createForm();
@@ -37,15 +42,24 @@ export class NewsletterComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      email: ['', {
-        validators: [
-          // tslint:disable-next-line:max-line-length
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-          Validators.required,
-        ],
-      }],
+      email: [
+        '',
+        {
+          validators: [
+            Validators.pattern(
+              // tslint:disable-next-line:max-line-length
+              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            ),
+            Validators.required,
+          ],
+        },
+      ],
       terms_accepted: [false, Validators.requiredTrue],
     });
+  }
+
+  openModal(event) {
+    this.whenOpenModal.emit(event);
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -56,9 +70,10 @@ export class NewsletterComponent implements OnInit {
 
   validation(prop: string): boolean {
     return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
+      (this.formControls[prop].errors &&
+        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
+      (this.formControls[prop].errors && this.isSubmitted)
+    );
   }
 
   toggleCheckbox() {
@@ -75,8 +90,12 @@ export class NewsletterComponent implements OnInit {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz się';
   }
 
-  computedButtonIcon(): 'fas fa-spinner fa-spin ml-1' | 'far fa-paper-plane ml-1' {
-    return this.isDisabled ? 'fas fa-spinner fa-spin ml-1' : 'far fa-paper-plane ml-1';
+  computedButtonIcon():
+    | 'fas fa-spinner fa-spin ml-1'
+    | 'far fa-paper-plane ml-1' {
+    return this.isDisabled
+      ? 'fas fa-spinner fa-spin ml-1'
+      : 'far fa-paper-plane ml-1';
   }
 
   async submit() {

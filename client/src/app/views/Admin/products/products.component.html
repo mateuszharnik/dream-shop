@@ -99,7 +99,7 @@
     *ngIf="modals.deleteProduct"
     (whenButtonClick)="!isDisabled && closeModal('deleteProduct')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć produkt: "{{
@@ -126,7 +126,7 @@
     *ngIf="modals.deleteProducts.length"
     (whenButtonClick)="!isDisabled && closeModal('deleteProducts')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wszystkie produkty&nbsp;?

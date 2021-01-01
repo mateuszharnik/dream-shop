@@ -70,7 +70,7 @@
     *ngIf="modals.deleteEmail"
     (whenButtonClick)="!isDisabled && closeModal('deleteEmail')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć email {{ modals.deleteEmail.email }}&nbsp;?
@@ -96,7 +96,7 @@
     *ngIf="modals.deleteEmails.length"
     (whenButtonClick)="!isDisabled && closeModal('deleteEmails')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wsystkie adresy email&nbsp;?

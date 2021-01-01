@@ -10,9 +10,7 @@
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
-      <p class="mb-6">
-        Tutaj możesz zarządzać kategoriami dla produktów.
-      </p>
+      <p class="mb-6">Tutaj możesz zarządzać kategoriami dla produktów.</p>
       <app-form
         [formClass]="'form text-left m-auto'"
         [formName]="form"
@@ -106,7 +104,7 @@
     *ngIf="modals.deleteCategory"
     (whenButtonClick)="!isDisabled && closeModal('deleteCategory')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć kategorię
@@ -137,13 +135,11 @@
     *ngIf="modals.deleteCategories.length"
     (whenButtonClick)="!isDisabled && closeModal('deleteCategories')"
   >
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć wsystkie kategorie&nbsp;?
-          <div class="bolder">
-            Usunie to również wszystkie produkty.
-          </div>
+          <div class="bolder">Usunie to również wszystkie produkty.</div>
         </strong>
       </p>
       <app-button

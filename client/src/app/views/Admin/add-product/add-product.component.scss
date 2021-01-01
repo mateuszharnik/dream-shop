@@ -77,6 +77,9 @@
   width: 8.3rem;
   height: 8.3rem;
   border-radius: 0.4rem;
-  bottom: 0rem;
-  left: 0rem;
+  margin-right: 0.4rem;
+
+  &:last-child {
+    margin-right: 0rem;
+  }
 }

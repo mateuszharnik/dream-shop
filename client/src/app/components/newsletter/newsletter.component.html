@@ -25,15 +25,17 @@
           ></app-input>
         </div>
         <div class="column-12 mb-4">
-          <app-checkbox
-            [checkboxID]="'terms_accepted'"
-            [checkboxLabel]="'Akceptuję regulamin.'"
-            [checkboxValidation]="validation('terms_accepted')"
-            [checkboxAlerts]="termsAlerts"
-            [checkboxGroup]="form"
-            [checkboxForm]="form"
-            (whenClickEnter)="toggleCheckbox()"
-          ></app-checkbox>
+          <div class="m-auto text-center">
+            <app-terms-checkbox
+              [checkboxID]="'terms_accepted'"
+              [checkboxValidation]="validation('terms_accepted')"
+              [checkboxAlerts]="termsAlerts"
+              [checkboxGroup]="form"
+              [checkboxForm]="form"
+              (whenClickEnter)="toggleCheckbox()"
+              (whenClickLink)="openModal()"
+            ></app-terms-checkbox>
+          </div>
         </div>
         <div class="column-12 text-center">
           <app-button

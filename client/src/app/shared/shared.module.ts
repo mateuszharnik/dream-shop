@@ -20,6 +20,7 @@ import { ImageComponent } from '@components/image/image.component';
 import { LinkComponent } from '@components/link/link.component';
 import { MapComponent } from '@components/map/map.component';
 import { ModalComponent } from '@components/modal/modal.component';
+import { TermsCheckboxComponent } from '@components/Form/terms-checkbox/terms-checkbox.component';
 import { HamburgerButtonComponent } from '@components/Navbar/hamburger-button/hamburger-button.component';
 import { RouterLinkComponent } from '@components/router-link/router-link.component';
 import { SkipLinkComponent } from '@components/skip-link/skip-link.component';
@@ -44,6 +45,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     ModalComponent,
     FileInputComponent,
     MapComponent,
+    TermsCheckboxComponent,
     SelectComponent,
     AlertComponent,
     AvatarComponent,
@@ -67,6 +69,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
     HamburgerButtonComponent,
     ModalComponent,
     MapComponent,
+    TermsCheckboxComponent,
     FileInputComponent,
     SelectComponent,
     AlertComponent,
