@@ -73,13 +73,49 @@
   }
 }
 
+.image-buttons__wrapper {
+  margin-left: -0.4rem;
+}
+
 .preview {
   width: 8.3rem;
   height: 8.3rem;
   border-radius: 0.4rem;
-  margin-right: 0.4rem;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
 
-  &:last-child {
-    margin-right: 0rem;
+  &-button {
+    width: 8.3rem;
+    height: 8.3rem;
+    margin: 0.4rem;
+    position: relative;
+
+    &::before {
+      content: "\f2ed";
+      display: block;
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      width: 100%;
+      height: 100%;
+      line-height: 8.3rem;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: fade-out($color-black, 0.5);
+      opacity: 0;
+      color: $color-white;
+      border-radius: 0.4rem;
+    }
+
+    &:hover {
+      color: $color-white;
+      text-decoration: none;
+
+      &::before {
+        opacity: 1;
+      }
+    }
   }
 }

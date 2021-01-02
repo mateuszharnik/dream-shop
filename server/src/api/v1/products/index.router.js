@@ -33,6 +33,11 @@ router.put(
   '/:id',
   isNotLoggedIn,
   isAdmin,
+  productUpload.fields([{
+    name: 'thumbnail', maxCount: 1,
+  }, {
+    name: 'gallery', maxCount: 9,
+  }]),
   updateProduct,
 );
 

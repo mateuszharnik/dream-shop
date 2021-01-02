@@ -174,8 +174,6 @@ const addProduct = async (req, res, next) => {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
 
-  // data.quantity = Number(data.quantity);
-
   try {
     const product = await productsDB.insert({
       ...data,
@@ -288,6 +286,56 @@ const deleteProducts = async (req, res, next) => {
 };
 
 const updateProduct = async (req, res, next) => {
+  if (req.body.category) {
+    return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
+  }
+
+  if (req.body.category_name && typeof req.body.category_name === 'string') {
+    req.body.category = addCategory(req.body.category_name);
+  }
+
+  if (req.body.description) {
+    req.body.description = purify(req.body.description);
+  }
+
+  if (!req.body.gallery) {
+    req.body.gallery = [];
+  }
+
+  if (!Array.isArray(req.body.gallery)) {
+    req.body.gallery = [req.body.gallery];
+  }
+
+  if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+    const {
+      schemaError: fileSchemaError,
+      data: file,
+    } = thumbnailFileSchema(req.files.thumbnail[0]);
+
+    if (fileSchemaError) {
+      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+    }
+
+    req.body.thumbnail = getThumbnailUrl(file);
+  }
+
+  if (req.files && req.files.gallery && req.files.gallery.length) {
+    const {
+      schemaError: fileSchemaError,
+      data: files,
+    } = galleryFileSchema(req.files.gallery);
+
+    if (fileSchemaError) {
+      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+    }
+
+    files.forEach((file) => {
+      req.body.gallery.push(getThumbnailUrl(file));
+    });
+  } else if (!req.body.gallery.length) {
+    req.body.gallery = [];
+  }
+
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
 
   if (paramsSchemaError) {
@@ -323,7 +371,7 @@ const updateProduct = async (req, res, next) => {
 
     const total = await productsDB.count({ category: updatedProduct.category, deleted_at: null });
     const category = await productCategoriesDB.findOneAndUpdate(
-      { name: updatedProduct.category },
+      { category: updatedProduct.category },
       { $set: { count: total } },
     );
 

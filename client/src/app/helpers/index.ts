@@ -1,35 +1,39 @@
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 import { ProductCategory } from '@models/index';
 import DomPurify from 'dompurify';
 import marked from 'marked';
 
-export const purify = (text: string) => DomPurify.sanitize(text, {
-  FORBID_TAGS: [
-    'style',
-    'script',
-    'video',
-    'audio',
-    'iframe',
-    'table',
-    'input',
-    'form',
-    'textarea',
-  ],
-  FORBID_ATTR: [
-    'style',
-    'onerror',
-    'onload',
-  ],
-});
+export const purify = (text: string) =>
+  DomPurify.sanitize(text, {
+    FORBID_TAGS: [
+      'style',
+      'script',
+      'video',
+      'audio',
+      'iframe',
+      'table',
+      'input',
+      'form',
+      'textarea',
+    ],
+    FORBID_ATTR: ['style', 'onerror', 'onload'],
+  });
 
 export const markdown = marked.setOptions({
   headerIds: false,
 });
 
-export const trackID = (index: number, item: any): string | number => item._id || item.id || index;
+export const trackID = (index: number, item: any): string | number =>
+  item._id || item.id || index;
 
 export const checkRequiredProp = (prop: any, name: string) => {
-  if (!prop) { throw new Error(`Property "${name}" is required.`); }
+  if (!prop) {
+    throw new Error(`Property "${name}" is required.`);
+  }
 };
 
 export const match = (prop: string, matchingProp: string) => (
@@ -128,7 +132,9 @@ export const imagesValidator = (prop: string) => (formGroup: FormGroup) => {
     return;
   }
 
-  const files: File[] = propControl.value.filter((file: File) => file instanceof File);
+  const files: File[] = propControl.value.filter(
+    (file: File) => file instanceof File,
+  );
 
   if (files.length > maxLength) {
     if (!propControl.touched) {
@@ -140,7 +146,7 @@ export const imagesValidator = (prop: string) => (formGroup: FormGroup) => {
     return;
   }
 
-  files.some(file => {
+  files.some((file) => {
     if (!imageTypeRegExp.test(file.type)) {
       if (!propControl.touched) {
         propControl.markAsTouched();
@@ -163,9 +169,10 @@ export const imagesValidator = (prop: string) => (formGroup: FormGroup) => {
   });
 };
 
-export const categoriesValidator = (prop: string, values: ProductCategory[]) => (
-  formGroup: FormGroup,
-) => {
+export const categoriesValidator = (
+  prop: string,
+  values: ProductCategory[],
+) => (formGroup: FormGroup) => {
   const propControl: AbstractControl = formGroup.controls[prop];
 
   let result: ValidationErrors = null;
@@ -174,12 +181,16 @@ export const categoriesValidator = (prop: string, values: ProductCategory[]) => 
     return;
   }
 
-  values.some(value => {
+  values.some((value) => {
     const name = value.name.toLowerCase();
     const category = value.category.toLowerCase();
     const propValue = propControl.value.toLowerCase();
 
-    if (propValue === 'bestsellery' || propValue === 'nowości' || propValue === 'nowosci') {
+    if (
+      propValue === 'bestsellery' ||
+      propValue === 'nowości' ||
+      propValue === 'nowosci'
+    ) {
       result = { default: true };
       return false;
     }

@@ -41,7 +41,7 @@ const productConfig = (id = true, timestamps = true) => {
       .messages(thumbnailMessages),
     gallery: Joi.array().items(
       Joi.string().trim().regex(thumbnailRegExp),
-    ).messages(galleryMessages),
+    ).max(9).messages(galleryMessages),
   };
 
   if (id) {

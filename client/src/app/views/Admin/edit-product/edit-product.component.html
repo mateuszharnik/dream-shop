@@ -2,9 +2,219 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #editProductView>
-  <section class="admin-page-section min-vh-100">
+  <section class="admin-page-section p-6 min-vh-100">
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Edytuj produkt</h2>
     </header>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p>Tutaj możesz edytować swój produkt.</p>
+      <div class="text-left mb-4">
+        <app-router-link
+          [linkTitle]="'Wróć do wszystkich produktów'"
+          [linkRouter]="'/admin/produkty'"
+        >
+          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
+        </app-router-link>
+      </div>
+      <app-form
+        [formClass]="'form text-left inline-block'"
+        [formName]="form"
+        (whenFormSubmit)="updateProduct()"
+      >
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'name'"
+              [inputLabel]="'Nazwa'"
+              [inputPlaceholder]="'Podaj nazwę produktu'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('name')"
+              [inputAlerts]="nameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            >
+            </app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'company_name'"
+              [inputLabel]="'Nazwa firmy'"
+              [inputPlaceholder]="'Podaj nazwę firmy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('company_name')"
+              [inputAlerts]="companyNameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            >
+            </app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'quantity'"
+              [inputLabel]="'Liczba sztuk'"
+              [inputPlaceholder]="'10'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('quantity')"
+              [inputAlerts]="quantityAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'price'"
+              [inputLabel]="'Cena'"
+              [inputPlaceholder]="'10,90 zł'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('price')"
+              [inputAlerts]="priceAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-select
+              [selectLabelClass]="'block mb-2 bold'"
+              [selectID]="'category'"
+              [selectLabel]="'Kategoria'"
+              [selectClass]="'form__select w-100'"
+              [selectValidation]="validation('category')"
+              [selectAlerts]="categoryAlerts"
+              [selectGroup]="form"
+              [selectForm]="form"
+              [selectOptions]="filteredCategories"
+              [selectBy]="'name'"
+            ></app-select>
+          </div>
+          <div class="column-12 mb-4">
+            <app-textarea
+              [textareaID]="'description'"
+              [textareaRows]="'6'"
+              [textareaLabel]="'Opis produktu'"
+              [textareaPlaceholder]="'Opisz swój produkt'"
+              [textareaClass]="'form__textarea w-100'"
+              [textareaValidation]="validation('description')"
+              [textareaAlerts]="descriptionAlerts"
+              [textareaGroup]="form"
+              [textareaForm]="form"
+              [textareaMessage]="
+                'Język Markdown jest wspierany. Niedozwolone znaki zostaną usunięte.'
+              "
+              [textareaLabelClass]="'block mb-2 bold'"
+            ></app-textarea>
+          </div>
+          <div class="column-12 mb-4 relative">
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="thumbnail"
+              id="thumbnail"
+              class="form__input--thumbnail"
+              (change)="addThumbnail($event)"
+              (blur)="setTouched('thumbnail')"
+              #thumbnailInput
+            />
+            <label
+              class="form__label--thumbnail inline-block bold"
+              for="thumbnail"
+              [ngClass]="{ change: thumbnail }"
+              [title]="thumbnailTitle(thumbnail)"
+            >
+              Zdjęcie główne
+            </label>
+            <img
+              *ngIf="thumbnail"
+              [src]="thumbnail"
+              class="preview inline-block absolute"
+              alt="Zdjęcie produktu"
+            />
+            <div class="form__errors" *ngIf="validation('thumbnail')">
+              <div *ngFor="let alert of thumbnailAlerts; trackBy: trackID">
+                <div
+                  class="mt-1"
+                  *ngIf="form.controls['thumbnail'].errors[alert.key]"
+                >
+                  {{ alert.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column-12 mb-4">
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="gallery"
+              id="gallery"
+              class="form__input--gallery"
+              multiple
+              (change)="addGallery($event)"
+              (blur)="setTouched('gallery')"
+              #galleryInput
+            />
+            <label class="form__label--gallery block bold" for="gallery">
+              Galeria
+            </label>
+            <small class="form__help">
+              Możesz wybrać maksymalnie 9 zdjęć.
+            </small>
+            <div class="row image-buttons__wrapper" *ngIf="gallery.length">
+              <button
+                type="button"
+                class="preview-button link"
+                title="Usuń zdjęcie"
+                *ngFor="let image of gallery; let i = index; trackBy: trackID"
+                (click)="removeImage(i)"
+              >
+                <img [src]="image" class="preview" alt="Zdjęcie produktu" />
+              </button>
+            </div>
+          </div>
+          <div class="column-12 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="buttonTitle()"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ buttonText() }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
+        </div>
+      </app-form>
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+    </article>
+    <ng-template #showError>
+      <p class="center text-center m-0">
+        {{ alerts.server }}
+        <app-router-link
+          *ngIf="alerts.server !== 'Brak połączenia z serwerem.'"
+          [linkTitle]="'Przejdź do strony kategorii produktów'"
+          [linkRouter]="'/admin/produkty/kategorie'"
+        >
+          Utwórz kategorię.
+        </app-router-link>
+      </p>
+    </ng-template>
   </section>
 </ng-template>

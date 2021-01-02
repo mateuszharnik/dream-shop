@@ -1,8 +1,20 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { imagesValidator, imageValidator, purify, trackID } from '@helpers/index';
-import { Alert, Alerts, Product, ProductCategory, ProductWithPagination } from '@models/index';
+import { imageValidator, purify, trackID } from '@helpers/index';
+import {
+  Alert,
+  Alerts,
+  Product,
+  ProductCategory,
+  ProductWithPagination,
+} from '@models/index';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -37,16 +49,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
     { id: '0', message: 'Plik nie może przekraczać 5 MB.', key: 'maxsize' },
     { id: '1', message: 'Typ pliku jest niepoprawny.', key: 'type' },
     { id: '2', message: 'Musisz dodać zdjęcie główne.', key: 'required' },
-  ];
-
-  galleryAlerts: Alert[] = [
-    { id: '0', message: 'Pliki nie mogą przekraczać 5 MB.', key: 'maxsize' },
-    { id: '1', message: 'Pliki nie są niepoprawnego typu.', key: 'type' },
-    {
-      id: '2',
-      message: 'Możesz dodać maksymalnie 9 plików.',
-      key: 'maxlength',
-    },
   ];
 
   nameAlerts: Alert[] = [
@@ -211,7 +213,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
         gallery: [[]],
       },
       {
-        validators: [imageValidator('thumbnail'), imagesValidator('gallery')],
+        validators: [imageValidator('thumbnail')],
       },
     );
 
@@ -219,6 +221,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   validation(prop: string): boolean {
+    if (prop === 'thumbnail') {
+      return this.formControls[prop].errors && this.isSubmitted;
+    }
+
     return (
       (this.formControls[prop].errors &&
         (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
@@ -240,6 +246,16 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   buttonText(): 'Zapisz' | 'Zapisywanie' {
     return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
+  }
+
+  removeImage(index: number) {
+    const newGallery = [...this.form.value.gallery];
+    newGallery.splice(index, 1);
+    this.gallery.splice(index, 1);
+
+    this.form.patchValue({
+      gallery: newGallery,
+    });
   }
 
   addThumbnail(event: Event) {
@@ -274,7 +290,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     }
 
     this.form.patchValue({
-      gallery: images,
+      gallery: [...this.form.value.gallery, ...images],
     });
 
     const imageTypeRegExp: RegExp = /^image\/(png|jpg|jpeg)$/;
@@ -284,7 +300,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
     );
 
     if (window.FileReader && validImages.length) {
-      this.gallery = [];
       images.forEach((image: File) => {
         const reader: FileReader = new FileReader();
         reader.onload = () => {
@@ -339,12 +354,15 @@ export class AddProductComponent implements OnInit, OnDestroy {
       this.galleryInput.nativeElement.value = '';
       this.thumbnail = '';
       this.thumbnailInput.nativeElement.value = '';
+
       const category: string = this.form.value.category;
       this.form.reset();
-      this.formControls.category.setValue(category, { onlySelf: true });
-      this.formControls.gallery.setValue([], { onlySelf: true });
+      this.form.patchValue({
+        category,
+        gallery: [],
+        thumbnail: '',
+      });
     } catch (error) {
-      console.log(error);
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
