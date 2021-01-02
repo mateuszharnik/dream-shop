@@ -158,29 +158,22 @@
               (blur)="setTouched('gallery')"
               #galleryInput
             />
-            <label
-              class="form__label--gallery inline-block bold mb-2"
-              for="gallery"
-            >
+            <label class="form__label--gallery block bold" for="gallery">
               Galeria
             </label>
-            <div class="row" *ngIf="gallery.length">
-              <img
-                *ngFor="let image of gallery; trackBy: trackID"
-                [src]="image"
-                class="preview"
-                alt="Zdjęcie produktu"
-              />
-            </div>
-            <div class="form__errors" *ngIf="validation('gallery')">
-              <div *ngFor="let alert of galleryAlerts; trackBy: trackID">
-                <div
-                  class="mt-1"
-                  *ngIf="form.controls['gallery'].errors[alert.key]"
-                >
-                  {{ alert.message }}
-                </div>
-              </div>
+            <small class="form__help">
+              Możesz wybrać maksymalnie 9 zdjęć.
+            </small>
+            <div class="row image-buttons__wrapper" *ngIf="gallery.length">
+              <button
+                type="button"
+                class="preview-button link"
+                title="Usuń zdjęcie"
+                *ngFor="let image of gallery; let i = index; trackBy: trackID"
+                (click)="removeImage(i)"
+              >
+                <img [src]="image" class="preview" alt="Zdjęcie produktu" />
+              </button>
             </div>
           </div>
           <div class="column-12 text-center">

@@ -66,6 +66,7 @@ export interface Product {
   _id?: string;
   name: string;
   category: string;
+  company_name: string;
   category_name: string;
   thumbnail: string;
   gallery: string[];

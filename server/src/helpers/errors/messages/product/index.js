@@ -21,11 +21,11 @@ const productNameMax = {
 
 // COMPANY NAME
 const productCompanyNameRequired = {
-  'any.required': 'Właściwość "name" jest wymagana.',
+  'any.required': 'Właściwość "company_name" jest wymagana.',
 };
 
 const productCompanyNameString = {
-  'string.base': 'Właściwość "name" musi być typu "string".',
+  'string.base': 'Właściwość "company_name" musi być typu "string".',
 };
 
 const productCompanyNameMin = {
@@ -119,6 +119,10 @@ const galleryRequired = {
   'any.required': 'Właściwość "gallery" jest wymagana.',
 };
 
+const galleryMax = {
+  'array.max': 'Galeria może mieć maksymalnie 9 obrazów.',
+};
+
 const galleryArray = {
   'array.base': 'Właściwość "gallery" musi być typu "array".',
 };
@@ -126,6 +130,7 @@ const galleryArray = {
 const galleryMessages = {
   ...galleryRequired,
   ...galleryArray,
+  ...galleryMax,
 };
 
 const thumbnailMessages = {
@@ -182,6 +187,7 @@ const quantityMessages = {
 module.exports = {
   galleryRequired,
   galleryArray,
+  galleryMax,
   galleryMessages,
   thumbnailPattern,
   thumbnailString,
