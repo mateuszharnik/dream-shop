@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
 const { signToken } = require('../../../helpers/token');
 const { responseWithError } = require('../../../helpers/errors');
 const { dbIdSchema, avatarFileSchema } = require('../../../models');
@@ -121,6 +122,15 @@ const updateUser = async (req, res, next) => {
 
     if (!updatedUser) {
       return responseWithError(res, next, 500, 'Nie udało się zapisać zmian.');
+    }
+
+    if ((req.file && user.avatar) || (user.avatar && !req.body.avatar)) {
+      const avatarName = user.avatar.replace('http://localhost:3000/uploads/avatars/', '');
+      const avatarDir = `uploads/avatars/${avatarName}`;
+
+      if (fs.existsSync(avatarDir)) {
+        fs.unlinkSync(avatarDir);
+      }
     }
 
     const {

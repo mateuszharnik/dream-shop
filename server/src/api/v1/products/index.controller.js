@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { productSchema } = require('./index.model');
 const { dbIdSchema, thumbnailFileSchema, galleryFileSchema } = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
@@ -238,6 +239,26 @@ const deleteProduct = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Nie udało się zaktualizować liczby produktów w kategorii.');
     }
 
+    if (product.thumbnail) {
+      const thumbnailName = product.thumbnail.replace('http://localhost:3000/uploads/products/', '');
+      const thumbnailDir = `uploads/products/${thumbnailName}`;
+
+      if (fs.existsSync(thumbnailDir)) {
+        fs.unlinkSync(thumbnailDir);
+      }
+    }
+
+    if (product.gallery.length) {
+      product.gallery.forEach((image) => {
+        const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+        const imagelDir = `uploads/products/${imagelName}`;
+
+        if (fs.existsSync(imagelDir)) {
+          fs.unlinkSync(imagelDir);
+        }
+      });
+    }
+
     res.status(200).json({ ...updatedProduct });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -262,6 +283,12 @@ const deleteProducts = async (req, res, next) => {
 
     if (!deletedProducts) {
       return responseWithError(res, next, 500, 'Nie udało się usunąć produktów.');
+    }
+
+    const productsDir = 'uploads/products';
+
+    if (fs.existsSync(productsDir)) {
+      fs.rmdirSync(productsDir, { recursive: true });
     }
 
     const categories = await productCategoriesDB.update(
@@ -367,6 +394,54 @@ const updateProduct = async (req, res, next) => {
 
     if (!updatedProduct) {
       return responseWithError(res, next, 500, 'Nie udało się zaktualizować produktu.');
+    }
+
+    if (
+      (req.files && req.files.thumbnail && req.files.thumbnail[0] && product.thumbnail)
+      || (product.thumbnail && !req.body.thumbnail)
+    ) {
+      const thumbnailName = product.thumbnail.replace('http://localhost:3000/uploads/products/', '');
+      const thumbnailDir = `uploads/products/${thumbnailName}`;
+
+      if (fs.existsSync(thumbnailDir)) {
+        fs.unlinkSync(thumbnailDir);
+      }
+    }
+
+    if ((req.files
+      && req.files.gallery
+      && req.files.gallery.length
+      && req.body.gallery.length === product.gallery.length)
+      || (req.body.gallery.length < product.gallery.length)) {
+      const filteredArray = [...product.gallery];
+
+      req.body.gallery.forEach((image) => {
+        if (product.gallery.indexOf(image) !== -1) {
+          filteredArray.splice(filteredArray.indexOf(image), 1);
+        }
+      });
+
+      if (filteredArray.length) {
+        filteredArray.forEach((image) => {
+          const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+          const imagelDir = `uploads/products/${imagelName}`;
+
+          if (fs.existsSync(imagelDir)) {
+            fs.unlinkSync(imagelDir);
+          }
+        });
+      }
+    }
+
+    if (product.gallery.length && !req.body.gallery.length) {
+      product.gallery.forEach((image) => {
+        const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+        const imagelDir = `uploads/products/${imagelName}`;
+
+        if (fs.existsSync(imagelDir)) {
+          fs.unlinkSync(imagelDir);
+        }
+      });
     }
 
     const total = await productsDB.count({ category: updatedProduct.category, deleted_at: null });

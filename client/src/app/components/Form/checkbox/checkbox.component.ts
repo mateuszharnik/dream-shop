@@ -20,7 +20,7 @@ import { Alert } from '@models/index';
 })
 export class CheckboxComponent implements OnInit, OnChanges {
   @HostBinding('class.block') display = true;
-  @HostBinding('w-100') width = true;
+  @HostBinding('class.w-100') width = true;
   @Input() checkboxAlerts: Alert[] = [];
   @Input() checkboxForm: AbstractControl = null;
   @Input() checkboxGroup: FormGroup = null;

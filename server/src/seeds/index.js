@@ -1,3 +1,4 @@
+const createDirectories = require('./directories');
 const seedUsers = require('./users');
 const seedSocialMedia = require('./social-media');
 const seedAbout = require('./about');
@@ -11,6 +12,7 @@ const removeMessages = require('./messages');
 
 const seed = async () => {
   try {
+    createDirectories();
     await removeNewsletterEmails();
     await removeMessages();
     await removeProducts();

@@ -12,4 +12,9 @@
   overflow-y: hidden;
   border-bottom: 0.1rem solid $header-border-bottom-color;
   box-shadow: 0.5rem 0rem 1.4rem 0.2rem $header-box-shadow-color;
+
+  @media (min-width: $md) {
+    overflow-y: visible;
+    padding: 1rem 0rem;
+  }
 }

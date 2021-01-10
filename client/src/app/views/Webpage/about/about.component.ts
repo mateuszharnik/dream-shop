@@ -34,8 +34,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (this.about) {
-      this.isLoading = false;
-      return this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
 
     try {
