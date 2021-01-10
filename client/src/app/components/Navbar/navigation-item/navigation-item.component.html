@@ -9,12 +9,10 @@
     #rlaLink="routerLinkActive"
   >
     {{ category.name }}
-    <span *ngIf="rlaLink.isActive" class="hidden">
-      (tutaj jesteś)
-    </span>
+    <span *ngIf="rlaLink.isActive" class="hidden"> (tutaj jesteś) </span>
     <app-fa-icon
       *ngIf="isLinkBestsellers(category.category)"
-      [faClass]="'ml-1 far fa-star'"
+      [faClass]="'navigation__icon ml-1 far fa-star'"
     ></app-fa-icon>
     <app-fa-icon
       [faClass]="'navigation__icon absolute ml-1 fas fa-chevron-right'"

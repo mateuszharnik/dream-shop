@@ -45,8 +45,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (this.map && this.contact) {
-      this.isLoading = false;
-      return this.spinnerService.setLoading(this.isLoading);
+      this.setLoading();
     }
 
     try {

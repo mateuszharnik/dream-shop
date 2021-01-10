@@ -1,38 +1,58 @@
-import { Component, HostBinding, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { Slide } from '@animations/index';
+import {
+  Component,
+  HostBinding,
+  OnDestroy,
+  Renderer2,
+  ViewChildren,
+  ViewEncapsulation,
+} from '@angular/core';
 import { trackID } from '@helpers/index';
 import { User, ProductCategory } from '@models/index';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
 import { ProductsService } from '@services/products.service';
+import { NavigationEnd, Router, Event } from '@angular/router';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
+  selector: 'app-navigation-desktop',
+  templateUrl: './navigation-desktop.component.html',
+  styleUrls: ['./navigation-desktop.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [Slide],
 })
-export class NavigationComponent implements OnDestroy {
+export class NavigationDesktopComponent implements OnDestroy {
   @ViewChildren('dropdown') dropdown: any = null;
   @ViewChildren('parent') parent: any = null;
   @HostBinding('class.block') display = true;
   @HostBinding('class.h-100') height = true;
 
   isOpen = false;
-  isDisabled = false;
-  isAnimated = false;
-  animationTime = 350;
   trackID = null;
+  closeMenuListener = null;
   user: User = null;
   categories: ProductCategory[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private productsService: ProductsService,
+    private renderer: Renderer2,
   ) {
     this.trackID = trackID;
+
+    this.closeMenuListener = this.renderer.listen(
+      'window',
+      'click',
+      this.closeMenu,
+    );
+
+    this.subscriptions.push(
+      this.router.events.subscribe((event: Event) => {
+        if (event instanceof NavigationEnd) {
+          this.isOpen = false;
+        }
+      }),
+    );
 
     this.subscriptions.push(
       this.userService.getUser().subscribe((user: User) => {
@@ -63,39 +83,25 @@ export class NavigationComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.closeMenuListener) {
+      this.closeMenuListener();
+    }
+
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
   }
 
-  computedIconClass(): string {
-    const className = 'navigation__icon absolute ml-1 fas fa-chevron-right';
-    return this.isOpen ? `${className} open` : className;
+  closeMenu = (event) => {
+    const className = event.target.className;
+    const buttonClass = 'navigation__link navigation__link--pointer relative block text-left';
+
+    if (this.isOpen && className !== buttonClass) {
+      this.isOpen = false;
+    }
   }
 
   toggle() {
-    this.isAnimated = true;
-    this.isDisabled = true;
-
     this.isOpen = !this.isOpen;
-
-    setTimeout(() => {
-      const element: HTMLElement = this.dropdown.first
-        ? this.dropdown.first.nativeElement.querySelector('.navigation__link')
-        : this.parent.first.nativeElement;
-
-      this.isDisabled = false;
-      this.isAnimated = false;
-
-      this.setFocus(element);
-    }, this.animationTime);
-  }
-
-  setFocus(el: HTMLElement) {
-    setTimeout(() => el.focus(), 50);
-  }
-
-  computedAriaExpanded(): string {
-    return `${this.isOpen}`;
   }
 }

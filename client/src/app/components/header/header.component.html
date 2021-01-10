@@ -1,7 +1,11 @@
 <header class="header w-100 absolute m-auto">
-  <div class="container-xl p-0">
+  <div class="container-xl p-0 md:flex md:flex-justify-between">
     <app-logo></app-logo>
-    <nav class="main-nav" [ngClass]="{ open: navigation.isOpen }">
+    <nav
+      class="main-nav"
+      *ngIf="!isDesktop; else desktop"
+      [ngClass]="{ open: navigation.isOpen }"
+    >
       <h2 class="hidden">Nawigacja</h2>
       <app-cart-button></app-cart-button>
       <app-search-bar></app-search-bar>
@@ -19,5 +23,15 @@
         ></app-navigation>
       </div>
     </nav>
+    <ng-template #desktop>
+      <nav class="main-nav">
+        <h2 class="hidden">Nawigacja</h2>
+        <div class="h-100">
+          <app-navigation-desktop #nav></app-navigation-desktop>
+        </div>
+        <app-search-bar></app-search-bar>
+        <app-cart-button></app-cart-button>
+      </nav>
+    </ng-template>
   </div>
 </header>

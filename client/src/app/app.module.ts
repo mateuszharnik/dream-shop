@@ -19,6 +19,7 @@ import { ScrollTopButtonComponent } from '@components/scroll-top-button/scroll-t
 import { SlideComponent } from '@components/slide/slide.component';
 import { SliderComponent } from '@components/slider/slider.component';
 import { SwiperSliderComponent } from '@components/swiper-slider/swiper-slider.component';
+import { NavigationDesktopComponent } from '@components/Navbar/navigation-desktop/navigation-desktop.component';
 import { MatchMediaService } from '@services/match-media.service';
 import { SharedModule } from '@shared/shared.module';
 import { HomeComponent } from '@webpage/home/home.component';
@@ -46,6 +47,7 @@ import { AppComponent } from './app.component';
     SlideComponent,
     NewsletterComponent,
     SwiperSliderComponent,
+    NavigationDesktopComponent,
   ],
   imports: [
     BrowserModule,

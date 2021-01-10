@@ -15,6 +15,10 @@
   line-height: 3rem;
   transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
+  @media (min-width: $md) {
+    right: 1rem;
+  }
+
   &:hover {
     color: $cart-button-bg-color-hover;
     transition: color 0.3s ease-in-out;

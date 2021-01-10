@@ -12,7 +12,7 @@
   <app-fa-icon [faClass]="'fas fa-search'"></app-fa-icon>
   <span class="hidden">Wyszukiwarka</span>
 </button>
-<form
+<div
   *ngIf="searchBar.isOpen"
   class="search-bar-form"
   id="searchBarControls"
@@ -32,4 +32,4 @@
       #search
     />
   </form>
-</form>
+</div>
