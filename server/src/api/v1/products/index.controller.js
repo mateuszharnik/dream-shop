@@ -1,8 +1,16 @@
 const fs = require('fs');
 const { productSchema } = require('./index.model');
-const { dbIdSchema, thumbnailFileSchema, galleryFileSchema } = require('../../../models');
+const {
+  dbIdSchema,
+  thumbnailFileSchema,
+  galleryFileSchema,
+} = require('../../../models');
 const { responseWithError } = require('../../../helpers/errors');
-const { productsDB, productCategoriesDB } = require('../../../db');
+const {
+  productsDB,
+  productCategoriesDB,
+  productFiltersDB,
+} = require('../../../db');
 const { addCategory } = require('../../../helpers/product-categories');
 const { purify } = require('../../../helpers/sanitize');
 const { getThumbnailUrl } = require('../../../helpers/files');
@@ -82,7 +90,12 @@ const getProducts = async (req, res, next) => {
     });
 
     if (!products) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać produktów.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się pobrać produktów.',
+      );
     }
 
     res.status(200).json({
@@ -103,10 +116,17 @@ const getProducts = async (req, res, next) => {
 };
 
 const getProduct = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
   }
 
   try {
@@ -126,7 +146,12 @@ const getProduct = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
   if (req.body.category) {
-    return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
+    return responseWithError(
+      res,
+      next,
+      400,
+      'Właściwość "category" jest niedozwolona.',
+    );
   }
 
   if (req.body.category_name && typeof req.body.category_name === 'string') {
@@ -138,26 +163,34 @@ const addProduct = async (req, res, next) => {
   }
 
   if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
-    const {
-      schemaError: fileSchemaError,
-      data: file,
-    } = thumbnailFileSchema(req.files.thumbnail[0]);
+    const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
+      req.files.thumbnail[0],
+    );
 
     if (fileSchemaError) {
-      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+      return responseWithError(
+        res,
+        next,
+        400,
+        fileSchemaError.details[0].message,
+      );
     }
 
     req.body.thumbnail = getThumbnailUrl(file);
   }
 
   if (req.files && req.files.gallery && req.files.gallery.length) {
-    const {
-      schemaError: fileSchemaError,
-      data: files,
-    } = galleryFileSchema(req.files.gallery);
+    const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
+      req.files.gallery,
+    );
 
     if (fileSchemaError) {
-      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+      return responseWithError(
+        res,
+        next,
+        400,
+        fileSchemaError.details[0].message,
+      );
     }
 
     req.body.gallery = [];
@@ -188,14 +221,78 @@ const addProduct = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Nie udało się dodać produktu.');
     }
 
-    const total = await productsDB.count({ category: product.category, deleted_at: null });
-    const category = await productCategoriesDB.findOneAndUpdate(
+    const category = await productCategoriesDB.findOne(
+      { category: product.category },
+    );
+
+    if (!category || (category && category.deleted_at)) {
+      return responseWithError(res, next, 500, 'Kategoria nie istnieje.');
+    }
+
+    const filter = await productFiltersDB.findOne({
+      category: product.category,
+      deleted_at: null,
+    });
+
+    Object.entries(product).forEach(([key, value]) => {
+      if (key !== 'company_name') {
+        return;
+      }
+
+      if (!Array.isArray(filter.filters[key])) {
+        filter.filters[key] = [];
+      }
+
+      const index = filter.filters[key].findIndex(
+        ({ name }) => name === product.company_name,
+      );
+
+      if (index === -1) {
+        filter.filters[key].push({
+          name: value,
+          items: 1,
+        });
+      } else {
+        const items = filter.filters[key][index].items + 1;
+
+        filter.filters[key][index] = {
+          name: value,
+          items,
+        };
+      }
+    });
+
+    const updatedFilter = await productFiltersDB.findOneAndUpdate(
+      { category: product.category, deleted_at: null },
+      { $set: { filters: filter.filters, updated_at: new Date() } },
+    );
+
+    if (!updatedFilter) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować filtrów.',
+      );
+    }
+
+    const total = await productsDB.count({
+      category: product.category,
+      deleted_at: null,
+    });
+
+    const updatedCategory = await productCategoriesDB.findOneAndUpdate(
       { category: product.category },
       { $set: { count: total } },
     );
 
-    if (!category) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować liczby produktów w kategorii.');
+    if (!updatedCategory) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować liczby produktów w kategorii.',
+      );
     }
 
     res.status(200).json({ ...product });
@@ -207,10 +304,17 @@ const addProduct = async (req, res, next) => {
 };
 
 const deleteProduct = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
   }
 
   try {
@@ -226,21 +330,83 @@ const deleteProduct = async (req, res, next) => {
     );
 
     if (!updatedProduct) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć produktu.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się usunąć produktu.',
+      );
     }
 
-    const total = await productsDB.count({ category: updatedProduct.category, deleted_at: null });
+    const filter = await productFiltersDB.findOne({
+      category: updatedProduct.category,
+      deleted_at: null,
+    });
+
+    Object.entries(updatedProduct).forEach(([key, value]) => {
+      if (key !== 'company_name') {
+        return;
+      }
+
+      const index = filter.filters[key].findIndex(
+        ({ name }) => name === updatedProduct.company_name,
+      );
+
+      if (index > -1) {
+        const items = filter.filters[key][index].items - 1;
+
+        filter.filters[key][index] = {
+          name: value,
+          items,
+        };
+      }
+
+      if (!filter.filters[key][index].items) {
+        filter.filters[key].splice(index, 1);
+      }
+
+      if (!filter.filters[key].length) {
+        delete filter.filters[key];
+      }
+    });
+
+    const updatedFilter = await productFiltersDB.findOneAndUpdate(
+      { category: product.category, deleted_at: null },
+      { $set: { filters: filter.filters, updated_at: new Date() } },
+    );
+
+    if (!updatedFilter) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować filtrów.',
+      );
+    }
+
+    const total = await productsDB.count({
+      category: updatedProduct.category,
+      deleted_at: null,
+    });
     const category = await productCategoriesDB.findOneAndUpdate(
       { category: updatedProduct.category },
       { $set: { count: total } },
     );
 
     if (!category) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować liczby produktów w kategorii.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować liczby produktów w kategorii.',
+      );
     }
 
     if (product.thumbnail) {
-      const thumbnailName = product.thumbnail.replace('http://localhost:3000/uploads/products/', '');
+      const thumbnailName = product.thumbnail.replace(
+        'http://localhost:3000/uploads/products/',
+        '',
+      );
       const thumbnailDir = `uploads/products/${thumbnailName}`;
 
       if (fs.existsSync(thumbnailDir)) {
@@ -250,7 +416,10 @@ const deleteProduct = async (req, res, next) => {
 
     if (product.gallery.length) {
       product.gallery.forEach((image) => {
-        const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+        const imagelName = image.replace(
+          'http://localhost:3000/uploads/products/',
+          '',
+        );
         const imagelDir = `uploads/products/${imagelName}`;
 
         if (fs.existsSync(imagelDir)) {
@@ -272,7 +441,12 @@ const deleteProducts = async (req, res, next) => {
     const products = await productsDB.find({ deleted_at: null });
 
     if (!products.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych produktów.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'W bazie danych nie ma żadnych produktów.',
+      );
     }
 
     const deletedProducts = await productsDB.update(
@@ -282,13 +456,37 @@ const deleteProducts = async (req, res, next) => {
     );
 
     if (!deletedProducts) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć produktów.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się usunąć produktów.',
+      );
+    }
+
+    const updatedFilters = await productFiltersDB.update(
+      {},
+      { $set: { filters: [] } },
+      { multi: true },
+    );
+
+    if (!updatedFilters) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować filtrów.',
+      );
     }
 
     const productsDir = 'uploads/products';
 
     if (fs.existsSync(productsDir)) {
       fs.rmdirSync(productsDir, { recursive: true });
+
+      setTimeout(() => {
+        fs.mkdirSync(productsDir, { recursive: true });
+      }, 100);
     }
 
     const categories = await productCategoriesDB.update(
@@ -298,7 +496,12 @@ const deleteProducts = async (req, res, next) => {
     );
 
     if (!categories) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować liczby produktów w kategorii.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować liczby produktów w kategorii.',
+      );
     }
 
     res.status(200).json({
@@ -314,7 +517,12 @@ const deleteProducts = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   if (req.body.category) {
-    return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
+    return responseWithError(
+      res,
+      next,
+      400,
+      'Właściwość "category" jest niedozwolona.',
+    );
   }
 
   if (req.body.category_name && typeof req.body.category_name === 'string') {
@@ -334,26 +542,34 @@ const updateProduct = async (req, res, next) => {
   }
 
   if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
-    const {
-      schemaError: fileSchemaError,
-      data: file,
-    } = thumbnailFileSchema(req.files.thumbnail[0]);
+    const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
+      req.files.thumbnail[0],
+    );
 
     if (fileSchemaError) {
-      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+      return responseWithError(
+        res,
+        next,
+        400,
+        fileSchemaError.details[0].message,
+      );
     }
 
     req.body.thumbnail = getThumbnailUrl(file);
   }
 
   if (req.files && req.files.gallery && req.files.gallery.length) {
-    const {
-      schemaError: fileSchemaError,
-      data: files,
-    } = galleryFileSchema(req.files.gallery);
+    const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
+      req.files.gallery,
+    );
 
     if (fileSchemaError) {
-      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+      return responseWithError(
+        res,
+        next,
+        400,
+        fileSchemaError.details[0].message,
+      );
     }
 
     files.forEach((file) => {
@@ -363,10 +579,17 @@ const updateProduct = async (req, res, next) => {
     req.body.gallery = [];
   }
 
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
   }
 
   const { schemaError, data } = productSchema(req.body, false, false);
@@ -382,6 +605,65 @@ const updateProduct = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Produkt nie istnieje.');
     }
 
+    const category = await productCategoriesDB.findOne(
+      { category: product.category },
+    );
+
+    if (!category || (category && category.deleted_at)) {
+      return responseWithError(res, next, 500, 'Kategoria nie istnieje.');
+    }
+
+    if (
+      product.category !== req.body.category_name
+      || product.company_name !== req.body.company_name
+    ) {
+      const filter = await productFiltersDB.findOne({
+        category: product.category,
+        deleted_at: null,
+      });
+
+      Object.entries(product).forEach(([key, value]) => {
+        if (key !== 'company_name') {
+          return;
+        }
+
+        const index = filter.filters[key].findIndex(
+          ({ name }) => name === product.company_name,
+        );
+
+        if (index > -1) {
+          const items = filter.filters[key][index].items - 1;
+
+          filter.filters[key][index] = {
+            name: value,
+            items,
+          };
+        }
+
+        if (!filter.filters[key][index].items) {
+          filter.filters[key].splice(index, 1);
+        }
+
+        if (!filter.filters[key].length) {
+          delete filter.filters[key];
+        }
+      });
+
+      const updatedFilter = await productFiltersDB.findOneAndUpdate(
+        { category: product.category, deleted_at: null },
+        { $set: { filters: filter.filters, updated_at: new Date() } },
+      );
+
+      if (!updatedFilter) {
+        return responseWithError(
+          res,
+          next,
+          500,
+          'Nie udało się zaktualizować filtrów.',
+        );
+      }
+    }
+
     const updatedProduct = await productsDB.findOneAndUpdate(
       { _id: params.id },
       {
@@ -393,14 +675,77 @@ const updateProduct = async (req, res, next) => {
     );
 
     if (!updatedProduct) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować produktu.');
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować produktu.',
+      );
     }
 
     if (
-      (req.files && req.files.thumbnail && req.files.thumbnail[0] && product.thumbnail)
+      product.category !== updatedProduct.category
+      || product.company_name !== updatedProduct.company_name
+    ) {
+      const filter = await productFiltersDB.findOne({
+        category: updatedProduct.category,
+        deleted_at: null,
+      });
+
+      Object.entries(updatedProduct).forEach(([key, value]) => {
+        if (key !== 'company_name') {
+          return;
+        }
+
+        if (!Array.isArray(filter.filters[key])) {
+          filter.filters[key] = [];
+        }
+
+        const index = filter.filters[key].findIndex(
+          ({ name }) => name === updatedProduct.company_name,
+        );
+
+        if (index === -1) {
+          filter.filters[key].push({
+            name: value,
+            items: 1,
+          });
+        } else {
+          const items = filter.filters[key][index].items + 1;
+
+          filter.filters[key][index] = {
+            name: value,
+            items,
+          };
+        }
+      });
+
+      const updatedFilter = await productFiltersDB.findOneAndUpdate(
+        { category: updatedProduct.category, deleted_at: null },
+        { $set: { filters: filter.filters, updated_at: new Date() } },
+      );
+
+      if (!updatedFilter) {
+        return responseWithError(
+          res,
+          next,
+          500,
+          'Nie udało się zaktualizować filtrów.',
+        );
+      }
+    }
+
+    if (
+      (req.files
+        && req.files.thumbnail
+        && req.files.thumbnail[0]
+        && product.thumbnail)
       || (product.thumbnail && !req.body.thumbnail)
     ) {
-      const thumbnailName = product.thumbnail.replace('http://localhost:3000/uploads/products/', '');
+      const thumbnailName = product.thumbnail.replace(
+        'http://localhost:3000/uploads/products/',
+        '',
+      );
       const thumbnailDir = `uploads/products/${thumbnailName}`;
 
       if (fs.existsSync(thumbnailDir)) {
@@ -408,11 +753,13 @@ const updateProduct = async (req, res, next) => {
       }
     }
 
-    if ((req.files
-      && req.files.gallery
-      && req.files.gallery.length
-      && req.body.gallery.length === product.gallery.length)
-      || (req.body.gallery.length < product.gallery.length)) {
+    if (
+      (req.files
+        && req.files.gallery
+        && req.files.gallery.length
+        && req.body.gallery.length === product.gallery.length)
+      || req.body.gallery.length < product.gallery.length
+    ) {
       const filteredArray = [...product.gallery];
 
       req.body.gallery.forEach((image) => {
@@ -423,7 +770,10 @@ const updateProduct = async (req, res, next) => {
 
       if (filteredArray.length) {
         filteredArray.forEach((image) => {
-          const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+          const imagelName = image.replace(
+            'http://localhost:3000/uploads/products/',
+            '',
+          );
           const imagelDir = `uploads/products/${imagelName}`;
 
           if (fs.existsSync(imagelDir)) {
@@ -435,7 +785,10 @@ const updateProduct = async (req, res, next) => {
 
     if (product.gallery.length && !req.body.gallery.length) {
       product.gallery.forEach((image) => {
-        const imagelName = image.replace('http://localhost:3000/uploads/products/', '');
+        const imagelName = image.replace(
+          'http://localhost:3000/uploads/products/',
+          '',
+        );
         const imagelDir = `uploads/products/${imagelName}`;
 
         if (fs.existsSync(imagelDir)) {
@@ -444,14 +797,23 @@ const updateProduct = async (req, res, next) => {
       });
     }
 
-    const total = await productsDB.count({ category: updatedProduct.category, deleted_at: null });
-    const category = await productCategoriesDB.findOneAndUpdate(
+    const total = await productsDB.count({
+      category: updatedProduct.category,
+      deleted_at: null,
+    });
+
+    const updatedCategory = await productCategoriesDB.findOneAndUpdate(
       { category: updatedProduct.category },
       { $set: { count: total } },
     );
 
-    if (!category) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować liczby produktów w kategorii.');
+    if (!updatedCategory) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się zaktualizować liczby produktów w kategorii.',
+      );
     }
 
     res.status(200).json({ ...updatedProduct });

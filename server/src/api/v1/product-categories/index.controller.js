@@ -1,4 +1,4 @@
-const { productCategoriesDB, productsDB } = require('../../../db');
+const { productCategoriesDB, productsDB, productFiltersDB } = require('../../../db');
 const { responseWithError } = require('../../../helpers/errors');
 const { productCategorySchema } = require('./index.model');
 const { addCategory } = require('../../../helpers/product-categories');
@@ -57,6 +57,18 @@ const addProductCategory = async (req, res, next) => {
 
     if (!newCategory) {
       return responseWithError(res, next, 500, 'Nie udało się zapisać kategorii w bazie danych.');
+    }
+
+    const filter = await productFiltersDB.insert({
+      category: newCategory.category,
+      filters: {},
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
+
+    if (!filter) {
+      return responseWithError(res, next, 500, 'Nie udało się zapisać kategorii w filtrach.');
     }
 
     res.status(200).json({ ...newCategory });
@@ -132,6 +144,16 @@ const deleteProductCategories = async (req, res, next) => {
       return responseWithError(res, next, 500, 'Nie udało się usunąć produktów przypisanych do kategorii.');
     }
 
+    const filters = await productFiltersDB.update(
+      {},
+      { $set: { deleted_at: new Date() } },
+      { multi: true },
+    );
+
+    if (!filters) {
+      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii w filtrach.');
+    }
+
     res.status(200).json({
       message: 'Usunięto wszystkie kategorie.',
       items: deletedCategories.n,
@@ -178,6 +200,16 @@ const deleteProductCategory = async (req, res, next) => {
 
     if (!deletedProducts) {
       return responseWithError(res, next, 500, 'Nie udało się usunąć produktów przypisanych do kategorii.');
+    }
+
+    const filter = await productFiltersDB.update(
+      { category: deletedCategory.name },
+      { $set: { deleted_at: new Date() } },
+      { multi: true },
+    );
+
+    if (!filter) {
+      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii w filtrach.');
     }
 
     res.status(200).json({ ...deletedCategory });

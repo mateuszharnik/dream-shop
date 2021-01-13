@@ -13,12 +13,14 @@ const mapDB = db.get('map');
 const faqCategoriesDB = db.get('faq-categories');
 const faqDB = db.get('faq');
 const productCategoriesDB = db.get('product-categories');
+const productFiltersDB = db.get('product-filters');
 const productsDB = db.get('products');
 const messagesDB = db.get('messages');
 
 emailsDB.createIndex('email, deleted_at');
 productsDB.createIndex('deleted_at');
 productCategoriesDB.createIndex('name, category, deleted_at');
+productFiltersDB.createIndex('name, category, deleted_at');
 messagesDB.createIndex('deleted_at');
 faqCategoriesDB.createIndex('categories');
 faqDB.createIndex('title');
@@ -40,4 +42,5 @@ module.exports = {
   messagesDB,
   productCategoriesDB,
   productsDB,
+  productFiltersDB,
 };
