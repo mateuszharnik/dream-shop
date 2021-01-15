@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Alerts, Product, ProductWithPagination } from '@models/index';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Alerts, Product, ProductWithPagination, Regulations } from '@models/index';
 import { ProductsService } from '@services/products.service';
+import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-showcase',
@@ -9,13 +11,15 @@ import { SpinnerService } from '@services/spinner.service';
   styleUrls: ['./showcase.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ShowcaseComponent implements OnInit {
+export class ShowcaseComponent implements OnInit, OnDestroy {
   alerts: Alerts = {
     server: '',
     error: '',
     success: '',
   };
   isLoading = true;
+  regulations: Regulations = null;
+  subscriptions: Subscription[] = [];
   bestsellerProducts: Product[] = [];
   newProducts: Product[] = [];
   modal = null;
@@ -23,7 +27,18 @@ export class ShowcaseComponent implements OnInit {
   constructor(
     private spinnerService: SpinnerService,
     private productsService: ProductsService,
-  ) {}
+    private regulationsService: RegulationsService,
+  ) {
+    this.subscriptions.push(
+      this.regulationsService
+        .getRegulations()
+        .subscribe((data: Regulations[]) => {
+          this.regulations = data.find(
+            (value: Regulations) => value.name === 'newsletter',
+          );
+        }),
+    );
+  }
 
   async ngOnInit() {
     this.isLoading = true;
@@ -50,6 +65,12 @@ export class ShowcaseComponent implements OnInit {
 
       this.setLoading();
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   setLoading(loading = false) {

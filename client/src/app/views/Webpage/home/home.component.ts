@@ -1,14 +1,15 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Contact, SocialMedia, ProductCategory } from '@models/index';
+import { Contact, SocialMedia, ProductCategory, Regulations } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
 import { SocialMediaService } from '@services/social-media.service';
-import { Subscription } from 'rxjs';
 import { FooterService } from '@services/footer.service';
 import { ProductsService } from '@services/products.service';
+import { RegulationsService } from '@services/regulations.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   tabIndex = -1;
   isLoading = true;
   subscriptions: Subscription[] = [];
+  regulations: Regulations[] = [];
   height: number = null;
   footerMargin = 0;
   isDesktop = false;
@@ -39,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private socialMediaService: SocialMediaService,
     private footerService: FooterService,
     private productsService: ProductsService,
+    private regulationsService: RegulationsService,
   ) {
     this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
       this.contact = data;
@@ -61,9 +64,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       const socialMediaResponse: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       const contactResponse: Contact = await this.contactService.fetchContact();
       const productCategories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const regulations: Regulations[] = await this.regulationsService.fetchRegulations();
       this.productsService.setCategories(productCategories);
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
+      this.regulationsService.setRegulations(regulations);
     } catch (error) { } finally {
       this.isLoading = false;
     }

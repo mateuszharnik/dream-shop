@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Alerts, Contact, Map } from '@models/index';
+import { Alerts, Contact, Map, Regulations } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { MapService } from '@services/map.service';
+import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
 
@@ -15,6 +16,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   isLoading = true;
   contact: Contact = null;
   map: Map = null;
+  regulations: Regulations = null;
   alerts: Alerts = {
     server: '',
     error: '',
@@ -27,11 +29,22 @@ export class ContactComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private mapService: MapService,
     private contactService: ContactService,
+    private regulationsService: RegulationsService,
   ) {
     this.subscriptions.push(
       this.contactService.getContact().subscribe((data: Contact) => {
         this.contact = data;
       }),
+    );
+
+    this.subscriptions.push(
+      this.regulationsService
+        .getRegulations()
+        .subscribe((data: Regulations[]) => {
+          this.regulations = data.find(
+            (value: Regulations) => value.name === 'kontakt',
+          );
+        }),
     );
 
     this.subscriptions.push(

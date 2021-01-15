@@ -146,6 +146,24 @@
         </li>
         <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
           <a
+            routerLink="/admin/regulaminy"
+            title="Zobacz regulaminy"
+            class="dashboard-navigation__link block"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rlaLinkNewsletter="routerLinkActive"
+          >
+            <app-fa-icon
+              [faClass]="'fas fa-scroll mr-1 dashboard-navigation__icon'"
+            ></app-fa-icon>
+            Regulaminy
+            <span *ngIf="rlaLinkNewsletter.isActive" class="hidden">
+              (tutaj jesteś)
+            </span>
+          </a>
+        </li>
+        <li class="dashboard-navigation__item mb-2 mx-2" *ngIf="isAdmin()">
+          <a
             routerLink="/admin/newsletter"
             title="Zobacz zapisane adresy email"
             class="dashboard-navigation__link block"

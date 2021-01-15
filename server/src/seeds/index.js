@@ -4,6 +4,7 @@ const seedSocialMedia = require('./social-media');
 const seedAbout = require('./about');
 const seedFAQCategories = require('./faq');
 const seedContact = require('./contact');
+const seedRegulations = require('./regulations');
 const seedMap = require('./map');
 const seedProductCategories = require('./product-categories');
 const seedProductFilters = require('./product-filters');
@@ -15,6 +16,7 @@ const seed = async () => {
   try {
     createDirectories();
     await removeNewsletterEmails();
+    await seedRegulations();
     await removeMessages();
     await removeProducts();
     await seedProductCategories();

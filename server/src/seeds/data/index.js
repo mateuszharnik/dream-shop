@@ -14,6 +14,23 @@ const user = {
   deleted_at: null,
 };
 
+const regulations = [
+  {
+    name: 'newsletter',
+    content: 'Regulamin Newslettera.',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+  {
+    name: 'kontakt',
+    content: 'Regulamin Formularza.',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  },
+];
+
 const about = {
   information: '',
   created_at: new Date(),
@@ -119,5 +136,6 @@ module.exports = {
   map,
   about,
   productCategories,
+  regulations,
   faqCategories,
 };
