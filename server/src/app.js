@@ -14,6 +14,7 @@ const map = require('./api/v1/map/index.router');
 const users = require('./api/v1/users/index.router');
 const products = require('./api/v1/products/index.router');
 const messages = require('./api/v1/messages/index.router');
+const regulations = require('./api/v1/regulations/index.router');
 const productCategories = require('./api/v1/product-categories/index.router');
 const productFilters = require('./api/v1/product-filters/index.router');
 const { CLIENT_URL } = require('./config');
@@ -46,6 +47,7 @@ app.use('/v1/messages', messages);
 app.use('/v1/products', products);
 app.use('/v1/product-categories', productCategories);
 app.use('/v1/product-filters', productFilters);
+app.use('/v1/regulations', regulations);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -1,0 +1,43 @@
+<div *ngIf="isLoading; else regulationsPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #regulationsPageView>
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Regulaminy</h2>
+    </header>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p class="mb-6">
+        Tutaj możesz zarządzać regulaminami dla newslettera i formularza
+        kontaktowego.
+      </p>
+      <div *ngIf="regulations.length; else showDefault" class="w-100">
+        <div
+          *ngFor="let regulation of regulations; trackBy: trackID"
+          class="flex flex-justify-between flex-align-center mb-6"
+        >
+          <h3 class="h6 mb-0">
+            {{ regulation.name | titlecase }}
+          </h3>
+          <app-router-link
+            [linkTitle]="'Edytuj regulamin'"
+            [linkClass]="'button button-primary button-small'"
+            [linkRouter]="editLink(regulation._id)"
+          >
+            Edytuj
+            <app-fa-icon [faClass]="'fas fa-pencil-alt ml-1'"></app-fa-icon>
+          </app-router-link>
+        </div>
+      </div>
+      <ng-template #showDefault>
+        <p>Brak regulaminów.</p>
+      </ng-template>
+    </article>
+    <ng-template #showError>
+      <p class="center">{{ alerts.server }}</p>
+    </ng-template>
+  </section>
+</ng-template>

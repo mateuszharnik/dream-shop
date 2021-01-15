@@ -19,7 +19,8 @@ const routes: Routes = [
       },
       {
         path: 'social-media',
-        loadChildren: '@admin/social-media/social-media.module#SocialMediaModule',
+        loadChildren:
+          '@admin/social-media/social-media.module#SocialMediaModule',
       },
       {
         path: 'zamowienia',
@@ -51,6 +52,10 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'regulaminy',
+        loadChildren: '@admin/regulations/regulations.module#RegulationsModule',
+      },
+      {
         path: 'newsletter',
         loadChildren: '@admin/newsletter/newsletter.module#NewsletterModule',
       },
@@ -70,4 +75,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

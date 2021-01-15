@@ -1,0 +1,77 @@
+<div *ngIf="isLoading; else editRegulationsPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #editRegulationsPageView>
+  <section class="admin-page-section p-6 min-vh-100">
+    <header class="admin-page-section__header">
+      <h2 class="h4 text-center mb-6">Edytuj regulamin</h2>
+    </header>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p>Tutaj możesz edytować regulamin.</p>
+      <div class="text-left mb-6">
+        <app-router-link
+          [linkTitle]="'Wróć do regulaminów'"
+          [linkRouter]="'/admin/regulaminy'"
+        >
+          <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
+        </app-router-link>
+      </div>
+      <app-form
+        [formClass]="'form text-left inline-block'"
+        [formName]="form"
+        (whenFormSubmit)="updateRegulations()"
+      >
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-textarea
+              [textareaID]="'content'"
+              [textareaRows]="'6'"
+              [textareaMessage]="
+                'Język Markdown jest wspierany. Niedozwolone znaki zostaną usunięte.'
+              "
+              [textareaLabel]="'Treść'"
+              [textareaPlaceholder]="'Podaj treść'"
+              [textareaClass]="'form__textarea w-100'"
+              [textareaValidation]="validation('content')"
+              [textareaAlerts]="contentAlerts"
+              [textareaGroup]="form"
+              [textareaForm]="form"
+              [textareaLabelClass]="'block mb-2 bold'"
+            ></app-textarea>
+          </div>
+          <div class="column-12 text-center">
+            <app-button
+              [buttonType]="'submit'"
+              [buttonTitle]="buttonTitle(isDisabled)"
+              [buttonDisabled]="isDisabled"
+            >
+              {{ buttonText(isDisabled) }}
+              <app-fa-icon
+                *ngIf="isDisabled"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
+              ></app-fa-icon>
+            </app-button>
+          </div>
+        </div>
+      </app-form>
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mt-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mt-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+    </article>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
+  </section>
+</ng-template>

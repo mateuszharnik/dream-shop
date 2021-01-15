@@ -14,11 +14,13 @@ const faqCategoriesDB = db.get('faq-categories');
 const faqDB = db.get('faq');
 const productCategoriesDB = db.get('product-categories');
 const productFiltersDB = db.get('product-filters');
+const regulationsDB = db.get('regulations');
 const productsDB = db.get('products');
 const messagesDB = db.get('messages');
 
 emailsDB.createIndex('email, deleted_at');
 productsDB.createIndex('deleted_at');
+regulationsDB.createIndex('name, deleted_at');
 productCategoriesDB.createIndex('name, category, deleted_at');
 productFiltersDB.createIndex('name, category, deleted_at');
 messagesDB.createIndex('deleted_at');
@@ -36,6 +38,7 @@ module.exports = {
   socialMediaDB,
   faqDB,
   contactDB,
+  regulationsDB,
   faqCategoriesDB,
   mapDB,
   aboutDB,

@@ -62,6 +62,14 @@ export interface DashboardNavigation {
   icon: string;
 }
 
+export interface Regulations {
+  name: string;
+  content: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
 export interface Product {
   _id?: string;
   name: string;
