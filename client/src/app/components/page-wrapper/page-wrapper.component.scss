@@ -1,0 +1,10 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Page Wrapper
+.page-wrapper {
+  background-color: $faq-page-bg-color;
+  letter-spacing: 0.5px;
+  margin-top: 6.6rem;
+  overflow: hidden;
+}

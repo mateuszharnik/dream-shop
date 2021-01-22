@@ -2,7 +2,7 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #showcaseView>
-  <section class="showcase-page min-vh-100 w-100">
+  <app-page-wrapper [className]="'showcase-page'">
     <header>
       <h2 class="hidden">Strona główna</h2>
     </header>
@@ -12,31 +12,39 @@
     <div
       class="slider-wrapper m-auto px-2 my-15"
       data-aos="fade-right"
-      data-aos-offset="-500"
+      data-aos-offset="150"
       data-aos-duration="500"
+      *ngIf="bestsellerProducts.length"
     >
       <div class="text-center">
         <h3 class="text-primary h5 bolder uppercase">Bestsellery</h3>
         <p>Zobacz nasze najlepiej sprzedające się produkty.</p>
       </div>
-      <app-swiper-slider [products]="bestsellerProducts"></app-swiper-slider>
+      <app-swiper-slider
+        [products]="bestsellerProducts"
+        [link]="'bestsellery'"
+      ></app-swiper-slider>
     </div>
     <div
       class="slider-wrapper m-auto px-2 mb-5"
       data-aos="fade-left"
-      data-aos-offset="-400"
+      data-aos-offset="150"
       data-aos-duration="500"
+      *ngIf="newProducts.length"
     >
       <div class="text-center">
         <h3 class="text-primary h5 bolder uppercase">Nowości</h3>
         <p>Zobacz nasze najnowsze produkty.</p>
       </div>
-      <app-swiper-slider [products]="newProducts"></app-swiper-slider>
+      <app-swiper-slider
+        [products]="newProducts"
+        [link]="'nowosci'"
+      ></app-swiper-slider>
     </div>
-    <article data-aos="fade" data-aos-offset="-200" data-aos-duration="300">
+    <article data-aos="fade" data-aos-offset="150" data-aos-duration="500">
       <app-newsletter (whenOpenModal)="openModal()"></app-newsletter>
     </article>
-  </section>
+  </app-page-wrapper>
   <app-modal *ngIf="modal" (whenButtonClick)="closeModal()">
     <div class="text-justify">
       <div class="modal-term px-5">

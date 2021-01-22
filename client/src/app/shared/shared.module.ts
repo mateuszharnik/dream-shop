@@ -25,11 +25,13 @@ import { HamburgerButtonComponent } from '@components/Navbar/hamburger-button/ha
 import { RouterLinkComponent } from '@components/router-link/router-link.component';
 import { SkipLinkComponent } from '@components/skip-link/skip-link.component';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { PageWrapperComponent } from '@components/page-wrapper/page-wrapper.component';
 
 @NgModule({
   declarations: [
     SpinnerComponent,
     ButtonComponent,
+    PageWrapperComponent,
     AccordionComponent,
     AccordionItemComponent,
     SkipLinkComponent,
@@ -55,6 +57,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
   exports: [
     SpinnerComponent,
     ButtonComponent,
+    PageWrapperComponent,
     AccordionComponent,
     AccordionItemComponent,
     SkipLinkComponent,

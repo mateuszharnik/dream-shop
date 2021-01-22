@@ -5,21 +5,27 @@
 @import "~swiper/components/navigation/navigation.scss";
 @import "~swiper/components/pagination/pagination.scss";
 
-.swpier-slider {
-  margin: 0px 40px;
-}
+.showcase-page {
+  .swiper-wrapper {
+    align-items: center;
+  }
 
-.swiper-container {
-  padding-bottom: 40px;
-  position: static;
-}
+  .swiper-slider {
+    margin: 0px 40px;
+  }
 
-.swiper-button-next {
-  right: -30px;
-}
+  .swiper-container {
+    padding-bottom: 40px;
+    position: static;
+  }
 
-.swiper-button-prev {
-  left: -30px;
+  .swiper-button-next {
+    right: -30px;
+  }
+
+  .swiper-button-prev {
+    left: -30px;
+  }
 }
 
 .swiper-button-prev:after,

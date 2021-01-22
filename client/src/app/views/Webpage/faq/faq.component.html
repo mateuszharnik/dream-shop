@@ -2,21 +2,22 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #faqView>
-  <section class="faq-page min-vh-100 w-100">
+  <app-page-wrapper [className]="'faq-page'">
     <div *ngIf="!alerts.server; else showError">
-      <div *ngIf="faqs.length; else showDefault" class="container">
+      <div
+        *ngIf="faqs.length; else showDefault"
+        class="container"
+        data-aos="fade"
+        data-aos-offset="-500"
+        data-aos-duration="1000"
+      >
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="faq-page__title h4 m-auto bolder uppercase">FAQ</h3>
           </header>
         </div>
         <article class="row pb-6">
-          <p
-            class="column-12 lg:column-9 m-auto text-center mb-10"
-            data-aos="fade-down"
-            data-aos-offset="-500"
-            data-aos-duration="1000"
-          >
+          <p class="column-12 lg:column-9 m-auto text-center mb-10">
             Nie możesz czegoś znaleźć? Nie wiesz jak coś zrobić? A może chcesz
             się czegoś dowiedzieć? Jeżeli tak to znalazłaś/eś się w odpowiednim
             miejscu. Poniżej znajdziesz najczęściej zadawane pytania.
@@ -24,9 +25,6 @@
           <div
             *ngIf="faqs.length"
             class="row column-12 m-auto mb-10 flex-justify-center"
-            data-aos="fade"
-            data-aos-offset="-500"
-            data-aos-duration="2000"
           >
             <div
               class="accordions-category m-2"
@@ -46,16 +44,14 @@
               </app-link>
             </div>
           </div>
-          <div
-            *ngIf="faqs.length"
-            class="column-12"
-            data-aos="fade"
-            data-aos-offset="-500"
-            data-aos-duration="2000"
-          >
+          <div *ngIf="faqs.length" class="column-12">
             <div
               class="container-md"
               *ngFor="let faq of faqs; trackBy: trackID"
+              data-aos="fade"
+              data-aos-offset="0"
+              data-aos-anchor-placement="bottom-bottom"
+              data-aos-duration="1000"
             >
               <h4
                 class="m-auto my-3 text-center h6"
@@ -96,5 +92,5 @@
     <ng-template #showError>
       <p class="center text-center m-0">{{ alerts.server }}</p>
     </ng-template>
-  </section>
+  </app-page-wrapper>
 </ng-template>

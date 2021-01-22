@@ -71,23 +71,21 @@
         <h3 class="h4 text-primary mb-6">Istniejące kategorie:</h3>
         <div class="admin-page-section__categories m-auto">
           <div *ngFor="let category of filteredCategories; trackBy: trackID">
-            <div class="categories overflow-hidden mb-4 text-left">
-              <div class="categories__head">
-                <div class="p-2 flex flex-justify-between flex-align-center">
-                  <span>{{ category.name | titlecase }}</span>
-                  <app-button
-                    [buttonTitle]="'Usuń kategorię'"
-                    [buttonClass]="'button button-danger button-small'"
-                    [buttonOnClick]="true"
-                    (whenButtonClick)="openModal(category)"
-                  >
-                    Usuń
-                    <app-fa-icon
-                      [faClass]="'far fa-trash-alt ml-1'"
-                    ></app-fa-icon>
-                  </app-button>
-                </div>
-              </div>
+            <div
+              class="flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-6"
+            >
+              <span class="item mb-2 truncate md:mb-0">
+                {{ category.name | titlecase }}
+              </span>
+              <app-button
+                [buttonTitle]="'Usuń kategorię'"
+                [buttonClass]="'button button-danger button-small'"
+                [buttonOnClick]="true"
+                (whenButtonClick)="openModal(category)"
+              >
+                Usuń
+                <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+              </app-button>
             </div>
           </div>
         </div>

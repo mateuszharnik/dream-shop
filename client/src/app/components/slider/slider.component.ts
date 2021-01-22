@@ -21,11 +21,11 @@ export class SliderComponent implements OnInit, OnDestroy {
   images: Slide[] = [
     {
       img: '../../../assets/img/black-make-up-palette-and-brush-set-208052.jpg',
-      href: 'produkty/bestesllery',
+      href: 'produkty/bestsellery',
     },
     {
       img: '../../../assets/img/woman-carrying-tote-bags-975250.jpg',
-      href: 'produkty/nowości',
+      href: 'produkty/nowosci',
     },
     {
       img: '../../../assets/img/assorted-blur-close-up-container-1115128.jpg',
@@ -42,7 +42,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   startSlide() {
-    if (this.isFocus) { return; }
+    if (this.isFocus) {
+      return;
+    }
 
     this.interval = setInterval(() => {
       this.currentIndex++;

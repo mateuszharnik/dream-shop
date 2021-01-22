@@ -1,63 +1,66 @@
 import {
   Component,
   OnDestroy,
+  OnInit,
   Renderer2,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { Slide } from '@animations/index';
-import { Navigation } from '@models/index';
-import { NavigationService } from '@services/navigation.service';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-search-bar',
-  templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss'],
+  selector: 'app-search-bar-desktop',
+  templateUrl: './search-bar-desktop.component.html',
+  styleUrls: ['./search-bar-desktop.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [Slide],
 })
-export class SearchBarComponent implements OnDestroy {
+export class SearchBarDesktopComponent implements OnInit, OnDestroy {
   @ViewChild('search') search: any = null;
   @ViewChild('button') button: any = null;
 
-  listener: () => void = null;
+  focusSearchBarListener = null;
+  closeSearchBarListener = null;
   subscriptions: Subscription[] = [];
   isFocus = false;
   searchText = '';
-  searchBar: Navigation = {
-    isOpen: false,
-    isDisabled: false,
-    isAnimated: false,
-    animationTime: 350,
-  };
+  isOpen = false;
 
-  constructor(
-    private navigationService: NavigationService,
-    private renderer: Renderer2,
-    private router: Router,
-  ) {
-    this.subscriptions.push(
-      this.navigationService.getSearchBar().subscribe((data: Navigation) => {
-        this.searchBar = data;
-      }),
-    );
-
-    this.listener = this.renderer.listen(
+  constructor(private renderer: Renderer2, private router: Router) {
+    this.focusSearchBarListener = this.renderer.listen(
       'document',
       'keyup',
       this.focusSearchBar,
     );
+
+    this.closeSearchBarListener = this.renderer.listen(
+      'window',
+      'click',
+      this.closeSearchBar,
+    );
+
+    this.subscriptions.push(
+      this.router.events.subscribe((event: Event) => {
+        if (event instanceof NavigationEnd) {
+          this.isOpen = false;
+        }
+      }),
+    );
   }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
 
-    if (this.listener) {
-      this.listener();
+    if (this.closeSearchBarListener) {
+      this.closeSearchBarListener();
+    }
+
+    if (this.focusSearchBarListener) {
+      this.focusSearchBarListener();
     }
   }
 
@@ -67,6 +70,20 @@ export class SearchBarComponent implements OnDestroy {
     });
 
     this.searchText = '';
+  }
+
+  closeSearchBar = (event) => {
+    const className = event.target.className;
+    const buttonClass = 'search-button';
+    const inputClass = 'search-bar-form__input';
+
+    if (
+      this.isOpen &&
+      className !== buttonClass &&
+      !className.includes(inputClass)
+    ) {
+      this.isOpen = false;
+    }
   }
 
   focusSearchBar = (event: KeyboardEvent) => {
@@ -91,13 +108,13 @@ export class SearchBarComponent implements OnDestroy {
   }
 
   toggle() {
-    this.navigationService.toggle('searchBar');
-    this.setFocus(this.searchBar.animationTime);
+    this.isOpen = !this.isOpen;
+    this.setFocus(0);
   }
 
   setFocus(animationTime: number) {
     setTimeout(() => {
-      const element: HTMLElement = this.searchBar.isOpen
+      const element: HTMLElement = this.isOpen
         ? this.search.nativeElement
         : this.button.nativeElement;
 
@@ -106,6 +123,6 @@ export class SearchBarComponent implements OnDestroy {
   }
 
   computedAriaExpanded(): string {
-    return `${this.searchBar.isOpen}`;
+    return `${this.isOpen}`;
   }
 }

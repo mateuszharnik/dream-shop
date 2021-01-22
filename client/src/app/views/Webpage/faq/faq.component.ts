@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChildren,
+  ViewEncapsulation,
+} from '@angular/core';
 import { categories } from '@helpers/faq';
 import { trackID } from '@helpers/index';
 import { Alerts, FAQ, FAQs } from '@models/index';
@@ -27,12 +34,17 @@ export class FaqComponent implements OnInit, OnDestroy {
   scrollTime = 1000;
   subscriptions: Subscription[] = [];
 
-  constructor(private spinnerService: SpinnerService, private faqService: FAQService) {
+  constructor(
+    private spinnerService: SpinnerService,
+    private faqService: FAQService,
+  ) {
     this.trackID = trackID;
 
-    this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
-      this.faqs = data.length ? this.getCategories(data) : data;
-    }));
+    this.subscriptions.push(
+      this.faqService.getFAQs().subscribe((data: FAQ[]) => {
+        this.faqs = data.length ? this.getCategories(data) : data;
+      }),
+    );
 
     this.isLoading = this.faqs.length ? false : true;
   }
@@ -74,19 +86,26 @@ export class FaqComponent implements OnInit, OnDestroy {
 
       return 0;
     };
-    return categories.reduce((prev: FAQs[], next: FAQs): FAQs[] => {
-      const result = faqs.find(category => category.category === next.category);
+    return categories
+      .reduce((prev: FAQs[], next: FAQs): FAQs[] => {
+        const result = faqs.find(
+          (category) => category.category === next.category,
+        );
 
-      if (result) {
-        prev.push(next);
-      }
+        if (result) {
+          prev.push(next);
+        }
 
-      return prev;
-    }, []).sort(sortByCategory).map((category: FAQs) => {
-      category.questions = faqs.filter(question => question.category === category.category);
+        return prev;
+      }, [])
+      .sort(sortByCategory)
+      .map((category: FAQs) => {
+        category.questions = faqs.filter(
+          (question) => question.category === category.category,
+        );
 
-      return category;
-    });
+        return category;
+      });
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -96,7 +115,9 @@ export class FaqComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   computedID(link: string): string {
@@ -109,7 +130,9 @@ export class FaqComponent implements OnInit, OnDestroy {
 
   jumpTo(event: Event, target: string) {
     event.preventDefault();
-    const newTarget: ElementRef = this.accordionHeader._results.filter(({ nativeElement }) => nativeElement.id === `#${target}`)[0];
+    const newTarget: ElementRef = this.accordionHeader._results.filter(
+      ({ nativeElement }) => nativeElement.id === `#${target}`,
+    )[0];
 
     jump(newTarget.nativeElement, {
       duration: this.scrollTime,
@@ -117,7 +140,10 @@ export class FaqComponent implements OnInit, OnDestroy {
         newTarget.nativeElement.setAttribute('tabindex', '0');
         newTarget.nativeElement.focus();
 
-        setTimeout(() => newTarget.nativeElement.setAttribute('tabindex', '-1'), 50);
+        setTimeout(
+          () => newTarget.nativeElement.setAttribute('tabindex', '-1'),
+          50,
+        );
       },
     });
   }

@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Slide } from '@animations/index';
 import { NavigationService } from '@services/navigation.service';
 import { Subscription } from 'rxjs';
@@ -33,10 +40,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
         this.isDesktop = isDesktop;
+
         if (isDesktop) {
-          this.navigation.isOpen = false;
-          this.navigation.isDisabled = false;
-          this.navigation.isAnimated = false;
+          this.navigationService.closeMenu();
         }
       }),
     );
@@ -71,9 +77,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       element.focus();
     }, this.navigation.animationTime);
-  }
-
-  computedAriaExpanded(): string {
-    return `${this.navigation.isOpen}`;
   }
 }

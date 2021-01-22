@@ -17,11 +17,11 @@
       <div *ngIf="regulations.length; else showDefault" class="w-100">
         <div
           *ngFor="let regulation of regulations; trackBy: trackID"
-          class="flex flex-justify-between flex-align-center mb-6"
+          class="flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-6"
         >
-          <h3 class="h6 mb-0">
+          <span class="item mb-2 truncate md:mb-0">
             {{ regulation.name | titlecase }}
-          </h3>
+          </span>
           <app-router-link
             [linkTitle]="'Edytuj regulamin'"
             [linkClass]="'button button-primary button-small'"

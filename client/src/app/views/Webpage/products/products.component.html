@@ -2,7 +2,7 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #productsView>
-  <section class="products-page min-vh-100 w-100">
+  <app-page-wrapper>
     <div *ngIf="!alerts.server; else showError">
       <div class="container-xl py-10">
         <div class="row" #productsWrapper>
@@ -37,5 +37,5 @@
     <ng-template #showError>
       <div class="center text-center">{{ alerts.server }}</div>
     </ng-template>
-  </section>
+  </app-page-wrapper>
 </ng-template>

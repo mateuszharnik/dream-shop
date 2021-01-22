@@ -1,4 +1,4 @@
-<div class="swpier-slider relative">
+<div class="swiper-slider relative">
   <swiper
     [slidesPerView]="isDesktop ? 3 : 1"
     [spaceBetween]="0"
@@ -7,6 +7,16 @@
   >
     <ng-template swiperSlide *ngFor="let product of products">
       <app-product-showcase [product]="product"></app-product-showcase>
+    </ng-template>
+    <ng-template swiperSlide>
+      <div class="text-center m-2">
+        <app-router-link
+          [linkTitle]="'Zobacz wszystkie produkty'"
+          [linkRouter]="linkToPage()"
+        >
+          Zobacz więcej...
+        </app-router-link>
+      </div>
     </ng-template>
   </swiper>
 </div>

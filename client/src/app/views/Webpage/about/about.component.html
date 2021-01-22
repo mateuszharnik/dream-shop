@@ -2,7 +2,7 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #aboutView>
-  <section class="about-page min-vh-100 w-100 fade-animation">
+  <app-page-wrapper [className]="'about-page'">
     <div *ngIf="!alerts.server; else showError">
       <div *ngIf="show(); else showDefault" class="sm:container">
         <div class="row">
@@ -26,5 +26,5 @@
     <ng-template #showError>
       <p class="center text-center m-0">{{ alerts.server }}</p>
     </ng-template>
-  </section>
+  </app-page-wrapper>
 </ng-template>

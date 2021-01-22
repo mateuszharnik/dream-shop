@@ -14,6 +14,7 @@ import { CartButtonComponent } from '@components/Navbar/cart-button/cart-button.
 import { NavigationItemComponent } from '@components/Navbar/navigation-item/navigation-item.component';
 import { NavigationComponent } from '@components/Navbar/navigation/navigation.component';
 import { SearchBarComponent } from '@components/Navbar/search-bar/search-bar.component';
+import { SearchBarDesktopComponent } from '@components/Navbar/search-bar-desktop/search-bar-desktop.component';
 import { NewsletterComponent } from '@components/newsletter/newsletter.component';
 import { ScrollTopButtonComponent } from '@components/scroll-top-button/scroll-top-button.component';
 import { SlideComponent } from '@components/slide/slide.component';
@@ -48,6 +49,7 @@ import { AppComponent } from './app.component';
     NewsletterComponent,
     SwiperSliderComponent,
     NavigationDesktopComponent,
+    SearchBarDesktopComponent,
   ],
   imports: [
     BrowserModule,

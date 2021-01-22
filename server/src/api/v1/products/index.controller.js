@@ -1,4 +1,5 @@
 const fs = require('fs');
+const sharp = require('sharp');
 const { productSchema } = require('./index.model');
 const {
   dbIdSchema,
@@ -162,53 +163,89 @@ const addProduct = async (req, res, next) => {
     req.body.description = purify(req.body.description);
   }
 
-  if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
-    const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
-      req.files.thumbnail[0],
-    );
-
-    if (fileSchemaError) {
-      return responseWithError(
-        res,
-        next,
-        400,
-        fileSchemaError.details[0].message,
-      );
-    }
-
-    req.body.thumbnail = getThumbnailUrl(file);
-  }
-
-  if (req.files && req.files.gallery && req.files.gallery.length) {
-    const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
-      req.files.gallery,
-    );
-
-    if (fileSchemaError) {
-      return responseWithError(
-        res,
-        next,
-        400,
-        fileSchemaError.details[0].message,
-      );
-    }
-
-    req.body.gallery = [];
-
-    files.forEach((file) => {
-      req.body.gallery.push(getThumbnailUrl(file));
-    });
-  } else {
-    req.body.gallery = [];
-  }
-
-  const { schemaError, data } = productSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
   try {
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+      const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
+        req.files.thumbnail[0],
+      );
+
+      if (fileSchemaError) {
+        return responseWithError(
+          res,
+          next,
+          400,
+          fileSchemaError.details[0].message,
+        );
+      }
+
+      const fileName = file.filename.replace(/\..+$/, '.jpeg');
+      const filePath = file.path.replace(/\..+$/, '.jpeg');
+
+      await sharp(file.path)
+        .toFormat('jpeg')
+        .resize(900, 1200)
+        .toFile(`${file.destination}/${fileName}`);
+
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+
+      const newFile = {
+        ...file,
+        filename: fileName,
+        path: filePath,
+      };
+
+      req.body.thumbnail = getThumbnailUrl(newFile);
+    }
+
+    if (req.files && req.files.gallery && req.files.gallery.length) {
+      const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
+        req.files.gallery,
+      );
+
+      if (fileSchemaError) {
+        return responseWithError(
+          res,
+          next,
+          400,
+          fileSchemaError.details[0].message,
+        );
+      }
+
+      req.body.gallery = [];
+
+      await Promise.all(files.map(async (file) => {
+        const fileName = file.filename.replace(/\..+$/, '.jpeg');
+        const filePath = file.path.replace(/\..+$/, '.jpeg');
+
+        await sharp(file.path)
+          .toFormat('jpeg')
+          .resize(900, 1200)
+          .toFile(`${file.destination}/${fileName}`);
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+        const newFile = {
+          ...file,
+          filename: fileName,
+          path: filePath,
+        };
+
+        req.body.gallery.push(getThumbnailUrl(newFile));
+      }));
+    } else {
+      req.body.gallery = [];
+    }
+
+    const { schemaError, data } = productSchema(req.body, false, false);
+
+    if (schemaError) {
+      return responseWithError(res, next, 400, schemaError.details[0].message);
+    }
+
     const product = await productsDB.insert({
       ...data,
       selled: 0,
@@ -541,44 +578,6 @@ const updateProduct = async (req, res, next) => {
     req.body.gallery = [req.body.gallery];
   }
 
-  if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
-    const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
-      req.files.thumbnail[0],
-    );
-
-    if (fileSchemaError) {
-      return responseWithError(
-        res,
-        next,
-        400,
-        fileSchemaError.details[0].message,
-      );
-    }
-
-    req.body.thumbnail = getThumbnailUrl(file);
-  }
-
-  if (req.files && req.files.gallery && req.files.gallery.length) {
-    const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
-      req.files.gallery,
-    );
-
-    if (fileSchemaError) {
-      return responseWithError(
-        res,
-        next,
-        400,
-        fileSchemaError.details[0].message,
-      );
-    }
-
-    files.forEach((file) => {
-      req.body.gallery.push(getThumbnailUrl(file));
-    });
-  } else if (!req.body.gallery.length) {
-    req.body.gallery = [];
-  }
-
   const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
     req.params,
   );
@@ -592,13 +591,87 @@ const updateProduct = async (req, res, next) => {
     );
   }
 
-  const { schemaError, data } = productSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
   try {
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+      const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
+        req.files.thumbnail[0],
+      );
+
+      if (fileSchemaError) {
+        return responseWithError(
+          res,
+          next,
+          400,
+          fileSchemaError.details[0].message,
+        );
+      }
+
+      const fileName = file.filename.replace(/\..+$/, '.jpeg');
+      const filePath = file.path.replace(/\..+$/, '.jpeg');
+
+      await sharp(file.path)
+        .toFormat('jpeg')
+        .resize(900, 1200)
+        .toFile(`${file.destination}/${fileName}`);
+
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+
+      const newFile = {
+        ...file,
+        filename: fileName,
+        path: filePath,
+      };
+
+      req.body.thumbnail = getThumbnailUrl(newFile);
+    }
+
+    if (req.files && req.files.gallery && req.files.gallery.length) {
+      const { schemaError: fileSchemaError, data: files } = galleryFileSchema(
+        req.files.gallery,
+      );
+
+      if (fileSchemaError) {
+        return responseWithError(
+          res,
+          next,
+          400,
+          fileSchemaError.details[0].message,
+        );
+      }
+
+      await Promise.all(files.map(async (file) => {
+        const fileName = file.filename.replace(/\..+$/, '.jpeg');
+        const filePath = file.path.replace(/\..+$/, '.jpeg');
+
+        await sharp(file.path)
+          .toFormat('jpeg')
+          .resize(900, 1200)
+          .toFile(`${file.destination}/${fileName}`);
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+        const newFile = {
+          ...file,
+          filename: fileName,
+          path: filePath,
+        };
+
+        req.body.gallery.push(getThumbnailUrl(newFile));
+      }));
+    } else if (!req.body.gallery.length) {
+      req.body.gallery = [];
+    }
+
+    const { schemaError, data } = productSchema(req.body, false, false);
+
+    if (schemaError) {
+      return responseWithError(res, next, 400, schemaError.details[0].message);
+    }
+
     const product = await productsDB.findOne({ _id: params.id });
 
     if (!product || (product && product.deleted_at)) {
@@ -614,7 +687,7 @@ const updateProduct = async (req, res, next) => {
     }
 
     if (
-      product.category !== req.body.category_name
+      product.category_name !== req.body.category_name
       || product.company_name !== req.body.company_name
     ) {
       const filter = await productFiltersDB.findOne({
