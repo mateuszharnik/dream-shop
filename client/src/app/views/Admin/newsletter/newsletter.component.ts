@@ -111,6 +111,10 @@ export class NewsletterComponent implements OnInit, OnDestroy {
     return this.isDisabled ? 'Usuwanie' : 'Usuń';
   }
 
+  mailto(email: string): string {
+    return `mailto:${email}`;
+  }
+
   async deleteEmail(id: string) {
     this.isSubmitted = true;
     this.isDisabled = true;

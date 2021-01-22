@@ -20,6 +20,12 @@
       padding-top: 2.4rem;
     }
 
+    .item {
+      @media (min-width: $md) {
+        max-width: 45rem;
+      }
+    }
+
     &__header {
       border-bottom: 0.1rem solid darken($color-white, 15%);
     }

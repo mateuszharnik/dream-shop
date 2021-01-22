@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
+const sharp = require('sharp');
 const { signToken } = require('../../../helpers/token');
 const { responseWithError } = require('../../../helpers/errors');
 const { dbIdSchema, avatarFileSchema } = require('../../../models');
@@ -8,13 +9,23 @@ const { usersDB } = require('../../../db');
 const { getAvatarUrl } = require('../../../helpers/files');
 
 const getUser = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
   }
 
-  if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
+  if (
+    req.user._id !== params.id
+    || req.user.roles.indexOf('administrator') === -1
+  ) {
     return responseWithError(res, next, 400, 'Brak dostępu.');
   }
 
@@ -26,11 +37,25 @@ const getUser = async (req, res, next) => {
     }
 
     const {
-      _id, name, username, email, avatar, roles, created_at, updated_at,
+      _id,
+      name,
+      username,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     } = user;
 
     const payload = {
-      _id, name, username, email, avatar, roles, created_at, updated_at,
+      _id,
+      name,
+      username,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     };
 
     // const token = await signToken(payload, '1d');
@@ -44,33 +69,68 @@ const getUser = async (req, res, next) => {
 };
 
 const updateUser = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
 
   if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
   }
 
-  if (req.user._id !== params.id || req.user.roles.indexOf('administrator') === -1) {
+  if (
+    req.user._id !== params.id
+    || req.user.roles.indexOf('administrator') === -1
+  ) {
     return responseWithError(res, next, 400, 'Brak dostępu.');
   }
 
-  if (req.file) {
-    const { schemaError: fileSchemaError, data: file } = avatarFileSchema(req.file);
+  try {
+    if (req.file) {
+      const { schemaError: fileSchemaError, data: file } = avatarFileSchema(
+        req.file,
+      );
 
-    if (fileSchemaError) {
-      return responseWithError(res, next, 400, fileSchemaError.details[0].message);
+      if (fileSchemaError) {
+        return responseWithError(
+          res,
+          next,
+          400,
+          fileSchemaError.details[0].message,
+        );
+      }
+
+      const fileName = file.filename.replace(/\..+$/, '.jpeg');
+      const filePath = file.path.replace(/\..+$/, '.jpeg');
+
+      await sharp(file.path)
+        .toFormat('jpeg')
+        .resize(150)
+        .toFile(`${file.destination}/${fileName}`);
+
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+
+      const newFile = {
+        ...file,
+        filename: fileName,
+        path: filePath,
+      };
+
+      req.body.avatar = getAvatarUrl(newFile);
     }
 
-    req.body.avatar = getAvatarUrl(file);
-  }
+    const { schemaError, data } = updateUserSchema(req.body, false, false);
 
-  const { schemaError, data } = updateUserSchema(req.body, false, false);
+    if (schemaError) {
+      return responseWithError(res, next, 400, schemaError.details[0].message);
+    }
 
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  try {
     const user = await usersDB.findOne({ _id: params.id });
 
     if (!user) {
@@ -86,7 +146,12 @@ const updateUser = async (req, res, next) => {
       const email = await usersDB.findOne({ email: data.email });
 
       if (email && email._id.toString() !== params.id) {
-        return responseWithError(res, next, 500, 'Adres email jest już zajęty.');
+        return responseWithError(
+          res,
+          next,
+          500,
+          'Adres email jest już zajęty.',
+        );
       }
 
       newUser.email = data.email;
@@ -96,14 +161,19 @@ const updateUser = async (req, res, next) => {
       const username = await usersDB.findOne({ username: data.username });
 
       if (username && username._id.toString() !== params.id) {
-        return responseWithError(res, next, 500, 'Nazwa użytkownika jest już zajęta.');
+        return responseWithError(
+          res,
+          next,
+          500,
+          'Nazwa użytkownika jest już zajęta.',
+        );
       }
 
       newUser.username = data.username;
     }
 
     if (data.password && data.new_password && data.confirm_new_password) {
-      if (!await bcrypt.compare(data.password, user.password)) {
+      if (!(await bcrypt.compare(data.password, user.password))) {
         return responseWithError(res, next, 500, 'Błędne hasło.');
       }
 
@@ -125,7 +195,10 @@ const updateUser = async (req, res, next) => {
     }
 
     if ((req.file && user.avatar) || (user.avatar && !req.body.avatar)) {
-      const avatarName = user.avatar.replace('http://localhost:3000/uploads/avatars/', '');
+      const avatarName = user.avatar.replace(
+        'http://localhost:3000/uploads/avatars/',
+        '',
+      );
       const avatarDir = `uploads/avatars/${avatarName}`;
 
       if (fs.existsSync(avatarDir)) {
@@ -134,11 +207,25 @@ const updateUser = async (req, res, next) => {
     }
 
     const {
-      _id, name, username, email, avatar, roles, created_at, updated_at,
+      _id,
+      name,
+      username,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     } = updatedUser;
 
     const payload = {
-      _id, name, username, email, avatar, roles, created_at, updated_at,
+      _id,
+      name,
+      username,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     };
 
     if (req.user._id === params.id) {

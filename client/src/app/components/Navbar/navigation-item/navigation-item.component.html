@@ -1,7 +1,7 @@
 <div class="navigation__wrapper" #parent>
   <a
     *ngIf="!category.categories; else button"
-    class="navigation__link relative block text-left"
+    class="navigation__link relative truncate block text-left"
     routerLinkActive="active"
     [title]="linkTitle(category.name)"
     [routerLink]="computedRouterLink(category.category)"
@@ -20,7 +20,7 @@
   </a>
   <ng-template #button>
     <button
-      class="navigation__link relative block text-left"
+      class="navigation__link relative truncate block text-left"
       type="button"
       aria-haspopup="true"
       [id]="computedID(category._id)"

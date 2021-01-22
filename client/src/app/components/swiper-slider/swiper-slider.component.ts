@@ -15,6 +15,11 @@ import SwiperCore, {
   A11y,
 } from 'swiper/core';
 
+SwiperCore.extendDefaults({
+  observer: true,
+  observeParents: true,
+});
+
 SwiperCore.use([Navigation, Pagination, Keyboard, A11y]);
 
 @Component({
@@ -26,11 +31,14 @@ SwiperCore.use([Navigation, Pagination, Keyboard, A11y]);
 })
 export class SwiperSliderComponent implements OnInit, OnDestroy {
   @Input() products: Product[] = [];
+  @Input() link = '';
 
   isDesktop = false;
   subscriptions: Subscription[] = [];
 
-  constructor(private matchMediaService: MatchMediaService) {
+  constructor(
+    private matchMediaService: MatchMediaService,
+  ) {
     this.subscriptions.push(
       this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
         this.isDesktop = isDesktop;
@@ -39,12 +47,16 @@ export class SwiperSliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.matchMediaService.initMatchMedia('768px');
+    this.matchMediaService.initMatchMedia('600px');
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
+  }
+
+  linkToPage(): string {
+    return `/produkty/${this.link}`;
   }
 }

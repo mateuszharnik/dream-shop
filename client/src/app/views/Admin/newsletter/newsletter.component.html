@@ -37,23 +37,25 @@
       </app-alert>
       <div *ngIf="emails.length; else showDefault" class="w-100" #emailsWrapper>
         <div *ngFor="let email of emails; trackBy: trackID">
-          <div class="email overflow-hidden mb-4 text-left">
-            <div class="email__head">
-              <div class="p-2 flex flex-justify-between flex-align-center">
-                {{ email.email }}
-                <app-button
-                  [buttonTitle]="'Usuń email'"
-                  [buttonClass]="'button button-danger button-small'"
-                  [buttonOnClick]="true"
-                  (whenButtonClick)="openModal(email)"
-                >
-                  Usuń
-                  <app-fa-icon
-                    [faClass]="'far fa-trash-alt ml-1'"
-                  ></app-fa-icon>
-                </app-button>
-              </div>
-            </div>
+          <div
+            class="flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-6"
+          >
+            <a
+              [href]="mailto(email.email)"
+              title="Napisz"
+              class="item mb-2 truncate md:mb-0"
+            >
+              {{ email.email }}
+            </a>
+            <app-button
+              [buttonTitle]="'Usuń email'"
+              [buttonClass]="'button button-danger button-small'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="openModal(email)"
+            >
+              Usuń
+              <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+            </app-button>
           </div>
         </div>
         <p *ngIf="isLoadingEmails" class="text-primary">Wczytywanie...</p>

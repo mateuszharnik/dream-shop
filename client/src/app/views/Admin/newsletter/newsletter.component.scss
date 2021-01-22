@@ -1,15 +1,2 @@
 // Imports
 @import "../../../../assets/scss/variables";
-
-.email {
-  border-radius: 0.4rem;
-  border: 0.1rem solid $color-gray;
-
-  &__head {
-    background-color: darken($color-white, 5%);
-  }
-
-  &--border-bottom {
-    border-bottom: 0.1rem solid $color-gray;
-  }
-}

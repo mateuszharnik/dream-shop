@@ -1,0 +1,33 @@
+<div class="search-bar">
+  <button
+    class="search-button"
+    type="button"
+    title="Otwórz wyszukiwarkę produktów"
+    aria-controls="searchBarControls"
+    aria-label="Otwórz lub zamknij wyszukiwarkę produktów"
+    [attr.aria-expanded]="computedAriaExpanded()"
+    (click)="toggle()"
+    #button
+  >
+    <div class="no-pointer-event">
+      <app-fa-icon [faClass]="'fas fa-search'"></app-fa-icon>
+      <span class="hidden">Wyszukiwarka</span>
+    </div>
+  </button>
+  <div *ngIf="isOpen" class="search-bar-form" id="searchBarControls">
+    <form class="search-bar-form__row" (ngSubmit)="searchProducts($event)">
+      <label class="hidden" for="search">Wyszukaj produkt: </label>
+      <input
+        class="search-bar-form__input"
+        id="search"
+        type="text"
+        name="search"
+        placeholder="Wyszukaj (Naciśnij / aby zaznaczyć)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        [(ngModel)]="searchText"
+        #search
+      />
+    </form>
+  </div>
+</div>
