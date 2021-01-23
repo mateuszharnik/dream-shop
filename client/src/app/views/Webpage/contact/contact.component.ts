@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Alerts, Contact, Map, Regulations } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { MapService } from '@services/map.service';
+import { ModalService } from '@services/modal.service';
 import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -22,7 +23,6 @@ export class ContactComponent implements OnInit, OnDestroy {
     error: '',
     success: '',
   };
-  modal = null;
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -30,6 +30,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     private mapService: MapService,
     private contactService: ContactService,
     private regulationsService: RegulationsService,
+    private modalService: ModalService,
   ) {
     this.subscriptions.push(
       this.contactService.getContact().subscribe((data: Contact) => {
@@ -79,15 +80,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   openModal() {
-    if (this.modal) {
-      return;
-    }
-
-    this.modal = true;
-  }
-
-  closeModal() {
-    this.modal = false;
+    this.modalService.openModal(this.regulations);
   }
 
   setLoading(loading = false) {

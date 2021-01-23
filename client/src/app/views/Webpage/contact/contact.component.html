@@ -3,13 +3,13 @@
 </div>
 <ng-template #contactView>
   <app-page-wrapper [className]="'contact-page'">
-    <div *ngIf="!alerts.server; else showError">
-      <div
-        class="sm:container"
-        data-aos="fade-down"
-        data-aos-offset="-200"
-        data-aos-duration="1000"
-      >
+    <div
+      *ngIf="!alerts.server; else showError"
+      data-aos="fade"
+      data-aos-offset="-200"
+      data-aos-duration="1000"
+    >
+      <div class="sm:container">
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="contact-page__title m-auto h4 bolder uppercase">
@@ -19,12 +19,7 @@
         </div>
       </div>
       <article class="row">
-        <div
-          class="sm:container mb-10"
-          data-aos="fade-up"
-          data-aos-offset="-200"
-          data-aos-duration="1000"
-        >
+        <div class="sm:container mb-10">
           <div class="row">
             <div class="column-12 lg:column-8 m-auto">
               <p class="text-center">
@@ -38,7 +33,7 @@
           </div>
         </div>
         <section class="column-12 bg-secondary py-10">
-          <div data-aos="fade" data-aos-offset="-500" data-aos-duration="2000">
+          <div data-aos="fade" data-aos-offset="100" data-aos-duration="1000">
             <app-contact-form (whenOpenModal)="openModal()"></app-contact-form>
           </div>
         </section>
@@ -46,8 +41,8 @@
           <div
             class="row column-12 py-10"
             data-aos="fade"
-            data-aos-offset="-500"
-            data-aos-duration="2000"
+            data-aos-offset="100"
+            data-aos-duration="1000"
           >
             <div
               *ngIf="showMap()"
@@ -113,15 +108,5 @@
     <ng-template #showError>
       <p class="center text-center m-0">{{ alerts.server }}</p>
     </ng-template>
-    <app-modal *ngIf="modal" (whenButtonClick)="closeModal()">
-      <div class="text-justify">
-        <div class="modal-term px-5">
-          <h4 class="text-center">Regulamin</h4>
-          <p class="m-0">
-            {{ regulations.content }}
-          </p>
-        </div>
-      </div>
-    </app-modal>
   </app-page-wrapper>
 </ng-template>

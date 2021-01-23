@@ -23,6 +23,7 @@
     border-top: 0.1rem solid $dropdown-border-top-color;
 
     @media (min-width: $md) {
+      max-width: 20rem;
       display: none;
       padding: 2rem;
       justify-content: left;
@@ -37,7 +38,7 @@
       background-color: $header-bg-color;
 
       &.open {
-        display: flex;
+        display: block;
       }
     }
 
@@ -66,7 +67,7 @@
 
         &:hover {
           > .navigation--dropdown {
-            display: flex;
+            display: block;
           }
         }
       }
@@ -100,6 +101,7 @@
     @media (min-width: $md) {
       padding: 1rem 0.8rem;
       text-align: center;
+      text-transform: uppercase;
     }
 
     &:hover {

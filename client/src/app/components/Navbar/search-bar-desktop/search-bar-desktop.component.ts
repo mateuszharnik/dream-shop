@@ -1,7 +1,6 @@
 import {
   Component,
   OnDestroy,
-  OnInit,
   Renderer2,
   ViewChild,
   ViewEncapsulation,
@@ -15,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./search-bar-desktop.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SearchBarDesktopComponent implements OnInit, OnDestroy {
+export class SearchBarDesktopComponent implements OnDestroy {
   @ViewChild('search') search: any = null;
   @ViewChild('button') button: any = null;
 
@@ -48,8 +47,6 @@ export class SearchBarDesktopComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit() {}
-
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
@@ -65,7 +62,7 @@ export class SearchBarDesktopComponent implements OnInit, OnDestroy {
   }
 
   searchProducts() {
-    this.router.navigate(['/produkty'], {
+    this.router.navigate(['/produkty/wszystkie'], {
       queryParams: { search: this.searchText },
     });
 
