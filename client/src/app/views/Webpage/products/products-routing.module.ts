@@ -5,7 +5,8 @@ import { ProductsComponent } from './products.component';
 const routes: Routes = [
   {
     path: '',
-    component: ProductsComponent,
+    redirectTo: 'wszystkie',
+    pathMatch: 'full',
   },
   {
     path: ':id',

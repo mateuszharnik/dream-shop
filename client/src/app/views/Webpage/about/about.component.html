@@ -4,7 +4,13 @@
 <ng-template #aboutView>
   <app-page-wrapper [className]="'about-page'">
     <div *ngIf="!alerts.server; else showError">
-      <div *ngIf="show(); else showDefault" class="sm:container">
+      <div
+        *ngIf="show(); else showDefault"
+        class="sm:container"
+        data-aos="fade"
+        data-aos-offset="-500"
+        data-aos-duration="1000"
+      >
         <div class="row">
           <header class="pt-10 pb-6 text-center column-12">
             <h3 class="about-page__title m-auto h4 bolder uppercase">

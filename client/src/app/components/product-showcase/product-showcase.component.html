@@ -1,11 +1,18 @@
 <div class="product-card m-2">
   <app-router-link
-    [linkClass]="'flex'"
+    [linkClass]="'flex relative'"
     [linkRouter]="productLink(product._id)"
     [linkTitle]="'Przejdź do produktu'"
   >
     <div class="product-card__image p-1">
       <img class="w-100 h-100" [src]="product.thumbnail" />
+    </div>
+    <div
+      class="product-card__not-available text-center"
+      *ngIf="!product.quantity"
+    >
+      Niedostępny
+      <app-fa-icon [faClass]="'fas fa-times ml-1'"></app-fa-icon>
     </div>
   </app-router-link>
   <div class="product-card__body text-center mt-1">

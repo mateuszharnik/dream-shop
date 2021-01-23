@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Alerts, Product, ProductWithPagination, Regulations } from '@models/index';
+import { ModalService } from '@services/modal.service';
 import { ProductsService } from '@services/products.service';
 import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -22,12 +23,12 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   bestsellerProducts: Product[] = [];
   newProducts: Product[] = [];
-  modal = null;
 
   constructor(
     private spinnerService: SpinnerService,
     private productsService: ProductsService,
     private regulationsService: RegulationsService,
+    private modalService: ModalService,
   ) {
     this.subscriptions.push(
       this.regulationsService
@@ -81,15 +82,7 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
   }
 
   openModal() {
-    if (this.modal) {
-      return;
-    }
-
-    this.modal = true;
-  }
-
-  closeModal() {
-    this.modal = false;
+    this.modalService.openModal(this.regulations);
   }
 
   setAlerts(server = '', error = '', success = '') {

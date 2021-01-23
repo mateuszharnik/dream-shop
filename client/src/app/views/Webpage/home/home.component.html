@@ -17,6 +17,16 @@
     [contact]="contact"
     [socialMedia]="socialMedia"
   ></app-footer>
+  <app-modal *ngIf="modal" (whenButtonClick)="closeModal()">
+    <div class="text-justify">
+      <div class="modal-term px-5">
+        <h4 class="text-center">Regulamin</h4>
+        <p class="m-0">
+          {{ modal.content }}
+        </p>
+      </div>
+    </div>
+  </app-modal>
   <app-scroll-top-button
     [scrollTarget]="header"
     (whenScrollEnd)="setFocus()"

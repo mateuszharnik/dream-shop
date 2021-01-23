@@ -62,7 +62,7 @@ export class SearchBarComponent implements OnDestroy {
   }
 
   searchProducts() {
-    this.router.navigate(['/produkty'], {
+    this.router.navigate(['/produkty/wszystkie'], {
       queryParams: { search: this.searchText },
     });
 

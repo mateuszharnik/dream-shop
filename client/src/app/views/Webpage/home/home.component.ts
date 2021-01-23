@@ -1,6 +1,24 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Contact, SocialMedia, ProductCategory, Regulations } from '@models/index';
+import {
+  AfterViewChecked,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  Data,
+  NavigationEnd,
+  Router,
+  Event,
+  RouterOutlet,
+} from '@angular/router';
+import {
+  Contact,
+  SocialMedia,
+  ProductCategory,
+  Regulations,
+} from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
 import { MatchMediaService } from '@services/match-media.service';
@@ -10,6 +28,7 @@ import { FooterService } from '@services/footer.service';
 import { ProductsService } from '@services/products.service';
 import { RegulationsService } from '@services/regulations.service';
 import { Subscription } from 'rxjs';
+import { ModalService } from '@services/modal.service';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   isDesktop = false;
   contact: Contact = null;
   socialMedia: SocialMedia = null;
+  modal: Regulations = null;
 
   constructor(
     private router: Router,
@@ -42,18 +62,33 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     private footerService: FooterService,
     private productsService: ProductsService,
     private regulationsService: RegulationsService,
+    private modalService: ModalService,
   ) {
-    this.subscriptions.push(this.contactService.getContact().subscribe((data: Contact) => {
-      this.contact = data;
-    }));
+    this.subscriptions.push(
+      this.contactService.getContact().subscribe((data: Contact) => {
+        this.contact = data;
+      }),
+    );
 
-    this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
-      this.socialMedia = data;
-    }));
+    this.subscriptions.push(
+      this.modalService.getModal().subscribe((data: Regulations) => {
+        this.modal = data;
+      }),
+    );
 
-    this.subscriptions.push(this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
-      this.isDesktop = isDesktop;
-    }));
+    this.subscriptions.push(
+      this.socialMediaService
+        .getSocialMedia()
+        .subscribe((data: SocialMedia) => {
+          this.socialMedia = data;
+        }),
+    );
+
+    this.subscriptions.push(
+      this.matchMediaService.getDevice().subscribe((isDesktop: boolean) => {
+        this.isDesktop = isDesktop;
+      }),
+    );
   }
 
   async ngOnInit() {
@@ -69,14 +104,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);
       this.regulationsService.setRegulations(regulations);
-    } catch (error) { } finally {
+    } catch (error) {
+    } finally {
       this.isLoading = false;
     }
   }
 
   ngOnDestroy() {
     this.navigationService.closeMenu();
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   ngAfterViewChecked() {
@@ -87,7 +125,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (this.mainEl) {
-      const height: number = this.mainEl.nativeElement.offsetHeight + this.mainEl.nativeElement.offsetTop;
+      const height: number =
+        this.mainEl.nativeElement.offsetHeight +
+        this.mainEl.nativeElement.offsetTop;
 
       if (height !== this.height) {
         this.heightService.setHeight(height);
@@ -95,13 +135,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  closeModal() {
+    this.modalService.closeModal();
+  }
+
   closeMenuOnRouteChange() {
-    this.subscriptions.push(this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.navigationService.closeMenu();
-        this.setFocus();
-      }
-    }));
+    this.subscriptions.push(
+      this.router.events.subscribe((event: Event) => {
+        if (event instanceof NavigationEnd) {
+          this.modalService.closeModal();
+          this.skipNavigation();
+        }
+      }),
+    );
   }
 
   skipNavigation() {
@@ -110,9 +156,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   setHeight() {
-    this.subscriptions.push(this.heightService.getHeight().subscribe((height: number) => {
-      this.height = height;
-    }));
+    this.subscriptions.push(
+      this.heightService.getHeight().subscribe((height: number) => {
+        this.height = height;
+      }),
+    );
   }
 
   setFocus() {

@@ -29,7 +29,7 @@ export class SliderComponent implements OnInit, OnDestroy {
     },
     {
       img: '../../../assets/img/assorted-blur-close-up-container-1115128.jpg',
-      href: 'produkty/',
+      href: 'produkty/wszystkie',
     },
   ];
 
