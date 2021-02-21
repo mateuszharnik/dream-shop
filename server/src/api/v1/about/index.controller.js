@@ -27,13 +27,13 @@ const updateAbout = async (req, res, next) => {
     return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
   }
 
-  req.body.information = purify(req.body.information);
-
   const { schemaError, data } = aboutSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  data.purify_information = purify(data.information);
 
   try {
     const about = await aboutDB.findOneAndUpdate(

@@ -1,6 +1,7 @@
 const { regulations } = require('../data');
 const { regulationsSchema } = require('../../api/v1/regulations/index.model');
 const { regulationsDB } = require('../../db');
+const { purify } = require('../../helpers/sanitize');
 
 const seedRegulations = async () => {
   const regulationsArr = [];
@@ -12,6 +13,8 @@ const seedRegulations = async () => {
       // eslint-disable-next-line no-console
       return console.error(schemaError);
     }
+
+    data.purify_content = purify(data.content);
 
     regulationsArr.push(data);
   });

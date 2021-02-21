@@ -1,6 +1,7 @@
 const { about } = require('../data');
 const { aboutSchema } = require('../../api/v1/about/index.model');
 const { aboutDB } = require('../../db');
+const { purify } = require('../../helpers/sanitize');
 
 const seedAbout = async () => {
   const { schemaError, data } = aboutSchema(about, false);
@@ -9,6 +10,8 @@ const seedAbout = async () => {
     // eslint-disable-next-line no-console
     return console.error(schemaError);
   }
+
+  data.purify_information = purify(data.information);
 
   try {
     await aboutDB.remove({});

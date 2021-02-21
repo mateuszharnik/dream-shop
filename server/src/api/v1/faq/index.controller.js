@@ -55,10 +55,6 @@ const updateFAQ = async (req, res, next) => {
       const lastChar = req.body.title.charAt(req.body.title.length - 1);
       req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
     }
-
-    if (req.body.content) {
-      req.body.content = purify(req.body.content);
-    }
   }
 
   const { schemaError, data } = faqSchema(req.body, false, false);
@@ -66,6 +62,8 @@ const updateFAQ = async (req, res, next) => {
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  data.purify_content = purify(data.content);
 
   try {
     const faq = await faqDB.findOne({ _id: params.id });
@@ -163,10 +161,6 @@ const addFAQ = async (req, res, next) => {
       const lastChar = req.body.title.charAt(req.body.title.length - 1);
       req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
     }
-
-    if (req.body.content) {
-      req.body.content = purify(req.body.content);
-    }
   }
 
   const { schemaError, data } = faqSchema(req.body, false, false);
@@ -174,6 +168,8 @@ const addFAQ = async (req, res, next) => {
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  data.purify_content = purify(data.content);
 
   try {
     const faq = await faqDB.findOne({ title: data.title });

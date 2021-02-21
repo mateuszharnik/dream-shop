@@ -82,14 +82,14 @@ const getMessage = async (req, res, next) => {
 };
 
 const sendMessage = async (req, res, next) => {
-  req.body.subject = purify(req.body.subject);
-  req.body.message = purify(req.body.message);
-
   const { schemaError, data } = messagesSchema(req.body, false, false);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  data.purify_subject = purify(data.subject);
+  data.purify_message = purify(data.message);
 
   try {
     const message = await messagesDB.insert({
