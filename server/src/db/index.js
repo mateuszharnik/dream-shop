@@ -9,6 +9,7 @@ const socialMediaDB = db.get('socialMedia');
 const emailsDB = db.get('emails');
 const contactDB = db.get('contact');
 const aboutDB = db.get('about');
+const commentsDB = db.get('comments');
 const mapDB = db.get('map');
 const faqCategoriesDB = db.get('faq-categories');
 const faqDB = db.get('faq');
@@ -45,5 +46,6 @@ module.exports = {
   messagesDB,
   productCategoriesDB,
   productsDB,
+  commentsDB,
   productFiltersDB,
 };

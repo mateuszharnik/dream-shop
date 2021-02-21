@@ -2,6 +2,7 @@ const { regulationsSchema } = require('./index.model');
 const { responseWithError } = require('../../../helpers/errors');
 const { regulationsDB } = require('../../../db');
 const { dbIdSchema } = require('../../../models');
+const { purify } = require('../../../helpers/sanitize');
 
 const getRegulations = async (req, res, next) => {
   const { name = '' } = req.query;
@@ -63,6 +64,8 @@ const updateRegulations = async (req, res, next) => {
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
   }
+
+  data.purify_content = purify(data.content);
 
   try {
     const regulations = await regulationsDB.findOneAndUpdate(

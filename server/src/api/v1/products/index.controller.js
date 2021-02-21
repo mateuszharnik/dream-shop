@@ -159,10 +159,6 @@ const addProduct = async (req, res, next) => {
     req.body.category = addCategory(req.body.category_name);
   }
 
-  if (req.body.description) {
-    req.body.description = purify(req.body.description);
-  }
-
   try {
     if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
       const { schemaError: fileSchemaError, data: file } = thumbnailFileSchema(
@@ -245,6 +241,8 @@ const addProduct = async (req, res, next) => {
     if (schemaError) {
       return responseWithError(res, next, 400, schemaError.details[0].message);
     }
+
+    data.purify_description = purify(data.description);
 
     const product = await productsDB.insert({
       ...data,
@@ -566,10 +564,6 @@ const updateProduct = async (req, res, next) => {
     req.body.category = addCategory(req.body.category_name);
   }
 
-  if (req.body.description) {
-    req.body.description = purify(req.body.description);
-  }
-
   if (!req.body.gallery) {
     req.body.gallery = [];
   }
@@ -671,6 +665,8 @@ const updateProduct = async (req, res, next) => {
     if (schemaError) {
       return responseWithError(res, next, 400, schemaError.details[0].message);
     }
+
+    data.purify_description = purify(data.description);
 
     const product = await productsDB.findOne({ _id: params.id });
 
