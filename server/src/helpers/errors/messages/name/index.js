@@ -1,3 +1,4 @@
+// NAME
 const nameRequired = {
   'any.required': 'Właściwość "name" jest wymagana.',
 };
@@ -22,6 +23,31 @@ const nameMax = {
   'string.max': 'Imię może mieć maksymalnie 30 znaków.',
 };
 
+// SURNAME
+const surnameRequired = {
+  'any.required': 'Właściwość "surname" jest wymagana.',
+};
+
+const surnameString = {
+  'string.base': 'Właściwość "surname" musi być typu "string".',
+};
+
+const surnamePattern = {
+  'string.pattern.base': 'Nazwisko jest nieprawidłowe.',
+};
+
+const surnameNotEmpty = {
+  'string.empty': 'Musisz podać nazwisko.',
+};
+
+const surnameMin = {
+  'string.min': 'Nazwisko musi mieć minimum 3 znaki.',
+};
+
+const surnameMax = {
+  'string.max': 'Nazwisko może mieć maksymalnie 30 znaków.',
+};
+
 const nameMessages = {
   ...nameRequired,
   ...nameString,
@@ -29,6 +55,15 @@ const nameMessages = {
   ...nameMax,
   ...nameMin,
   ...nameNotEmpty,
+};
+
+const surnameMessages = {
+  ...surnameRequired,
+  ...surnameString,
+  ...surnamePattern,
+  ...surnameMax,
+  ...surnameMin,
+  ...surnameNotEmpty,
 };
 
 module.exports = {
@@ -39,4 +74,11 @@ module.exports = {
   nameNotEmpty,
   nameMin,
   nameMessages,
+  surnameRequired,
+  surnameString,
+  surnamePattern,
+  surnameMax,
+  surnameNotEmpty,
+  surnameMin,
+  surnameMessages,
 };

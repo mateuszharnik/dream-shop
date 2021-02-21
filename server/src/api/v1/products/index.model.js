@@ -13,7 +13,7 @@ const {
   productCompanyNameMessages,
 } = require('../../../helpers/errors/messages/product');
 const {
-  quantityRegExp, thumbnailRegExp, productPriceRegExp, productNameRegExp, productCategoryRegExp,
+  thumbnailRegExp, productPriceRegExp, productNameRegExp, productCategoryRegExp,
 } = require('../../../helpers/regexp');
 
 const productConfig = (id = true, timestamps = true) => {
@@ -28,7 +28,8 @@ const productConfig = (id = true, timestamps = true) => {
     description: Joi.string().trim().min(3).max(10000)
       .required()
       .messages(descriptionMessages),
-    quantity: Joi.string().regex(quantityRegExp).required().messages(quantityMessages),
+    quantity: Joi.string().min(0).max(9999).required()
+      .messages(quantityMessages),
     price: Joi.string().trim().regex(productPriceRegExp).required()
       .messages(priceMessages),
     category_name: Joi.string().trim().invalid('bestsellery', 'nowości')

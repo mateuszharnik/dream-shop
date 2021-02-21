@@ -18,8 +18,10 @@ const productFiltersDB = db.get('product-filters');
 const regulationsDB = db.get('regulations');
 const productsDB = db.get('products');
 const messagesDB = db.get('messages');
+const ordersDB = db.get('orders');
 
 emailsDB.createIndex('email, deleted_at');
+ordersDB.createIndex('deleted_at');
 productsDB.createIndex('deleted_at');
 regulationsDB.createIndex('name, deleted_at');
 productCategoriesDB.createIndex('name, category, deleted_at');
@@ -42,6 +44,7 @@ module.exports = {
   regulationsDB,
   faqCategoriesDB,
   mapDB,
+  ordersDB,
   aboutDB,
   messagesDB,
   productCategoriesDB,

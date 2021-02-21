@@ -12,15 +12,17 @@ const removeNewsletterEmails = require('./newsletter');
 const removeComments = require('./comments');
 const removeProducts = require('./products');
 const removeMessages = require('./messages');
+const removeOrders = require('./orders');
 
 const seed = async () => {
   try {
     createDirectories();
     await removeNewsletterEmails();
-    await seedRegulations();
     await removeMessages();
+    await removeOrders();
     await removeProducts();
     await removeComments();
+    await seedRegulations();
     await seedProductCategories();
     await seedProductFilters();
     await seedFAQCategories();
