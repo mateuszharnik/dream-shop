@@ -22,6 +22,7 @@ const getProducts = async (req, res, next) => {
     category = '',
     sort = '',
     search = '',
+    cart = '',
     available = false,
   } = req.query;
   let { skip = 0, limit = 6 } = req.query;
@@ -41,7 +42,7 @@ const getProducts = async (req, res, next) => {
     query.quantity = { $gte: '0' };
   }
 
-  if (category !== '' && category !== 'bestsellery') {
+  if (category && category !== 'bestsellery') {
     const categories = category.split(',');
     if (categories.length > 1) {
       query.$or = [];
@@ -54,7 +55,13 @@ const getProducts = async (req, res, next) => {
     }
   }
 
-  if (search !== '') {
+  if (cart) {
+    query._id = {
+      $in: cart.split(','),
+    };
+  }
+
+  if (search) {
     const regexp = new RegExp(`.*(${search.replace(' ', '|')}).*`, 'i');
 
     query.$or = [
@@ -82,13 +89,15 @@ const getProducts = async (req, res, next) => {
       collation: { locale: 'pl', numericOrdering: true },
     };
 
-    const total = await productsDB.count({ deleted_at: null });
-    const results = await productsDB.count(query, options);
-    const products = await productsDB.find(query, {
+    const withPagination = !cart ? options : {
       ...options,
       skip: Number(skip),
       limit: Number(limit),
-    });
+    };
+
+    const total = await productsDB.count({ deleted_at: null });
+    const results = await productsDB.count(query, options);
+    const products = await productsDB.find(query, withPagination);
 
     if (!products) {
       return responseWithError(
@@ -99,16 +108,21 @@ const getProducts = async (req, res, next) => {
       );
     }
 
-    res.status(200).json({
+    const data = {
       total,
       results,
       products,
-      pagination: {
+    };
+
+    if (!cart) {
+      data.pagination = {
         skip,
         limit,
         remaining: results - (skip + limit) > 0,
-      },
-    });
+      };
+    }
+
+    res.status(200).json(data);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
