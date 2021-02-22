@@ -1,3 +1,4 @@
+const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
@@ -8,6 +9,12 @@ const {
   updateComment,
   addComment,
 } = require('./index.controller');
+
+const sendCommentLimiter = rateLimit({
+  windowMs: 1000 * 60 * 5,
+  max: 10,
+  message: 'Przekroczono limit. Spróbuj dodać komentarz ponownie później.',
+});
 
 const router = Router();
 
@@ -23,7 +30,7 @@ router.get(
 
 router.post(
   '/',
-  isNotLoggedIn,
+  sendCommentLimiter,
   addComment,
 );
 
@@ -43,7 +50,6 @@ router.delete(
 router.delete(
   '/:id',
   isNotLoggedIn,
-  isAdmin,
   deleteComment,
 );
 

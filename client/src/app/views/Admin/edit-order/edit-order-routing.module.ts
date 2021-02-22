@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
-import { OrdersComponent } from './orders.component';
+import { EditOrderComponent } from './edit-order.component';
 
 const routes: Routes = [
   {
     path: '',
     data: { isAdmin: true },
     canActivate: [DashboardGuard],
-    component: OrdersComponent,
-  },
-  {
-    path: 'edytuj/:id',
-    loadChildren: '@admin/edit-order/edit-order.module#EditOrderModule',
+    component: EditOrderComponent,
   },
 ];
 
@@ -20,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class OrdersRoutingModule { }
+export class EditOrderRoutingModule { }

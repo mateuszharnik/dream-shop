@@ -1,8 +1,21 @@
-import { Email, FAQ, FAQs, Message, Product, ProductCategory } from '@models/index';
+import {
+  Email,
+  Order,
+  FAQ,
+  FAQs,
+  Message,
+  Product,
+  ProductCategory,
+} from '@models/index';
 
 export interface EmailsModals {
   deleteEmails: Email[];
   deleteEmail: Email;
+}
+
+export interface OrdersModals {
+  deleteOrders: Order[];
+  deleteOrder: Order;
 }
 
 export interface MessagesModals {

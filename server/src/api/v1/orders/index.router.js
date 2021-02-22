@@ -8,6 +8,8 @@ const router = Router();
 
 router.get(
   '/',
+  isNotLoggedIn,
+  isAdmin,
   getOrders,
 );
 

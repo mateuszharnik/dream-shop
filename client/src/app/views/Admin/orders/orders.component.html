@@ -1,15 +1,145 @@
-<div *ngIf="isLoading; else navigationPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else ordersPageView" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #navigationPageView>
-  <section class="admin-page-section p-6 min-vh-100">
+<ng-template #ordersPageView>
+  <section class="admin-page-section relative p-6 min-vh-100">
     <header class="admin-page-section__header">
       <h2 class="h4 text-center mb-6">Zamówienia</h2>
     </header>
-    <article class="admin-page-section__article m-auto mt-6 text-center">
-      <p class="mb-6">
-        Tutaj możesz zarządzać zamówieniami od klientów.
-      </p>
+    <article
+      *ngIf="!alerts.server; else showError"
+      class="admin-page-section__article m-auto mt-6 text-center"
+    >
+      <p class="mb-6">Tutaj możesz zarządzać zamówieniami od klientów.</p>
+      <app-button
+        *ngIf="orders.length"
+        [buttonTitle]="'Usuń wszystkie zamówienia'"
+        [buttonClass]="'button button-danger button-small mb-6'"
+        [buttonOnClick]="true"
+        (whenButtonClick)="openModal()"
+      >
+        Usuń zamówienia
+        <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+      </app-button>
+      <app-alert
+        *ngIf="alerts.error || alerts.server"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
+      >
+        {{ alerts.error ? alerts.error : alerts.server }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+      <div
+        *ngIf="orders.length; else showDefault"
+        class="w-100 mt-12"
+        #ordersWrapper
+      >
+        <div *ngFor="let order of orders; trackBy: trackID">
+          <div
+            class="order p-4 flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-12"
+            [ngClass]="{
+              'order--refused': order.refused,
+              'order--accepted': order.accepted
+            }"
+          >
+            <div class="mb-2 truncate md:mb-0">
+              <span class="bolder">ID zamówienia: </span> {{ order._id }}
+            </div>
+            <div
+              class="order__head absolute"
+              [ngClass]="{
+                'order__head--refused': order.refused,
+                'order__head--accepted': order.accepted
+              }"
+            >
+              {{ orderStatus(order) }}
+            </div>
+            <div>
+              <app-router-link
+                [linkTitle]="'Edytuj zamówienie'"
+                [linkClass]="'button button-primary button-small mr-6'"
+                [linkRouter]="editLink(order._id)"
+              >
+                Edytuj
+                <app-fa-icon [faClass]="'fas fa-pencil-alt ml-1'"></app-fa-icon>
+              </app-router-link>
+              <app-button
+                [buttonTitle]="'Usuń zamówienie'"
+                [buttonClass]="'button button-danger button-small'"
+                [buttonOnClick]="true"
+                (whenButtonClick)="openModal(order)"
+              >
+                Usuń
+                <app-fa-icon [faClass]="'far fa-trash-alt ml-1'"></app-fa-icon>
+              </app-button>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="isLoadingOrders" class="text-primary">Wczytywanie...</p>
+      </div>
+      <ng-template #showDefault>
+        <p>Brak złożonych zamówień.</p>
+      </ng-template>
     </article>
+    <ng-template #showError>
+      <p class="center">{{ alerts.server }}</p>
+    </ng-template>
   </section>
+  <app-modal
+    *ngIf="modals.deleteOrder"
+    (whenButtonClick)="!isDisabled && closeModal('deleteOrder')"
+  >
+    <div class="text-center px-5">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć zamówienie
+          {{ modals.deleteOrder._id }}&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="computedButtonTitle()"
+        [buttonClass]="'button button-danger button-small'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteOrder(modals.deleteOrder._id)"
+        #deleteButton
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
+  <app-modal
+    *ngIf="modals.deleteOrders.length"
+    (whenButtonClick)="!isDisabled && closeModal('deleteOrders')"
+  >
+    <div class="text-center px-5">
+      <p>
+        <strong class="normal">
+          Czy napewno chcesz usunąć wszystkie zamówienia&nbsp;?
+        </strong>
+      </p>
+      <app-button
+        [buttonTitle]="computedButtonTitle()"
+        [buttonClass]="'button button-danger button-small'"
+        [buttonDisabled]="isDisabled"
+        [buttonOnClick]="true"
+        (whenButtonClick)="deleteOrders()"
+        #deleteButton
+      >
+        {{ computedButtonText() }}
+        <app-fa-icon
+          *ngIf="isDisabled"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </app-modal>
 </ng-template>
