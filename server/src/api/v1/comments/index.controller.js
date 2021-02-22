@@ -14,7 +14,11 @@ const getComments = async (req, res, next) => {
       query.product_id = product_id;
     }
 
-    const comments = await commentsDB.find(query);
+    const comments = await commentsDB.find(query, {
+      sort: {
+        created_at: -1,
+      },
+    });
 
     if (!comments) {
       return responseWithError(

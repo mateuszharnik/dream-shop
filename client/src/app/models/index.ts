@@ -44,6 +44,45 @@ export interface DeleteResponse {
   items: number;
 }
 
+export interface OrderContact {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  city: string;
+  zip_code: string;
+  street: string;
+  street_number: string;
+}
+
+export interface OrderProduct {
+  _id: string;
+  name: string;
+  company_name: string;
+  quantity: string;
+  price: string;
+  category_name: string;
+  thumbnail: string;
+}
+
+export interface Order {
+  _id?: string;
+  contact: OrderContact;
+  products: OrderProduct[];
+  paid: boolean;
+  accepted?: boolean;
+  refused?: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
+export interface OrderWithPagination {
+  total: number;
+  orders: Order[];
+  pagination: Pagination;
+}
+
 export interface ProductCategory {
   _id?: string;
   category?: string;
@@ -65,6 +104,7 @@ export interface DashboardNavigation {
 export interface Regulations {
   name: string;
   content: string;
+  purify_content: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
@@ -82,6 +122,7 @@ export interface Product {
   quantity: number;
   selled: number;
   description: string;
+  purify_description: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
@@ -122,6 +163,7 @@ export interface Navigation {
 export interface About {
   _id?: string;
   information: string;
+  purify_information: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
@@ -154,7 +196,9 @@ export interface FAQCategories {
 export interface FAQ {
   _id?: string;
   title: string;
+  purify_title: string;
   content: string;
+  purify_content: string;
   category: string;
   created_at?: Date;
   updated_at?: Date;
@@ -174,7 +218,9 @@ export interface Message {
   name: string;
   email: string;
   subject: string;
+  purify_subject: string;
   message: string;
+  purify_message: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;

@@ -1,0 +1,39 @@
+// Imports
+@import "../../../../assets/scss/variables";
+
+// Order
+.order {
+  border-radius: 0.4rem;
+  border-top-right-radius: 0rem;
+  border: 0.2rem solid transparent;
+  position: relative;
+  border-color: $color-dark;
+
+  &--accepted {
+    border-color: $color-success;
+  }
+
+  &--refused {
+    border-color: $color-danger;
+  }
+
+  &__head {
+    font-size: 1.4rem;
+    padding: 0.4rem 0.8rem;
+    top: -3rem;
+    right: -0.2rem;
+    text-align: center;
+    background-color: $color-dark;
+    color: $color-white;
+    border-top-right-radius: 0.4rem;
+    border-top-left-radius: 0.4rem;
+
+    &--accepted {
+      background-color: $color-success;
+    }
+
+    &--refused {
+      background-color: $color-danger;
+    }
+  }
+}

@@ -130,9 +130,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response: Product = await this.productsService.deleteProduct(id);
-      const products: ProductWithPagination = await this.productsService.fetchProducts();
-      this.productsService.setProducts(products.products);
+      const deletedProduct: Product = await this.productsService.deleteProduct(id);
+      const response: ProductWithPagination = await this.productsService.fetchProducts();
+      this.productsService.setProducts(response.products);
       this.setAlerts('', '', 'Pomyślnie usunięto produkt.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {

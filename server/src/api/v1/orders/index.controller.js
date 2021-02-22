@@ -174,7 +174,7 @@ const addOrder = async (req, res, next) => {
           filter: { _id: product._id },
           update: {
             $set: {
-              quantity: products[index].quantity - product.quantity,
+              quantity: product.quantity - data.products[index].quantity,
               updated_at: new Date(),
             },
           },
@@ -251,7 +251,7 @@ const refuseOrder = async (req, res, next) => {
           filter: { _id: product._id },
           update: {
             $set: {
-              quantity: products[index].quantity + product.quantity,
+              quantity: product.quantity - order.products[index].quantity,
               updated_at: new Date(),
             },
           },

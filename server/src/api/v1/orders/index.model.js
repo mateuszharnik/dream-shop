@@ -126,7 +126,7 @@ const orderConfig = (id = true, timestamp = true) => {
           .messages(streetNumberMessages),
       })
       .required(),
-    paid: Joi.boolean().valid(true).required(),
+    paid: Joi.boolean().required(),
   };
 
   if (id) {
