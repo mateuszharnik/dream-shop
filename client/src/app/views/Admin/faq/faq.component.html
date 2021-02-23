@@ -65,10 +65,14 @@
             <div class="question mb-4 text-left">
               <div class="question__head">
                 <div class="question--border-bottom p-2">
-                  <span class="bold">Tytuł</span>: {{ question.title }}
+                  <span class="bold">Tytuł: </span>
+                  {{ question.title }}
                 </div>
               </div>
-              <div class="markdown p-2" [innerHTML]="question.content"></div>
+              <div
+                class="markdown p-2"
+                [innerHTML]="question.purify_content"
+              ></div>
             </div>
             <div>
               <app-router-link

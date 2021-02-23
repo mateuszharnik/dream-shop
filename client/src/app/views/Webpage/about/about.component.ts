@@ -24,7 +24,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   constructor(private spinnerService: SpinnerService, private aboutService: AboutService) {
     this.subscriptions.push(this.aboutService.getAbout().subscribe((data: About) => {
       if (data) {
-        data.information = markdown(data.information);
+        data.purify_information = markdown(data.purify_information);
       }
       this.about = data;
     }));
@@ -70,6 +70,6 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   show(): boolean {
-    return this.about && this.about.information !== '';
+    return this.about && this.about.purify_information !== '';
   }
 }

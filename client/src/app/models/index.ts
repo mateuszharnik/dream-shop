@@ -196,7 +196,6 @@ export interface FAQCategories {
 export interface FAQ {
   _id?: string;
   title: string;
-  purify_title: string;
   content: string;
   purify_content: string;
   category: string;

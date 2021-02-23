@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { imageValidator, purify, trackID } from '@helpers/index';
+import { imageValidator, trackID } from '@helpers/index';
 import {
   Alert,
   Alerts,
@@ -417,7 +417,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       } else {
         if (error.error.message === 'Musisz podać treść.') {
           this.formControls.description.setValue(
-            purify(this.form.value.description),
+            this.form.value.description,
             { onlySelf: true },
           );
         }

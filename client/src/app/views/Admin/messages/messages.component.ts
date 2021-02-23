@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { trackID } from '@helpers/index';
+import { markdown, trackID } from '@helpers/index';
 import { Alerts, DeleteResponse, Message, MessageWithPagination, Pagination } from '@models/index';
 import { MessagesModals } from '@models/modals';
 import { MessageService } from '@services/message.service';
@@ -53,7 +53,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.trackID = trackID;
 
     this.subscriptions.push(this.messageService.getMessages().subscribe((data: Message[]) => {
-      this.messages = data;
+      this.messages = data
+        ? data.map((message: Message) => {
+            message.purify_subject = markdown(message.purify_subject);
+            message.purify_message = markdown(message.purify_message);
+
+            return message;
+          })
+        : data;
     }));
 
     this.windowEl = this.windowRefService.nativeWindow;

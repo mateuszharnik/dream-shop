@@ -8,19 +8,6 @@ import {
 import { Product } from '@models/index';
 import { MatchMediaService } from '@services/match-media.service';
 import { Subscription } from 'rxjs';
-import SwiperCore, {
-  Navigation,
-  Pagination,
-  Keyboard,
-  A11y,
-} from 'swiper/core';
-
-SwiperCore.extendDefaults({
-  observer: true,
-  observeParents: true,
-});
-
-SwiperCore.use([Navigation, Pagination, Keyboard, A11y]);
 
 @Component({
   selector: 'app-swiper-slider',

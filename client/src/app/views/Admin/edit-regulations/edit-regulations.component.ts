@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { purify } from '@helpers/index';
 import { Alert, Alerts, Regulations } from '@models/index';
 import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -140,7 +139,7 @@ export class EditRegulationsComponent implements OnInit, OnDestroy {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         if (error.error.message === 'Musisz podać treść.') {
-          this.formControls.content.setValue(purify(this.form.value.content), {
+          this.formControls.content.setValue(this.form.value.content, {
             onlySelf: true,
           });
         }

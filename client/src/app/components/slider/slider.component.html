@@ -1,21 +1,21 @@
-<div
-  class="slider"
-  (mouseenter)="stopSlide()"
-  (touchstart)="stopSlide()"
-  (touchend)="startSlide()"
-  (mouseleave)="startSlide()"
->
-  <div
-    class="w-100 h-100 absolute"
-    *ngFor="let slide of images; let i = index; trackBy: trackID"
-  >
-    <app-slide
-      *ngIf="i === currentIndex"
-      [@Fade]="isFirst && 0 === currentIndex ? 'first' : ''"
-      [slide]="slide"
-      (whenStartSlide)="startSlide()"
-      (whenStopSlide)="stopSlide()"
-      (whenIsFocus)="toggleFocus($event)"
-    ></app-slide>
+<div class="slider">
+  <div class="w-100 h-100 absolute">
+    <swiper
+      [config]="config"
+      [slidesPerView]="1"
+      [spaceBetween]="0"
+      [pagination]="{ clickable: true }"
+    >
+      <ng-template swiperSlide *ngFor="let image of images; trackBy: trackID">
+        <a class="slider__link" [routerLink]="image.href">
+          <div
+            class="slider__img"
+            [ngStyle]="{ 'background-image': computedImageSrc(image.img) }"
+          >
+            <ng-content></ng-content>
+          </div>
+        </a>
+      </ng-template>
+    </swiper>
   </div>
 </div>
