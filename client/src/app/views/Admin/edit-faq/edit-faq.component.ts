@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { purify } from '@helpers/index';
 import { Alert, Alerts, FAQ, FAQCategories } from '@models/index';
 import { AlertsService } from '@services/alerts.service';
 import { FAQService } from '@services/faq.service';
@@ -172,7 +171,7 @@ export class EditFAQComponent implements OnInit, OnDestroy {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         if (error.error.message === 'Musisz podać treść.') {
-          this.formControls.content.setValue(purify(this.form.value.content), { onlySelf: true });
+          this.formControls.content.setValue(this.form.value.content, { onlySelf: true });
         }
         this.setAlerts('', error.error.message);
       }

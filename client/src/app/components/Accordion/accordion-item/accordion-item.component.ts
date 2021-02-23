@@ -17,7 +17,9 @@ export class AccordionItemComponent implements OnInit {
   isDisabled = false;
 
   ngOnInit() {
-    this.faq.content = markdown(this.faq.content);
+    if (this.faq.purify_content) {
+      this.faq.purify_content = markdown(this.faq.purify_content);
+    }
   }
 
   toggleAccordion() {

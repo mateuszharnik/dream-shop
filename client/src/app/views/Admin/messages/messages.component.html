@@ -45,11 +45,15 @@
           <div class="message mb-4 text-left">
             <div class="message__head">
               <div class="message--border-bottom p-2">
-                <span class="bold">Od</span>: {{ message.name }} &lt;<a
+                <span class="bold">Od: </span>
+                {{ message.name }} &lt;
+                <a
                   [href]="'mailto:' + message.email"
                   title="Email autora wiadomości"
-                  >{{ message.email }}</a
-                >&gt;
+                >
+                  {{ message.email }}
+                </a>
+                &gt;
               </div>
               <div class="message--border-bottom p-2">
                 <span class="bold">Wysłano</span>:
@@ -58,12 +62,11 @@
                 </time>
               </div>
               <div class="message--border-bottom p-2">
-                <span class="bold">Tytuł</span>: {{ message.subject }}
+                <span class="bold">Tytuł: </span>
+                <span [innerHTML]="message.purify_subject"></span>
               </div>
             </div>
-            <div class="p-2">
-              {{ message.message }}
-            </div>
+            <div class="p-2" [innerHTML]="message.purify_message"></div>
           </div>
           <div>
             <app-button

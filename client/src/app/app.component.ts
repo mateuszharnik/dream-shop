@@ -7,6 +7,13 @@ import {
   Renderer2,
   ViewEncapsulation,
 } from '@angular/core';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Autoplay,
+  A11y,
+  EffectFade,
+} from 'swiper/core';
 import { MatchMediaService } from '@services/match-media.service';
 import { WindowRefService } from '@services/window-ref.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -15,6 +22,12 @@ import localePL from '@angular/common/locales/pl';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import * as AOS from 'aos';
+
+SwiperCore.use([Navigation, Autoplay, Pagination, A11y, EffectFade]);
+SwiperCore.extendDefaults({
+  observer: true,
+  observeParents: true,
+});
 
 @Component({
   selector: 'app-root',

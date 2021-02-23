@@ -42,7 +42,8 @@ export class FAQComponent implements OnInit, OnDestroy {
   ) {
     this.subscriptions.push(this.faqService.getFAQs().subscribe((data: FAQ[]) => {
       const faqs = data ? data.map((faq: FAQ) => {
-        faq.content = markdown(faq.content);
+        faq.purify_content = markdown(faq.purify_content);
+
         return faq;
       }) : data;
 

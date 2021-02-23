@@ -1,5 +1,9 @@
 // Imports
 @import "../../../assets/scss/variables";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/a11y/a11y.scss";
+@import "~swiper/components/effect-fade/effect-fade.scss";
+@import "~swiper/components/pagination/pagination.scss";
 
 // Slider
 .slider {
@@ -11,6 +15,34 @@
   @media (min-width: $md) {
     margin: 0 auto;
     max-height: 40rem;
+  }
+
+  .swiper-container {
+    padding-bottom: 0rem;
+    height: 100%;
+  }
+
+  &__img {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+
+    @media (min-width: $md) {
+      background-position: 50% 20%;
+    }
+  }
+
+  &__link {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    z-index: $z-index-1;
   }
 
   &__content {

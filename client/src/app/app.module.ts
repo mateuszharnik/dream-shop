@@ -17,7 +17,6 @@ import { SearchBarComponent } from '@components/Navbar/search-bar/search-bar.com
 import { SearchBarDesktopComponent } from '@components/Navbar/search-bar-desktop/search-bar-desktop.component';
 import { NewsletterComponent } from '@components/newsletter/newsletter.component';
 import { ScrollTopButtonComponent } from '@components/scroll-top-button/scroll-top-button.component';
-import { SlideComponent } from '@components/slide/slide.component';
 import { SliderComponent } from '@components/slider/slider.component';
 import { SwiperSliderComponent } from '@components/swiper-slider/swiper-slider.component';
 import { NavigationDesktopComponent } from '@components/Navbar/navigation-desktop/navigation-desktop.component';
@@ -45,7 +44,6 @@ import { AppComponent } from './app.component';
     FooterNavigationComponent,
     FooterContactComponent,
     SliderComponent,
-    SlideComponent,
     NewsletterComponent,
     SwiperSliderComponent,
     NavigationDesktopComponent,
