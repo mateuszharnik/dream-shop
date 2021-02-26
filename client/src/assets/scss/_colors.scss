@@ -30,6 +30,10 @@
   color: $color-danger;
 }
 
+.text-success {
+  color: $color-success;
+}
+
 .text-secondary {
   color: $color-secondary;
 }
@@ -61,6 +65,10 @@
 
 .bg-danger {
   background-color: $color-danger;
+}
+
+.bg-success {
+  background-color: $color-success;
 }
 
 .bg-secondary {
@@ -125,6 +133,14 @@
 
     .#{$media}\:bg-danger {
       background-color: $color-danger;
+    }
+
+    .#{$media}\:text-success {
+      color: $color-success;
+    }
+
+    .#{$media}\:bg-success {
+      background-color: $color-success;
     }
 
     .#{$media}\:text-secondary {

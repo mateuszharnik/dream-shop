@@ -19,12 +19,30 @@
           <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
         </app-router-link>
       </div>
-      <div class="mb-6">Podgląd zamówienia.</div>
+      <div class="mb-6 text-left">
+        <app-order-summary [order]="order"></app-order-summary>
+        <div class="order-status">
+          <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
+          <div [ngClass]="order.paid ? 'text-success' : 'text-danger'">
+            {{
+              order.paid
+                ? "Zamówienie zostało opłacone."
+                : "Zamówienie nie zostało opłacone."
+            }}
+          </div>
+          <div *ngIf="order.accepted" class="text-success">
+            Zamówienie zostało zaakceptowane i oznaczone jako wysłane.
+          </div>
+          <div *ngIf="order.refused" class="text-danger">
+            Zamówienie zostało odrzucone.
+          </div>
+        </div>
+      </div>
       <div class="flex flex-column sm:block">
         <app-button
           *ngIf="!order.accepted"
           [buttonTitle]="'Zaakceptuj zamówienie i oznacz jako wysłane'"
-          [buttonDisabled]="isDisabled"
+          [buttonDisabled]="isDisabled || !order.paid"
           [buttonClass]="acceptButtonClass()"
           [buttonOnClick]="true"
           (whenButtonClick)="openModal(false)"
@@ -35,7 +53,7 @@
         <app-button
           *ngIf="!order.refused"
           [buttonTitle]="'Oznacz zamówienie jako odrzucone'"
-          [buttonDisabled]="isDisabled"
+          [buttonDisabled]="isDisabled || !order.paid"
           [buttonClass]="'button button-danger button-small'"
           [buttonOnClick]="true"
           (whenButtonClick)="openModal(true)"
@@ -68,8 +86,8 @@
           <div class="text-danger mb-4 bolder uppercase">
             {{
               order.paid
-                ? "Zamówienie zostało już opłacone."
-                : "Zamówienie nie zostało jeszcze opłacone."
+                ? "Zamówienie zostało już opłacone"
+                : "Zamówienie nie zostało jeszcze opłacone"
             }}
           </div>
           {{
