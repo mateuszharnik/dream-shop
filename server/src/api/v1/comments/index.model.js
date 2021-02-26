@@ -1,16 +1,15 @@
 const Joi = require('@hapi/joi');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
-const { dbIdRegExp, avatarRegExp } = require('../../../helpers/regexp');
+const { dbIdRegExp } = require('../../../helpers/regexp');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 
 const commentConfig = (id = true, timestamp = true) => {
   let config = {
-    author: Joi.string().min(3).max(50).trim()
+    user_id: Joi.string().trim().allow('').regex(dbIdRegExp)
       .required(),
     product_id: Joi.string().trim().regex(dbIdRegExp).required(),
     content: Joi.string().trim().min(10).max(5000)
       .required(),
-    author_image: Joi.string().trim().regex(avatarRegExp).required(),
   };
 
   if (id) {

@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Alerts, Order, OrderWithPagination } from '@models/index';
+import {
+  Alerts,
+  Order,
+  OrderWithPagination,
+} from '@models/index';
 import { AlertsService } from '@services/alerts.service';
 import { OrdersService } from '@services/orders.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -33,7 +37,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     private activateRoute: ActivatedRoute,
     private ordersService: OrdersService,
     private router: Router,
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.id = this.activateRoute.snapshot.params.id;
@@ -74,7 +78,9 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     this.alerts.success = success;
   }
 
-  buttonText(value: boolean): 'Anulowanie' | 'Anuluj' | 'Akceptowanie' | 'Zaakceptuj' {
+  buttonText(
+    value: boolean,
+  ): 'Anulowanie' | 'Anuluj' | 'Akceptowanie' | 'Zaakceptuj' {
     if (this.isRefused) {
       return value ? 'Anulowanie' : 'Anuluj';
     } else {
@@ -99,11 +105,15 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   }
 
   buttonClass(): string {
-    return `button button-small button-${this.isRefused ? 'danger' : 'success'}`;
+    return `button button-small button-${
+      this.isRefused ? 'danger' : 'success'
+    }`;
   }
 
   acceptButtonClass(): string {
-    return `button button-success button-small ${!this.order.refused ? 'sm:mr-4 mb-2 sm:mb-0' : ''}`;
+    return `button button-success button-small ${
+      !this.order.refused ? 'sm:mr-4 mb-2 sm:mb-0' : ''
+    }`;
   }
 
   openModal(refused = false) {

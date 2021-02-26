@@ -1,0 +1,15 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Order Summary
+.order-summary {
+  &__product {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  &__image {
+    width: 8rem;
+  }
+}

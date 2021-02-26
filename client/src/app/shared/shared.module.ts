@@ -14,6 +14,7 @@ import { CheckboxComponent } from '@components/Form/checkbox/checkbox.component'
 import { FileInputComponent } from '@components/Form/file-input/file-input.component';
 import { FormComponent } from '@components/Form/form/form.component';
 import { InputComponent } from '@components/Form/input/input.component';
+import { OrderSummaryComponent } from '@components/order-summary/order-summary.component';
 import { SelectComponent } from '@components/Form/select/select.component';
 import { TextareaComponent } from '@components/Form/textarea/textarea.component';
 import { ImageComponent } from '@components/image/image.component';
@@ -53,6 +54,7 @@ import { PageWrapperComponent } from '@components/page-wrapper/page-wrapper.comp
     AvatarComponent,
     CheckboxComponent,
     ProductShowcaseComponent,
+    OrderSummaryComponent,
   ],
   exports: [
     SpinnerComponent,
@@ -79,6 +81,7 @@ import { PageWrapperComponent } from '@components/page-wrapper/page-wrapper.comp
     AvatarComponent,
     CheckboxComponent,
     ProductShowcaseComponent,
+    OrderSummaryComponent,
   ],
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   providers: [],
