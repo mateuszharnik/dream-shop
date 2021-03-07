@@ -1,0 +1,95 @@
+<div *ngIf="isLoading; else orderPageView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #orderPageView>
+  <app-page-wrapper>
+    <div class="row">
+      <header class="pt-10 pb-6 text-center column-12">
+        <h2 class="m-auto h4 bolder uppercase">Twoje zamówienie</h2>
+      </header>
+      <article
+        *ngIf="!alerts.server; else showError"
+        class="container px-4 text-center w-100"
+      >
+        <div class="row">
+          <div class="column-12 mb-6">
+            <app-order-summary [order]="order"></app-order-summary>
+            <div class="order-status">
+              <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
+              <div
+                class="mb-2"
+                [ngClass]="order.paid ? 'text-success' : 'text-danger'"
+              >
+                {{
+                  order.paid
+                    ? "Zamówienie zostało opłacone."
+                    : "Zamówienie nie zostało opłacone."
+                }}
+              </div>
+              <div *ngIf="order.accepted" class="text-success mb-2">
+                Zamówienie zostało zaakceptowane i oznaczone jako wysłane.
+              </div>
+              <div *ngIf="order.refused" class="text-danger mb-2">
+                Zamówienie zostało odrzucone.
+              </div>
+              <div *ngIf="order.refused" class="row">
+                <div class="column-12 md:column-6 m-auto">
+                  Jeżeli nie wiesz dlaczego Twoje zamówienie zostało odrzucone
+                  możesz skontaktować się z nami korzystając z naszego
+                  <app-router-link
+                    [linkTitle]="'Przejdź do formularza kontaktowego'"
+                    [linkRouter]="'/kontakt'"
+                  >
+                    formularza kontaktowego</app-router-link
+                  >.
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!order.paid" class="text-center">
+              <div class="mt-6">
+                <app-button
+                  [buttonTitle]="'Opłać zamówienie'"
+                  [buttonOnClick]="true"
+                  (whenButtonClick)="payOrder()"
+                >
+                  Zapłać
+                  <app-fa-icon
+                    [faClass]="'far fa-credit-card ml-1'"
+                  ></app-fa-icon>
+                </app-button>
+              </div>
+              <div class="mt-6 row">
+                <strong class="column-12 md:column-8 m-auto">
+                  <h2 class="text-danger bolder">UWAGA</h2>
+                  <p class="normal">
+                    Ponieważ aplikacja nie jest przeznaczona do produkcji
+                    wystarczy nacisnąć powyższy przycisk w celu opłacenia
+                    zakupów. W przyszłości zostanie zaimplementowana metoda
+                    płatności z wykorzystaniem np. systemu PayPal.
+                  </p>
+                </strong>
+              </div>
+            </div>
+          </div>
+          <div class="m-auto">
+            <app-alert
+              *ngIf="alerts.error"
+              [alertClass]="'alert alert-danger mb-6 m-auto'"
+            >
+              {{ alerts.error }}
+            </app-alert>
+            <app-alert
+              *ngIf="alerts.success"
+              [alertClass]="'alert alert-success mb-6 m-auto'"
+            >
+              {{ alerts.success }}
+            </app-alert>
+          </div>
+        </div>
+      </article>
+    </div>
+    <ng-template #showError>
+      <p class="center m-0">{{ alerts.server }}</p>
+    </ng-template>
+  </app-page-wrapper>
+</ng-template>

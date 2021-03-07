@@ -19,18 +19,21 @@
           <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Wróć
         </app-router-link>
       </div>
-      <div class="mb-6 text-left">
+      <div class="mb-6">
         <app-order-summary [order]="order"></app-order-summary>
         <div class="order-status">
           <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
-          <div [ngClass]="order.paid ? 'text-success' : 'text-danger'">
+          <div
+            class="mb-2"
+            [ngClass]="order.paid ? 'text-success' : 'text-danger'"
+          >
             {{
               order.paid
                 ? "Zamówienie zostało opłacone."
                 : "Zamówienie nie zostało opłacone."
             }}
           </div>
-          <div *ngIf="order.accepted" class="text-success">
+          <div *ngIf="order.accepted" class="text-success mb-2">
             Zamówienie zostało zaakceptowane i oznaczone jako wysłane.
           </div>
           <div *ngIf="order.refused" class="text-danger">

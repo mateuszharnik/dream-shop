@@ -53,16 +53,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
     { id: '2', message: 'Musisz dodać zdjęcie główne.', key: 'required' },
   ];
 
-  // galleryAlerts: Alert[] = [
-  //   { id: '0', message: 'Pliki nie mogą przekraczać 5 MB.', key: 'maxsize' },
-  //   { id: '1', message: 'Pliki nie są niepoprawnego typu.', key: 'type' },
-  //   {
-  //     id: '2',
-  //     message: 'Możesz dodać maksymalnie 9 plików.',
-  //     key: 'maxlength',
-  //   },
-  // ];
-
   nameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa produktu jest za krótka.', key: 'minlength' },
     { id: '1', message: 'Nazwa produktu jest za długa.', key: 'maxlength' },
@@ -151,7 +141,10 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.createForm(this.product, this.categories);
       this.setLoading();
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
+      if (error.status === 404) {
+        this.router.navigate(['/404']);
+        return;
+      } else if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);

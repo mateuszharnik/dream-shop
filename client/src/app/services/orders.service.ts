@@ -73,12 +73,25 @@ export class OrdersService {
     }
 
     return this.http
-      .put<Order>(url, {}, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: getFullToken(),
-        }),
-      })
+      .put<Order>(
+        url,
+        {},
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: getFullToken(),
+          }),
+        },
+      )
+      .toPromise();
+  }
+
+  paidOrder(id: string): Promise<Order> {
+    return this.http
+      .put<Order>(
+        `http://localhost:3000/v1/orders/paid/${id}`,
+        {},
+      )
       .toPromise();
   }
 

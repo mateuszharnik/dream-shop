@@ -110,7 +110,15 @@
         title="Przejdź do panelu administratora"
         routerLink="/admin"
       >
-        <app-fa-icon [faClass]="'far fa-user'"></app-fa-icon>
+        <img
+          *ngIf="user.avatar; else icon"
+          class="navigation__link--avatar"
+          [src]="user.avatar"
+          alt="Awatar użytkownika"
+        />
+        <ng-template #icon>
+          <app-fa-icon [faClass]="'far fa-user'"></app-fa-icon>
+        </ng-template>
         <span class="hidden">Panel administratora</span>
       </a>
     </div>

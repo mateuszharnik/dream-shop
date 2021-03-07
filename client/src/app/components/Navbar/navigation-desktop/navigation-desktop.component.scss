@@ -109,6 +109,12 @@
       text-decoration: none;
     }
 
+    &--avatar {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+
     &--admin {
       width: 4.5rem;
       height: 4.5rem;
