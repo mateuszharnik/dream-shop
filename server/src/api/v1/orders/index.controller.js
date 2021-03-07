@@ -82,6 +82,8 @@ const getOrder = async (req, res, next) => {
 };
 
 const addOrder = async (req, res, next) => {
+  req.body.paid = false;
+
   const { schemaError, data } = orderSchema(req.body, false, false);
 
   if (schemaError) {

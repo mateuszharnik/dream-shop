@@ -1,0 +1,90 @@
+<div *ngIf="isLoading; else productsInCartView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #productsInCartView>
+  <section>
+    <div *ngIf="!cart.length; else showCart" class="text-center">
+      <img
+        class="cart-image mb-8"
+        src="../../../assets/img/undraw_empty_cart_co35.svg"
+        alt="Pusty koszyk"
+      />
+      <h2 class="h5">Koszyk jest pusty</h2>
+    </div>
+    <ng-template #showCart>
+      <h2 class="h4 mb-4 text-center">Produkty w koszyku</h2>
+      <div class="row">
+        <div class="column-12 md:column-10 m-auto lg:m-0 lg:column-6">
+          <div class="products-in-cart mb-4 lg:mb-0">
+            <div
+              class="products-in-cart__product p-4 sm:flex relative"
+              *ngFor="let product of products"
+            >
+              <div class="mb-2 sm:mb-0 sm:mr-4 text-center">
+                <img
+                  class="products-in-cart__product-image"
+                  [src]="product.thumbnail"
+                  alt="Zdjęcie produktu"
+                />
+              </div>
+              <div class="text-center sm:text-left mb-2 sm:mb-0">
+                <div class="products-in-cart__product-description mb-2 sm:mr-4">
+                  <div class="bolder">{{ product.name }}</div>
+                </div>
+                <div class="products-in-cart__product-quantity">
+                  <div class="mb-2">
+                    <span class="bolder">Cena: </span>{{ product.price }}
+                  </div>
+                  <div>
+                    <span class="bolder">Ilość: </span
+                    >{{ product.quantity }} szt.
+                  </div>
+                </div>
+              </div>
+              <div class="products-in-cart__buttons">
+                <app-button
+                  [buttonClass]="'link mr-4'"
+                  [buttonTitle]="'Usuń produkt z koszyka'"
+                  [buttonOnClick]="true"
+                  (whenButtonClick)="removeProduct(product._id)"
+                >
+                  <span class="hidden">Usuń</span>
+                  <app-fa-icon [faClass]="'far fa-trash-alt'"></app-fa-icon>
+                </app-button>
+                <app-router-link
+                  [linkTitle]="'Przejdź do produktu'"
+                  [linkRouter]="productLink(product._id)"
+                >
+                  <span class="hidden">Zobacz</span>
+                  <app-fa-icon [faClass]="'far fa-eye'"></app-fa-icon>
+                </app-router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="column-12 md:column-10 lg:column-4 m-auto lg:mr-0 lg:space-2"
+        >
+          <div class="products-in-cart__detail p-4">
+            <div class="mb-4 text-center">
+              <div class="bold h5">
+                Całkowita cena:
+                <div class="sm:inline">{{ totalPrice() }}&nbsp;zł</div>
+              </div>
+            </div>
+            <div class="text-center">
+              <app-button
+                [buttonTitle]="'Przejdź do formularza'"
+                [buttonDisabled]="!cart.length"
+                [buttonOnClick]="true"
+                (whenButtonClick)="onNextStep()"
+              >
+                Przejdź dalej
+              </app-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </section>
+</ng-template>

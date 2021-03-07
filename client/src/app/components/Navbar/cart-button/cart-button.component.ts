@@ -1,4 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { ProductInCart } from '@models/index';
+import { CartService } from '@services/cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart-button',
@@ -6,4 +9,21 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./cart-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CartButtonComponent { }
+export class CartButtonComponent implements OnDestroy {
+  cart: ProductInCart[] = [];
+  subscriptions: Subscription[] = [];
+
+  constructor(private cartService: CartService) {
+    this.subscriptions.push(
+      this.cartService.getProducts().subscribe((products: ProductInCart[]) => {
+        this.cart = products;
+      }),
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
+  }
+}

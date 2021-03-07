@@ -37,12 +37,7 @@ export class OrdersService {
 
   saveOrder(data: Order): Promise<Order> {
     return this.http
-      .post<Order>(`http://localhost:3000/v1/orders`, data, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: getFullToken(),
-        }),
-      })
+      .post<Order>(`http://localhost:3000/v1/orders`, data)
       .toPromise();
   }
 
