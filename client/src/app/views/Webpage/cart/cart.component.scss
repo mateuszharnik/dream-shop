@@ -1,2 +1,36 @@
 // Imports
 @import "../../../../assets/scss/variables";
+
+//Steps
+.steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: $sm) {
+    justify-content: space-between;
+  }
+
+  &__step {
+    font-weight: 700;
+    width: 7rem;
+    height: 7rem;
+    text-align: center;
+    padding: 1.4rem;
+    border-radius: 50%;
+    border: 0.2rem solid $color-gray;
+    color: $color-gray;
+    font-size: 1.4rem;
+    display: none;
+
+    @media (min-width: $sm) {
+      display: inline;
+    }
+  }
+
+  &__active {
+    color: $color-primary;
+    border-color: $color-primary;
+    display: inline;
+  }
+}

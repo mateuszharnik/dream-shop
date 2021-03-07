@@ -28,7 +28,7 @@ const productConfig = (id = true, timestamps = true) => {
     description: Joi.string().trim().min(3).max(10000)
       .required()
       .messages(descriptionMessages),
-    quantity: Joi.string().min(0).max(9999).required()
+    quantity: Joi.number().min(1).max(9999).required()
       .messages(quantityMessages),
     price: Joi.string().trim().regex(productPriceRegExp).required()
       .messages(priceMessages),

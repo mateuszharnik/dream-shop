@@ -1,6 +1,7 @@
 const fs = require('fs');
 const sharp = require('sharp');
 const { productSchema } = require('./index.model');
+const { dbIdRegExp } = require('../../../helpers/regexp');
 const {
   dbIdSchema,
   thumbnailFileSchema,
@@ -56,8 +57,10 @@ const getProducts = async (req, res, next) => {
   }
 
   if (cart) {
+    const products = cart.split(',').filter((id) => dbIdRegExp.test(id));
+
     query._id = {
-      $in: cart.split(','),
+      $in: products,
     };
   }
 

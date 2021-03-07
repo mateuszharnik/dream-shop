@@ -1,0 +1,143 @@
+<section>
+  <h2 class="h4 mb-4 text-center">Dane kontaktowe</h2>
+  <div class="row">
+    <div class="column-12 m-auto lg:column-6">
+      <app-form
+        [formClass]="'form text-left inline-block'"
+        [formName]="form"
+        (whenFormSubmit)="onNextStep()"
+      >
+        <div class="row">
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'name'"
+              [inputLabel]="'Imię'"
+              [inputPlaceholder]="'Podaj imię'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('name')"
+              [inputAlerts]="nameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            >
+            </app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'surname'"
+              [inputLabel]="'Nazwisko'"
+              [inputPlaceholder]="'Podaj nazwisko'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('surname')"
+              [inputAlerts]="surnameAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            >
+            </app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'email'"
+              [inputLabel]="'Adres Email'"
+              [inputPlaceholder]="'example@domain.pl'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('email')"
+              [inputAlerts]="emailAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'phone'"
+              [inputLabel]="'Telefon'"
+              [inputPlaceholder]="'123 456 789'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('phone')"
+              [inputAlerts]="phoneAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'city'"
+              [inputLabel]="'Miasto'"
+              [inputPlaceholder]="'Podaj miasto'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('city')"
+              [inputAlerts]="cityAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'zip_code'"
+              [inputPlaceholder]="'00-000'"
+              [inputLabel]="'Kod pocztowy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('zip_code')"
+              [inputAlerts]="zipCodeAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'street'"
+              [inputLabel]="'Nazwa ulicy'"
+              [inputPlaceholder]="'Podaj nazwę ulice'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('street')"
+              [inputAlerts]="streetAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+          <div class="column-12 mb-4">
+            <app-input
+              [inputLabelClass]="'block mb-2 bold'"
+              [inputID]="'street_number'"
+              [inputLabel]="'Numer ulicy'"
+              [inputPlaceholder]="'Podaj numer ulicy'"
+              [inputClass]="'form__input w-100'"
+              [inputValidation]="validation('street_number')"
+              [inputAlerts]="streetNumberAlerts"
+              [inputGroup]="form"
+              [inputForm]="form"
+            ></app-input>
+          </div>
+        </div>
+      </app-form>
+    </div>
+    <div class="column-12">
+      <div class="p-4">
+        <div class="text-center">
+          <app-button
+            [buttonTitle]="'Wróc do produktów'"
+            [buttonOnClick]="true"
+            (whenButtonClick)="onPrevStep()"
+          >
+            Wróc
+          </app-button>
+          <app-button
+            [buttonClass]="'button button-primary ml-4'"
+            [buttonTitle]="'Przejdź do wyboru płatności'"
+            [buttonDisabled]="form.invalid"
+            [buttonOnClick]="true"
+            (whenButtonClick)="onNextStep()"
+          >
+            Przejdź dalej
+          </app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

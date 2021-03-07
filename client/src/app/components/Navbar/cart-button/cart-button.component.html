@@ -6,6 +6,6 @@
   <app-fa-icon [faClass]="'fas fa-shopping-cart'"></app-fa-icon>
   <span class="hidden">Koszyk: </span>
   <span class="cart-button__counter absolute text-center">
-    0
+    {{ cart.length > 9 ? "9+" : cart.length }}
   </span>
 </app-router-link>

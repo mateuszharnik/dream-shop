@@ -31,6 +31,6 @@ export class OrderSummaryComponent {
       0,
     );
 
-    return `${totalPrice.toFixed(2).replace('.', ',')} zł`;
+    return `${totalPrice.toFixed(2).replace('.', ',')}`;
   }
 }

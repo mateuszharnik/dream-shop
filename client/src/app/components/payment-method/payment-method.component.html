@@ -1,0 +1,37 @@
+<section>
+  <h2 class="h4 mb-4 text-center">Wybór płatności</h2>
+  <div class="row">
+    <div class="column-12 md:column-8 m-auto">
+      <div class="p-4">
+        <div class="mb-4 text-center">
+          <h2 class="text-danger bolder">UWAGA</h2>
+          <p>
+            Wybór płatności jest niemożliwy ponieważ aplikacja nie jest
+            przeznaczona do produkcji. W przyszłości zostanie tutaj
+            zaimplementowana metoda płatności z wykorzystaniem np. systemu
+            PayPal.
+          </p>
+        </div>
+        <div class="p-4">
+          <div class="text-center">
+            <app-button
+              [buttonTitle]="'Wróć do formularza'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="onPrevStep()"
+            >
+              Wróć
+            </app-button>
+            <app-button
+              [buttonClass]="'button button-primary ml-4'"
+              [buttonTitle]="'Przejdź do podsumowania'"
+              [buttonOnClick]="true"
+              (whenButtonClick)="onNextStep()"
+            >
+              Przejdź dalej
+            </app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

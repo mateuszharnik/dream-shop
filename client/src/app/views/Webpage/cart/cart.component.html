@@ -1,8 +1,66 @@
-<div *ngIf="isLoading; else cartView" class="spinner-wrapper">
-  <app-spinner></app-spinner>
-</div>
-<ng-template #cartView>
-  <section class="cart-page min-vh-100 w-100">
-    Koszyk
-  </section>
-</ng-template>
+<app-page-wrapper [className]="'cart-page'">
+  <h3 class="hidden">Koszyk</h3>
+  <article class="row">
+    <div class="container-md my-10">
+      <div class="row">
+        <div class="steps column-8 m-auto">
+          <span
+            class="steps__step steps__products"
+            [ngClass]="{ steps__active: currentStep === 1 }"
+          >
+            <div>Krok</div>
+            <div>1</div>
+            <span class="hidden" *ngIf="currentStep === 1">Tutaj jesteś</span>
+          </span>
+          <span
+            class="steps__step steps__contact"
+            [ngClass]="{ steps__active: currentStep === 2 }"
+          >
+            <div>Krok</div>
+            <div>2</div>
+            <span class="hidden" *ngIf="currentStep === 2">Tutaj jesteś</span>
+          </span>
+          <span
+            class="steps__step steps__payment"
+            [ngClass]="{ steps__active: currentStep === 3 }"
+          >
+            <div>Krok</div>
+            <div>3</div>
+            <span class="hidden" *ngIf="currentStep === 3">Tutaj jesteś</span>
+          </span>
+          <span
+            class="steps__step steps__summary"
+            [ngClass]="{ steps__active: currentStep === 4 }"
+          >
+            <div>Krok</div>
+            <div>4</div>
+            <span class="hidden" *ngIf="currentStep === 4">Tutaj jesteś</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="sm:container mb-10">
+      <app-products-in-cart
+        *ngIf="currentStep === 1"
+        (nextStep)="setCurrentStep(2)"
+      ></app-products-in-cart>
+      <app-cart-form
+        *ngIf="currentStep === 2"
+        (nextStep)="setCurrentStep(3)"
+        (prevStep)="setCurrentStep(1)"
+      ></app-cart-form>
+      <div *ngIf="currentStep === 3">
+        <app-payment-method
+          (nextStep)="setCurrentStep(4)"
+          (prevStep)="setCurrentStep(2)"
+        ></app-payment-method>
+      </div>
+      <div *ngIf="currentStep === 4">
+        <app-cart-summary
+          (nextStep)="sendOrder($event)"
+          (prevStep)="setCurrentStep(3)"
+        ></app-cart-summary>
+      </div>
+    </div>
+  </article>
+</app-page-wrapper>

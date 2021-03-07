@@ -59,7 +59,7 @@ export interface OrderProduct {
   _id: string;
   name: string;
   company_name: string;
-  quantity: string;
+  quantity: number;
   price: string;
   category_name: string;
   thumbnail: string;
@@ -69,7 +69,7 @@ export interface Order {
   _id?: string;
   contact: OrderContact;
   products: OrderProduct[];
-  paid: boolean;
+  paid?: boolean;
   accepted?: boolean;
   refused?: boolean;
   created_at?: Date;
@@ -108,6 +108,11 @@ export interface Regulations {
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
+}
+
+export interface ProductInCart {
+  _id: string;
+  quantity: number;
 }
 
 export interface Product {

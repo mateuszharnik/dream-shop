@@ -20,8 +20,6 @@ router.get(
 
 router.post(
   '/',
-  isNotLoggedIn,
-  isAdmin,
   addOrder,
 );
 

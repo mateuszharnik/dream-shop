@@ -1,5 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Alerts, Order } from '@models/index';
+import { CartService } from '@services/cart.service';
+import { OrdersService } from '@services/orders.service';
 import { SpinnerService } from '@services/spinner.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -7,15 +12,75 @@ import { SpinnerService } from '@services/spinner.service';
   styleUrls: ['./cart.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   isLoading = true;
+  isSubmitted = false;
+  currentStep = 1;
+  subscriptions: Subscription[] = [];
+  alerts: Alerts = {
+    server: '',
+    error: '',
+    success: '',
+  };
 
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(
+    private spinnerService: SpinnerService,
+    private orderService: OrdersService,
+    private cartService: CartService,
+    private router: Router,
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.setLoading();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
+  }
+
+  setLoading(loading = false) {
+    this.isLoading = loading;
     setTimeout(() => {
-      this.isLoading = false;
       this.spinnerService.setLoading(this.isLoading);
-    }, 1000);
+    }, 50);
+  }
+
+  setAlerts(server = '', error = '', success = '') {
+    this.alerts.server = server;
+    this.alerts.error = error;
+    this.alerts.success = success;
+  }
+
+  setCurrentStep(currentStep: number) {
+    if (currentStep < 1 || currentStep > 4) {
+      return;
+    }
+
+    this.currentStep = currentStep;
+  }
+
+  async sendOrder(data: Order) {
+    this.isSubmitted = true;
+
+    try {
+      const order: Order = await this.orderService.saveOrder(data);
+
+      // TODO: Clear localStorage when browser redirect user to the order details page
+      // this.cartService.removeContact();
+      // this.cartService.removeFullProducts();
+      // this.cartService.removeProducts();
+
+      this.router.navigate([`/zamowienia/${order._id}`]);
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+
+      this.isSubmitted = false;
+    }
   }
 }

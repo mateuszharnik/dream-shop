@@ -5,6 +5,7 @@ import {
   DeleteResponse,
   Product,
   ProductCategory,
+  ProductInCart,
   ProductWithPagination,
 } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -14,11 +15,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProductsService {
   products: Product[] = [];
+  productsInCart: Product[] = [];
   categories: ProductCategory[] = [];
 
   productsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
     this.products,
   );
+
+  productsInCartSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
+    this.productsInCart,
+  );
+
   categoriesSubject: BehaviorSubject<ProductCategory[]> = new BehaviorSubject<
     ProductCategory[]
   >(this.categories);
@@ -42,6 +49,17 @@ export class ProductsService {
     }
 
     return this.http.get<ProductWithPagination>(url).toPromise();
+  }
+
+
+  fetchProductsInCart(products: ProductInCart[]): Promise<ProductWithPagination> {
+    const ids: string[] = products.map((product: ProductInCart) => product._id);
+
+    return this.http
+      .get<ProductWithPagination>(
+        `http://localhost:3000/v1/products?cart=${ids.join(',')}`,
+      )
+      .toPromise();
   }
 
   updateProduct(id: string, data: FormData): Promise<Product> {
@@ -157,5 +175,13 @@ export class ProductsService {
 
   getProducts(): Observable<Product[]> {
     return this.productsSubject.asObservable();
+  }
+
+  setProductsInCart(products: Product[]) {
+    this.productsInCartSubject.next(products);
+  }
+
+  getProductsInCart(): Observable<Product[]> {
+    return this.productsInCartSubject.asObservable();
   }
 }
