@@ -25,19 +25,6 @@ export const RouterFade = trigger('RouterFade', [
   ]),
 ]);
 
-// Animations
-export const Fade = trigger('Fade', [
-  transition('void => first', [style({ opacity: 1 })]),
-  transition('void => *', [
-    style({ opacity: 0 }),
-    animate('1s', style({ opacity: 1 })), // Dealy
-  ]),
-  transition('* => void', [
-    style({ opacity: 1 }),
-    animate('1s', style({ opacity: 0 })),
-  ]),
-]);
-
 export const Slide = trigger('Slide', [
   transition('void => *', [
     style({ height: '0' }),

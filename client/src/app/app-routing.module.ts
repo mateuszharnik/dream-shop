@@ -29,6 +29,11 @@ const routes: Routes = [
             loadChildren: '@webpage/cart/cart.module#CartModule',
           },
           {
+            path: 'zamowienia/:id',
+            data: { animation: 'orders' },
+            loadChildren: '@webpage/orders/orders.module#OrdersModule',
+          },
+          {
             path: 'o-nas',
             data: { animation: 'about' },
             loadChildren: '@webpage/about/about.module#AboutModule',

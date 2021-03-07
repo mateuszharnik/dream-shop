@@ -67,11 +67,6 @@ export class CartComponent implements OnInit, OnDestroy {
     try {
       const order: Order = await this.orderService.saveOrder(data);
 
-      // TODO: Clear localStorage when browser redirect user to the order details page
-      // this.cartService.removeContact();
-      // this.cartService.removeFullProducts();
-      // this.cartService.removeProducts();
-
       this.router.navigate([`/zamowienia/${order._id}`]);
     } catch (error) {
       if (error.status === 0) {

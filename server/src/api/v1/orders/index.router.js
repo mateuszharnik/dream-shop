@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
 const {
-  getOrders, getOrder, addOrder, deleteOrder, refuseOrder, acceptOrder, deleteOrders,
+  getOrders, getOrder, addOrder, deleteOrder, refuseOrder, acceptOrder, deleteOrders, paidOrder,
 } = require('./index.controller');
 
 const router = Router();
@@ -21,6 +21,11 @@ router.get(
 router.post(
   '/',
   addOrder,
+);
+
+router.put(
+  '/paid/:id',
+  paidOrder,
 );
 
 router.put(

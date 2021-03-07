@@ -80,9 +80,9 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   buttonText(
     value: boolean,
-  ): 'Anulowanie' | 'Anuluj' | 'Akceptowanie' | 'Zaakceptuj' {
+  ): 'Odrzucanie' | 'Odrzuć' | 'Akceptowanie' | 'Zaakceptuj' {
     if (this.isRefused) {
-      return value ? 'Anulowanie' : 'Anuluj';
+      return value ? 'Odrzucanie' : 'Odrzuć';
     } else {
       return value ? 'Akceptowanie' : 'Zaakceptuj';
     }

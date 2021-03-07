@@ -224,8 +224,21 @@ const addOrder = async (req, res, next) => {
 };
 
 const refuseOrder = async (req, res, next) => {
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
+
+  if (paramsSchemaError) {
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
+  }
+
   try {
-    const order = await ordersDB.findOne({ _id: req.params.id });
+    const order = await ordersDB.findOne({ _id: params.id });
 
     if (!order) {
       return responseWithError(
@@ -275,7 +288,7 @@ const refuseOrder = async (req, res, next) => {
     }
 
     const updatedOrder = await ordersDB.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: params.id },
       {
         $set: {
           accepted: false,
@@ -302,9 +315,22 @@ const refuseOrder = async (req, res, next) => {
   }
 };
 
-const acceptOrder = async (req, res, next) => {
+const paidOrder = async (req, res, next) => {
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
+
+  if (paramsSchemaError) {
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
+  }
+
   try {
-    const order = await ordersDB.findOne({ _id: req.params.id });
+    const order = await ordersDB.findOne({ _id: params.id });
 
     if (!order) {
       return responseWithError(
@@ -316,7 +342,60 @@ const acceptOrder = async (req, res, next) => {
     }
 
     const updatedOrder = await ordersDB.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: params.id },
+      {
+        $set: {
+          paid: true,
+          updated_at: new Date(),
+        },
+      },
+    );
+
+    if (!updatedOrder) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Nie udało się opłacić zamówienia.',
+      );
+    }
+
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+  }
+};
+
+const acceptOrder = async (req, res, next) => {
+  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
+    req.params,
+  );
+
+  if (paramsSchemaError) {
+    return responseWithError(
+      res,
+      next,
+      400,
+      paramsSchemaError.details[0].message,
+    );
+  }
+
+  try {
+    const order = await ordersDB.findOne({ _id: params.id });
+
+    if (!order) {
+      return responseWithError(
+        res,
+        next,
+        500,
+        'Zamówienie nie istnieje.',
+      );
+    }
+
+    const updatedOrder = await ordersDB.findOneAndUpdate(
+      { _id: params.id },
       {
         $set: {
           accepted: true,
@@ -438,4 +517,5 @@ module.exports = {
   acceptOrder,
   refuseOrder,
   deleteOrders,
+  paidOrder,
 };
