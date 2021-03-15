@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="sm:container mb-10">
+    <div class="sm:container">
       <app-products-in-cart
         *ngIf="currentStep === 1"
         (nextStep)="setCurrentStep(2)"
@@ -55,12 +55,20 @@
           (prevStep)="setCurrentStep(2)"
         ></app-payment-method>
       </div>
-      <div *ngIf="currentStep === 4">
+      <div class="text-center" *ngIf="currentStep === 4">
         <app-cart-summary
           (nextStep)="sendOrder($event)"
           (prevStep)="setCurrentStep(3)"
         ></app-cart-summary>
       </div>
+    </div>
+    <div class="w-100 text-center">
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
     </div>
   </article>
 </app-page-wrapper>

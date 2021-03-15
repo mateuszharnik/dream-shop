@@ -1,0 +1,14 @@
+<div class="viewed-products">
+  <h2 class="h4">Ostatnio przeglądane produkty</h2>
+  <div class="viewed-products__swiper-slider relative">
+    <swiper
+      [slidesPerView]="isDesktop ? 3 : 1"
+      [spaceBetween]="0"
+      [navigation]="true"
+    >
+      <ng-template swiperSlide *ngFor="let product of products">
+        <app-product-showcase [product]="product"></app-product-showcase>
+      </ng-template>
+    </swiper>
+  </div>
+</div>

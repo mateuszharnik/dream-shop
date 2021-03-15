@@ -1,0 +1,109 @@
+<div *ngIf="isLoading; else productsView" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+<ng-template #productsView>
+  <app-page-wrapper [className]="'product-page'">
+    <div *ngIf="!alerts.server; else showError">
+      <div class="container-lg py-10">
+        <div class="lg:flex lg:flex-justify-between">
+          <app-product-images [images]="images"></app-product-images>
+          <div
+            class="product-page__width m-auto lg:mx-0 mt-6 lg:mt-20 text-center lg:text-right"
+          >
+            <div class="product-page__details">
+              <h2 class="h4 mb-4">{{ product.name }}</h2>
+              <div class="mb-4">{{ product.company_name }}</div>
+              <div class="mb-4 bolder">{{ product.price }}</div>
+            </div>
+            <div
+              *ngIf="product.quantity && totalQuantity > 0; else notAvailable"
+            >
+              <div class="w-100 lg:w-auto">
+                <app-button
+                  [buttonTitle]="'Odejmij'"
+                  [buttonOnClick]="true"
+                  [buttonClass]="'button button-primary button-small mr-2'"
+                  (whenButtonClick)="decreaseQuantity()"
+                >
+                  <app-fa-icon [faClass]="'fas fa-minus'"></app-fa-icon>
+                </app-button>
+                <label class="hidden" for="quantity">
+                  Liczba kupowanych produktów
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  class="product-page__input"
+                  min="1"
+                  name="quantity"
+                  [max]="totalQuantity"
+                  [value]="quantity"
+                  (input)="changeQuantity($event)"
+                  #input
+                />
+                <app-button
+                  [buttonTitle]="'Dodaj'"
+                  [buttonOnClick]="true"
+                  [buttonClass]="'button button-primary button-small ml-2'"
+                  (whenButtonClick)="increaseQuantity()"
+                >
+                  <app-fa-icon [faClass]="'fas fa-plus'"></app-fa-icon>
+                </app-button>
+              </div>
+              <div *ngIf="quantityError" class="text-danger w-100 mt-4">
+                Za mała ilość dostępnych sztuk
+              </div>
+            </div>
+            <ng-template #notAvailable>
+              <div class="text-danger">
+                Produkt niedostępny<span
+                  *ngIf="product.quantity && totalQuantity <= 0"
+                >
+                  ponieważ maksymalna ilość dostępnych produktów znajduje się
+                  już w koszyku</span
+                >.
+              </div>
+            </ng-template>
+            <div class="mt-4">
+              <app-button
+                [buttonTitle]="'Dodaj do koszyka'"
+                [buttonOnClick]="true"
+                [buttonDisabled]="totalQuantity <= 0"
+                [buttonClass]="'button button-primary'"
+                (whenButtonClick)="addToCart()"
+              >
+                Dodaj do koszyka
+                <app-fa-icon [faClass]="'fas fa-plus ml-1'"></app-fa-icon>
+              </app-button>
+              <app-alert
+                *ngIf="alerts.success"
+                [alertClass]="'alert alert-success mt-4 m-auto'"
+              >
+                {{ alerts.success }}
+              </app-alert>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12">
+          <h2 class="h4">Opis produktu</h2>
+          <div
+            class="text-justify"
+            [innerHTML]="product.purify_description || 'Brak opisu.'"
+          ></div>
+        </div>
+        <div class="mt-12">
+          <h2 class="h4">Komentarze</h2>
+          <app-comments></app-comments>
+        </div>
+        <div class="mt-12" *ngIf="viewedProducts.length">
+          <app-viewed-products
+            [products]="viewedProducts"
+          ></app-viewed-products>
+        </div>
+      </div>
+    </div>
+    <ng-template #showError>
+      <div class="center text-center">{{ alerts.server }}</div>
+    </ng-template>
+  </app-page-wrapper>
+</ng-template>

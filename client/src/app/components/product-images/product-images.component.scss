@@ -1,0 +1,60 @@
+// Imports
+@import "../../../assets/scss/variables";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/a11y/a11y.scss";
+@import "~swiper/components/navigation/navigation.scss";
+@import "~swiper/components/pagination/pagination.scss";
+
+.product-images {
+  .swiper-slider {
+    width: 100%;
+    max-width: 46rem;
+
+    .swiper-wrapper {
+      align-items: center;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      background-color: fade-out($color-dark, 0.25);
+    }
+
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+      font-size: 3rem;
+    }
+  }
+
+  .product-image {
+    width: 100%;
+
+    @media (min-width: $lg) {
+      max-width: 40rem;
+    }
+  }
+
+  .product-thumbnails {
+    width: 8rem;
+
+    &__columns {
+      width: 14rem;
+    }
+  }
+
+  .product-thumbnail {
+    width: 7rem;
+    border: 0.1rem solid transparent;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+    outline: none;
+
+    &__active {
+      border: 0.1rem solid $color-primary;
+    }
+
+    &:focus {
+      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+    }
+  }
+}

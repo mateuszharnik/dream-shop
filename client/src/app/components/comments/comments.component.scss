@@ -1,0 +1,48 @@
+// Imports
+@import "../../../assets/scss/variables";
+
+// Comments
+
+.comment {
+  background: lighten($color-light, 5%);
+  border-radius: 0.4rem;
+  border: 0.2rem solid $color-light;
+
+  &:last-of-type {
+    margin-bottom: 0rem;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+  }
+
+  &__image {
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    margin-right: 0.8rem;
+
+    &--default {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: lighten($color-gray, 20%);
+      color: $color-gray;
+      font-size: 3rem;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  &__timestamp {
+    font-style: italic;
+  }
+}
