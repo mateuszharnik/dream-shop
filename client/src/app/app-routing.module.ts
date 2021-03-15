@@ -49,6 +49,11 @@ const routes: Routes = [
             loadChildren: '@webpage/products/products.module#ProductsModule',
           },
           {
+            path: 'produkt/:id',
+            data: { animation: 'product' },
+            loadChildren: '@webpage/product/product.module#ProductModule',
+          },
+          {
             path: 'najczesciej-zadawane-pytania',
             data: { animation: 'faq' },
             loadChildren: '@webpage/faq/faq.module#FaqModule',

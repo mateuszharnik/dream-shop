@@ -1,0 +1,42 @@
+// Imports
+@import "../../../../assets/scss/variables";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/a11y/a11y.scss";
+@import "~swiper/components/navigation/navigation.scss";
+@import "~swiper/components/pagination/pagination.scss";
+
+// Product Page
+.product-page {
+  &__width {
+    max-width: 40rem;
+  }
+
+  &__details {
+    font-size: 2.8rem;
+  }
+
+  &__input {
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    border-radius: 0.4rem;
+    line-height: 1.5;
+    text-align: center;
+    border: 0.1rem solid #832de9;
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:focus {
+      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type="number"] {
+      -moz-appearance: textfield;
+    }
+  }
+}

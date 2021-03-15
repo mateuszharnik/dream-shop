@@ -1,0 +1,33 @@
+<div class="product-images">
+  <div class="flex flex-align-center" *ngIf="isDesktop; else slider">
+    <div
+      *ngIf="images.length > 1"
+      class="product-thumbnails mr-7"
+      [ngClass]="{
+        'product-thumbnails__columns': images.length > 5
+      }"
+    >
+      <img
+        *ngFor="let image of images"
+        class="product-thumbnail p-2"
+        [ngClass]="{
+          'product-thumbnail__active': currentImage === image
+        }"
+        [src]="image"
+        alt="Zdjęcie produktu"
+        (click)="changeCurrentImage(image)"
+        tabindex="0"
+      />
+    </div>
+    <img [src]="currentImage" alt="Zdjęcie produktu" class="product-image" />
+  </div>
+  <ng-template #slider>
+    <div class="swiper-slider m-auto lg:mx-0">
+      <swiper [slidesPerView]="1" [spaceBetween]="0" [navigation]="true">
+        <ng-template swiperSlide *ngFor="let image of images">
+          <img [src]="image" class="product-image" alt="Zdjęcie produktu" />
+        </ng-template>
+      </swiper>
+    </div>
+  </ng-template>
+</div>

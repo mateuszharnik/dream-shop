@@ -26,11 +26,15 @@ export class OrderSummaryComponent {
       (price: number, product: OrderProduct) => {
         price += parseFloat(product.price.replace(',', '.'));
 
+        price = price * product.quantity;
         return price;
       },
       0,
     );
 
-    return `${totalPrice.toFixed(2).replace('.', ',')}`;
+    const arr: string[] = totalPrice.toFixed(2).replace('.', ',').split(',');
+    arr[0] = arr[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    return arr.join(',').toString();
   }
 }

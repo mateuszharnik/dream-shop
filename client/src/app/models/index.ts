@@ -4,6 +4,19 @@ export interface Alert {
   key: string;
 }
 
+export interface Comment {
+  _id: string;
+  product_id: string;
+  user_id: string;
+  author_image: string;
+  content: string;
+  purify_content: string;
+  author: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
 export interface Alerts {
   server: string;
   error: string;
@@ -201,6 +214,7 @@ export interface FAQCategories {
 export interface FAQ {
   _id?: string;
   title: string;
+  purify_title: string;
   content: string;
   purify_content: string;
   category: string;

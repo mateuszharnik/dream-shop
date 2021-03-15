@@ -1,0 +1,103 @@
+<div
+  *ngIf="isLoading; else productsView"
+  class="spinner-wrapper spinner-wrapper__comments"
+>
+  <app-spinner></app-spinner>
+</div>
+<ng-template #productsView>
+  <div *ngIf="comments.length; else noComments">
+    <div class="comment p-4 mb-6" *ngFor="let comment of comments">
+      <div class="comment__head mb-6">
+        <img
+          *ngIf="comment.author_image; else defaultAvatar"
+          [src]="comment.author_image"
+          alt="Avatar użytkownika"
+          class="comment__image"
+        />
+        <ng-template #defaultAvatar>
+          <div class="comment__image comment__image--default">
+            <app-fa-icon [faClass]="'far fa-user'"></app-fa-icon>
+          </div>
+        </ng-template>
+        <div class="comment__author truncate bolder mr-auto">
+          {{ comment.author }}
+        </div>
+        <app-button
+          *ngIf="
+            user &&
+            (user._id === comment.user_id ||
+              user.roles.indexOf('administrator') !== -1)
+          "
+          [buttonClass]="''"
+          [buttonTitle]="'Usuń komentarz'"
+          [buttonOnClick]="true"
+          (whenButtonClick)="deleteComment(comment._id)"
+        >
+          <app-fa-icon [faClass]="'far fa-trash-alt'"></app-fa-icon>
+        </app-button>
+      </div>
+      <div class="comment__body">
+        <div
+          class="comment__content"
+          [innerHTML]="comment.purify_content"
+        ></div>
+        <span class="comment__timestamp ml-auto">
+          {{ comment.updated_at | date: "medium":"pl-PL":"pl-PL" }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <ng-template #noComments>
+    <div>Brak komentarzy.</div>
+  </ng-template>
+  <div class="mt-8">
+    <app-form [formName]="form" (whenFormSubmit)="submit()">
+      <div class="row">
+        <div class="column-12 mb-4">
+          <app-textarea
+            [textareaID]="'content'"
+            [textareaRows]="'4'"
+            [textareaLabel]="'Napisz komentarz'"
+            [textareaPlaceholder]="'Treść komentarza.'"
+            [textareaClass]="'form__textarea w-100'"
+            [textareaValidation]="validation('content')"
+            [textareaAlerts]="contentAlerts"
+            [textareaMessage]="
+              'Język Markdown jest wspierany. Niedozwolone znaki zostaną usunięte.'
+            "
+            [textareaGroup]="form"
+            [textareaForm]="form"
+            [textareaLabelClass]="'block mb-2 bold'"
+          ></app-textarea>
+        </div>
+        <div class="column-12 text-center">
+          <app-button
+            [buttonType]="'submit'"
+            [buttonTitle]="computedButtonTitle()"
+            [buttonDisabled]="isDisabled"
+          >
+            {{ computedButtonText() }}
+            <app-fa-icon
+              *ngIf="isDisabled"
+              [faClass]="'fas fa-spinner fa-spin ml-1'"
+            ></app-fa-icon>
+          </app-button>
+        </div>
+      </div>
+    </app-form>
+    <div class="w-100 text-center mt-4">
+      <app-alert
+        *ngIf="alerts.error"
+        [alertClass]="'alert alert-danger mb-6 m-auto'"
+      >
+        {{ alerts.error }}
+      </app-alert>
+      <app-alert
+        *ngIf="alerts.success"
+        [alertClass]="'alert alert-success mb-6 m-auto'"
+      >
+        {{ alerts.success }}
+      </app-alert>
+    </div>
+  </div>
+</ng-template>

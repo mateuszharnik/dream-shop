@@ -69,6 +69,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
       this.router.navigate([`/zamowienia/${order._id}`]);
     } catch (error) {
+      console.log(error);
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
