@@ -19,7 +19,9 @@ import {
   Pagination,
   Product,
   ProductCategory,
+  ProductParams,
   ProductWithPagination,
+  SortOption,
 } from '@models/index';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -39,9 +41,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   pagination: Pagination = null;
   isLoadingProducts = false;
+  isLoadingMoreProducts = false;
   isLoading = true;
   subscriptions: Subscription[] = [];
-  id = '';
   trackID = null;
   windowEl: Window = null;
   categories: ProductCategory[] = [];
@@ -49,7 +51,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   listenerTime = 100;
   throttleListener = null;
   debounceListener = null;
-  search = '';
+  options: ProductParams = {
+    skip: 0,
+    limit: 12,
+    category: 'wszystkie',
+    search: '',
+    available: false,
+    sortType: 'desc',
+    sort: 'popularnosc',
+  };
   alerts: Alerts = {
     server: '',
     error: '',
@@ -77,13 +87,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.activatedRoute.queryParams.subscribe((params) => {
-        this.search = params.search;
+        this.options.search = params.search;
       }),
     );
 
     this.subscriptions.push(
       this.activatedRoute.params.subscribe((params: Params) => {
-        this.id = params.id;
+        this.options.category = params.id;
+
+        if (params.id === 'nowosci' || params.id === 'bestsellery') {
+          this.options.sort = undefined;
+          this.options.sortType = undefined;
+        } else {
+          this.options.sort = 'popularnosc';
+          this.options.sortType = 'desc';
+        }
       }),
     );
 
@@ -92,6 +110,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       'scroll',
       throttle(this.loadProducts, this.listenerTime),
     );
+
     this.debounceListener = this.renderer.listen(
       'window',
       'scroll',
@@ -122,17 +141,99 @@ export class ProductsComponent implements OnInit, OnDestroy {
     );
   }
 
-  async initState() {
-    this.isLoading = true;
+  async filterProducts(available) {
+    this.isLoadingProducts = true;
+
+    this.options.available = available;
 
     try {
       const response: ProductWithPagination = await this.productsService.fetchProducts(
-        0,
-        12,
-        this.id,
-        this.search,
+        this.options,
       );
-      this.categories = await this.productsService.fetchProductCategories();
+
+      if (this.options.category === 'wszystkie') {
+        this.categories = await this.productsService.fetchProductCategories();
+        this.categories = this.categories.filter(
+          ({ category: cat }) => cat !== 'bestsellery' && cat !== 'nowosci',
+        );
+      } else if (
+        this.options.category === 'nowosci' ||
+        this.options.category === 'bestsellery'
+      ) {
+        this.categories = [];
+      }
+
+      this.pagination = response.pagination;
+      this.products = response.products;
+      this.isLoadingProducts = false;
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+
+      this.isLoadingProducts = false;
+    }
+  }
+
+  async sortProducts(sortOption: SortOption) {
+    this.isLoadingProducts = true;
+
+    const { sortType, sort } = sortOption;
+
+    this.options.sort = sort;
+    this.options.sortType = sortType;
+
+    try {
+      const response: ProductWithPagination = await this.productsService.fetchProducts(
+        this.options,
+      );
+
+      if (this.options.category === 'wszystkie') {
+        this.categories = await this.productsService.fetchProductCategories();
+        this.categories = this.categories.filter(
+          ({ category }) => category !== 'bestsellery' && category !== 'n,owosci',
+        );
+      } else if (
+        this.options.category === 'nowosci' ||
+        this.options.category === 'bestsellery'
+      ) {
+        this.categories = [];
+      }
+
+      this.pagination = response.pagination;
+      this.products = response.products;
+      this.isLoadingProducts = false;
+    } catch (error) {
+      if (error.status === 0) {
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+
+      this.isLoadingProducts = false;
+    }
+  }
+
+  async initState() {
+    this.isLoading = true;
+    this.options.skip = 0;
+    this.options.available = false;
+
+    try {
+      const response: ProductWithPagination = await this.productsService.fetchProducts(
+        this.options,
+      );
+      if (this.options.category !== 'wszystkie') {
+        this.categories = [];
+      } else {
+        this.categories = await this.productsService.fetchProductCategories();
+        this.categories = this.categories.filter(
+          ({ category }) => category !== 'bestsellery' && category !== 'nowosci',
+        );
+      }
+
       this.pagination = response.pagination;
       this.products = response.products;
       this.setLoading();
@@ -155,16 +256,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     const rect: DOMRect = this.productsWrapper.nativeElement.getBoundingClientRect();
     const shouldLoad: boolean = rect.bottom - 200 < this.windowEl.innerHeight;
 
-    if (shouldLoad && !this.isLoadingProducts && this.pagination.remaining) {
+    if (
+      shouldLoad &&
+      !this.isLoadingMoreProducts &&
+      this.pagination.remaining
+    ) {
       try {
-        this.isLoadingProducts = true;
+        this.isLoadingMoreProducts = true;
+        this.options.skip = this.pagination.skip + this.pagination.limit;
 
-        const skip: number = this.pagination.skip + this.pagination.limit;
         const response: ProductWithPagination = await this.productsService.fetchProducts(
-          skip,
-          12,
-          this.id,
-          this.search,
+          this.options,
         );
 
         this.pagination = response.pagination;
@@ -176,7 +278,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           this.setAlerts('', error.error.message);
         }
       } finally {
-        this.isLoadingProducts = false;
+        this.isLoadingMoreProducts = false;
       }
     }
   }

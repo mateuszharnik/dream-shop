@@ -1,0 +1,26 @@
+<div [formGroup]="radioGroup" [ngClass]="radioGroupClass">
+  <input
+    type="radio"
+    [ngClass]="getRadioClass()"
+    [name]="radioName"
+    [id]="radioID"
+    [formControlName]="radioID"
+    [autofocus]="radioFocus"
+    [required]="radioRequired"
+    [attr.aria-describedby]="getAriaDescribedBy()"
+    (keydown)="onKeydown($event)"
+  />
+  <label [ngClass]="getRadioLabelClass()" [for]="radioID">{{
+    radioLabel
+  }}</label>
+  <small class="form__help" [id]="getSmallID()" *ngIf="radioMessage">
+    {{ radioMessage }}
+  </small>
+  <div class="form__errors" *ngIf="radioValidation">
+    <div *ngFor="let alert of radioAlerts; trackBy: trackID">
+      <div class="mt-1" *ngIf="radioForm.controls[radioID].errors[alert.key]">
+        {{ alert.message }}
+      </div>
+    </div>
+  </div>
+</div>

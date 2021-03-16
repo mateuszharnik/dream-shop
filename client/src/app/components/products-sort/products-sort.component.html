@@ -1,0 +1,119 @@
+<div class="sort relative w-100 mb-6">
+  <button
+    *ngIf="!isDesktop"
+    [title]="buttonTitle(isOpen)"
+    type="button"
+    class="sort__button absolute w-100 block py-3 px-6"
+    [ngClass]="{ 'sort__button--no-border-radius-bottom': isOpen }"
+    [disabled]="isDisabled"
+    (click)="toggleSort()"
+  >
+    {{ sortButtonText }}
+    <app-fa-icon [faClass]="sortIcon"></app-fa-icon>
+  </button>
+  <div
+    class="overflow-hidden"
+    *ngIf="isOpen || isDesktop"
+    [@Slide]="!isDesktop"
+  >
+    <div class="sort__wrapper">
+      <div class="sort__list px-2">
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            [value]="'popularDesc'"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            id="popularDesc"
+          />
+          <label class="form__radio--label" for="popularDesc">
+            Popularność malejąco
+          </label>
+        </div>
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            [value]="'popularAsc'"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            id="popularAsc"
+          />
+          <label class="form__radio--label" for="popularAsc">
+            Popularność rosnąco
+          </label>
+        </div>
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            id="priceDesc"
+            [value]="'priceDesc'"
+          />
+          <label class="form__radio--label" for="priceDesc">
+            Cena malejąco
+          </label>
+        </div>
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            id="priceAsc"
+            [value]="'priceAsc'"
+          />
+          <label class="form__radio--label" for="priceAsc">
+            Cena rosnąco
+          </label>
+        </div>
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            [value]="'nameAsc'"
+            id="nameAsc"
+          />
+          <label class="form__radio--label" for="nameAsc">
+            Alfabetycznie od A
+          </label>
+        </div>
+        <div class="sort__item py-3">
+          <input
+            type="radio"
+            [(ngModel)]="option"
+            ng-control="options"
+            class="form__radio"
+            name="sort"
+            [value]="'nameDesc'"
+            id="nameDesc"
+          />
+          <label class="form__radio--label" for="nameDesc">
+            Alfabetycznie od Z
+          </label>
+        </div>
+      </div>
+      <div class="sort__button__wrapper p-2">
+        <app-button
+          [buttonType]="'button'"
+          [buttonTitle]="'Zastosuj sortowanie'"
+          [buttonClass]="'button button-primary w-100 block'"
+          [buttonOnClick]="true"
+          (whenButtonClick)="sortProducts()"
+        >
+          Sortuj
+        </app-button>
+      </div>
+    </div>
+  </div>
+</div>

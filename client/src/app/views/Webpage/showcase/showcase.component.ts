@@ -45,15 +45,15 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     try {
-      const bestsellerResponse: ProductWithPagination = await this.productsService.fetchProducts(
-        0,
-        10,
-        'bestsellery',
-      );
-      const newResponse: ProductWithPagination = await this.productsService.fetchProducts(
-        0,
-        10,
-      );
+      const bestsellerResponse: ProductWithPagination = await this.productsService.fetchProducts({
+        skip: 0,
+        limit: 10,
+        category: 'bestsellery',
+      });
+      const newResponse: ProductWithPagination = await this.productsService.fetchProducts({
+        skip: 0,
+        limit: 10,
+      });
       this.newProducts = newResponse.products;
       this.bestsellerProducts = bestsellerResponse.products;
       this.setLoading();

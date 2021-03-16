@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Alert, Alerts, Map } from '@models/index';
+import { Alert, Alerts, Map, MapEvent } from '@models/index';
 import { MapService } from '@services/map.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -35,9 +35,11 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapService: MapService,
     private router: Router,
   ) {
-    this.subscriptions.push(this.mapService.getMap().subscribe((data: Map) => {
-      this.map = data;
-    }));
+    this.subscriptions.push(
+      this.mapService.getMap().subscribe((data: Map) => {
+        this.map = data;
+      }),
+    );
   }
 
   async ngOnInit() {
@@ -59,7 +61,9 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   setLoading(loading = false) {
@@ -79,20 +83,23 @@ export class MapComponent implements OnInit, OnDestroy {
     const latlng = map && map.latlng ? map.latlng : '';
 
     this.form = this.formBuilder.group({
-      latlng: [latlng,
+      latlng: [
+        latlng,
         {
           validators: [
             Validators.pattern(/^\(-?[0-9]+\.[0-9]+,\s-?[0-9]+\.[0-9]+\)$/),
           ],
-        }],
+        },
+      ],
     });
   }
 
   validation(prop: string): boolean {
     return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
+      (this.formControls[prop].errors &&
+        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
+      (this.formControls[prop].errors && this.isSubmitted)
+    );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
@@ -113,7 +120,10 @@ export class MapComponent implements OnInit, OnDestroy {
     this.isDisabled = true;
 
     try {
-      const response: Map = await this.mapService.saveMap(this.map._id, this.form.value);
+      const response: Map = await this.mapService.saveMap(
+        this.map._id,
+        this.form.value,
+      );
       this.mapService.setMap(response);
       this.setAlerts('', '', 'Pomyślnie zapisano.');
     } catch (error) {
@@ -128,7 +138,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   }
 
-  setPosition(event) {
+  setPosition(event: MapEvent) {
     this.form.setValue({
       latlng: `(${event.lat}, ${event.lng})`,
     });

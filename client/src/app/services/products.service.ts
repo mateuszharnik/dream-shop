@@ -6,6 +6,7 @@ import {
   Product,
   ProductCategory,
   ProductInCart,
+  ProductParams,
   ProductWithPagination,
 } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -32,20 +33,27 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  fetchProducts(
-    skip?: number,
-    limit?: number,
-    category?: string,
-    search?: string,
-  ): Promise<ProductWithPagination> {
+  fetchProducts(options: ProductParams = {}): Promise<ProductWithPagination> {
+    const params = Object.assign({ skip: 0, limit: 12 }, options);
+
+    const { skip, limit, search, category, sort, sortType, available } = params;
+
     let url = `http://localhost:3000/v1/products?skip=${skip}&limit=${limit}`;
 
-    if (category) {
+    if (category && category !== 'wszystkie') {
       url = `${url}&category=${category}`;
     }
 
     if (search) {
       url = `${url}&search=${search}`;
+    }
+
+    if (available) {
+      url = `${url}&available=${available}`;
+    }
+
+    if (sort && sortType) {
+      url = `${url}&sort=${sort}&sortType=${sortType}`;
     }
 
     return this.http.get<ProductWithPagination>(url).toPromise();

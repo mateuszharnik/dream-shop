@@ -6,29 +6,63 @@
     <div *ngIf="!alerts.server; else showError">
       <div class="container-xl py-10">
         <div class="row" #productsWrapper>
-          <div class="column-12 lg:column-3">Filtry</div>
+          <div class="column-12 lg:column-3">
+            <div
+              class="lg:m-3"
+              *ngIf="
+                options.category !== 'nowosci' &&
+                options.category !== 'bestsellery'
+              "
+            >
+              <app-products-sort
+                [sortButtonText]="'Sortowanie'"
+                [sortIcon]="'fas fa-sort'"
+                (whenProductsSorted)="sortProducts($event)"
+              >
+              </app-products-sort>
+            </div>
+            <div class="lg:m-3">
+              <app-products-filters
+                [filterButtonText]="'Filtruj'"
+                [filterIcon]="'fas fa-filter'"
+                (whenProductsFiltered)="filterProducts($event)"
+              >
+              </app-products-filters>
+            </div>
+          </div>
           <div class="column-12 lg:column-9">
             <div
-              class="row flex-align-end"
-              *ngIf="products.length; else noProducts"
+              *ngIf="isLoadingProducts; else showProducts"
+              class="spinner-wrapper"
             >
+              <app-spinner></app-spinner>
+            </div>
+            <ng-template #showProducts>
               <div
-                class="column-12 xs:column-6 md:column-4 lg:column-3"
-                *ngFor="let product of products; trackBy: trackID"
+                class="row flex-align-end"
+                *ngIf="products.length; else noProducts"
               >
-                <app-product-showcase
-                  [product]="product"
-                ></app-product-showcase>
+                <div
+                  class="column-12 xs:column-6 md:column-4 lg:column-3"
+                  *ngFor="let product of products; trackBy: trackID"
+                >
+                  <app-product-showcase
+                    [product]="product"
+                  ></app-product-showcase>
+                </div>
               </div>
-            </div>
-            <div *ngIf="isLoadingProducts" class="text-center text-primary">
-              <app-fa-icon
-                [faClass]="'fas fa-circle-notch fa-spin mr-1'"
-              ></app-fa-icon>
-              Wczytywanie...
-            </div>
-            <ng-template #noProducts>
-              <p class="text-center m-0">Brak produktów.</p>
+              <div
+                *ngIf="isLoadingMoreProducts"
+                class="text-center text-primary"
+              >
+                <app-fa-icon
+                  [faClass]="'fas fa-circle-notch fa-spin mr-1'"
+                ></app-fa-icon>
+                Wczytywanie...
+              </div>
+              <ng-template #noProducts>
+                <p class="text-center m-0">Brak produktów.</p>
+              </ng-template>
             </ng-template>
           </div>
         </div>

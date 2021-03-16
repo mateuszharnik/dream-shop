@@ -40,10 +40,10 @@ const getProducts = async (req, res, next) => {
   };
 
   if (available) {
-    query.quantity = { $gte: '0' };
+    query.quantity = { $gt: 0 };
   }
 
-  if (category && category !== 'bestsellery') {
+  if (category && category !== 'bestsellery' && category !== 'nowosci') {
     const categories = category.split(',');
     if (categories.length > 1) {
       query.$or = [];
@@ -80,10 +80,14 @@ const getProducts = async (req, res, next) => {
     sortQuery.price = sortType === 'desc' ? -1 : 1;
   } else if (sort === 'alfabet') {
     sortQuery.name = sortType === 'desc' ? -1 : 1;
-  } else if (category === 'bestsellery') {
+  } else if (sort === 'popularnosc') {
+    sortQuery.views = sortType === 'desc' ? -1 : 1;
+  }
+
+  if (category === 'bestsellery') {
     sortQuery.selled = -1;
-  } else {
-    sortQuery.created_at = sortType === 'desc' ? -1 : 1;
+  } else if (category === 'nowosci') {
+    sortQuery.created_at = -1;
   }
 
   try {
@@ -154,7 +158,16 @@ const getProduct = async (req, res, next) => {
       return responseWithError(res, next, 404, 'Produkt nie istnieje.');
     }
 
-    res.status(200).json({ ...product });
+    const updatedProduct = await productsDB.findOneAndUpdate(
+      { _id: product._id },
+      { $set: { views: product.views + 1 } },
+    );
+
+    if (!updatedProduct || (updatedProduct && updatedProduct.deleted_at)) {
+      return responseWithError(res, next, 404, 'Produkt nie istnieje.');
+    }
+
+    res.status(200).json(updatedProduct);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -264,6 +277,7 @@ const addProduct = async (req, res, next) => {
     const product = await productsDB.insert({
       ...data,
       selled: 0,
+      views: 0,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,

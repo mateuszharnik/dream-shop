@@ -231,6 +231,42 @@ export interface Map {
   deleted_at?: Date | null;
 }
 
+export interface MapEvent {
+  lat: number;
+  lng: number;
+}
+
+export interface SortOption {
+  sort: 'popularnosc' | 'cena' | 'alfabet';
+  sortType: 'asc' | 'desc';
+}
+
+export interface CompanyNameFilters {
+  name: string;
+  items: number;
+}
+
+export interface Filter {
+  _id: string;
+  category: string;
+  filters: {
+    company_name: CompanyNameFilters[];
+  };
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date | null;
+}
+
+export interface ProductParams {
+  skip?: number;
+  limit?: number;
+  category?: string;
+  available?: boolean;
+  search?: string;
+  sort?: 'popularnosc' | 'cena' | 'alfabet';
+  sortType?: 'asc' | 'desc';
+}
+
 export interface Message {
   _id?: string;
   name: string;

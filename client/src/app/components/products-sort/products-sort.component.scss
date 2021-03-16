@@ -1,0 +1,70 @@
+// Imports
+@import "../../../assets/scss/variables";
+@import "../Form/radio/radio.component";
+
+// Products Filter
+.sort {
+  width: 100%;
+  max-width: 30rem;
+  padding-top: 4.4rem;
+  margin: 0rem auto 2.4rem;
+
+  @media (min-width: $lg) {
+    padding-top: 0rem;
+  }
+
+  &__wrapper {
+    border: 0.1rem solid $color-gray;
+    margin-top: -0.1rem;
+    border-bottom-left-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+
+    @media (min-width: $lg) {
+      border-radius: 0.4rem;
+      margin-top: 0rem;
+    }
+  }
+
+  &__title {
+    background-color: $color-light;
+    border-top: 0.1rem solid $color-gray;
+    border-bottom: 0.1rem solid $color-gray;
+  }
+
+  &__item {
+    border-bottom: 0.1rem solid $color-light;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  &__button {
+    top: 0rem;
+    left: 0rem;
+    color: $color-white;
+    background-color: $color-primary;
+    border: 0.1rem solid darken($color-primary, 7%);
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &__wrapper {
+      border-top: 0.1rem solid $color-gray;
+    }
+
+    &--no-border-radius-bottom {
+      border-bottom-left-radius: 0rem;
+      border-bottom-right-radius: 0rem;
+      z-index: 999;
+    }
+
+    &:hover {
+      color: $color-white;
+      background-color: darken($color-primary, 7%);
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    &:focus {
+      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+    }
+  }
+}
