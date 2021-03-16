@@ -162,7 +162,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       try {
         this.isLoadingProducts = true;
         const skip = this.pagination.skip + this.pagination.limit;
-        const response: ProductWithPagination = await this.productsService.fetchProducts(skip);
+        const response: ProductWithPagination = await this.productsService.fetchProducts({ skip });
         this.pagination = response.pagination;
         this.productsService.setProducts([
           ...this.products,

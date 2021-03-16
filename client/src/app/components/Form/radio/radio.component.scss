@@ -1,9 +1,9 @@
 // Imports
 @import "../../../../assets/scss/variables";
 
-// Form Checkbox
+// Form Radio
 .form {
-  &__checkbox {
+  &__radio {
     opacity: 0;
     height: 0;
     width: 0;
@@ -13,7 +13,7 @@
     position: absolute;
 
     &--label {
-      display: inline-block;
+      display: block;
       line-height: 2.4rem;
       position: relative;
       margin-left: 3.4rem;
@@ -26,22 +26,10 @@
         left: -3.4rem;
         width: 2.4rem;
         height: 2.4rem;
-        border-radius: 0.4rem;
+        border-radius: 50%;
         border: 0.1rem solid $form-text-box-border-color;
         background-color: $color-white;
         cursor: pointer;
-        transition: box-shadow 0.3s ease-in-out;
-      }
-    }
-
-    &.invalid {
-      + label::before {
-        border: 0.1rem solid $color-danger;
-      }
-
-      &:focus + label::before {
-        border: 0.1rem solid $color-danger;
-        box-shadow: 0rem 0rem 0rem 0.3rem $form-invalid-focus-outline-color;
         transition: box-shadow 0.3s ease-in-out;
       }
     }
@@ -53,15 +41,22 @@
     }
 
     &:checked + label::before {
-      content: "\f00c";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      color: $color-white;
-      text-align: center;
+      content: "";
       font-size: 1.4rem;
-      text-align: center;
       line-height: 2.4rem;
       border: 0.1rem solid $color-primary;
+      background-color: $color-white;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    &:checked + label::after {
+      content: "";
+      position: absolute;
+      top: 0.4rem;
+      left: -3rem;
+      border-radius: 50%;
+      width: 1.6rem;
+      height: 1.6rem;
       background-color: $color-primary;
       transition: box-shadow 0.3s ease-in-out;
     }

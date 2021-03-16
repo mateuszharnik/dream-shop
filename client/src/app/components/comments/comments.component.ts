@@ -59,10 +59,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.commentsService.getComments().subscribe((comments: Comment[]) => {
-        this.comments = comments.map((comment: Comment) => ({
-          ...comment,
-          purify_content: markdown(comment.purify_content),
-        }));
+        if (comments.length) {
+          this.comments = comments.map((comment: Comment) => ({
+            ...comment,
+            purify_content: markdown(comment.purify_content),
+          }));
+        }
       }),
     );
 

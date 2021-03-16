@@ -1,0 +1,55 @@
+<div class="filters relative w-100 mb-6">
+  <button
+    *ngIf="!isDesktop"
+    [title]="buttonTitle(isOpen)"
+    type="button"
+    class="filters__button absolute w-100 block py-3 px-6"
+    [ngClass]="{ 'filters__button--no-border-radius-bottom': isOpen }"
+    [disabled]="isDisabled"
+    (click)="toggleFilters()"
+  >
+    {{ filterButtonText }}
+    <app-fa-icon [faClass]="filterIcon"></app-fa-icon>
+  </button>
+  <div
+    class="overflow-hidden"
+    *ngIf="isOpen || isDesktop"
+    [@Slide]="!isDesktop"
+  >
+    <div class="filters__wrapper">
+      <div class="filters__list">
+        <div>
+          <div
+            class="filters__title filters__title--first py-3 bolder text-center"
+          >
+            Dostępność
+          </div>
+          <div class="filters__item py-3 px-2">
+            <input
+              type="checkbox"
+              class="form__checkbox"
+              name="available"
+              id="available"
+              [(ngModel)]="available"
+              [value]="true"
+            />
+            <label class="form__checkbox--label" for="available">
+              Tylko dostępne
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="filters__button__wrapper p-2">
+        <app-button
+          [buttonType]="'button'"
+          [buttonTitle]="'Zastosuj filtry'"
+          [buttonClass]="'button button-primary w-100 block'"
+          [buttonOnClick]="true"
+          (whenButtonClick)="filterProducts()"
+        >
+          Filtruj
+        </app-button>
+      </div>
+    </div>
+  </div>
+</div>

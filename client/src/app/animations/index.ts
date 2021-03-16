@@ -26,6 +26,14 @@ export const RouterFade = trigger('RouterFade', [
 ]);
 
 export const Slide = trigger('Slide', [
+  transition('void => false', [
+    style({ height: '0' }),
+    style({ height: '*' }),
+  ]),
+  transition('false => void', [
+    style({ height: '*' }),
+    style({ height: '0' }),
+  ]),
   transition('void => *', [
     style({ height: '0' }),
     animate('0.3s', style({ height: '*' })),
