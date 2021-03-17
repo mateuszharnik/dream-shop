@@ -1,57 +1,62 @@
 const { mapDB } = require('../../../db');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
-const { mapSchema } = require('./index.model');
+const {
+  mapConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getMap = async (req, res, next) => {
+const { MAP_NOT_FOUND, MAP_NOT_UPDATED } = mapConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getMap = async (req, res) => {
   try {
-    const map = await mapDB.findOne({});
+    const map = await mapDB.findOne({ deleted_at: null });
 
     if (!map) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać danych dla mapy.');
+      return req.data.responseWithError(NOT_FOUND, MAP_NOT_FOUND);
     }
 
-    res.status(200).json({ ...map });
+    res.status(OK).json(map);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateMap = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  const { schemaError, data } = mapSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
+const updateMap = async (req, res) => {
   try {
-    const map = await mapDB.findOneAndUpdate(
-      { _id: params.id },
+    const map = await mapDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!map) {
+      return req.data.responseWithError(NOT_FOUND, MAP_NOT_FOUND);
+    }
+
+    const updatedMap = await mapDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
-          ...data,
+          ...req.data.map,
           updated_at: new Date(),
         },
       },
     );
 
-    if (!map) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować koordynatów mapy.');
+    if (!updatedMap) {
+      return req.data.responseWithError(CONFLICT, MAP_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...map });
+    res.status(OK).json(updatedMap);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

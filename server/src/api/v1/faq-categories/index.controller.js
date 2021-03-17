@@ -1,22 +1,33 @@
-const { responseWithError } = require('../../../helpers/errors');
 const { faqCategoriesDB } = require('../../../db');
+const {
+  faqsCategoriesConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getFAQCategories = async (req, res, next) => {
+const { FAQ_CATEGORIES_NOT_FOUND } = faqsCategoriesConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = statusCodesConstants;
+
+const getFAQCategories = async (req, res) => {
   try {
-    const faq = await faqCategoriesDB.find({}, {
-      sort: { category: 1 },
-      collation: { locale: 'pl', numericOrdering: true },
-    });
+    const faqCategories = await faqCategoriesDB.find(
+      {},
+      {
+        sort: { category: 1 },
+        collation: { locale: 'pl', numericOrdering: true },
+      },
+    );
 
-    if (!faq.length) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii najczęściej zadawanych pytań.');
+    if (!faqCategories.length) {
+      return req.data.responseWithError(NOT_FOUND, FAQ_CATEGORIES_NOT_FOUND);
     }
 
-    res.status(200).json(faq);
+    res.status(OK).json(faqCategories);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

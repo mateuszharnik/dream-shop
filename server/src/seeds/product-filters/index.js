@@ -1,15 +1,18 @@
 const { productFiltersDB } = require('../../db');
+const { dbDeleteConstants } = require('../../helpers/constants');
 
-const seedProductFilters = async () => {
+const { PRODUCT_FILTERS_DELETED } = dbDeleteConstants;
+
+const removeProductFilters = async () => {
   try {
-    await productFiltersDB.remove({});
+    await productFiltersDB.remove();
 
     // eslint-disable-next-line no-console
-    console.log('Database seeded with product filters data');
+    console.log(PRODUCT_FILTERS_DELETED);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
   }
 };
 
-module.exports = seedProductFilters;
+module.exports = removeProductFilters;

@@ -1,105 +1,96 @@
-const { responseWithError } = require('../../../helpers/errors');
-const { faqSchema } = require('./index.model');
-const { dbIdSchema } = require('../../../models');
 const { faqDB } = require('../../../db');
-const { purify } = require('../../../helpers/sanitize');
+const {
+  faqsConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getFAQs = async (req, res, next) => {
+const {
+  FAQS_NOT_FOUND,
+  FAQ_NOT_CREATED,
+  FAQ_NOT_FOUND,
+  FAQ_NOT_UPDATED,
+  FAQS_NOT_DELETED,
+  FAQ_NOT_DELETED,
+  FAQS_DELETED,
+  FAQ_ALREADY_EXIST,
+} = faqsConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getFAQs = async (req, res) => {
   try {
-    const faqs = await faqDB.find({ deleted_at: null }, { sort: { created_at: -1 } });
+    const faqs = await faqDB.find(
+      { deleted_at: null },
+      { sort: { created_at: -1 } },
+    );
 
     if (!faqs) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać najczęściej zadawanych pytań.');
+      return req.data.responseWithError(NOT_FOUND, FAQS_NOT_FOUND);
     }
 
-    res.status(200).json(faqs);
+    res.status(OK).json(faqs);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const getFAQ = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 404, paramsSchemaError.details[0].message);
-  }
-
+const getFAQ = async (req, res) => {
   try {
-    const faq = await faqDB.findOne({ _id: params.id });
+    const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
-    if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 404, 'Pytanie nie istnieje.');
+    if (!faq) {
+      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
     }
 
-    res.status(200).json({ ...faq });
+    res.status(OK).json(faq);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateFAQ = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  if (req.body) {
-    if (req.body.title && typeof req.body.title === 'string') {
-      req.body.title = req.body.title.trim();
-      const lastChar = req.body.title.charAt(req.body.title.length - 1);
-      req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
-    }
-  }
-
-  const { schemaError, data } = faqSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  data.purify_content = purify(data.content);
-
+const updateFAQ = async (req, res) => {
   try {
-    const faq = await faqDB.findOne({ _id: params.id });
+    const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
-    if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Pytanie nie istnieje.');
+    if (!faq) {
+      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
     }
 
     const updatedFAQ = await faqDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       {
         $set: {
-          ...data,
+          ...req.data.faq,
           updated_at: new Date(),
         },
       },
     );
 
     if (!updatedFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować pytania.');
+      return req.data.responseWithError(CONFLICT, FAQ_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...updatedFAQ });
+    res.status(OK).json(updatedFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteFAQs = async (req, res, next) => {
+const deleteFAQs = async (req, res) => {
   try {
     const faqs = await faqDB.find({ deleted_at: null });
 
     if (!faqs.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych pytań.');
+      return req.data.responseWithError(NOT_FOUND, FAQS_NOT_FOUND);
     }
 
     const deletedFAQs = await faqDB.update(
@@ -109,109 +100,80 @@ const deleteFAQs = async (req, res, next) => {
     );
 
     if (!deletedFAQs) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć pytań.');
+      return req.data.responseWithError(CONFLICT, FAQS_NOT_DELETED);
     }
 
-    res.status(200).json({
-      message: 'Usunięto wszystkie pytania.',
+    res.status(OK).json({
+      message: FAQS_DELETED,
       items: deletedFAQs.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteFAQ = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
+const deleteFAQ = async (req, res) => {
   try {
-    const faq = await faqDB.findOne({ _id: params.id });
+    const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
-    if (!faq || (faq && faq.deleted_at)) {
-      return responseWithError(res, next, 500, 'Pytanie nie istnieje.');
+    if (!faq) {
+      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
     }
 
     const deletedFAQ = await faqDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       { $set: { deleted_at: new Date() } },
     );
 
     if (!deletedFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć pytania.');
+      return req.data.responseWithError(CONFLICT, FAQ_NOT_DELETED);
     }
 
-    res.status(200).json({ ...deletedFAQ });
+    res.status(OK).json(deletedFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const addFAQ = async (req, res, next) => {
-  if (req.body) {
-    if (req.body.title && typeof req.body.title === 'string') {
-      req.body.title = req.body.title.trim();
-      const lastChar = req.body.title.charAt(req.body.title.length - 1);
-      req.body.title = lastChar === '?' ? req.body.title : `${req.body.title}?`;
-    }
-  }
-
-  const { schemaError, data } = faqSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  data.purify_content = purify(data.content);
-
+const addFAQ = async (req, res) => {
   try {
-    const faq = await faqDB.findOne({ title: data.title });
+    const faq = await faqDB.findOne({
+      title: req.data.faq.title,
+      deleted_at: null,
+    });
 
-    if (faq && faq.deleted_at === null) {
-      return responseWithError(res, next, 500, 'Pytanie znajduje się już w bazie danych.');
+    if (faq) {
+      return req.data.responseWithError(CONFLICT, FAQ_ALREADY_EXIST);
     }
 
-    let newFAQ = null;
+    const createdFAQ = await faqDB.insert({
+      ...req.data.faq,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
 
-    if (faq && faq.deleted_at) {
-      newFAQ = await faqDB.findOneAndUpdate(
-        { title: data.title },
-        {
-          $set: {
-            created_at: new Date(),
-            updated_at: new Date(),
-            deleted_at: null,
-          },
-        },
-      );
-    } else {
-      newFAQ = await faqDB.insert({
-        ...data,
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null,
-      });
+    if (!createdFAQ) {
+      return req.data.responseWithError(CONFLICT, FAQ_NOT_CREATED);
     }
 
-    if (!newFAQ) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać pytania w bazie danych.');
-    }
-
-    res.status(200).json({ ...newFAQ });
+    res.status(OK).json(createdFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
 module.exports = {
-  getFAQs, getFAQ, updateFAQ, deleteFAQ, addFAQ, deleteFAQs,
+  getFAQs,
+  getFAQ,
+  updateFAQ,
+  deleteFAQ,
+  addFAQ,
+  deleteFAQs,
 };

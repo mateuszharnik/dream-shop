@@ -1,4 +1,15 @@
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
+const { faqsCategoriesConstants } = require('../../helpers/constants');
+
+const {
+  RETURNS,
+  DELIVERY,
+  PAYMENT,
+  SERVICE,
+  PRODUCTS,
+  DISCOUNTS,
+  OTHERS,
+} = faqsCategoriesConstants;
 
 const user = {
   name: '',
@@ -51,48 +62,13 @@ const productCategories = [
 ];
 
 const faqCategories = [
-  {
-    category: 'zwroty',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'dostawa',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'płatności',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'obsługa',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'produkty',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'rabaty',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
-  {
-    category: 'inne',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
-  },
+  RETURNS,
+  DELIVERY,
+  PAYMENT,
+  SERVICE,
+  PRODUCTS,
+  DISCOUNTS,
+  OTHERS,
 ];
 
 const contact = {
@@ -108,9 +84,6 @@ const contact = {
 
 const map = {
   latlng: '(00.00, 00.00)',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
 };
 
 const socialMedia = {

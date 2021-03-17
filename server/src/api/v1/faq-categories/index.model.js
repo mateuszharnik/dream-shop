@@ -1,31 +1,23 @@
 const Joi = require('@hapi/joi');
-const { addId, addTimestamps } = require('../../../helpers/schemas');
-const { joiArrayConfigMessages, joiConfigMessages } = require('../../../helpers/errors/messages');
 const { categoryMessages } = require('../../../helpers/errors/messages/faq');
+const { faqsCategoriesConstants } = require('../../../helpers/constants');
 
-const faqCategoryConfig = (id = true, timestamp = true) => {
-  let config = {
-    category: Joi.string().trim()
-      .valid('zwroty', 'dostawa', 'płatności', 'obsługa', 'produkty', 'rabaty', 'inne')
-      .required()
-      .messages(categoryMessages),
-  };
+const {
+  RETURNS,
+  DELIVERY,
+  PAYMENT,
+  SERVICE,
+  PRODUCTS,
+  DISCOUNTS,
+  OTHERS,
+} = faqsCategoriesConstants;
 
-  if (id) {
-    config = addId(config);
-  }
-
-  if (timestamp) {
-    config = addTimestamps(config);
-  }
-
-  return Joi.object().keys(config).required().messages(joiConfigMessages);
-};
-
-const faqCategoriesSchema = (faqCategories, id = true, timestamps = true) => {
-  const schema = Joi.array().items(faqCategoryConfig(id, timestamps)).length(7)
+const faqCategoriesSchema = (faqCategories) => {
+  const schema = Joi.string()
+    .trim()
+    .valid(RETURNS, DELIVERY, PAYMENT, SERVICE, PRODUCTS, DISCOUNTS, OTHERS)
     .required()
-    .messages(joiArrayConfigMessages);
+    .messages(categoryMessages);
 
   const { error: schemaError, value: data } = schema.validate(faqCategories);
 

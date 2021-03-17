@@ -1,145 +1,48 @@
-const { newsletterSchema } = require('./index.model');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
 const { emailsDB } = require('../../../db');
+const {
+  sortConstants,
+  newsletterConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const deleteEmails = async (req, res, next) => {
-  try {
-    const emails = await emailsDB.find({ deleted_at: null });
+const {
+  EMAILS_NOT_FOUND,
+  EMAILS_DELETED,
+  EMAIL_NOT_DELETED,
+  EMAILS_NOT_DELETED,
+  EMAIL_NOT_FOUND,
+  EMAIL_ALREADY_EXIST,
+  EMAIL_NOT_CREATED,
+} = newsletterConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const { DESC } = sortConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
 
-    if (!emails.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych adresów email.');
-    }
-
-    const deletedEmails = await emailsDB.update(
-      { deleted_at: null },
-      { $set: { deleted_at: new Date() } },
-      { multi: true },
-    );
-
-    if (!deletedEmails) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć adresów email.');
-    }
-
-    res.status(200).json({
-      message: 'Usunięto wszystkie adresy email.',
-      items: deletedEmails.n,
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
-  }
-};
-
-const deleteEmail = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  try {
-    const email = await emailsDB.findOne({ _id: params.id });
-
-    if (!email || (email && email.deleted_at)) {
-      return responseWithError(res, next, 500, 'Podany adres email nie znajduje się w bazie danych.');
-    }
-
-    const deletedEmail = await emailsDB.findOneAndUpdate(
-      { _id: params.id },
-      { $set: { deleted_at: new Date() } },
-    );
-
-    if (!deletedEmail) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć adresu email.');
-    }
-
-    res.status(200).json({ ...deletedEmail });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
-  }
-};
-
-const addEmail = async (req, res, next) => {
-  const { schemaError, data } = newsletterSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  try {
-    const email = await emailsDB.findOne({ email: data.email });
-
-    if (email && email.deleted_at === null) {
-      return responseWithError(res, next, 500, 'Adres email znajduje się już w bazie danych.');
-    }
-
-    let newEmail = null;
-
-    if (email && email.deleted_at) {
-      newEmail = await emailsDB.findOneAndUpdate(
-        { email: data.email },
-        {
-          $set: {
-            created_at: new Date(),
-            updated_at: new Date(),
-            deleted_at: null,
-          },
-        },
-      );
-    } else {
-      newEmail = await emailsDB.insert({
-        ...data,
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null,
-      });
-    }
-
-    if (!newEmail) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać adresu email w bazie danych.');
-    }
-
-    res.status(200).json({
-      _id: newEmail._id,
-      email: newEmail.email,
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
-  }
-};
-
-const getEmails = async (req, res, next) => {
-  const { sort = 'desc' } = req.query;
-  let { skip = 0, limit = 6 } = req.query;
-
-  skip = parseInt(skip, 10) || 0;
-  limit = parseInt(limit, 10) || 6;
-
-  skip = skip < 0 ? 0 : skip;
-
-  limit = Math.min(50, Math.max(1, limit));
+const getEmails = async (req, res) => {
+  const { sort = DESC } = req.query;
+  const { skip, limit } = req.data;
 
   try {
     const total = await emailsDB.count({ deleted_at: null });
-    const emails = await emailsDB.find({ deleted_at: null }, {
-      skip: Number(skip),
-      limit: Number(limit),
-      sort: {
-        created_at: sort === 'desc' ? -1 : 1,
+    const emails = await emailsDB.find(
+      { deleted_at: null },
+      {
+        skip,
+        limit,
+        sort: {
+          created_at: sort === DESC ? -1 : 1,
+        },
       },
-    });
+    );
 
     if (!emails) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać adersów email.');
+      return req.data.responseWithError(NOT_FOUND, EMAILS_NOT_FOUND);
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       total,
       emails,
       pagination: {
@@ -151,7 +54,94 @@ const getEmails = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+  }
+};
+
+const deleteEmails = async (req, res) => {
+  try {
+    const emails = await emailsDB.find({ deleted_at: null });
+
+    if (!emails.length) {
+      return req.data.responseWithError(NOT_FOUND, EMAILS_NOT_FOUND);
+    }
+
+    const deletedEmails = await emailsDB.update(
+      { deleted_at: null },
+      { $set: { deleted_at: new Date() } },
+      { multi: true },
+    );
+
+    if (!deletedEmails) {
+      return req.data.responseWithError(CONFLICT, EMAILS_NOT_DELETED);
+    }
+
+    res.status(OK).json({
+      message: EMAILS_DELETED,
+      items: deletedEmails.n,
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+  }
+};
+
+const deleteEmail = async (req, res) => {
+  try {
+    const email = await emailsDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!email) {
+      return req.data.responseWithError(NOT_FOUND, EMAIL_NOT_FOUND);
+    }
+
+    const deletedEmail = await emailsDB.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { deleted_at: new Date() } },
+    );
+
+    if (!deletedEmail) {
+      return req.data.responseWithError(CONFLICT, EMAIL_NOT_DELETED);
+    }
+
+    res.status(OK).json(deletedEmail);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+  }
+};
+
+const addEmail = async (req, res) => {
+  try {
+    const email = await emailsDB.findOne({
+      email: req.data.email,
+      deleted_at: null,
+    });
+
+    if (email) {
+      return req.data.responseWithError(CONFLICT, EMAIL_ALREADY_EXIST);
+    }
+
+    const createdEmail = await emailsDB.insert({
+      ...req.data.email,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
+
+    if (!createdEmail) {
+      return req.data.responseWithError(CONFLICT, EMAIL_NOT_CREATED);
+    }
+
+    res.status(OK).json(createdEmail);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
