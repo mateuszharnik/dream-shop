@@ -1,71 +1,62 @@
-const { contactSchema } = require('./index.model');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
 const { contactDB } = require('../../../db');
+const {
+  contactConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getContact = async (req, res, next) => {
+const { CONTACT_NOT_FOUND, CONTACT_NOT_UPDATED } = contactConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getContact = async (req, res) => {
   try {
-    const contact = await contactDB.findOne({});
+    const contact = await contactDB.findOne({ deleted_at: null });
 
     if (!contact) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji kontaktowych.');
+      return req.data.responseWithError(NOT_FOUND, CONTACT_NOT_FOUND);
     }
 
-    res.status(200).json({ ...contact });
+    res.status(OK).json(contact);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateContact = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  const {
-    schemaError, data: {
-      email, phone, nip, street, street_number, zip_code, city, working_hours,
-    },
-  } = contactSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  const newData = {
-    email,
-    phone,
-    nip,
-    address: {
-      street, street_number, zip_code, city,
-    },
-    working_hours,
-  };
-
+const updateContact = async (req, res) => {
   try {
-    const contact = await contactDB.findOneAndUpdate(
-      { _id: params.id },
+    const contact = await contactDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!contact) {
+      return req.data.responseWithError(NOT_FOUND, CONTACT_NOT_FOUND);
+    }
+
+    const updatedContact = await contactDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
-          ...newData,
+          ...req.data.contact,
           updated_at: new Date(),
         },
       },
     );
 
-    if (!contact) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji kontaktowych.');
+    if (!updatedContact) {
+      return req.data.responseWithError(CONFLICT, CONTACT_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...newData });
+    res.status(OK).json(updatedContact);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

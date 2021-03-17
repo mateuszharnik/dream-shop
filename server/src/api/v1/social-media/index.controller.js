@@ -1,57 +1,65 @@
-const { socialMediaSchema } = require('./index.model');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
 const { socialMediaDB } = require('../../../db');
+const {
+  socialMediaConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getSocialMedia = async (req, res, next) => {
+const {
+  SOCIAL_MEDIA_NOT_FOUND,
+  SOCIAL_MEDIA_NOT_UPDATED,
+} = socialMediaConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getSocialMedia = async (req, res) => {
   try {
-    const socialMedia = await socialMediaDB.findOne({});
+    const socialMedia = await socialMediaDB.findOne({ deleted_at: null });
 
     if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać linków do mediów społecznościowych.');
+      return req.data.responseWithError(NOT_FOUND, SOCIAL_MEDIA_NOT_FOUND);
     }
 
-    res.status(200).json({ ...socialMedia });
+    res.status(OK).json(socialMedia);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateSocialMedia = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  const { schemaError, data } = socialMediaSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
+const updateSocialMedia = async (req, res) => {
   try {
-    const socialMedia = await socialMediaDB.findOneAndUpdate(
-      { _id: params.id },
+    const socialMedia = await socialMediaDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!socialMedia) {
+      return req.data.responseWithError(NOT_FOUND, SOCIAL_MEDIA_NOT_FOUND);
+    }
+
+    const updatedSocialMedia = await socialMediaDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
-          ...data,
+          ...req.data.socialMedia,
           updated_at: new Date(),
         },
       },
     );
 
-    if (!socialMedia) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować linków do mediów społecznościowych.');
+    if (!updatedSocialMedia) {
+      return req.data.responseWithError(CONFLICT, SOCIAL_MEDIA_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...socialMedia });
+    res.status(OK).json(updatedSocialMedia);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

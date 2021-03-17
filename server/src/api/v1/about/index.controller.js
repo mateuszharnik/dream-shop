@@ -1,60 +1,62 @@
-const { aboutSchema } = require('./index.model');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
 const { aboutDB } = require('../../../db');
-const { purify } = require('../../../helpers/sanitize');
+const {
+  aboutConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getAbout = async (req, res, next) => {
+const { ABOUT_NOT_FOUND, ABOUT_NOT_UPDATED } = aboutConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getAbout = async (req, res) => {
   try {
-    const about = await aboutDB.findOne({});
+    const about = await aboutDB.findOne({ deleted_at: null });
 
     if (!about) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać informacji o sklepie.');
+      return req.data.responseWithError(NOT_FOUND, ABOUT_NOT_FOUND);
     }
 
-    res.status(200).json({ ...about });
+    res.status(OK).json(about);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateAbout = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
-  const { schemaError, data } = aboutSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  data.purify_information = purify(data.information);
-
+const updateAbout = async (req, res) => {
   try {
-    const about = await aboutDB.findOneAndUpdate(
-      { _id: params.id },
+    const about = await aboutDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!about) {
+      return req.data.responseWithError(NOT_FOUND, ABOUT_NOT_FOUND);
+    }
+
+    const updatedAbout = await aboutDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
-          ...data,
+          ...req.data.about,
           updated_at: new Date(),
         },
       },
     );
 
-    if (!about) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować informacji o sklepie.');
+    if (!updatedAbout) {
+      return req.data.responseWithError(CONFLICT, ABOUT_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...about });
+    res.status(OK).json(updatedAbout);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
