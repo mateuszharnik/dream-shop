@@ -3,6 +3,48 @@ const aboutConstants = {
   ABOUT_NOT_UPDATED: 'Nie udało się zaktualizować informacji o sklepie.',
 };
 
+const productFiltersConstants = {
+  FILTERS_NOT_FOUND: 'Nie udało się pobrać filtrów produktów.',
+};
+
+const mapConstants = {
+  MAP_NOT_FOUND: 'Informacje o mapie nie istnieją.',
+  MAP_NOT_UPDATED: 'Nie udało się zaktualizować koordynatów mapy.',
+};
+
+const messageConstants = {
+  MESSAGE_NOT_FOUND: 'Wiadomość nie istnieje.',
+  MESSAGES_NOT_FOUND: 'W bazie danych nie ma żadnych wiadomości.',
+  MESSAGES_NOT_DELETED: 'Nie udało się usunąć wiadomości.',
+  MESSAGE_NOT_DELETED: 'Nie udało się usunąć wiadomości.',
+  MESSAGES_DELETED: 'Usunięto wszystkie wiadomości.',
+  MESSAGE_NOT_CREATED: 'Nie udało się wysłać wiadomości.',
+  MESSAGE_NOT_UPDATED: 'Nie udało się zaktualizować wiadomości.',
+};
+
+const newsletterConstants = {
+  EMAIL_NOT_FOUND: 'Podany adres email nie znajduje się w bazie danych.',
+  EMAILS_NOT_FOUND: 'Nie udało się pobrać adresów email.',
+  EMAILS_NOT_DELETED: 'Nie udało się usunąć adresów email.',
+  EMAIL_NOT_DELETED: 'Nie udało się usunąć adresu email.',
+  EMAILS_DELETED: 'Usunięto wszystkie adresy email.',
+  EMAIL_NOT_CREATED: 'Nie udało się zapisać adresu email.',
+  EMAIL_ALREADY_EXIST: 'Adres email znajduje się już w bazie danych.',
+};
+
+const faqsConstants = {
+  FAQ_ALREADY_EXIST: 'Pytanie znajduje się już w bazie danych.',
+  FAQ_NOT_FOUND: 'Pytanie nie istnieje.',
+  FAQ_NOT_UPDATED: 'Nie udało się zaktualizować pytania.',
+  FAQ_NOT_CREATED: 'Nie udało się zapisać pytania w bazie danych.',
+  FAQ_NOT_DELETED: 'Nie udało się usunąć pytania.',
+  FAQS_NOT_DELETED: 'Nie udało się usunąć pytań.',
+  FAQS_NOT_FOUND: 'Najczęściej zadawane pytania nie istnieją.',
+  FAQS_DELETED: 'Usunięto wszystkie pytania.',
+  FAQ_CATEGORIES_NOT_FOUND:
+    'Nie udało się pobrać kategorii najczęściej zadawanych pytań.',
+};
+
 const contactConstants = {
   CONTACT_NOT_FOUND: 'Informacje kontaktowe nie istnieją.',
   CONTACT_NOT_UPDATED: 'Nie udało się zaktualizować informacji kontaktowych.',
@@ -36,12 +78,38 @@ const enviromentConstants = {
 
 const dbSeedsConstants = {
   ABOUT_SEEDED: 'Database seeded with about data',
+  MAP_SEEDED: 'Database seeded with map data',
   CONTACT_SEEDED: 'Database seeded with contact data',
   SOCIAL_MEDIA_SEEDED: 'Database seeded with social media data',
+  FAQS_CATEGORIES_SEEDED: 'Database seeded with faq categories data',
+};
+
+const dbDeleteConstants = {
+  PRODUCT_FILTERS_DELETED: 'Deleted product filters from database',
+  FAQS_DELETED: 'Deleted faqs from database',
+  MESSAGES_DELETED: 'Deleted messages from database',
+  NEWSLETTER_DELETED: 'Deleted emails from database',
 };
 
 const directoriesConstants = {
   UPLOADS: 'uploads',
+};
+
+const limiterConstants = {
+  NEWSLETTER: 'Przekroczono limit. Spróbuj zapisać się ponownie później.',
+  MESSAGE: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.',
+};
+
+const limiterTimeConstants = {
+  FIVE_MINUTES: 1000 * 60 * 5,
+  TEN_MINUTES: 1000 * 60 * 10,
+  FIFTEEN_MINUTES: 1000 * 60 * 15,
+};
+
+const limiterAttemptsConstants = {
+  SMALL: 3,
+  MEDIUM: 10,
+  LARGE: 30,
 };
 
 const routesConstants = {
@@ -68,7 +136,27 @@ const apiVersionsConstants = {
   V1: '/v1',
 };
 
+const faqsCategoriesConstants = {
+  RETURNS: 'zwroty',
+  DELIVERY: 'dostawa',
+  PAYMENT: 'płatności',
+  SERVICE: 'obsługa',
+  PRODUCTS: 'produkty',
+  DISCOUNTS: 'rabaty',
+  OTHERS: 'inne',
+};
+
+const sortConstants = {
+  DESC: 'desc',
+  ASC: 'asc',
+};
+
 module.exports = {
+  limiterConstants,
+  limiterTimeConstants,
+  limiterAttemptsConstants,
+  sortConstants,
+  dbDeleteConstants,
   aboutConstants,
   socialMediaConstants,
   contactConstants,
@@ -79,4 +167,10 @@ module.exports = {
   directoriesConstants,
   routesConstants,
   apiVersionsConstants,
+  mapConstants,
+  newsletterConstants,
+  faqsConstants,
+  faqsCategoriesConstants,
+  messageConstants,
+  productFiltersConstants,
 };

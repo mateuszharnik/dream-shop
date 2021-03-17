@@ -1,24 +1,45 @@
 const { faqCategories } = require('../data');
-const { faqCategoriesSchema } = require('../../api/v1/faq-categories/index.model');
+const {
+  faqCategoriesSchema,
+} = require('../../api/v1/faq-categories/index.model');
 const { faqCategoriesDB, faqDB } = require('../../db');
+const {
+  dbDeleteConstants,
+  dbSeedsConstants,
+} = require('../../helpers/constants');
+
+const { FAQS_DELETED } = dbDeleteConstants;
+const { FAQS_CATEGORIES_SEEDED } = dbSeedsConstants;
 
 const seedFAQCategories = async () => {
-  const { schemaError, data } = faqCategoriesSchema(faqCategories, false);
+  const categories = [];
 
-  if (schemaError) {
-    // eslint-disable-next-line no-console
-    return console.error(schemaError);
-  }
+  faqCategories.forEach((faqCategory) => {
+    const { schemaError, data: category } = faqCategoriesSchema(faqCategory);
+
+    if (schemaError) {
+      // eslint-disable-next-line no-console
+      return console.error(schemaError);
+    }
+
+    categories.push({
+      category,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
+  });
 
   try {
-    await faqDB.remove({});
-    await faqCategoriesDB.remove({});
-    await faqCategoriesDB.insert(data);
+    await faqDB.remove();
+    await faqCategoriesDB.remove();
+
+    await faqCategoriesDB.insert(categories);
 
     // eslint-disable-next-line no-console
-    console.log('Deleted faqs from database');
+    console.log(FAQS_DELETED);
     // eslint-disable-next-line no-console
-    console.log('Database seeded with faq categories data');
+    console.log(FAQS_CATEGORIES_SEEDED);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

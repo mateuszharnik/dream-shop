@@ -1,11 +1,14 @@
 const { messagesDB } = require('../../db');
+const { dbDeleteConstants } = require('../../helpers/constants');
+
+const { MESSAGES_DELETED } = dbDeleteConstants;
 
 const removeMessages = async () => {
   try {
-    await messagesDB.remove({});
+    await messagesDB.remove();
 
     // eslint-disable-next-line no-console
-    console.log('Deleted messages from database');
+    console.log(MESSAGES_DELETED);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

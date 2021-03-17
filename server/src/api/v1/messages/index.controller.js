@@ -1,35 +1,48 @@
 const { messagesDB } = require('../../../db');
-const { dbIdSchema } = require('../../../models');
-const { messagesSchema } = require('./index.model');
-const { responseWithError } = require('../../../helpers/errors');
-const { purify } = require('../../../helpers/sanitize');
+const {
+  sortConstants,
+  messageConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getMessages = async (req, res, next) => {
-  const { sort = 'desc' } = req.query;
-  let { skip = 0, limit = 6 } = req.query;
+const {
+  MESSAGE_NOT_FOUND,
+  MESSAGE_NOT_UPDATED,
+  MESSAGES_NOT_DELETED,
+  MESSAGES_DELETED,
+  MESSAGE_NOT_CREATED,
+  MESSAGES_NOT_FOUND,
+  MESSAGE_NOT_DELETED,
+} = messageConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const { DESC } = sortConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
 
-  skip = parseInt(skip, 10) || 0;
-  limit = parseInt(limit, 10) || 6;
-
-  skip = skip < 0 ? 0 : skip;
-
-  limit = Math.min(50, Math.max(1, limit));
+const getMessages = async (req, res) => {
+  const { sort = DESC } = req.query;
+  const { skip, limit } = req.data;
 
   try {
     const total = await messagesDB.count({ deleted_at: null });
-    const messages = await messagesDB.find({ deleted_at: null }, {
-      skip: Number(skip),
-      limit: Number(limit),
-      sort: {
-        created_at: sort === 'desc' ? -1 : 1,
+    const messages = await messagesDB.find(
+      { deleted_at: null },
+      {
+        skip,
+        limit,
+        sort: {
+          created_at: sort === DESC ? -1 : 1,
+        },
       },
-    });
+    );
 
     if (!messages) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości.');
+      return req.data.responseWithError(NOT_FOUND, MESSAGES_NOT_FOUND);
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       total,
       messages,
       pagination: {
@@ -41,26 +54,23 @@ const getMessages = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const getMessage = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
+const getMessage = async (req, res) => {
   try {
-    const message = await messagesDB.findOne({ _id: params.id });
+    const message = await messagesDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
 
-    if (!message || (message && message.deleted_at)) {
-      return responseWithError(res, next, 500, 'Wiadomość nie istnieje.');
+    if (!message) {
+      return req.data.responseWithError(NOT_FOUND, MESSAGE_NOT_FOUND);
     }
 
-    const readedMessage = await messagesDB.findOneAndUpdate(
-      { _id: params.id },
+    const updatedMessage = await messagesDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
           ...message,
@@ -69,54 +79,45 @@ const getMessage = async (req, res, next) => {
       },
     );
 
-    if (!readedMessage) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać wiadomości.');
+    if (!updatedMessage) {
+      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_UPDATED);
     }
 
-    res.status(200).json({ ...readedMessage });
+    res.status(OK).json(updatedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const sendMessage = async (req, res, next) => {
-  const { schemaError, data } = messagesSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  data.purify_subject = purify(data.subject);
-  data.purify_message = purify(data.message);
-
+const addMessage = async (req, res) => {
   try {
     const message = await messagesDB.insert({
-      ...data,
+      ...req.data.message,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,
     });
 
     if (!message) {
-      return responseWithError(res, next, 500, 'Nie udało się wysłać wiadomości.');
+      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_CREATED);
     }
 
-    res.status(200).json({ ...message });
+    res.status(OK).json(message);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteMessages = async (req, res, next) => {
+const deleteMessages = async (req, res) => {
   try {
     const messages = await messagesDB.find({ deleted_at: null });
 
     if (!messages.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych wiadomości.');
+      return req.data.responseWithError(NOT_FOUND, MESSAGES_NOT_FOUND);
     }
 
     const deletedMessages = await messagesDB.update(
@@ -126,51 +127,52 @@ const deleteMessages = async (req, res, next) => {
     );
 
     if (!deletedMessages) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości.');
+      return req.data.responseWithError(CONFLICT, MESSAGES_NOT_DELETED);
     }
 
-    res.status(200).json({
-      message: 'Usunięto wszystkie wiadomości',
+    res.status(OK).json({
+      message: MESSAGES_DELETED,
       items: deletedMessages.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteMessage = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
+const deleteMessage = async (req, res) => {
   try {
-    const message = await messagesDB.findOne({ _id: params.id });
+    const message = await messagesDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
 
-    if (!message || (message && message.deleted_at)) {
-      return responseWithError(res, next, 500, 'Wiadomość nie znajduje się w bazie danych.');
+    if (!message) {
+      return req.data.responseWithError(NOT_FOUND, MESSAGE_NOT_FOUND);
     }
 
     const deletedMessage = await messagesDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       { $set: { deleted_at: new Date() } },
     );
 
     if (!deletedMessage) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć wiadomości.');
+      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_DELETED);
     }
 
-    res.status(200).json({ ...deletedMessage });
+    res.status(OK).json(deletedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
 module.exports = {
-  getMessages, getMessage, sendMessage, deleteMessages, deleteMessage,
+  getMessages,
+  getMessage,
+  addMessage,
+  deleteMessages,
+  deleteMessage,
 };

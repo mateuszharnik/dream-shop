@@ -1,7 +1,17 @@
 const { productFiltersDB } = require('../../../db');
-const { responseWithError } = require('../../../helpers/errors');
+const {
+  productFiltersConstants,
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
 
-const getProductFilters = async (req, res, next) => {
+const { FILTERS_NOT_FOUND } = productFiltersConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getProductFilters = async (req, res) => {
   const { category = '' } = req.query;
 
   const query = {
@@ -19,14 +29,14 @@ const getProductFilters = async (req, res, next) => {
     );
 
     if (!filters) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać filtrów produktów.');
+      return req.data.responseWithError(NOT_FOUND, FILTERS_NOT_FOUND);
     }
 
-    res.status(200).json(filters);
+    res.status(OK).json(filters);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
