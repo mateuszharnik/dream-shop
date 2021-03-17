@@ -33,9 +33,6 @@ const regulations = [
 
 const about = {
   information: '',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
 };
 
 const productCategories = [
@@ -107,9 +104,6 @@ const contact = {
   city: '',
   zip_code: '',
   working_hours: '',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
 };
 
 const map = {
@@ -124,9 +118,6 @@ const socialMedia = {
   facebook: '',
   linkedin: '',
   instagram: '',
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
 };
 
 module.exports = {

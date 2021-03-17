@@ -22,6 +22,35 @@ const productFilters = require('./api/v1/product-filters/index.router');
 const { CLIENT_URL } = require('./config');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./auth/index.middlewares');
+const {
+  statusCodesConstants,
+  directoriesConstants,
+  routesConstants,
+  apiVersionsConstants,
+} = require('./helpers/constants');
+
+const { V1 } = apiVersionsConstants;
+const { OK } = statusCodesConstants;
+const { UPLOADS } = directoriesConstants;
+const {
+  HOME,
+  USERS,
+  ABOUT,
+  AUTH,
+  SOCIAL_MEDIA,
+  CONTACT,
+  MAP,
+  REGULATIONS,
+  FAQ,
+  FAQ_CATEGORIES,
+  NEWSLETTER,
+  MESSAGES,
+  PRODUCTS,
+  PRODUCT_CATEGORIES,
+  PRODUCT_FILTERS,
+  COMMENTS,
+  ORDERS,
+} = routesConstants;
 
 const app = express();
 
@@ -31,27 +60,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(cors({ origin: CLIENT_URL }));
-app.use('/uploads', express.static('uploads'));
+app.use(`/${UPLOADS}`, express.static(UPLOADS));
 app.use(checkToken);
 
-app.get('/', (req, res) => res.status(200).json({ message: '👽' }));
+app.get(HOME, (req, res) => res.status(OK).json({ message: '👽' }));
 
-app.use('/auth', auth);
-app.use('/v1/social-media', socialMedia);
-app.use('/v1/contact', contact);
-app.use('/v1/about', about);
-app.use('/v1/users', users);
-app.use('/v1/faq', faq);
-app.use('/v1/faq-categories', faqCategories);
-app.use('/v1/newsletter', newsletter);
-app.use('/v1/map', map);
-app.use('/v1/messages', messages);
-app.use('/v1/products', products);
-app.use('/v1/comments', comments);
-app.use('/v1/product-categories', productCategories);
-app.use('/v1/product-filters', productFilters);
-app.use('/v1/regulations', regulations);
-app.use('/v1/orders', orders);
+app.use(AUTH, auth);
+app.use(`${V1}${SOCIAL_MEDIA}`, socialMedia);
+app.use(`${V1}${CONTACT}`, contact);
+app.use(`${V1}${ABOUT}`, about);
+app.use(`${V1}${USERS}`, users);
+app.use(`${V1}${FAQ}`, faq);
+app.use(`${V1}${FAQ_CATEGORIES}`, faqCategories);
+app.use(`${V1}${NEWSLETTER}`, newsletter);
+app.use(`${V1}${MAP}`, map);
+app.use(`${V1}${MESSAGES}`, messages);
+app.use(`${V1}${PRODUCTS}`, products);
+app.use(`${V1}${COMMENTS}`, comments);
+app.use(`${V1}${PRODUCT_CATEGORIES}`, productCategories);
+app.use(`${V1}${PRODUCT_FILTERS}`, productFilters);
+app.use(`${V1}${REGULATIONS}`, regulations);
+app.use(`${V1}${ORDERS}`, orders);
 
 app.use(notFound);
 app.use(errorHandler);
