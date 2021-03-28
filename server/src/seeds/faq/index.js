@@ -4,12 +4,9 @@ const {
 } = require('../../api/v1/faq-categories/index.model');
 const { faqCategoriesDB, faqDB } = require('../../db');
 const {
-  dbDeleteConstants,
-  dbSeedsConstants,
-} = require('../../helpers/constants');
-
-const { FAQS_DELETED } = dbDeleteConstants;
-const { FAQS_CATEGORIES_SEEDED } = dbSeedsConstants;
+  FAQS_DELETED,
+  FAQS_CATEGORIES_SEEDED,
+} = require('../../helpers/constants/tasks');
 
 const seedFAQCategories = async () => {
   const categories = [];

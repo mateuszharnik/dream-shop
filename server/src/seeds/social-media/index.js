@@ -1,9 +1,7 @@
 const { socialMedia } = require('../data');
-const { dbSeedsConstants } = require('../../helpers/constants');
+const { SOCIAL_MEDIA_SEEDED } = require('../../helpers/constants/tasks');
 const { socialMediaSchema } = require('../../api/v1/social-media/index.model');
 const { socialMediaDB } = require('../../db');
-
-const { SOCIAL_MEDIA_SEEDED } = dbSeedsConstants;
 
 const seedSocialMedia = async () => {
   const { schemaError, data } = socialMediaSchema(socialMedia);

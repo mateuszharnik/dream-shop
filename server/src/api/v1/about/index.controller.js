@@ -1,15 +1,15 @@
 const { aboutDB } = require('../../../db');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  aboutConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const { ABOUT_NOT_FOUND, ABOUT_NOT_UPDATED } = aboutConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+  ABOUT_NOT_FOUND,
+  ABOUT_NOT_UPDATED,
+} = require('../../../helpers/constants/about');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getAbout = async (req, res) => {
   try {

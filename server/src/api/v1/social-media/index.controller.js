@@ -1,18 +1,15 @@
 const { socialMediaDB } = require('../../../db');
 const {
-  socialMediaConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const {
   SOCIAL_MEDIA_NOT_FOUND,
   SOCIAL_MEDIA_NOT_UPDATED,
-} = socialMediaConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+} = require('../../../helpers/constants/social-media');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getSocialMedia = async (req, res) => {
   try {

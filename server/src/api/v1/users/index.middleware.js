@@ -5,10 +5,6 @@ const { avatarFileSchema } = require('../../../models');
 const { updateUserSchema } = require('./index.model');
 const { getAvatarUrl } = require('../../../helpers/files');
 const { usersDB } = require('../../../db');
-const {
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
 const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
 const {
   USER_NOT_FOUND,
@@ -16,11 +12,12 @@ const {
   EMAIL_ALREADY_EXIST,
   PASSWORDS_ARE_NOT_THE_SAME,
 } = require('../../../helpers/constants/users');
-
-const { ERROR_OCCURRED } = errorsConstants;
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const findUser = async (req, res, next) => {
   try {

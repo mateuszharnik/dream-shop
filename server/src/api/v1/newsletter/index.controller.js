@@ -1,12 +1,5 @@
 const { emailsDB } = require('../../../db');
 const {
-  sortConstants,
-  newsletterConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const {
   EMAILS_NOT_FOUND,
   EMAILS_DELETED,
   EMAIL_NOT_DELETED,
@@ -14,12 +7,15 @@ const {
   EMAIL_NOT_FOUND,
   EMAIL_ALREADY_EXIST,
   EMAIL_NOT_CREATED,
-} = newsletterConstants;
-const { ERROR_OCCURRED } = errorsConstants;
-const { DESC } = sortConstants;
+} = require('../../../helpers/constants/newsletter');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { DESC } = require('../../../helpers/constants/queries');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getEmails = async (req, res) => {
   const { sort = DESC } = req.query;

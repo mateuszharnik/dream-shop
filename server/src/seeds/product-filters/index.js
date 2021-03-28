@@ -1,7 +1,5 @@
 const { productFiltersDB } = require('../../db');
-const { dbDeleteConstants } = require('../../helpers/constants');
-
-const { PRODUCT_FILTERS_DELETED } = dbDeleteConstants;
+const { PRODUCT_FILTERS_DELETED } = require('../../helpers/constants/tasks');
 
 const removeProductFilters = async () => {
   try {

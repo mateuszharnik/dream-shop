@@ -1,15 +1,15 @@
 const { contactDB } = require('../../../db');
 const {
-  contactConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const { CONTACT_NOT_FOUND, CONTACT_NOT_UPDATED } = contactConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+  CONTACT_NOT_FOUND,
+  CONTACT_NOT_UPDATED,
+} = require('../../../helpers/constants/contact');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getContact = async (req, res) => {
   try {

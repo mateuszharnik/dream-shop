@@ -1,7 +1,5 @@
 const Joi = require('@hapi/joi');
 const { categoryMessages } = require('../../../helpers/errors/messages/faq');
-const { faqsCategoriesConstants } = require('../../../helpers/constants');
-
 const {
   RETURNS,
   DELIVERY,
@@ -10,7 +8,7 @@ const {
   PRODUCTS,
   DISCOUNTS,
   OTHERS,
-} = faqsCategoriesConstants;
+} = require('../../../helpers/constants/faq');
 
 const faqCategoriesSchema = (faqCategories) => {
   const schema = Joi.string()
