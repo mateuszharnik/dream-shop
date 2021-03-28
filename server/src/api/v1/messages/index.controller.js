@@ -95,6 +95,7 @@ const addMessage = async (req, res) => {
   try {
     const message = await messagesDB.insert({
       ...req.data.message,
+      readed: false,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,

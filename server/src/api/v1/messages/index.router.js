@@ -1,11 +1,8 @@
 const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
-const {
-  limiterConstants,
-  limiterTimeConstants,
-  limiterAttemptsConstants,
-} = require('../../../helpers/constants');
-const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
+const { FIVE_MINUTES } = require('../../../helpers/constants/time');
+const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
+const { SMALL, MESSAGES } = require('../../../helpers/constants/limiter');
 const {
   createData,
   createResponseWithError,
@@ -21,14 +18,10 @@ const {
   deleteMessage,
 } = require('./index.controller');
 
-const { MESSAGE } = limiterConstants;
-const { SMALL } = limiterAttemptsConstants;
-const { FIVE_MINUTES } = limiterTimeConstants;
-
 const messageLimiter = rateLimit({
   windowMs: FIVE_MINUTES,
   max: SMALL,
-  message: MESSAGE,
+  message: MESSAGES,
 });
 
 const router = Router();

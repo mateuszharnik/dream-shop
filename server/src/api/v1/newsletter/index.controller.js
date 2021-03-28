@@ -118,7 +118,7 @@ const deleteEmail = async (req, res) => {
 const addEmail = async (req, res) => {
   try {
     const email = await emailsDB.findOne({
-      email: req.data.email,
+      email: req.data.email.email,
       deleted_at: null,
     });
 

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
+const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const {
   getOrders, getOrder, addOrder, deleteOrder, refuseOrder, acceptOrder, deleteOrders, paidOrder,
 } = require('./index.controller');

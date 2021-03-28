@@ -1,8 +1,14 @@
 const { Router } = require('express');
-const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
+const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
+const {
+  createData,
+  createResponseWithError,
+} = require('../../../middlewares/index');
+const { validateDBId } = require('../../../middlewares/validation');
+const { validateRegulation } = require('./index.middleware');
 const {
   getRegulations,
-  updateRegulations,
+  updateRegulation,
   getRegulation,
 } = require('./index.controller');
 
@@ -10,19 +16,28 @@ const router = Router();
 
 router.get(
   '/',
+  createData,
+  createResponseWithError,
   getRegulations,
 );
 
 router.get(
   '/:id',
+  createData,
+  createResponseWithError,
+  validateDBId,
   getRegulation,
 );
 
 router.put(
   '/:id',
+  createData,
+  createResponseWithError,
   isNotLoggedIn,
   isAdmin,
-  updateRegulations,
+  validateDBId,
+  validateRegulation,
+  updateRegulation,
 );
 
 module.exports = router;

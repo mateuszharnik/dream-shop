@@ -10,7 +10,10 @@ const {
   avatarPathRegExp,
   thumbnailPathRegExp,
 } = require('../helpers/regexp');
-const { avatarMaxSize, thumbnailMaxSize } = require('../helpers/files');
+const {
+  AVATAR_MAX_SIZE,
+  THUMBNAIL_MAX_SIZE,
+} = require('../helpers/constants/files');
 const { _id } = require('../helpers/schemas/index');
 
 const dbIdSchema = (id) => {
@@ -32,7 +35,7 @@ const avatarFileSchema = (file) => {
         .regex(mimetypeRegExp)
         .required()
         .messages(mimetypeMessages),
-      size: Joi.number().max(avatarMaxSize).required().messages(sizeMessages),
+      size: Joi.number().max(AVATAR_MAX_SIZE).required().messages(sizeMessages),
       path: Joi.string()
         .trim()
         .regex(avatarPathRegExp)
@@ -56,7 +59,7 @@ const thumbnailFileSchema = (file) => {
         .required()
         .messages(mimetypeMessages),
       size: Joi.number()
-        .max(thumbnailMaxSize)
+        .max(THUMBNAIL_MAX_SIZE)
         .required()
         .messages(sizeMessages),
       path: Joi.string()
@@ -84,7 +87,7 @@ const galleryFileSchema = (file) => {
             .required()
             .messages(mimetypeMessages),
           size: Joi.number()
-            .max(thumbnailMaxSize)
+            .max(THUMBNAIL_MAX_SIZE)
             .required()
             .messages(sizeMessages),
           path: Joi.string()
