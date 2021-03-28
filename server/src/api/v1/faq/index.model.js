@@ -6,8 +6,6 @@ const {
   titleMessages,
   contentMessages,
 } = require('../../../helpers/errors/messages/faq');
-const { faqsCategoriesConstants } = require('../../../helpers/constants');
-
 const {
   RETURNS,
   DELIVERY,
@@ -16,7 +14,7 @@ const {
   PRODUCTS,
   DISCOUNTS,
   OTHERS,
-} = faqsCategoriesConstants;
+} = require('../../../helpers/constants/faq');
 
 const faqSchema = (faq) => {
   const schema = Joi.object()

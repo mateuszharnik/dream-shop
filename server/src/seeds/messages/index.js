@@ -1,7 +1,5 @@
 const { messagesDB } = require('../../db');
-const { dbDeleteConstants } = require('../../helpers/constants');
-
-const { MESSAGES_DELETED } = dbDeleteConstants;
+const { MESSAGES_DELETED } = require('../../helpers/constants/tasks');
 
 const removeMessages = async () => {
   try {

@@ -1,13 +1,27 @@
 const Joi = require('@hapi/joi');
-const { nameRegExp, emailRegExp, avatarRegExp } = require('../../../helpers/regexp');
-const { usernameMessages } = require('../../../helpers/errors/messages/username');
-const { passwordMessages, confirmPasswordMessages, newPasswordMessages } = require('../../../helpers/errors/messages/password');
+const {
+  nameRegExp,
+  emailRegExp,
+  avatarRegExp,
+} = require('../../../helpers/regexp');
+const {
+  usernameMessages,
+} = require('../../../helpers/errors/messages/username');
+const {
+  passwordMessages,
+  confirmPasswordMessages,
+  newPasswordMessages,
+} = require('../../../helpers/errors/messages/password');
 const { userRolesMessages } = require('../../../helpers/errors/messages/roles');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const { imgMessages } = require('../../../helpers/errors/messages/avatar');
 const { nameMessages } = require('../../../helpers/errors/messages/name');
-const { resetPasswordTokenExpMessages, resetPasswordTokenMessages } = require('../../../helpers/errors/messages/reset-password-token');
+const {
+  resetPasswordTokenExpMessages,
+  resetPasswordTokenMessages,
+} = require('../../../helpers/errors/messages/reset-password-token');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
+const { ADMIN, USER } = require('../../../helpers/constants/users');
 
 const password = Joi.string().trim().required().messages(passwordMessages);
 
@@ -54,8 +68,8 @@ const userSchema = (user) => {
         .messages(passwordMessages),
       roles: Joi.array()
         .items(
-          Joi.string().trim().valid('user').required(),
-          Joi.string().trim().valid('administrator'),
+          Joi.string().trim().valid(USER).required(),
+          Joi.string().trim().valid(ADMIN),
         )
         .required()
         .messages(userRolesMessages),

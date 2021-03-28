@@ -1,13 +1,11 @@
 const { faqCategoriesDB } = require('../../../db');
+const { FAQ_CATEGORIES_NOT_FOUND } = require('../../../helpers/constants/faq');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  faqsCategoriesConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const { FAQ_CATEGORIES_NOT_FOUND } = faqsCategoriesConstants;
-const { ERROR_OCCURRED } = errorsConstants;
-const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getFAQCategories = async (req, res) => {
   try {

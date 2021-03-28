@@ -1,7 +1,5 @@
 const { socialMediaSchema } = require('./index.model');
-const { statusCodesConstants } = require('../../../helpers/constants');
-
-const { CONFLICT } = statusCodesConstants;
+const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateSocialMedia = (req, res, next) => {
   const { schemaError, data: socialMedia } = socialMediaSchema(req.body);

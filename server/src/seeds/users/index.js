@@ -2,9 +2,7 @@ const bcrypt = require('bcryptjs');
 const { usersDB } = require('../../db');
 const { userSchema } = require('../../api/v1/users/index.model');
 const { user } = require('../data');
-const { dbSeedsConstants } = require('../../helpers/constants');
-
-const { USER_SEEDED } = dbSeedsConstants;
+const { USER_SEEDED } = require('../../helpers/constants/tasks');
 
 const seedUsers = async () => {
   const { schemaError, data } = userSchema(user);

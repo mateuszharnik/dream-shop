@@ -1,8 +1,6 @@
 const { faqSchema } = require('./index.model');
 const { purify } = require('../../../helpers/sanitize');
-const { statusCodesConstants } = require('../../../helpers/constants');
-
-const { CONFLICT } = statusCodesConstants;
+const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateFAQ = (req, res, next) => {
   const { schemaError, data: faq } = faqSchema(req.body);

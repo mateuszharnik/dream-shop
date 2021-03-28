@@ -2,9 +2,7 @@ const { regulations } = require('../data');
 const { regulationsSchema } = require('../../api/v1/regulations/index.model');
 const { regulationsDB } = require('../../db');
 const { purify } = require('../../helpers/sanitize');
-const { dbSeedsConstants } = require('../../helpers/constants');
-
-const { REGULATIONS_SEEDED } = dbSeedsConstants;
+const { REGULATIONS_SEEDED } = require('../../helpers/constants/tasks');
 
 const seedRegulations = async () => {
   const regulationsArr = [];

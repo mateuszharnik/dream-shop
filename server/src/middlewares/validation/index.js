@@ -1,7 +1,5 @@
 const { dbIdSchema } = require('../../models');
-const { statusCodesConstants } = require('../../helpers/constants');
-
-const { CONFLICT } = statusCodesConstants;
+const { CONFLICT } = require('../../helpers/constants/status-codes');
 
 const validateDBId = (req, res, next) => {
   const { schemaError, data: params } = dbIdSchema(req.params);

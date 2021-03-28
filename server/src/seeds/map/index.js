@@ -1,9 +1,7 @@
 const { map } = require('../data');
-const { dbSeedsConstants } = require('../../helpers/constants');
+const { MAP_SEEDED } = require('../../helpers/constants/tasks');
 const { mapSchema } = require('../../api/v1/map/index.model');
 const { mapDB } = require('../../db');
-
-const { MAP_SEEDED } = dbSeedsConstants;
 
 const seedMap = async () => {
   const { schemaError, data } = mapSchema(map);

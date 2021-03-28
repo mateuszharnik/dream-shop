@@ -1,7 +1,5 @@
 const { emailsDB } = require('../../db');
-const { dbDeleteConstants } = require('../../helpers/constants');
-
-const { NEWSLETTER_DELETED } = dbDeleteConstants;
+const { NEWSLETTER_DELETED } = require('../../helpers/constants/tasks');
 
 const removeNewsletterEmails = async () => {
   try {

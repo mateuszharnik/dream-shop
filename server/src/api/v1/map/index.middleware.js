@@ -1,7 +1,5 @@
 const { mapSchema } = require('./index.model');
-const { statusCodesConstants } = require('../../../helpers/constants');
-
-const { CONFLICT } = statusCodesConstants;
+const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateMap = (req, res, next) => {
   const { schemaError, data: map } = mapSchema(req.body);

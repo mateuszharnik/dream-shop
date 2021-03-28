@@ -1,15 +1,15 @@
 const { mapDB } = require('../../../db');
 const {
-  mapConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const { MAP_NOT_FOUND, MAP_NOT_UPDATED } = mapConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+  MAP_NOT_FOUND,
+  MAP_NOT_UPDATED,
+} = require('../../../helpers/constants/map');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getMap = async (req, res) => {
   try {

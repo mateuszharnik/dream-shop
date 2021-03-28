@@ -29,11 +29,17 @@ const loginPasswordMessages = {
 };
 
 const loginSchema = (credentials) => {
-  const schema = Joi.object().keys({
-    username: Joi.string().trim().regex(usernameRegExp).required()
-      .messages(usernameMessages),
-    password: Joi.string().trim().required().messages(loginPasswordMessages),
-  }).required().messages(joiConfigMessages);
+  const schema = Joi.object()
+    .keys({
+      username: Joi.string()
+        .trim()
+        .regex(usernameRegExp)
+        .required()
+        .messages(usernameMessages),
+      password: Joi.string().trim().required().messages(loginPasswordMessages),
+    })
+    .required()
+    .messages(joiConfigMessages);
 
   const { error: schemaError, value: data } = schema.validate(credentials);
 

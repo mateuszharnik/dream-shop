@@ -1,10 +1,8 @@
 const { about } = require('../data');
-const { dbSeedsConstants } = require('../../helpers/constants');
+const { ABOUT_SEEDED } = require('../../helpers/constants/tasks');
 const { aboutSchema } = require('../../api/v1/about/index.model');
 const { aboutDB } = require('../../db');
 const { purify } = require('../../helpers/sanitize');
-
-const { ABOUT_SEEDED } = dbSeedsConstants;
 
 const seedAbout = async () => {
   const { schemaError, data } = aboutSchema(about);

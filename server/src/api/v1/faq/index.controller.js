@@ -1,11 +1,5 @@
 const { faqDB } = require('../../../db');
 const {
-  faqsConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const {
   FAQS_NOT_FOUND,
   FAQ_NOT_CREATED,
   FAQ_NOT_FOUND,
@@ -14,11 +8,14 @@ const {
   FAQ_NOT_DELETED,
   FAQS_DELETED,
   FAQ_ALREADY_EXIST,
-} = faqsConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+} = require('../../../helpers/constants/faq');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getFAQs = async (req, res) => {
   try {

@@ -1,0 +1,15 @@
+const OK = 200;
+const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
+const FORBIDDEN = 403;
+const CONFLICT = 409;
+const INTERNAL_SERVER_ERROR = 500;
+
+module.exports = {
+  OK,
+  UNAUTHORIZED,
+  NOT_FOUND,
+  CONFLICT,
+  FORBIDDEN,
+  INTERNAL_SERVER_ERROR,
+};

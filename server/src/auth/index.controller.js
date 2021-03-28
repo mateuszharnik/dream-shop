@@ -4,14 +4,11 @@ const { sendEmail } = require('../helpers/email');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
 const {
-  errorsConstants,
-  statusCodesConstants,
-} = require('../helpers/constants');
-const {
   USER_NOT_FOUND,
   PASSWORD_OR_USERNAME_NOT_CORRECT,
 } = require('../helpers/constants/users');
 const { ONE_HOUR } = require('../helpers/constants/time');
+const { ERROR_OCCURRED } = require('../helpers/constants/errors');
 const {
   LINK_EXPIRED,
   TOKEN_NOT_GENERATED,
@@ -19,11 +16,12 @@ const {
   EMAIL_NOT_EXIST,
   TOKEN_TIME,
 } = require('../helpers/constants/auth');
-
-const { ERROR_OCCURRED } = errorsConstants;
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../helpers/constants/status-codes');
 
 const loginUser = async (req, res) => {
   try {
@@ -39,15 +37,32 @@ const loginUser = async (req, res) => {
     }
 
     if (!(await bcrypt.compare(req.data.credentials.password, user.password))) {
-      return req.data.responseWithError(CONFLICT, PASSWORD_OR_USERNAME_NOT_CORRECT);
+      return req.data.responseWithError(
+        CONFLICT,
+        PASSWORD_OR_USERNAME_NOT_CORRECT,
+      );
     }
 
     const {
-      _id, username, name, email, avatar, roles, created_at, updated_at,
+      _id,
+      username,
+      name,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     } = user;
 
     const payload = {
-      _id, username, name, email, avatar, roles, created_at, updated_at,
+      _id,
+      username,
+      name,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     };
 
     const token = await signToken(payload, TOKEN_TIME);
@@ -124,11 +139,25 @@ const recoveryPassword = async (req, res) => {
     }
 
     const {
-      _id, username, name, email, avatar, roles, created_at, updated_at,
+      _id,
+      username,
+      name,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     } = newUser;
 
     const payload = {
-      _id, username, name, email, avatar, roles, created_at, updated_at,
+      _id,
+      username,
+      name,
+      email,
+      avatar,
+      roles,
+      created_at,
+      updated_at,
     };
 
     const token = await signToken(payload, TOKEN_TIME);

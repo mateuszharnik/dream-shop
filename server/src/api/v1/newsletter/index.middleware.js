@@ -1,7 +1,5 @@
 const { newsletterSchema } = require('./index.model');
-const { statusCodesConstants } = require('../../../helpers/constants');
-
-const { CONFLICT } = statusCodesConstants;
+const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateNewsletter = (req, res, next) => {
   const { schemaError, data: email } = newsletterSchema(req.body);

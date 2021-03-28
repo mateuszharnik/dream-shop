@@ -1,19 +1,17 @@
 const { regulationsDB } = require('../../../db');
 const {
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-const {
   REGULATIONS_NOT_FOUND,
   REGULATION_NOT_FOUND,
   REGULATION_NOT_UPDATED,
   REGULATION_NAME_IS_NOT_ALLOWED,
 } = require('../../../helpers/constants/regulations');
-
-const { ERROR_OCCURRED } = errorsConstants;
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getRegulations = async (req, res) => {
   const { name = '' } = req.query;

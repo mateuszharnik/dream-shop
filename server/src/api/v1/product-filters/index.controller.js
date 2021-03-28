@@ -1,15 +1,11 @@
 const { productFiltersDB } = require('../../../db');
+const { FILTERS_NOT_FOUND } = require('../../../helpers/constants/products');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  productFiltersConstants,
-  errorsConstants,
-  statusCodesConstants,
-} = require('../../../helpers/constants');
-
-const { FILTERS_NOT_FOUND } = productFiltersConstants;
-const { ERROR_OCCURRED } = errorsConstants;
-const {
-  OK, NOT_FOUND, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getProductFilters = async (req, res) => {
   const { category = '' } = req.query;
@@ -23,10 +19,9 @@ const getProductFilters = async (req, res) => {
   }
 
   try {
-    const filters = await productFiltersDB.find(
-      query,
-      { sort: { created_at: -1 } },
-    );
+    const filters = await productFiltersDB.find(query, {
+      sort: { created_at: -1 },
+    });
 
     if (!filters) {
       return req.data.responseWithError(NOT_FOUND, FILTERS_NOT_FOUND);

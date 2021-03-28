@@ -1,12 +1,10 @@
-const { statusCodesConstants } = require('../helpers/constants');
+const { CONFLICT } = require('../helpers/constants/status-codes');
 const {
   loginSchema,
   recoveryLinkSchema,
   recoveryPasswordSchema,
   resetPasswordIdSchema,
 } = require('./index.model');
-
-const { CONFLICT } = statusCodesConstants;
 
 const validateCredentials = (req, res, next) => {
   const { schemaError, data: credentials } = loginSchema(req.body);

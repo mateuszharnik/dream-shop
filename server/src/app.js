@@ -24,12 +24,7 @@ const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./middlewares/auth');
 const { UPLOADS } = require('./helpers/constants/directories');
 const { V1 } = require('./helpers/constants/api');
-const {
-  statusCodesConstants,
-  routesConstants,
-} = require('./helpers/constants');
-
-const { OK } = statusCodesConstants;
+const { OK } = require('./helpers/constants/status-codes');
 const {
   HOME,
   USERS,
@@ -48,7 +43,7 @@ const {
   PRODUCT_FILTERS,
   COMMENTS,
   ORDERS,
-} = routesConstants;
+} = require('./helpers/constants/routes');
 
 const app = express();
 

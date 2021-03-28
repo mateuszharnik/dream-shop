@@ -3,21 +3,18 @@ const { signToken } = require('../../../helpers/token');
 const { usersDB } = require('../../../db');
 const { AVATARS } = require('../../../helpers/constants/directories');
 const {
-  errorsConstants,
-  statusCodesConstants,
-  urlConstants,
-} = require('../../../helpers/constants');
-const {
   USER_NOT_FOUND,
   USER_NOT_UPDATED,
 } = require('../../../helpers/constants/users');
 const { TOKEN_TIME } = require('../../../helpers/constants/auth');
-
-const { AVATARS_URL } = urlConstants;
-const { ERROR_OCCURRED } = errorsConstants;
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { AVATARS_URL } = require('../../../helpers/constants/url');
 const {
-  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
-} = statusCodesConstants;
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getUser = async (req, res) => {
   try {

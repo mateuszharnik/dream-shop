@@ -1,7 +1,5 @@
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
-const { faqsCategoriesConstants } = require('../../helpers/constants');
 const { ADMIN, USER } = require('../../helpers/constants/users');
-
 const {
   RETURNS,
   DELIVERY,
@@ -10,7 +8,7 @@ const {
   PRODUCTS,
   DISCOUNTS,
   OTHERS,
-} = faqsCategoriesConstants;
+} = require('../../helpers/constants/faq');
 
 const user = {
   name: '',
