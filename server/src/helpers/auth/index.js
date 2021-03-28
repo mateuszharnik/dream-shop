@@ -1,12 +1,14 @@
 const crypto = require('crypto');
 const { verifyToken } = require('../token');
+const { TOKEN_NOT_GENERATED } = require('../constants/auth');
+const { HEX } = require('../constants/types');
 
 const generateRandomBytes = (prefix) => new Promise((resolve, reject) => {
   crypto.randomBytes(10, (error, buf) => {
     if (error) {
-      reject(new Error('Nie udało się wygenerować tokenu'));
+      reject(new Error(TOKEN_NOT_GENERATED));
     } else {
-      resolve(`${prefix}${buf.toString('hex')}`);
+      resolve(`${prefix}${buf.toString(HEX)}`);
     }
   });
 });

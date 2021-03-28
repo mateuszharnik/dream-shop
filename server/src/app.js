@@ -21,17 +21,15 @@ const productCategories = require('./api/v1/product-categories/index.router');
 const productFilters = require('./api/v1/product-filters/index.router');
 const { CLIENT_URL } = require('./config');
 const { notFound, errorHandler } = require('./middlewares/errors');
-const { checkToken } = require('./auth/index.middlewares');
+const { checkToken } = require('./middlewares/auth');
+const { UPLOADS } = require('./helpers/constants/directories');
+const { V1 } = require('./helpers/constants/api');
 const {
   statusCodesConstants,
-  directoriesConstants,
   routesConstants,
-  apiVersionsConstants,
 } = require('./helpers/constants');
 
-const { V1 } = apiVersionsConstants;
 const { OK } = statusCodesConstants;
-const { UPLOADS } = directoriesConstants;
 const {
   HOME,
   USERS,

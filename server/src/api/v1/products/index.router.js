@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { productUpload } = require('../../../middlewares/files');
-const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
+const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const {
   getProducts, getProduct, addProduct, deleteProduct, updateProduct, deleteProducts,
 } = require('./index.controller');

@@ -1,39 +1,33 @@
-const bcrypt = require('bcryptjs');
 const fs = require('fs');
-const sharp = require('sharp');
 const { signToken } = require('../../../helpers/token');
-const { responseWithError } = require('../../../helpers/errors');
-const { dbIdSchema, avatarFileSchema } = require('../../../models');
-const { updateUserSchema } = require('./index.model');
 const { usersDB } = require('../../../db');
-const { getAvatarUrl } = require('../../../helpers/files');
+const { AVATARS } = require('../../../helpers/constants/directories');
+const {
+  errorsConstants,
+  statusCodesConstants,
+  urlConstants,
+} = require('../../../helpers/constants');
+const {
+  USER_NOT_FOUND,
+  USER_NOT_UPDATED,
+} = require('../../../helpers/constants/users');
+const { TOKEN_TIME } = require('../../../helpers/constants/auth');
 
-const getUser = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
+const { AVATARS_URL } = urlConstants;
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
 
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
-  if (
-    req.user._id !== params.id
-    || req.user.roles.indexOf('administrator') === -1
-  ) {
-    return responseWithError(res, next, 400, 'Brak dostępu.');
-  }
-
+const getUser = async (req, res) => {
   try {
-    const user = await usersDB.findOne({ _id: params.id });
+    const user = await usersDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
 
     if (!user) {
-      return responseWithError(res, next, 500, 'Użytkownik nie istnieje.');
+      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
     }
 
     const {
@@ -58,148 +52,36 @@ const getUser = async (req, res, next) => {
       updated_at,
     };
 
-    // const token = await signToken(payload, '1d');
-
-    res.status(200).json({ ...payload });
+    res.status(OK).json(payload);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateUser = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
-  if (
-    req.user._id !== params.id
-    || req.user.roles.indexOf('administrator') === -1
-  ) {
-    return responseWithError(res, next, 400, 'Brak dostępu.');
-  }
-
+const updateUser = async (req, res) => {
   try {
-    if (req.file) {
-      const { schemaError: fileSchemaError, data: file } = avatarFileSchema(
-        req.file,
-      );
-
-      if (fileSchemaError) {
-        return responseWithError(
-          res,
-          next,
-          400,
-          fileSchemaError.details[0].message,
-        );
-      }
-
-      const fileName = file.filename.replace(/\..+$/, '.jpeg');
-      const filePath = file.path.replace(/\..+$/, '.jpeg');
-
-      await sharp(file.path)
-        .toFormat('jpeg')
-        .resize(150)
-        .toFile(`${file.destination}/${fileName}`);
-
-      if (fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
-      }
-
-      const newFile = {
-        ...file,
-        filename: fileName,
-        path: filePath,
-      };
-
-      req.body.avatar = getAvatarUrl(newFile);
-    }
-
-    const { schemaError, data } = updateUserSchema(req.body, false, false);
-
-    if (schemaError) {
-      return responseWithError(res, next, 400, schemaError.details[0].message);
-    }
-
-    const user = await usersDB.findOne({ _id: params.id });
-
-    if (!user) {
-      return responseWithError(res, next, 500, 'Użytkownik nie istnieje.');
-    }
-
-    const newUser = {
-      name: data.name,
-      avatar: data.avatar,
-    };
-
-    if (data.email) {
-      const email = await usersDB.findOne({ email: data.email });
-
-      if (email && email._id.toString() !== params.id) {
-        return responseWithError(
-          res,
-          next,
-          500,
-          'Adres email jest już zajęty.',
-        );
-      }
-
-      newUser.email = data.email;
-    }
-
-    if (data.username) {
-      const username = await usersDB.findOne({ username: data.username });
-
-      if (username && username._id.toString() !== params.id) {
-        return responseWithError(
-          res,
-          next,
-          500,
-          'Nazwa użytkownika jest już zajęta.',
-        );
-      }
-
-      newUser.username = data.username;
-    }
-
-    if (data.password && data.new_password && data.confirm_new_password) {
-      if (!(await bcrypt.compare(data.password, user.password))) {
-        return responseWithError(res, next, 500, 'Błędne hasło.');
-      }
-
-      newUser.password = await bcrypt.hash(data.new_password, 12);
-    }
-
     const updatedUser = await usersDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       {
         $set: {
-          ...newUser,
+          ...req.data.newUser,
           updated_at: new Date(),
         },
       },
     );
 
     if (!updatedUser) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać zmian.');
+      return req.data.responseWithError(CONFLICT, USER_NOT_UPDATED);
     }
 
-    if ((req.file && user.avatar) || (user.avatar && !req.body.avatar)) {
-      const avatarName = user.avatar.replace(
-        'http://localhost:3000/uploads/avatars/',
-        '',
-      );
-      const avatarDir = `uploads/avatars/${avatarName}`;
+    if (
+      (req.file && req.data.userDB.avatar)
+      || (req.data.userDB.avatar && !req.body.avatar)
+    ) {
+      const avatarName = req.data.userDB.avatar.replace(AVATARS_URL, '');
+      const avatarDir = `${AVATARS}/${avatarName}`;
 
       if (fs.existsSync(avatarDir)) {
         fs.unlinkSync(avatarDir);
@@ -228,17 +110,17 @@ const updateUser = async (req, res, next) => {
       updated_at,
     };
 
-    if (req.user._id === params.id) {
-      const token = await signToken(payload, '1d');
+    if (req.user._id === req.params.id) {
+      const token = await signToken(payload, TOKEN_TIME);
 
-      res.status(200).json({ ...payload, token });
+      res.status(OK).json({ ...payload, token });
     } else {
-      res.status(200).json({ ...payload });
+      res.status(OK).json(payload);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

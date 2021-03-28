@@ -1,6 +1,6 @@
 const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
-const { isAdmin, isNotLoggedIn } = require('../../../auth/index.middlewares');
+const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const {
   getComments,
   getComment,

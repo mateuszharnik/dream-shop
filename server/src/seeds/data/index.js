@@ -1,5 +1,6 @@
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
 const { faqsCategoriesConstants } = require('../../helpers/constants');
+const { ADMIN, USER } = require('../../helpers/constants/users');
 
 const {
   RETURNS,
@@ -19,26 +20,17 @@ const user = {
   password: ADMIN_PASSWORD,
   reset_password_token: null,
   reset_password_token_exp: null,
-  roles: ['user', 'administrator'],
-  created_at: new Date(),
-  updated_at: new Date(),
-  deleted_at: null,
+  roles: [USER, ADMIN],
 };
 
 const regulations = [
   {
     name: 'newsletter',
     content: 'Regulamin Newslettera.',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
   },
   {
     name: 'kontakt',
     content: 'Regulamin Formularza.',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
   },
 ];
 

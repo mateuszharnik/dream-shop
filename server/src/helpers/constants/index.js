@@ -71,17 +71,14 @@ const statusCodesConstants = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-const enviromentConstants = {
-  PRODUCTION: 'production',
-  DEV: 'development',
-};
-
 const dbSeedsConstants = {
+  USER_SEEDED: 'Database seeded with users data',
   ABOUT_SEEDED: 'Database seeded with about data',
   MAP_SEEDED: 'Database seeded with map data',
   CONTACT_SEEDED: 'Database seeded with contact data',
   SOCIAL_MEDIA_SEEDED: 'Database seeded with social media data',
   FAQS_CATEGORIES_SEEDED: 'Database seeded with faq categories data',
+  REGULATIONS_SEEDED: 'Database seeded with regulations data',
 };
 
 const dbDeleteConstants = {
@@ -91,25 +88,8 @@ const dbDeleteConstants = {
   NEWSLETTER_DELETED: 'Deleted emails from database',
 };
 
-const directoriesConstants = {
-  UPLOADS: 'uploads',
-};
-
-const limiterConstants = {
-  NEWSLETTER: 'Przekroczono limit. Spróbuj zapisać się ponownie później.',
-  MESSAGE: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.',
-};
-
-const limiterTimeConstants = {
-  FIVE_MINUTES: 1000 * 60 * 5,
-  TEN_MINUTES: 1000 * 60 * 10,
-  FIFTEEN_MINUTES: 1000 * 60 * 15,
-};
-
-const limiterAttemptsConstants = {
-  SMALL: 3,
-  MEDIUM: 10,
-  LARGE: 30,
+const urlConstants = {
+  AVATARS_URL: 'http://localhost:3000/uploads/avatars/',
 };
 
 const routesConstants = {
@@ -132,10 +112,6 @@ const routesConstants = {
   ORDERS: '/orders',
 };
 
-const apiVersionsConstants = {
-  V1: '/v1',
-};
-
 const faqsCategoriesConstants = {
   RETURNS: 'zwroty',
   DELIVERY: 'dostawa',
@@ -152,9 +128,6 @@ const sortConstants = {
 };
 
 module.exports = {
-  limiterConstants,
-  limiterTimeConstants,
-  limiterAttemptsConstants,
   sortConstants,
   dbDeleteConstants,
   aboutConstants,
@@ -163,14 +136,12 @@ module.exports = {
   errorsConstants,
   statusCodesConstants,
   dbSeedsConstants,
-  enviromentConstants,
-  directoriesConstants,
   routesConstants,
-  apiVersionsConstants,
   mapConstants,
   newsletterConstants,
   faqsConstants,
   faqsCategoriesConstants,
   messageConstants,
   productFiltersConstants,
+  urlConstants,
 };

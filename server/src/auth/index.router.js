@@ -1,50 +1,75 @@
 const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
-const { isLoggedIn } = require('./index.middlewares');
+const {
+  createData,
+  createResponseWithError,
+} = require('../middlewares/index');
+const {
+  validateRecoveryPasswords,
+  validateCredentials,
+  validateRecoveryLink,
+  validateRecoveryId,
+} = require('./index.middlewares');
+const { isLoggedIn } = require('../middlewares/auth');
 const {
   loginUser,
   sendRecoveryLink,
   recoveryPassword,
   checkRecoveryLink,
 } = require('./index.controller');
+const { MEDIUM, LOGIN, RECOVERY } = require('../helpers/constants/limiter');
+const { FIFTEEN_MINUTES } = require('../helpers/constants/time');
 
 const loginLimiter = rateLimit({
-  windowMs: 1000 * 60 * 15,
-  max: 20,
-  message: 'Przekroczono limit. Spróbuj zalogować się ponownie później.',
+  windowMs: FIFTEEN_MINUTES,
+  max: MEDIUM,
+  message: LOGIN,
 });
 
 const recoveryLimiter = rateLimit({
-  windowMs: 1000 * 60 * 60,
-  max: 10,
-  message: 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.',
+  windowMs: FIFTEEN_MINUTES,
+  max: MEDIUM,
+  message: RECOVERY,
 });
 
 const router = Router();
 
 router.post(
   '/login',
-  loginLimiter,
+  createData,
+  createResponseWithError,
   isLoggedIn,
+  validateCredentials,
+  loginLimiter,
   loginUser,
 );
 
 router.post(
   '/recovery',
-  recoveryLimiter,
+  createData,
+  createResponseWithError,
   isLoggedIn,
+  validateRecoveryLink,
+  recoveryLimiter,
   sendRecoveryLink,
 );
 
 router.get(
   '/recovery/:id',
+  createData,
+  createResponseWithError,
   isLoggedIn,
+  validateRecoveryId,
   checkRecoveryLink,
 );
 
 router.put(
   '/recovery/:id',
+  createData,
+  createResponseWithError,
   isLoggedIn,
+  validateRecoveryId,
+  validateRecoveryPasswords,
   recoveryPassword,
 );
 

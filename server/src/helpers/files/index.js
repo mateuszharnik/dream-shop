@@ -1,12 +1,9 @@
-const { PORT } = require('../../config');
-
-const avatarMaxSize = 1024 * 1024 * 5;
-const thumbnailMaxSize = 1024 * 1024 * 5;
+const { PATH } = require('../constants/files');
 
 const getAvatarUrl = (file) => {
   if (file) {
     const path = file.path.replace(/\\/g, '/');
-    return `http://localhost:${PORT}/${path}`;
+    return `${PATH}/${path}`;
   }
 
   return '';
@@ -15,7 +12,7 @@ const getAvatarUrl = (file) => {
 const getThumbnailUrl = (file) => {
   if (file) {
     const path = file.path.replace(/\\/g, '/');
-    return `http://localhost:${PORT}/${path}`;
+    return `${PATH}/${path}`;
   }
 
   return '';
@@ -24,6 +21,4 @@ const getThumbnailUrl = (file) => {
 module.exports = {
   getAvatarUrl,
   getThumbnailUrl,
-  avatarMaxSize,
-  thumbnailMaxSize,
 };

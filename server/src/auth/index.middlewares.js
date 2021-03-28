@@ -1,54 +1,62 @@
-const { responseWithError } = require('../helpers/errors');
-const { setUser } = require('../helpers/auth');
+const { statusCodesConstants } = require('../helpers/constants');
 const {
-  statusCodesConstants,
-  errorsConstants,
-} = require('../helpers/constants');
+  loginSchema,
+  recoveryLinkSchema,
+  recoveryPasswordSchema,
+  resetPasswordIdSchema,
+} = require('./index.model');
 
-const { FORBIDDEN, UNAUTHORIZED } = statusCodesConstants;
-const { ACCESS_NOT_ALLOWED, USER_IS_LOGGED_IN } = errorsConstants;
+const { CONFLICT } = statusCodesConstants;
 
-const checkToken = async (req, res, next) => {
-  const authHeader = req.get('authorization');
+const validateCredentials = (req, res, next) => {
+  const { schemaError, data: credentials } = loginSchema(req.body);
 
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
-
-    if (token) {
-      await setUser(req, token);
-    }
+  if (schemaError) {
+    return req.data.responseWithError(CONFLICT, schemaError.details[0].message);
   }
+
+  req.data.credentials = credentials;
 
   next();
 };
 
-const isAdmin = (req, res, next) => {
-  if (req.user.roles.indexOf('administrator') === -1) {
-    return responseWithError(res, next, UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+const validateRecoveryPasswords = (req, res, next) => {
+  const { schemaError, data: passwords } = recoveryPasswordSchema(req.body);
+
+  if (schemaError) {
+    return req.data.responseWithError(CONFLICT, schemaError.details[0].message);
   }
+
+  req.data.passwords = passwords;
 
   next();
 };
 
-const isNotLoggedIn = (req, res, next) => {
-  if (!req.user) {
-    return responseWithError(res, next, UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+const validateRecoveryLink = (req, res, next) => {
+  const { schemaError, data: email } = recoveryLinkSchema(req.body);
+
+  if (schemaError) {
+    return req.data.responseWithError(CONFLICT, schemaError.details[0].message);
   }
+
+  req.data.email = email.email;
 
   next();
 };
 
-const isLoggedIn = (req, res, next) => {
-  if (req.user) {
-    return responseWithError(res, next, FORBIDDEN, USER_IS_LOGGED_IN);
+const validateRecoveryId = (req, res, next) => {
+  const { schemaError } = resetPasswordIdSchema(req.params);
+
+  if (schemaError) {
+    return req.data.responseWithError(CONFLICT, schemaError.details[0].message);
   }
 
   next();
 };
 
 module.exports = {
-  checkToken,
-  isAdmin,
-  isLoggedIn,
-  isNotLoggedIn,
+  validateCredentials,
+  validateRecoveryId,
+  validateRecoveryPasswords,
+  validateRecoveryLink,
 };

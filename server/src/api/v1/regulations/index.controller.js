@@ -1,10 +1,21 @@
-const { regulationsSchema } = require('./index.model');
-const { responseWithError } = require('../../../helpers/errors');
 const { regulationsDB } = require('../../../db');
-const { dbIdSchema } = require('../../../models');
-const { purify } = require('../../../helpers/sanitize');
+const {
+  errorsConstants,
+  statusCodesConstants,
+} = require('../../../helpers/constants');
+const {
+  REGULATIONS_NOT_FOUND,
+  REGULATION_NOT_FOUND,
+  REGULATION_NOT_UPDATED,
+  REGULATION_NAME_IS_NOT_ALLOWED,
+} = require('../../../helpers/constants/regulations');
 
-const getRegulations = async (req, res, next) => {
+const { ERROR_OCCURRED } = errorsConstants;
+const {
+  OK, NOT_FOUND, CONFLICT, INTERNAL_SERVER_ERROR,
+} = statusCodesConstants;
+
+const getRegulations = async (req, res) => {
   const { name = '' } = req.query;
 
   const query = {
@@ -19,79 +30,75 @@ const getRegulations = async (req, res, next) => {
     const regulations = await regulationsDB.find(query);
 
     if (!regulations) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać regulaminu.');
+      return req.data.responseWithError(NOT_FOUND, REGULATIONS_NOT_FOUND);
     }
 
-    res.status(200).json(regulations);
+    res.status(OK).json(regulations);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const getRegulation = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
-
+const getRegulation = async (req, res) => {
   try {
-    const regulations = await regulationsDB.findOne({ _id: params.id });
+    const regulation = await regulationsDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
 
-    if (!regulations) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać regulaminu.');
+    if (!regulation) {
+      return req.data.responseWithError(NOT_FOUND, REGULATION_NOT_FOUND);
     }
 
-    res.status(200).json(regulations);
+    res.status(OK).json(regulation);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const updateRegulations = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
+const updateRegulation = async (req, res) => {
+  if (req.data.regulation.name) {
+    return req.data.responseWithError(CONFLICT, REGULATION_NAME_IS_NOT_ALLOWED);
   }
-
-  const { schemaError, data } = regulationsSchema(req.body, false, false);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
-
-  data.purify_content = purify(data.content);
 
   try {
-    const regulations = await regulationsDB.findOneAndUpdate(
-      { _id: params.id },
+    const regulation = await regulationsDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
+
+    if (!regulation) {
+      return req.data.responseWithError(NOT_FOUND, REGULATION_NOT_FOUND);
+    }
+
+    const updatedRegulation = await regulationsDB.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: {
-          ...data,
+          ...req.data.regulation,
           updated_at: new Date(),
         },
       },
     );
 
-    if (!regulations) {
-      return responseWithError(res, next, 500, 'Nie udało się zaktualizować regulaminu.');
+    if (!updatedRegulation) {
+      return req.data.responseWithError(CONFLICT, REGULATION_NOT_UPDATED);
     }
 
-    res.status(200).json(regulations);
+    res.status(OK).json(updatedRegulation);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
 module.exports = {
-  updateRegulations,
+  updateRegulation,
   getRegulations,
   getRegulation,
 };
