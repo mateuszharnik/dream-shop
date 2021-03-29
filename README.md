@@ -15,3 +15,7 @@
 ![Admin page](https://github.com/mateuszharnik/dream-shop/blob/master/screenshots/admin.gif?raw=true)
 
 ![Orders page](https://github.com/mateuszharnik/dream-shop/blob/master/screenshots/orders.gif?raw=true)
+
+## Acknowledgments
+
+[Open source libraries used in this project](https://github.com/mateuszharnik/dream-shop/wiki/Open-Source-Libraries)
