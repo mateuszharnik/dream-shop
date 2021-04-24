@@ -1,60 +1,75 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  CATEGORY_NOT_CORRECT,
+  TITLE_REQUIRED,
+  TITLE_NOT_CORRECT,
+  TITLE_MIN_LENGTH,
+  TITLE_MAX_LENGTH,
+  CONTENT_REQUIRED,
+  CONTENT_MIN_LENGTH,
+  CONTENT_MAX_LENGTH,
+} = require('../../../constants/faq');
+
 // CATEGORIES
 const categoryRequired = {
-  'any.required': 'Właściwość "category" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const categoryString = {
-  'string.base': 'Właściwość "category" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const categoryAllow = {
-  'any.only': 'Kategoria jest nieprawidłowa.',
+  'any.only': CATEGORY_NOT_CORRECT,
 };
 
 // TITLE
 const titleRequired = {
-  'any.required': 'Właściwość "title" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const titleString = {
-  'string.base': 'Właściwość "title" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const titleNotEmpty = {
-  'string.empty': 'Musisz podać tytuł.',
+  'string.empty': TITLE_REQUIRED,
 };
 
 const titleMin = {
-  'string.min': 'Tytuł musi mieć minimum 10 znaków.',
+  'string.min': TITLE_MIN_LENGTH,
 };
 
 const titleMax = {
-  'string.max': 'Tytuł może mieć maksymalnie 1000 znaków.',
+  'string.max': TITLE_MAX_LENGTH,
 };
 
 const titlePattern = {
-  'string.pattern.base': 'Tytuł jest nieprawidłowy.',
+  'string.pattern.base': TITLE_NOT_CORRECT,
 };
 
 // CONTENT
 const contentRequired = {
-  'any.required': 'Właściwość "content" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const contentString = {
-  'string.base': 'Właściwość "content" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const contentNotEmpty = {
-  'string.empty': 'Musisz podać treść.',
+  'string.empty': CONTENT_REQUIRED,
 };
 
 const contentMin = {
-  'string.min': 'Treść pytania musi mieć minimum 10 znaków.',
+  'string.min': CONTENT_MIN_LENGTH,
 };
 
 const contentMax = {
-  'string.max': 'Treść pytania może mieć maksymalnie 5000 znaków.',
+  'string.max': CONTENT_MAX_LENGTH,
 };
 
 const titleMessages = {

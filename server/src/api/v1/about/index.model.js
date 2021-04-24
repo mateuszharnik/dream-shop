@@ -1,28 +1,23 @@
-const Joi = require('@hapi/joi');
-const { joiConfigMessages } = require('../../../helpers/errors/messages');
+const Joi = require('joi');
+const { TEN, FIFTY_THOUSAND } = require('../../../helpers/constants/about');
 const {
   informationMessages,
-} = require('../../../helpers/errors/messages/information');
+} = require('../../../helpers/errors/messages/about');
 
 const aboutSchema = (about) => {
-  const schema = Joi.object()
-    .keys({
-      information: Joi.string()
-        .trim()
-        .min(1)
-        .max(50000)
-        .allow('')
-        .required()
-        .messages(informationMessages),
-    })
-    .required()
-    .messages(joiConfigMessages);
+  const schema = Joi.object().keys({
+    information: Joi.string()
+      .trim()
+      .min(TEN)
+      .max(FIFTY_THOUSAND)
+      .allow('')
+      .required()
+      .messages(informationMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(about);
 
   return { schemaError, data };
 };
 
-module.exports = {
-  aboutSchema,
-};
+module.exports = aboutSchema;

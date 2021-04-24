@@ -1,4 +1,4 @@
-const { contactSchema } = require('./index.model');
+const contactSchema = require('./index.model');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateContact = (req, res, next) => {

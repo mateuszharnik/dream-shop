@@ -1,17 +1,25 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_ARRAY,
+} = require('../../../constants/error-messages');
+const {
+  ROLES_REQUIRED, ROLES_NOT_ALLOWED,
+} = require('../../../constants/users');
+
 const userRolesRequired = {
-  'any.required': 'Właściwość "roles" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const userRolesArray = {
-  'array.base': 'Właściwość "roles" musi być typu "array".',
+  'array.base': TYPE_ARRAY,
 };
 
 const userRolesIncludesRequiredUnknowns = {
-  'array.includesRequiredUnknowns': 'Właściwość "roles" nie posiada wymaganych elementów.',
+  'array.includesRequiredUnknowns': ROLES_REQUIRED,
 };
 
 const userRolesInclueds = {
-  'array.includes': 'Właściwość "roles" zawiera elementy będące niedozwolonymi typami.',
+  'array.includes': ROLES_NOT_ALLOWED,
 };
 
 const userRolesMessages = {

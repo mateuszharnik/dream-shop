@@ -1,4 +1,4 @@
-const { socialMediaSchema } = require('./index.model');
+const socialMediaSchema = require('./index.model');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateSocialMedia = (req, res, next) => {

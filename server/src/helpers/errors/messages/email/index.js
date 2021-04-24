@@ -1,17 +1,26 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  EMAIL_REQUIRED,
+  EMAIL_NOT_CORRECT,
+} = require('../../../constants/newsletter');
+
 const emailRequired = {
-  'any.required': 'Właściwość "email" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const emailNotEmpty = {
-  'string.empty': 'Musisz podać email.',
+  'string.empty': EMAIL_REQUIRED,
 };
 
 const emailString = {
-  'string.base': 'Właściwość "email" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const emailPattern = {
-  'string.pattern.base': 'Email jest nieprawidłowy.',
+  'string.pattern.base': EMAIL_NOT_CORRECT,
 };
 
 const emailMessages = {

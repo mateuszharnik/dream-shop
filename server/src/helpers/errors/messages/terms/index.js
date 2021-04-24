@@ -1,14 +1,20 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_BOOLEAN,
+} = require('../../../constants/error-messages');
+const { TERMS_REQUIRED } = require('../../../constants/messages');
+
 // TERMS
 const termsRequired = {
-  'any.required': 'Właściwość "terms_accepted" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const termsOnly = {
-  'any.only': 'Musisz zaakceptować regulamin.',
+  'any.only': TERMS_REQUIRED,
 };
 
 const termsBoolean = {
-  'boolean.base': 'Właściwość "terms_accepted" musi być typu "boolean".',
+  'boolean.base': TYPE_BOOLEAN,
 };
 
 const termsMessages = {

@@ -1,23 +1,32 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+  TYPE_NUMBER,
+} = require('../../../constants/error-messages');
+const {
+  RESET_PASSWORD_TOKE_REQUIRED,
+} = require('../../../constants/auth');
+
 // RESET PASSWORD TOKEN
 const resetPasswordTokenRequired = {
-  'any.required': 'Właściwość "reset_password_token" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const resetPasswordTokenString = {
-  'string.base': 'Właściwość "reset_password_token" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const resetPasswordTokenNotEmpty = {
-  'string.empty': 'Właściwość "reset_password_token" nie może być pusta.',
+  'string.empty': RESET_PASSWORD_TOKE_REQUIRED,
 };
 
 // RESET PASSWORD TOKEN EXP
 const resetPasswordTokenExpRequired = {
-  'any.required': 'Właściwość "reset_password_token_exp" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const resetPasswordTokenExpNumber = {
-  'number.base': 'Właściwość "reset_password_token_exp" musi być typu "number".',
+  'number.base': TYPE_NUMBER,
 };
 
 const resetPasswordTokenMessages = {

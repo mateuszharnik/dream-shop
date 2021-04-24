@@ -1,43 +1,56 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  SUBJECT_REQUIRED,
+  SUBJECT_MIN_LENGTH,
+  SUBJECT_MAX_LENGTH,
+  MESSAGE_REQUIRED,
+  MESSAGE_MIN_LENGTH,
+  MESSAGE_MAX_LENGTH,
+} = require('../../../constants/messages');
+
 // SUBJECT
 const subjectRequired = {
-  'any.required': 'Właściwość "subject" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const subjectString = {
-  'string.base': 'Właściwość "subject" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const subjectNotEmpty = {
-  'string.empty': 'Musisz podać temat.',
+  'string.empty': SUBJECT_REQUIRED,
 };
 
 const subjectMin = {
-  'string.min': 'Temat musi mieć minimum 3 znaki.',
+  'string.min': SUBJECT_MIN_LENGTH,
 };
 
 const subjectMax = {
-  'string.max': 'Temat może mieć maksymalnie 150 znaków.',
+  'string.max': SUBJECT_MAX_LENGTH,
 };
 
 // MESSAGE
 const messageRequired = {
-  'any.required': 'Właściwość "message" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const messageString = {
-  'string.base': 'Właściwość "message" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const messageNotEmpty = {
-  'string.empty': 'Musisz podać treść wiadomości.',
+  'string.empty': MESSAGE_REQUIRED,
 };
 
 const messageMin = {
-  'string.min': 'Treść wiadomości musi mieć minimum 3 znaki.',
+  'string.min': MESSAGE_MIN_LENGTH,
 };
 
 const messageMax = {
-  'string.max': 'Treść wiadomości może mieć maksymalnie 2000 znaków.',
+  'string.max': MESSAGE_MAX_LENGTH,
 };
 
 const subjectMessages = {

@@ -1,51 +1,66 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  NAME_REQUIRED,
+  NAME_NOT_CORRECT,
+  NAME_MIN_LENGTH,
+  NAME_MAX_LENGTH,
+  SURNAME_REQUIRED,
+  SURNAME_NOT_CORRECT,
+  SURNAME_MIN_LENGTH,
+  SURNAME_MAX_LENGTH,
+} = require('../../../constants/users');
+
 // NAME
 const nameRequired = {
-  'any.required': 'Właściwość "name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const nameString = {
-  'string.base': 'Właściwość "name" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const namePattern = {
-  'string.pattern.base': 'Imię jest nieprawidłowe.',
+  'string.pattern.base': NAME_NOT_CORRECT,
 };
 
 const nameNotEmpty = {
-  'string.empty': 'Musisz podać imię.',
+  'string.empty': NAME_REQUIRED,
 };
 
 const nameMin = {
-  'string.min': 'Imię musi mieć minimum 3 znaki.',
+  'string.min': NAME_MIN_LENGTH,
 };
 
 const nameMax = {
-  'string.max': 'Imię może mieć maksymalnie 30 znaków.',
+  'string.max': NAME_MAX_LENGTH,
 };
 
 // SURNAME
 const surnameRequired = {
-  'any.required': 'Właściwość "surname" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const surnameString = {
-  'string.base': 'Właściwość "surname" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const surnamePattern = {
-  'string.pattern.base': 'Nazwisko jest nieprawidłowe.',
+  'string.pattern.base': SURNAME_NOT_CORRECT,
 };
 
 const surnameNotEmpty = {
-  'string.empty': 'Musisz podać nazwisko.',
+  'string.empty': SURNAME_REQUIRED,
 };
 
 const surnameMin = {
-  'string.min': 'Nazwisko musi mieć minimum 3 znaki.',
+  'string.min': SURNAME_MIN_LENGTH,
 };
 
 const surnameMax = {
-  'string.max': 'Nazwisko może mieć maksymalnie 30 znaków.',
+  'string.max': SURNAME_MAX_LENGTH,
 };
 
 const nameMessages = {

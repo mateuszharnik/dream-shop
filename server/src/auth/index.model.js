@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { emailRegExp, usernameRegExp } = require('../helpers/regexp');
 const { joiConfigMessages } = require('../helpers/errors/messages');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
