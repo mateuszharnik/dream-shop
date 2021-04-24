@@ -1,7 +1,5 @@
 const { faqCategories } = require('../data');
-const {
-  faqCategoriesSchema,
-} = require('../../api/v1/faq-categories/index.model');
+const faqCategoriesSchema = require('../../api/v1/faq-categories/index.model');
 const { faqCategoriesDB, faqDB } = require('../../db');
 const {
   FAQS_DELETED,

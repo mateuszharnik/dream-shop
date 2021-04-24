@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { idMessages } = require('../errors/messages/id');
 const { deletedAtMessages, updatedAtMessages, createdAtMessages } = require('../errors/messages/timestamp');
 const { dbIdRegExp } = require('../regexp');

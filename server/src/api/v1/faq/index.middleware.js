@@ -1,4 +1,4 @@
-const { faqSchema } = require('./index.model');
+const faqSchema = require('./index.model');
 const { purify } = require('../../../helpers/sanitize');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 

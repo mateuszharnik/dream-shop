@@ -1,17 +1,26 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  MAP_LAT_LNG_REQIURED,
+  MAP_LAT_LNG_NOT_CORRECT,
+} = require('../../../constants/map');
+
 const mapRequired = {
-  'any.required': 'Właściwość "latlng" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const mapNotEmpty = {
-  'string.empty': 'Musisz podać długość i szerokość geograficzną.',
+  'string.empty': MAP_LAT_LNG_REQIURED,
 };
 
 const mapString = {
-  'string.base': 'Właściwość "latlng" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const mapPattern = {
-  'string.pattern.base': 'Długość i szerokość geograficzna jest nieprawidłowa.',
+  'string.pattern.base': MAP_LAT_LNG_NOT_CORRECT,
 };
 
 const mapMessages = {

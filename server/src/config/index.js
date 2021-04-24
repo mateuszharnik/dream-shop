@@ -1,5 +1,5 @@
 const env = require('dotenv');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { emailRegExp } = require('../helpers/regexp');
 const {
   MISSING_PROPERTY,

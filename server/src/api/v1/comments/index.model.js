@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
 const { dbIdRegExp } = require('../../../helpers/regexp');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');

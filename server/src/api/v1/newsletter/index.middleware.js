@@ -1,4 +1,4 @@
-const { newsletterSchema } = require('./index.model');
+const newsletterSchema = require('./index.model');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateNewsletter = (req, res, next) => {

@@ -1,25 +1,36 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  USERNAME_REQUIRED,
+  USERNAME_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  USERNAME_ALPHANUM,
+} = require('../../../constants/users');
+
 const usernameRequired = {
-  'any.required': 'Właściwość "username" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const usernameNotEmpty = {
-  'string.empty': 'Musisz podać nazwę użytkownika.',
+  'string.empty': USERNAME_REQUIRED,
 };
 
 const usernameString = {
-  'string.base': 'Właściwość "username" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const usernameMin = {
-  'string.min': 'Nazwa użytkownika musi mieć minimum 3 znaki.',
+  'string.min': USERNAME_MIN_LENGTH,
 };
 
 const usernameMax = {
-  'string.max': 'Nazwa użytkownika może mieć maksymalnie 30 znaków.',
+  'string.max': USERNAME_MAX_LENGTH,
 };
 
 const usernameAlphanum = {
-  'string.alphanum': 'Nazwa użytkownika może zawierać tylko cyfry i litery.',
+  'string.alphanum': USERNAME_ALPHANUM,
 };
 
 const usernameMessages = {

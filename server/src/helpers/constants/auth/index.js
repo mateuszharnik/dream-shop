@@ -7,6 +7,10 @@ const TOKEN_TIME = '1d';
 
 const AUTHORIZATION = 'authorization';
 
+const NEW_PASSWORD = 'new_password';
+
+const RESET_PASSWORD_TOKE_REQUIRED = 'Właściwość "reset_password_token" nie może być pusta.';
+
 module.exports = {
   LINK_EXPIRED,
   EMAIL_NOT_EXIST,
@@ -14,4 +18,6 @@ module.exports = {
   TOKEN_NOT_GENERATED,
   TOKEN_TIME,
   AUTHORIZATION,
+  NEW_PASSWORD,
+  RESET_PASSWORD_TOKE_REQUIRED,
 };

@@ -1,17 +1,26 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  ABOUT_MIN_LENGTH,
+  ABOUT_MAX_LENGTH,
+} = require('../../../constants/about');
+
 const informationRequired = {
-  'any.required': 'Właściwość "information" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const informationString = {
-  'string.base': 'Właściwość "information" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const informationMin = {
-  'string.min': 'Informacje o sklepie muszą mieć minimum 10 znaków.',
+  'string.min': ABOUT_MIN_LENGTH,
 };
 
 const informationMax = {
-  'string.max': 'Informacje o sklepie mogą mieć maksymalnie 5000 znaków.',
+  'string.max': ABOUT_MAX_LENGTH,
 };
 
 const informationMessages = {

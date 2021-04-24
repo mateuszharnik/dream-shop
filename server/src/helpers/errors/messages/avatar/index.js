@@ -1,13 +1,19 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const { PATH_TO_FILE_NOT_CORRECT } = require('../../../constants/files');
+
 const avatarRequired = {
-  'any.required': 'Właściwość "avatar" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const avatarString = {
-  'string.base': 'Właściwość "avatar" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const avatarPattern = {
-  'string.pattern.base': 'Ścieżka do pliku jest nieprawidłowa.',
+  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
 };
 
 const avatarMessages = {

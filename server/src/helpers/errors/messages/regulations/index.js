@@ -1,35 +1,56 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  NAME_REQUIRED,
+  NAME_MIN_LENGTH,
+  NAME_MAX_LENGTH,
+  CONTENT_REQUIRED,
+  CONTENT_MIN_LENGTH,
+  CONTENT_MAX_LENGTH,
+} = require('../../../constants/regulations');
+
 // NAME
 const nameRequired = {
-  'any.required': 'Właściwość "name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const nameString = {
-  'string.base': 'Właściwość "name" musi być typu "string".',
+  'string.base': TYPE_STRING,
+};
+
+const nameNotEmpty = {
+  'string.empty': NAME_REQUIRED,
 };
 
 const nameMin = {
-  'string.min': 'Nazwa regulaminu musi mieć minimum 3 znaki.',
+  'string.min': NAME_MIN_LENGTH,
 };
 
 const nameMax = {
-  'string.max': 'Nazwa regulaminu może mieć maksymalnie 256 znaków.',
+  'string.max': NAME_MAX_LENGTH,
 };
 
 // CONTENT
 const contentRequired = {
-  'any.required': 'Właściwość "content" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const contentString = {
-  'string.base': 'Właściwość "content" musi być typu "string".',
+  'string.base': TYPE_STRING,
+};
+
+const contentNotEmpty = {
+  'string.empty': CONTENT_REQUIRED,
 };
 
 const contentMin = {
-  'string.min': 'Regulamin musi mieć minimum 3 znaki.',
+  'string.min': CONTENT_MIN_LENGTH,
 };
 
 const contentMax = {
-  'string.max': 'Regulamin może mieć maksymalnie 20000 znaków.',
+  'string.max': CONTENT_MAX_LENGTH,
 };
 
 const nameMessages = {
@@ -37,6 +58,7 @@ const nameMessages = {
   ...nameString,
   ...nameMax,
   ...nameMin,
+  ...nameNotEmpty,
 };
 
 const contentMessages = {
@@ -44,11 +66,13 @@ const contentMessages = {
   ...contentString,
   ...contentMax,
   ...contentMin,
+  ...contentNotEmpty,
 };
 
 module.exports = {
   nameRequired,
   nameString,
+  nameNotEmpty,
   nameMax,
   nameMin,
   nameMessages,
@@ -56,5 +80,6 @@ module.exports = {
   contentString,
   contentMax,
   contentMin,
+  contentNotEmpty,
   contentMessages,
 };

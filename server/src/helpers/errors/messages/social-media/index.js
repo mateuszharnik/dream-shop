@@ -1,53 +1,64 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  FACEBOOK_NOT_CORRECT,
+  TWITTER_NOT_CORRECT,
+  INSTAGRAM_NOT_CORRECT,
+  LINKEDIN_NOT_CORRECT,
+} = require('../../../constants/social-media');
+
 // TWITTER
 const twitterRequired = {
-  'any.required': 'Właściwość "twitter" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const twitterString = {
-  'string.base': 'Właściwość "twitter" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const twitterPattern = {
-  'string.pattern.base': 'Link do konta na Twitter jest nieprawidłowy.',
+  'string.pattern.base': TWITTER_NOT_CORRECT,
 };
 
 // FACEBOOK
 const facebookRequired = {
-  'any.required': 'Właściwość "facebook" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const facebookString = {
-  'string.base': 'Właściwość "facebook" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const facebookPattern = {
-  'string.pattern.base': 'Link do konta na Facebook jest nieprawidłowy.',
+  'string.pattern.base': FACEBOOK_NOT_CORRECT,
 };
 
 // INSTAGRAM
 const instagramRequired = {
-  'any.required': 'Właściwość "instagram" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const instagramString = {
-  'string.base': 'Właściwość "instagram" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const instagramPattern = {
-  'string.pattern.base': 'Link do konta na Instagram jest nieprawidłowy.',
+  'string.pattern.base': INSTAGRAM_NOT_CORRECT,
 };
 
 // LINKEDIN
 const linkedinRequired = {
-  'any.required': 'Właściwość "linkedin" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const linkedinString = {
-  'string.base': 'Właściwość "linkedin" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const linkedinPattern = {
-  'string.pattern.base': 'Link do konta na LinkedIn jest nieprawidłowy.',
+  'string.pattern.base': LINKEDIN_NOT_CORRECT,
 };
 
 const facebookMessages = {

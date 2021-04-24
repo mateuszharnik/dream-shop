@@ -6,6 +6,9 @@ const EMAILS_DELETED = 'Usunięto wszystkie adresy email.';
 const EMAIL_NOT_CREATED = 'Nie udało się zapisać adresu email.';
 const EMAIL_ALREADY_EXIST = 'Adres email znajduje się już w bazie danych.';
 
+const EMAIL_REQUIRED = 'Musisz podać email.';
+const EMAIL_NOT_CORRECT = 'Email jest nieprawidłowy.';
+
 module.exports = {
   EMAIL_NOT_FOUND,
   EMAILS_NOT_FOUND,
@@ -14,4 +17,6 @@ module.exports = {
   EMAILS_DELETED,
   EMAIL_NOT_CREATED,
   EMAIL_ALREADY_EXIST,
+  EMAIL_REQUIRED,
+  EMAIL_NOT_CORRECT,
 };

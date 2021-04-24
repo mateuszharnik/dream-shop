@@ -1,4 +1,4 @@
-const { mapSchema } = require('./index.model');
+const mapSchema = require('./index.model');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 
 const validateMap = (req, res, next) => {

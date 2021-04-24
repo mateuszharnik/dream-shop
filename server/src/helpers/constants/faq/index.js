@@ -8,6 +8,17 @@ const FAQS_NOT_FOUND = 'Najczęściej zadawane pytania nie istnieją.';
 const FAQS_DELETED = 'Usunięto wszystkie pytania.';
 const FAQ_CATEGORIES_NOT_FOUND = 'Nie udało się pobrać kategorii najczęściej zadawanych pytań.';
 
+const CATEGORY_NOT_CORRECT = 'Kategoria jest nieprawidłowa.';
+
+const TITLE_REQUIRED = 'Musisz podać tytuł.';
+const TITLE_NOT_CORRECT = 'Tytuł jest nieprawidłowy.';
+const TITLE_MIN_LENGTH = 'Tytuł musi mieć minimum 10 znaków.';
+const TITLE_MAX_LENGTH = 'Tytuł może mieć maksymalnie 1000 znaków.';
+
+const CONTENT_REQUIRED = 'Musisz podać treść.';
+const CONTENT_MIN_LENGTH = 'Treść pytania musi mieć minimum 10 znaków.';
+const CONTENT_MAX_LENGTH = 'Treść pytania może mieć maksymalnie 5000 znaków.';
+
 const RETURNS = 'zwroty';
 const DELIVERY = 'dostawa';
 const PAYMENT = 'płatności';
@@ -26,6 +37,14 @@ module.exports = {
   FAQS_NOT_FOUND,
   FAQS_DELETED,
   FAQ_CATEGORIES_NOT_FOUND,
+  CATEGORY_NOT_CORRECT,
+  TITLE_REQUIRED,
+  TITLE_NOT_CORRECT,
+  TITLE_MIN_LENGTH,
+  TITLE_MAX_LENGTH,
+  CONTENT_REQUIRED,
+  CONTENT_MIN_LENGTH,
+  CONTENT_MAX_LENGTH,
   RETURNS,
   DELIVERY,
   PAYMENT,

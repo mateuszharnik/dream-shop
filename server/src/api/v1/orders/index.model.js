@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { addId, addTimestamps } = require('../../../helpers/schemas');
 const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
@@ -9,10 +9,12 @@ const {
 } = require('../../../helpers/errors/messages/name');
 const {
   zipCodeMessages,
-  cityMessages,
-  streetMessages,
+} = require('../../../helpers/errors/messages/zip-code');
+const { cityMessages } = require('../../../helpers/errors/messages/city');
+const { streetMessages } = require('../../../helpers/errors/messages/street');
+const {
   streetNumberMessages,
-} = require('../../../helpers/errors/messages/address');
+} = require('../../../helpers/errors/messages/street-number');
 const {
   nameRegExp,
   emailRegExp,

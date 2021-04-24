@@ -1,52 +1,66 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  PASSWORD_REQUIRED,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  NEW_PASSWORD_REQUIRED,
+  NEW_PASSWORD_MIN_LENGTH,
+  NEW_PASSWORD_MAX_LENGTH,
+  PASSWORDS_NOT_MATCH,
+} = require('../../../constants/users');
+
 // PASSWORD
 const passwordRequired = {
-  'any.required': 'Właściwość "password" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const passwordNotEmpty = {
-  'string.empty': 'Musisz podać hasło.',
+  'string.empty': PASSWORD_REQUIRED,
 };
 
 const passwordString = {
-  'string.base': 'Właściwość "password" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const passwordMin = {
-  'string.min': 'Hasło musi mieć minimum 8 znaków.',
+  'string.min': PASSWORD_MIN_LENGTH,
 };
 
 const passwordMax = {
-  'string.max': 'Hasło może mieć maksymalnie 32 znaki.',
+  'string.max': PASSWORD_MAX_LENGTH,
 };
 
 // NEW PASSWORD
 const newPasswordRequired = {
-  'any.required': 'Właściwość "new_password" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const newPasswordNotEmpty = {
-  'string.empty': 'Musisz podać nowe hasło.',
+  'string.empty': NEW_PASSWORD_REQUIRED,
 };
 
 const newPasswordString = {
-  'string.base': 'Właściwość "new_password" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const newPasswordMin = {
-  'string.min': 'Nowe hasło musi mieć minimum 8 znaków.',
+  'string.min': NEW_PASSWORD_MIN_LENGTH,
 };
 
 const newPasswordMax = {
-  'string.max': 'Nowe hasło może mieć maksymalnie 32 znaki.',
+  'string.max': NEW_PASSWORD_MAX_LENGTH,
 };
 
 // CONFIRM PASSWORD
 const confirmPasswordRequired = {
-  'any.required': 'Właściwość "confirm_password" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const confirmPasswordNotMatch = {
-  'any.only': 'Hasła nie są takie same.',
+  'any.only': PASSWORDS_NOT_MATCH,
 };
 
 const passwordMessages = {

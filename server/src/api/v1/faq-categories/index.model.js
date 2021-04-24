@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { categoryMessages } = require('../../../helpers/errors/messages/faq');
 const {
   RETURNS,
@@ -22,6 +22,4 @@ const faqCategoriesSchema = (faqCategories) => {
   return { schemaError, data };
 };
 
-module.exports = {
-  faqCategoriesSchema,
-};
+module.exports = faqCategoriesSchema;
