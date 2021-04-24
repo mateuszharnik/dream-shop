@@ -22,10 +22,10 @@ const envSchema = Joi.object()
     ADMIN_EMAIL: Joi.string().trim().regex(emailRegExp).required(),
     ADMIN_PASSWORD: Joi.string().trim().min(8).max(32)
       .required(),
-    EMAIL_LOGIN: Joi.string().trim().required(),
-    EMAIL_HOST: Joi.string().trim().required(),
-    EMAIL_PORT: Joi.string().trim().required(),
-    EMAIL_PASSWORD: Joi.string().trim().required(),
+    EMAIL_LOGIN: Joi.string().trim(),
+    EMAIL_HOST: Joi.string().trim(),
+    EMAIL_PORT: Joi.string().trim(),
+    EMAIL_PASSWORD: Joi.string().trim(),
   })
   .unknown(true);
 

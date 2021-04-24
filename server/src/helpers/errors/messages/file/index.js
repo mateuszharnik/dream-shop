@@ -1,48 +1,61 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+  TYPE_NUMBER,
+} = require('../../../constants/error-messages');
+const {
+  PATH_TO_FILE_NOT_CORRECT,
+  PATH_TO_FILE_REQUIRED,
+  FILE_TYPE_NOT_CORRECT,
+  FILE_TYPE_REQUIRED,
+  FILE_SIZE_MAX,
+} = require('../../../constants/files');
+
 // PATH
 const pathRequired = {
-  'any.required': 'Właściwość "path" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const pathNotEmpty = {
-  'string.empty': 'Ścieżka do pliku nie może być pusta.',
+  'string.empty': PATH_TO_FILE_REQUIRED,
 };
 
 const pathString = {
-  'string.base': 'Właściwość "path" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const pathPattern = {
-  'string.pattern.base': 'Ścieżka do pliku jest nieprawidłowa.',
+  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
 };
 
 // MIMETYPE
 const mimetypePattern = {
-  'string.pattern.base': 'Typ pliku jest nieprawidłowy.',
+  'string.pattern.base': FILE_TYPE_NOT_CORRECT,
 };
 
 const mimetypeRequired = {
-  'any.required': 'Właściwość "mimetype" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const mimetypeNotEmpty = {
-  'string.empty': 'Musisz podać typ pliku.',
+  'string.empty': FILE_TYPE_REQUIRED,
 };
 
 const mimetypeString = {
-  'string.base': 'Właściwość "mimetype" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 // SIZE
 const sizeMax = {
-  'number.max': 'Plik nie może ważyć więcej niż 5 MB.',
+  'number.max': FILE_SIZE_MAX,
 };
 
 const sizeRequired = {
-  'any.required': 'Właściwość "size" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const sizeNumber = {
-  'number.base': 'Właściwość "size" musi być typu "number".',
+  'number.base': TYPE_NUMBER,
 };
 
 const pathMessages = {

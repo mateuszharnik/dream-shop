@@ -7,6 +7,7 @@ const {
   EMAIL_NOT_CORRECT,
 } = require('../../../constants/newsletter');
 
+// EMAIL
 const emailRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

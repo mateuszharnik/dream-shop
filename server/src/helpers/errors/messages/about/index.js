@@ -7,6 +7,7 @@ const {
   ABOUT_MAX_LENGTH,
 } = require('../../../constants/about');
 
+// INFORMATION
 const informationRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

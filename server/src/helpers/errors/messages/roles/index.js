@@ -6,6 +6,7 @@ const {
   ROLES_REQUIRED, ROLES_NOT_ALLOWED,
 } = require('../../../constants/users');
 
+// ROLES
 const userRolesRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

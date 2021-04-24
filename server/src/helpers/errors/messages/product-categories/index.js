@@ -1,39 +1,51 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const {
+  PRODUCT_CATEGORY_NAME_REQUIRED,
+  PRODUCT_CATEGORY_NAME_NOT_CORRECT,
+  PRODUCT_CATEGORY_REQUIRED,
+  PRODUCT_CATEGORY_INVALID,
+  PRODUCT_CATEGORY_PATTERN,
+} = require('../../../constants/products');
+
 // CATEGORY NAME
 const productCategoryNameRequired = {
-  'any.required': 'Właściwość "name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const productCategoryNameString = {
-  'string.base': 'Właściwość "name" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const productCategoryNamePattern = {
-  'string.pattern.base': 'Nazwa kategorii jest nieprawidłowa.',
+  'string.pattern.base': PRODUCT_CATEGORY_NAME_NOT_CORRECT,
 };
 
 const productCategoryNameNotEmpty = {
-  'string.empty': 'Musisz podać nazwę kategorii.',
+  'string.empty': PRODUCT_CATEGORY_NAME_REQUIRED,
 };
 
 // CATEGORY
 const productCategoryRequired = {
-  'any.required': 'Właściwość "category" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const productCategoryInvalid = {
-  'any.invalid': 'Nie możesz utworzyć takiej kategorii.',
+  'any.invalid': PRODUCT_CATEGORY_INVALID,
 };
 
 const productCategoryString = {
-  'string.base': 'Właściwość "category" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const productCategoryPattern = {
-  'string.pattern.base': 'Kategoria może zawierać tylko znaki alfabetu angielskiego rozdzielone znakiem "-".',
+  'string.pattern.base': PRODUCT_CATEGORY_PATTERN,
 };
 
 const productCategoryNotEmpty = {
-  'string.empty': 'Musisz podać kategorię.',
+  'string.empty': PRODUCT_CATEGORY_REQUIRED,
 };
 
 const productCategoryNameMessages = {

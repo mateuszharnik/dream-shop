@@ -1,13 +1,20 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const { NIP_NOT_CORRECT } = require('../../../constants/contact');
+
+// NIP
 const nipRequired = {
-  'any.required': 'Właściwość "nip" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const nipString = {
-  'string.base': 'Właściwość "nip" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const nipPattern = {
-  'string.pattern.base': 'Numer NIP jest nieprawidłowy.',
+  'string.pattern.base': NIP_NOT_CORRECT,
 };
 
 const nipMessages = {

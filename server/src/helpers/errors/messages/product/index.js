@@ -1,130 +1,150 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+  TYPE_ARRAY,
+} = require('../../../constants/error-messages');
+const {
+  PRODUCT_NAME_REQUIRED,
+  PRODUCT_NAME_MIN_LENGTH,
+  PRODUCT_NAME_MAX_LENGTH,
+  COMPANY_NAME_MIN_LENGTH,
+  COMPANY_NAME_MAX_LENGTH,
+  PRODUCT_DESCRIPTION_MIN_LENGTH,
+  PRODUCT_DESCRIPTION_MAX_LENGTH,
+  PRODUCT_QUANTITY_NOT_CORRECT,
+  PRODUCT_PRICE_NOT_CORRECT,
+  PRODUCT_CATEGORY_NAME_NOT_CORRECT,
+  PRODUCT_GALLERY_MAX_LENGTH,
+} = require('../../../constants/products');
+const { PATH_TO_FILE_NOT_CORRECT } = require('../../../constants/files');
+
 // NAME
 const productNameRequired = {
-  'any.required': 'Właściwość "name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const productNamePattern = {
-  'string.pattern.base': 'Nazwa produktu jest nieprawidłowa.',
+  'string.pattern.base': PRODUCT_NAME_REQUIRED,
 };
 
 const productNameString = {
-  'string.base': 'Właściwość "name" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const productNameMin = {
-  'string.min': 'Nazwa produktu musi mieć minimum 3 znaki.',
+  'string.min': PRODUCT_NAME_MIN_LENGTH,
 };
 
 const productNameMax = {
-  'string.max': 'Nazwa produktu może mieć maksymalnie 256 znaków.',
+  'string.max': PRODUCT_NAME_MAX_LENGTH,
 };
 
 // COMPANY NAME
 const productCompanyNameRequired = {
-  'any.required': 'Właściwość "company_name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const productCompanyNameString = {
-  'string.base': 'Właściwość "company_name" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const productCompanyNameMin = {
-  'string.min': 'Nazwa firmy musi mieć minimum 3 znaki.',
+  'string.min': COMPANY_NAME_MIN_LENGTH,
 };
 
 const productCompanyNameMax = {
-  'string.max': 'Nazwa firmy może mieć maksymalnie 512 znaków.',
+  'string.max': COMPANY_NAME_MAX_LENGTH,
 };
 
 // DESCRIPTION
 const descriptionRequired = {
-  'any.required': 'Właściwość "description" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const descriptionString = {
-  'string.base': 'Właściwość "description" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const descriptionMin = {
-  'string.min': 'Opis produktu musi mieć minimum 3 znaki.',
+  'string.min': PRODUCT_DESCRIPTION_MIN_LENGTH,
 };
 
 const descriptionMax = {
-  'string.max': 'Opis produktu może mieć maksymalnie 10000 znaków.',
+  'string.max': PRODUCT_DESCRIPTION_MAX_LENGTH,
 };
 
 // QUANTITY
 const quantityRequired = {
-  'any.required': 'Właściwość "quantity" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const quantityString = {
-  'string.base': 'Właściwość "quantity" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const quantityPattern = {
-  'string.pattern.base': 'Liczba dostępnych sztuk jest nieprawidłowa.',
+  'string.pattern.base': PRODUCT_QUANTITY_NOT_CORRECT,
 };
 
 // PRICE
 const priceRequired = {
-  'any.required': 'Właściwość "price" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const priceString = {
-  'string.base': 'Właściwość "price" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const pricePattern = {
-  'string.pattern.base': 'Cena jest nieprawidłowa.',
+  'string.pattern.base': PRODUCT_PRICE_NOT_CORRECT,
 };
 
 // CATEGORY
 const categoryRequired = {
-  'any.required': 'Właściwość "category" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const categoryString = {
-  'string.base': 'Właściwość "category" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 // CATEGORY NAME
 const categoryNameRequired = {
-  'any.required': 'Właściwość "category_name" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const categoryNameString = {
-  'string.base': 'Właściwość "category_name" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const categoryNamePattern = {
-  'string.pattern.base': 'Nazwa kategorii jest nieprawidłowa.',
+  'string.pattern.base': PRODUCT_CATEGORY_NAME_NOT_CORRECT,
 };
 
 // THUMBNAIL
 const thumbnailRequired = {
-  'any.required': 'Właściwość "thumbnail" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const thumbnailString = {
-  'string.base': 'Właściwość "thumbnail" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const thumbnailPattern = {
-  'string.pattern.base': 'Ścieżka do pliku jest nieprawidłowa.',
+  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
 };
 
 // GALLERY
 const galleryRequired = {
-  'any.required': 'Właściwość "gallery" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const galleryMax = {
-  'array.max': 'Galeria może mieć maksymalnie 9 obrazów.',
+  'array.max': PRODUCT_GALLERY_MAX_LENGTH,
 };
 
 const galleryArray = {
-  'array.base': 'Właściwość "gallery" musi być typu "array".',
+  'array.base': TYPE_ARRAY,
 };
 
 const galleryMessages = {

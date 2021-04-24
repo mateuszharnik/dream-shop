@@ -18,7 +18,7 @@ const twitterRegExp = /^https?:\/\/(www.)?twitter.com\/.+$/;
 
 const linkedinRegExp = /^https?:\/\/(www.)?linkedin.com\/.+$/;
 
-const phoneRegExp = /^(\+[1-9]{1}([0-9]{1,})?\s)?[0-9]{3}\s?[0-9]{3}\s?[0-9]{3}$/;
+const phoneRegExp = /^[0-9]{3}\s?[0-9]{3}\s?[0-9]{3}$/;
 
 const nipRegExp = /^[0-9]{10}$/;
 

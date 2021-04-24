@@ -3,6 +3,7 @@ const { signToken } = require('../helpers/token');
 const { sendEmail } = require('../helpers/email');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
+const { TWELVE } = require('../helpers/constants/numbers');
 const {
   USER_NOT_FOUND,
   PASSWORD_OR_USERNAME_NOT_CORRECT,
@@ -22,6 +23,13 @@ const {
   CONFLICT,
   INTERNAL_SERVER_ERROR,
 } = require('../helpers/constants/status-codes');
+const {
+  EMAIL_HOST,
+  EMAIL_PORT,
+  EMAIL_LOGIN,
+  EMAIL_PASSWORD,
+  CLIENT_URL,
+} = require('../config');
 
 const loginUser = async (req, res) => {
   try {
@@ -100,6 +108,14 @@ const sendRecoveryLink = async (req, res) => {
       return req.data.responseWithError(CONFLICT, TOKEN_NOT_GENERATED);
     }
 
+    if (!(EMAIL_HOST && EMAIL_PORT && EMAIL_LOGIN && EMAIL_PASSWORD)) {
+      return res
+        .status(OK)
+        .json({
+          message: `${CLIENT_URL}/odzyskaj/${newUser.reset_password_token}`,
+        });
+    }
+
     const success = await sendEmail(newUser);
 
     if (success) {
@@ -120,7 +136,7 @@ const recoveryPassword = async (req, res) => {
       return req.data.responseWithError(CONFLICT, LINK_EXPIRED);
     }
 
-    const password = await bcrypt.hash(req.data.passwords.password, 12);
+    const password = await bcrypt.hash(req.data.passwords.password, TWELVE);
 
     const newUser = await usersDB.findOneAndUpdate(
       { reset_password_token: req.params.id },
