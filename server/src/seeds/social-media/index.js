@@ -1,6 +1,6 @@
+const socialMediaSchema = require('../../api/v1/social-media/index.model');
 const { socialMedia } = require('../data');
 const { SOCIAL_MEDIA_SEEDED } = require('../../helpers/constants/tasks');
-const { socialMediaSchema } = require('../../api/v1/social-media/index.model');
 const { socialMediaDB } = require('../../db');
 
 const seedSocialMedia = async () => {

@@ -3,6 +3,7 @@ const TWO = 2;
 const THREE = 3;
 const EIGHT = 8;
 const TEN = 10;
+const TWELVE = 12;
 const THIRTY_TWO = 32;
 const FIFTY = 50;
 const ONE_HUNDRED = 100;
@@ -17,6 +18,7 @@ module.exports = {
   THREE,
   EIGHT,
   TEN,
+  TWELVE,
   THIRTY_TWO,
   FIFTY,
   ONE_HUNDRED,

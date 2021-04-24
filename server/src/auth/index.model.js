@@ -1,8 +1,9 @@
 const Joi = require('joi');
 const { emailRegExp, usernameRegExp } = require('../helpers/regexp');
-const { joiConfigMessages } = require('../helpers/errors/messages');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
 const { emailMessages } = require('../helpers/errors/messages/email');
+const { PASSWORD } = require('../helpers/constants/auth');
+const { EIGHT, THIRTY_TWO } = require('../helpers/constants/numbers');
 const {
   usernameRequired,
   usernameNotEmpty,
@@ -29,17 +30,14 @@ const loginPasswordMessages = {
 };
 
 const loginSchema = (credentials) => {
-  const schema = Joi.object()
-    .keys({
-      username: Joi.string()
-        .trim()
-        .regex(usernameRegExp)
-        .required()
-        .messages(usernameMessages),
-      password: Joi.string().trim().required().messages(loginPasswordMessages),
-    })
-    .required()
-    .messages(joiConfigMessages);
+  const schema = Joi.object().keys({
+    username: Joi.string()
+      .trim()
+      .regex(usernameRegExp)
+      .required()
+      .messages(usernameMessages),
+    password: Joi.string().trim().required().messages(loginPasswordMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(credentials);
 
@@ -47,12 +45,9 @@ const loginSchema = (credentials) => {
 };
 
 const resetPasswordIdSchema = (id) => {
-  const schema = Joi.object()
-    .keys({
-      id: Joi.string().trim().required().messages(resetPasswordIdMessages),
-    })
-    .required()
-    .messages(joiConfigMessages);
+  const schema = Joi.object().keys({
+    id: Joi.string().trim().required().messages(resetPasswordIdMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(id);
 
@@ -60,16 +55,13 @@ const resetPasswordIdSchema = (id) => {
 };
 
 const recoveryLinkSchema = (email) => {
-  const schema = Joi.object()
-    .keys({
-      email: Joi.string()
-        .trim()
-        .regex(emailRegExp)
-        .required()
-        .messages(emailMessages),
-    })
-    .required()
-    .messages(joiConfigMessages);
+  const schema = Joi.object().keys({
+    email: Joi.string()
+      .trim()
+      .regex(emailRegExp)
+      .required()
+      .messages(emailMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(email);
 
@@ -77,22 +69,19 @@ const recoveryLinkSchema = (email) => {
 };
 
 const recoveryPasswordSchema = (passwords) => {
-  const schema = Joi.object()
-    .keys({
-      password: Joi.string()
-        .trim()
-        .min(8)
-        .max(32)
-        .required()
-        .messages(passwordMessages),
-      confirm_password: Joi.string()
-        .trim()
-        .valid(Joi.ref('password'))
-        .required()
-        .messages(confirmPasswordMessages),
-    })
-    .required()
-    .messages(joiConfigMessages);
+  const schema = Joi.object().keys({
+    password: Joi.string()
+      .trim()
+      .min(EIGHT)
+      .max(THIRTY_TWO)
+      .required()
+      .messages(passwordMessages),
+    confirm_password: Joi.string()
+      .trim()
+      .valid(Joi.ref(PASSWORD))
+      .required()
+      .messages(confirmPasswordMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(passwords);
 

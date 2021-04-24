@@ -7,6 +7,7 @@ const {
   MAP_LAT_LNG_NOT_CORRECT,
 } = require('../../../constants/map');
 
+// MAP
 const mapRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

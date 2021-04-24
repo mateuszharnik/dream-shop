@@ -4,6 +4,7 @@ const {
 } = require('../../../constants/error-messages');
 const { PATH_TO_FILE_NOT_CORRECT } = require('../../../constants/files');
 
+// AVATAR
 const avatarRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

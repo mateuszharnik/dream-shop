@@ -1,6 +1,6 @@
+const contactSchema = require('../../api/v1/contact/index.model');
 const { contact } = require('../data');
 const { CONTACT_SEEDED } = require('../../helpers/constants/tasks');
-const { contactSchema } = require('../../api/v1/contact/index.model');
 const { contactDB } = require('../../db');
 
 const seedContact = async () => {

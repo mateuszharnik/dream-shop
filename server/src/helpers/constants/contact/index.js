@@ -19,6 +19,12 @@ const ZIP_CODE = 'zip_code';
 const ZIP_CODE_REQUIRED = 'Musisz podać numer pocztowy.';
 const ZIP_CODE_NOT_CORRECT = 'Numer pocztowy jest nieprawidłowy.';
 
+const HOURS_NOT_CORRECT = 'Godziny pracy są nieprawidłowe.';
+
+const NIP_NOT_CORRECT = 'Numer NIP jest nieprawidłowy.';
+
+const PHONE_NOT_CORRECT = 'Numer telefonu jest nieprawidłowy.';
+
 module.exports = {
   CONTACT_NOT_FOUND,
   CONTACT_NOT_UPDATED,
@@ -36,4 +42,7 @@ module.exports = {
   ZIP_CODE,
   ZIP_CODE_REQUIRED,
   ZIP_CODE_NOT_CORRECT,
+  HOURS_NOT_CORRECT,
+  NIP_NOT_CORRECT,
+  PHONE_NOT_CORRECT,
 };

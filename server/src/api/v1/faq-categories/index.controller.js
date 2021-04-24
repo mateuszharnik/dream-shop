@@ -1,6 +1,7 @@
 const { faqCategoriesDB } = require('../../../db');
 const { FAQ_CATEGORIES_NOT_FOUND } = require('../../../helpers/constants/faq');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { LOCALE_PL } = require('../../../helpers/constants/queries');
 const {
   OK,
   NOT_FOUND,
@@ -13,7 +14,7 @@ const getFAQCategories = async (req, res) => {
       {},
       {
         sort: { category: 1 },
-        collation: { locale: 'pl', numericOrdering: true },
+        collation: { locale: LOCALE_PL, numericOrdering: true },
       },
     );
 

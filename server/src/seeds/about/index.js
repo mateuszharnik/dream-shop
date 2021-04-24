@@ -1,6 +1,6 @@
+const aboutSchema = require('../../api/v1/about/index.model');
 const { about } = require('../data');
 const { ABOUT_SEEDED } = require('../../helpers/constants/tasks');
-const { aboutSchema } = require('../../api/v1/about/index.model');
 const { aboutDB } = require('../../db');
 const { purify } = require('../../helpers/sanitize');
 

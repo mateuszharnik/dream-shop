@@ -1,6 +1,6 @@
+const mapSchema = require('../../api/v1/map/index.model');
 const { map } = require('../data');
 const { MAP_SEEDED } = require('../../helpers/constants/tasks');
-const { mapSchema } = require('../../api/v1/map/index.model');
 const { mapDB } = require('../../db');
 
 const seedMap = async () => {

@@ -1,31 +1,37 @@
+const {
+  PROPERTY_REQUIRED,
+  TYPE_STRING,
+} = require('../../../constants/error-messages');
+const { ID_NOT_CORRECT, ID_REQUIRED } = require('../../../constants/id');
+
 // DATABASE ID
 const idRequired = {
-  'any.required': 'Właściwość "_id" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const idString = {
-  'string.base': 'Właściwość "_id" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const idNotEmpty = {
-  'string.empty': 'Właściwość "_id" nie może być pusta.',
+  'string.empty': ID_REQUIRED,
 };
 
 const idPattern = {
-  'string.pattern.base': 'Id jest nieprawidłowe.',
+  'string.pattern.base': ID_NOT_CORRECT,
 };
 
 // RESET PASSWORD TOKEN ID
 const resetPasswordIdRequired = {
-  'any.required': 'Właściwość "id" jest wymagana.',
+  'any.required': PROPERTY_REQUIRED,
 };
 
 const resetPasswordIdString = {
-  'string.base': 'Właściwość "id" musi być typu "string".',
+  'string.base': TYPE_STRING,
 };
 
 const resetPasswordIdNotEmpty = {
-  'string.empty': 'Właściwość "id" nie może być pusta.',
+  'string.empty': ID_REQUIRED,
 };
 
 const idMessages = {

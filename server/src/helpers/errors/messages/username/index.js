@@ -9,6 +9,7 @@ const {
   USERNAME_ALPHANUM,
 } = require('../../../constants/users');
 
+// USERNAME
 const usernameRequired = {
   'any.required': PROPERTY_REQUIRED,
 };

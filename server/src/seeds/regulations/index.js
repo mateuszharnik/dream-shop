@@ -1,5 +1,5 @@
+const regulationsSchema = require('../../api/v1/regulations/index.model');
 const { regulations } = require('../data');
-const { regulationsSchema } = require('../../api/v1/regulations/index.model');
 const { regulationsDB } = require('../../db');
 const { purify } = require('../../helpers/sanitize');
 const { REGULATIONS_SEEDED } = require('../../helpers/constants/tasks');

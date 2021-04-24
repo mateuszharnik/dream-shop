@@ -1,38 +1,53 @@
 const monk = require('monk');
 const { DB_URL } = require('../config');
+const {
+  DB_CONNECTED,
+  USERS,
+  SOCIAL_MEDIA,
+  EMAILS,
+  CONTACT,
+  ABOUT,
+  COMMENTS,
+  MAP,
+  FAQS,
+  FAQ_CATEGORIES,
+  PRODUCTS,
+  PRODUCT_CATEGORIES,
+  PRODUCT_FILTERS,
+  REGULATIONS,
+  MESSAGES,
+  ORDERS,
+} = require('../helpers/constants/db');
 
 // eslint-disable-next-line no-console
-const db = monk(DB_URL, {}, () => console.log('Connected to the database'));
+const db = monk(DB_URL, {}, () => console.log(DB_CONNECTED));
 
-const usersDB = db.get('users');
-const socialMediaDB = db.get('socialMedia');
-const emailsDB = db.get('emails');
-const contactDB = db.get('contact');
-const aboutDB = db.get('about');
-const commentsDB = db.get('comments');
-const mapDB = db.get('map');
-const faqCategoriesDB = db.get('faq-categories');
-const faqDB = db.get('faq');
-const productCategoriesDB = db.get('product-categories');
-const productFiltersDB = db.get('product-filters');
-const regulationsDB = db.get('regulations');
-const productsDB = db.get('products');
-const messagesDB = db.get('messages');
-const ordersDB = db.get('orders');
+const usersDB = db.get(USERS);
+const socialMediaDB = db.get(SOCIAL_MEDIA);
+const emailsDB = db.get(EMAILS);
+const contactDB = db.get(CONTACT);
+const aboutDB = db.get(ABOUT);
+const commentsDB = db.get(COMMENTS);
+const mapDB = db.get(MAP);
+const faqCategoriesDB = db.get(FAQ_CATEGORIES);
+const faqDB = db.get(FAQS);
+const productCategoriesDB = db.get(PRODUCT_CATEGORIES);
+const productFiltersDB = db.get(PRODUCT_FILTERS);
+const productsDB = db.get(PRODUCTS);
+const regulationsDB = db.get(REGULATIONS);
+const messagesDB = db.get(MESSAGES);
+const ordersDB = db.get(ORDERS);
 
 emailsDB.createIndex('email, deleted_at');
 ordersDB.createIndex('deleted_at');
-productsDB.createIndex('deleted_at');
+productsDB.createIndex('deleted_at, category');
 regulationsDB.createIndex('name, deleted_at');
 productCategoriesDB.createIndex('name, category, deleted_at');
 productFiltersDB.createIndex('name, category, deleted_at');
 messagesDB.createIndex('deleted_at');
-faqCategoriesDB.createIndex('categories');
-faqDB.createIndex('title');
-usersDB.createIndex(
-  'username, email, reset_password_token',
-  { unique: true },
-);
+faqCategoriesDB.createIndex('categories, deleted_at');
+faqDB.createIndex('title, deleted_at');
+usersDB.createIndex('username, email, reset_password_token, deleted_at');
 
 module.exports = {
   db,
