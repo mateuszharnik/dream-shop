@@ -8,7 +8,7 @@ const seedContact = async () => {
 
   if (schemaError) {
     // eslint-disable-next-line no-console
-    return console.error(schemaError);
+    return console.error(schemaError.details[0].message);
   }
 
   try {

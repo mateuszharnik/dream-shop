@@ -1,35 +1,45 @@
+const productCategorySchema = require('../../api/v1/product-categories/index.model');
 const { productCategories } = require('../data');
-const { productCategoriesSchema } = require('../../api/v1/product-categories/index.model');
 const { productCategoriesDB } = require('../../db');
 const { addCategory } = require('../../helpers/product-categories');
+const {
+  PRODUCT_CATEGORIES_DELETED, PRODUCT_CATEGORIES_SEEDED,
+} = require('../../helpers/constants/tasks');
 
 const seedProductCategories = async () => {
-  const newProductCategories = productCategories.map((product) => {
-    const newProduct = { ...product };
-    if (newProduct.name && typeof newProduct.name === 'string') {
-      newProduct.category = addCategory(product.name);
+  const categories = [];
+
+  productCategories.forEach((productCategory) => {
+    const category = { ...productCategory };
+
+    if (category.name && typeof category.name === 'string') {
+      category.category = addCategory(category.name);
     }
-    return newProduct;
+
+    const { schemaError, data } = productCategorySchema(category);
+
+    if (schemaError) {
+      // eslint-disable-next-line no-console
+      return console.error(schemaError.details[0].message);
+    }
+
+    categories.push({
+      ...data,
+      count: 0,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
   });
 
-  const { schemaError, data } = productCategoriesSchema(newProductCategories, false);
-
-  if (schemaError) {
-    // eslint-disable-next-line no-console
-    return console.error(schemaError);
-  }
-
   try {
-    const updatedProductCategories = data.map((category) => {
-      const updatedCategory = { ...category, count: 0 };
-      return updatedCategory;
-    });
-
-    await productCategoriesDB.remove({});
-    await productCategoriesDB.insert(updatedProductCategories);
+    await productCategoriesDB.remove();
+    await productCategoriesDB.insert(categories);
 
     // eslint-disable-next-line no-console
-    console.log('Database seeded with product categories data');
+    console.log(PRODUCT_CATEGORIES_DELETED);
+    // eslint-disable-next-line no-console
+    console.log(PRODUCT_CATEGORIES_SEEDED);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

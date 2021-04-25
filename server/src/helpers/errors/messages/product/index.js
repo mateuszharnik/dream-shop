@@ -2,6 +2,7 @@ const {
   PROPERTY_REQUIRED,
   TYPE_STRING,
   TYPE_ARRAY,
+  TYPE_NUMBER,
 } = require('../../../constants/error-messages');
 const {
   PRODUCT_NAME_REQUIRED,
@@ -11,7 +12,8 @@ const {
   COMPANY_NAME_MAX_LENGTH,
   PRODUCT_DESCRIPTION_MIN_LENGTH,
   PRODUCT_DESCRIPTION_MAX_LENGTH,
-  PRODUCT_QUANTITY_NOT_CORRECT,
+  PRODUCT_QUANTITY_MIN_LENGTH,
+  PRODUCT_QUANTITY_MAX_LENGTH,
   PRODUCT_PRICE_NOT_CORRECT,
   PRODUCT_CATEGORY_NAME_NOT_CORRECT,
   PRODUCT_GALLERY_MAX_LENGTH,
@@ -78,12 +80,16 @@ const quantityRequired = {
   'any.required': PROPERTY_REQUIRED,
 };
 
-const quantityString = {
-  'string.base': TYPE_STRING,
+const quantityNumber = {
+  'number.base': TYPE_NUMBER,
 };
 
-const quantityPattern = {
-  'string.pattern.base': PRODUCT_QUANTITY_NOT_CORRECT,
+const quantityMin = {
+  'number.min': PRODUCT_QUANTITY_MIN_LENGTH,
+};
+
+const quantityMax = {
+  'number.max': PRODUCT_QUANTITY_MAX_LENGTH,
 };
 
 // PRICE
@@ -200,8 +206,9 @@ const descriptionMessages = {
 
 const quantityMessages = {
   ...quantityRequired,
-  ...quantityString,
-  ...quantityPattern,
+  ...quantityNumber,
+  ...quantityMin,
+  ...quantityMax,
 };
 
 module.exports = {
@@ -236,8 +243,9 @@ module.exports = {
   descriptionMax,
   descriptionMessages,
   quantityRequired,
-  quantityString,
-  quantityPattern,
+  quantityNumber,
+  quantityMin,
+  quantityMax,
   quantityMessages,
   productCompanyNameRequired,
   productCompanyNameString,

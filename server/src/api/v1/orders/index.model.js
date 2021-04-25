@@ -1,6 +1,4 @@
 const Joi = require('joi');
-const { addId, addTimestamps } = require('../../../helpers/schemas');
-const { joiConfigMessages } = require('../../../helpers/errors/messages');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const {
@@ -34,24 +32,39 @@ const {
   categoryNameMessages,
   productCompanyNameMessages,
 } = require('../../../helpers/errors/messages/product');
+const { isPaidMessages } = require('../../../helpers/errors/messages/orders');
+const { idMessages } = require('../../../helpers/errors/messages/id');
+const {
+  THREE,
+  FIFTY,
+  ONE_HUNDRED,
+  ONE,
+  ONE_THOUSAND,
+  THREE_HUNDRED,
+} = require('../../../helpers/constants/numbers');
+const { BESTSELLERS, NEWS } = require('../../../helpers/constants/products');
 
-const orderConfig = (id = true, timestamp = true) => {
-  let config = {
+const orderSchema = (order) => {
+  const schema = Joi.object().keys({
     products: Joi.array()
       .items(
         Joi.object().keys({
-          _id: Joi.string().trim().regex(dbIdRegExp).required(),
+          _id: Joi.string()
+            .trim()
+            .regex(dbIdRegExp)
+            .required()
+            .messages(idMessages),
           name: Joi.string()
             .trim()
-            .min(3)
-            .max(256)
+            .min(THREE)
+            .max(THREE_HUNDRED)
             .regex(productNameRegExp)
             .required()
             .messages(productNameMessages),
           company_name: Joi.string()
             .trim()
-            .min(3)
-            .max(512)
+            .min(THREE)
+            .max(THREE_HUNDRED)
             .required()
             .messages(productCompanyNameMessages),
           price: Joi.string()
@@ -66,32 +79,32 @@ const orderConfig = (id = true, timestamp = true) => {
             .messages(thumbnailMessages),
           category_name: Joi.string()
             .trim()
-            .invalid('bestsellery', 'nowości')
+            .invalid(BESTSELLERS, NEWS)
             .required()
             .messages(categoryNameMessages),
           quantity: Joi.number()
-            .min(1)
-            .max(9999)
+            .min(ONE)
+            .max(ONE_THOUSAND)
             .required()
             .messages(quantityMessages),
         }),
       )
-      .min(1)
+      .min(ONE)
       .required(),
     contact: Joi.object()
       .keys({
         name: Joi.string()
           .trim()
           .regex(nameRegExp)
-          .min(3)
-          .max(30)
+          .min(THREE)
+          .max(FIFTY)
           .required()
           .messages(nameMessages),
         surname: Joi.string()
           .trim()
           .regex(nameRegExp)
-          .min(3)
-          .max(30)
+          .min(THREE)
+          .max(FIFTY)
           .required()
           .messages(surnameMessages),
         email: Joi.string()
@@ -106,8 +119,8 @@ const orderConfig = (id = true, timestamp = true) => {
           .messages(phoneMessages),
         city: Joi.string()
           .trim()
-          .min(2)
-          .max(100)
+          .min(THREE)
+          .max(ONE_HUNDRED)
           .required()
           .messages(cityMessages),
         zip_code: Joi.string()
@@ -117,8 +130,8 @@ const orderConfig = (id = true, timestamp = true) => {
           .messages(zipCodeMessages),
         street: Joi.string()
           .trim()
-          .min(2)
-          .max(100)
+          .min(THREE)
+          .max(ONE_HUNDRED)
           .required()
           .messages(streetMessages),
         street_number: Joi.string()
@@ -128,31 +141,12 @@ const orderConfig = (id = true, timestamp = true) => {
           .messages(streetNumberMessages),
       })
       .required(),
-    paid: Joi.boolean().required(),
-  };
-
-  if (id) {
-    config = addId(config);
-  }
-
-  if (timestamp) {
-    config = addTimestamps(config);
-  }
-
-  return config;
-};
-
-const orderSchema = (order, id = true, timestamps = true) => {
-  const schema = Joi.object()
-    .keys(orderConfig(id, timestamps))
-    .required()
-    .messages(joiConfigMessages);
+    isPaid: Joi.boolean().required().messages(isPaidMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(order);
 
   return { schemaError, data };
 };
 
-module.exports = {
-  orderSchema,
-};
+module.exports = orderSchema;

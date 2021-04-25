@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { TEN, FIFTY_THOUSAND } = require('../../../helpers/constants/about');
+const { TEN, FIFTY_THOUSAND } = require('../../../helpers/constants/numbers');
 const {
   informationMessages,
 } = require('../../../helpers/errors/messages/about');

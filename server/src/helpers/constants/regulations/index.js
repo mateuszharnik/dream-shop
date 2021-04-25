@@ -11,6 +11,12 @@ const CONTENT_REQUIRED = 'Musisz podać treść regulaminu.';
 const CONTENT_MIN_LENGTH = 'Regulamin musi mieć minimum 3 znaki.';
 const CONTENT_MAX_LENGTH = 'Regulamin może mieć maksymalnie 50000 znaków.';
 
+const NEWSLETTER_REGULATIONS_NAME = 'newsletter';
+const NEWSLETTER_REGULATIONS_CONTENT = 'Regulamin Newslettera.';
+
+const CONTACT_REGULATIONS_NAME = 'kontakt';
+const CONTACT_REGULATIONS_CONTENT = 'Regulamin Formularza.';
+
 module.exports = {
   REGULATIONS_NOT_FOUND,
   REGULATION_NOT_FOUND,
@@ -22,4 +28,8 @@ module.exports = {
   CONTENT_REQUIRED,
   CONTENT_MIN_LENGTH,
   CONTENT_MAX_LENGTH,
+  NEWSLETTER_REGULATIONS_NAME,
+  NEWSLETTER_REGULATIONS_CONTENT,
+  CONTACT_REGULATIONS_NAME,
+  CONTACT_REGULATIONS_CONTENT,
 };

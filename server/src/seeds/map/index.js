@@ -8,12 +8,11 @@ const seedMap = async () => {
 
   if (schemaError) {
     // eslint-disable-next-line no-console
-    return console.error(schemaError);
+    return console.error(schemaError.details[0].message);
   }
 
   try {
     await mapDB.remove();
-
     await mapDB.insert({
       ...data,
       created_at: new Date(),

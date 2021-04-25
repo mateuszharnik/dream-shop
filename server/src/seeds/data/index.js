@@ -1,5 +1,18 @@
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
-const { ADMIN, USER } = require('../../helpers/constants/users');
+const { BESTSELLERS, NEWS } = require('../../helpers/constants/products');
+const {
+  ADMIN,
+  USER,
+  DEFAULT_USERNAME,
+} = require('../../helpers/constants/users');
+const { MAP_LAT_LNG } = require('../../helpers/constants/map');
+const {
+  NEWSLETTER_REGULATIONS_NAME,
+  NEWSLETTER_REGULATIONS_CONTENT,
+  CONTACT_REGULATIONS_NAME,
+  CONTACT_REGULATIONS_CONTENT,
+} = require('../../helpers/constants/regulations');
+const { capitalize } = require('../../helpers/strings');
 const {
   RETURNS,
   DELIVERY,
@@ -12,7 +25,7 @@ const {
 
 const user = {
   name: '',
-  username: 'administrator',
+  username: DEFAULT_USERNAME,
   email: ADMIN_EMAIL,
   avatar: '',
   password: ADMIN_PASSWORD,
@@ -23,12 +36,12 @@ const user = {
 
 const regulations = [
   {
-    name: 'newsletter',
-    content: 'Regulamin Newslettera.',
+    name: NEWSLETTER_REGULATIONS_NAME,
+    content: NEWSLETTER_REGULATIONS_CONTENT,
   },
   {
-    name: 'kontakt',
-    content: 'Regulamin Formularza.',
+    name: CONTACT_REGULATIONS_NAME,
+    content: CONTACT_REGULATIONS_CONTENT,
   },
 ];
 
@@ -38,16 +51,10 @@ const about = {
 
 const productCategories = [
   {
-    name: 'Bestsellery',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
+    name: capitalize(BESTSELLERS),
   },
   {
-    name: 'Nowości',
-    created_at: new Date(),
-    updated_at: new Date(),
-    deleted_at: null,
+    name: capitalize(NEWS),
   },
 ];
 
@@ -73,7 +80,7 @@ const contact = {
 };
 
 const map = {
-  latlng: '(00.00, 00.00)',
+  latlng: MAP_LAT_LNG,
 };
 
 const socialMedia = {
