@@ -1,39 +1,33 @@
 const Joi = require('joi');
-const { addId, addTimestamps } = require('../../../helpers/schemas');
+const { TEN, FIVE_THOUSAND } = require('../../../helpers/constants/numbers');
 const { dbIdRegExp } = require('../../../helpers/regexp');
-const { joiConfigMessages } = require('../../../helpers/errors/messages');
+const { contentMessages } = require('../../../helpers/errors/messages/comments');
+const { idMessages } = require('../../../helpers/errors/messages/id');
 
-const commentConfig = (id = true, timestamp = true) => {
-  let config = {
-    user_id: Joi.string().trim().allow('').regex(dbIdRegExp)
+const commentSchema = (comment) => {
+  const schema = Joi.object().keys({
+    user_id: Joi.string()
+      .trim()
+      .allow('')
+      .regex(dbIdRegExp)
+      .messages(idMessages)
       .required(),
-    product_id: Joi.string().trim().regex(dbIdRegExp).required(),
-    content: Joi.string().trim().min(10).max(5000)
-      .required(),
-  };
-
-  if (id) {
-    config = addId(config);
-  }
-
-  if (timestamp) {
-    config = addTimestamps(config);
-  }
-
-  return config;
-};
-
-const commentSchema = (comment, id = true, timestamps = true) => {
-  const schema = Joi.object()
-    .keys(commentConfig(id, timestamps))
-    .required()
-    .messages(joiConfigMessages);
+    product_id: Joi.string()
+      .trim()
+      .regex(dbIdRegExp)
+      .required()
+      .messages(idMessages),
+    content: Joi.string()
+      .trim()
+      .min(TEN)
+      .max(FIVE_THOUSAND)
+      .required()
+      .messages(contentMessages),
+  });
 
   const { error: schemaError, value: data } = schema.validate(comment);
 
   return { schemaError, data };
 };
 
-module.exports = {
-  commentSchema,
-};
+module.exports = commentSchema;

@@ -1,26 +1,27 @@
 const Joi = require('joi');
-const { joiConfigMessages } = require('../helpers/errors/messages');
 const {
   mimetypeMessages,
   pathMessages,
   sizeMessages,
 } = require('../helpers/errors/messages/file');
+const { idMessages } = require('../helpers/errors/messages/id');
 const {
   mimetypeRegExp,
   avatarPathRegExp,
   thumbnailPathRegExp,
+  dbIdRegExp,
 } = require('../helpers/regexp');
 const {
   AVATAR_MAX_SIZE,
   THUMBNAIL_MAX_SIZE,
 } = require('../helpers/constants/files');
-const { _id } = require('../helpers/schemas/index');
 
 const dbIdSchema = (id) => {
   const schema = Joi.object()
-    .keys({ id: _id })
-    .required()
-    .messages(joiConfigMessages);
+    .keys({
+      id: Joi.string().trim().regex(dbIdRegExp).required()
+        .messages(idMessages),
+    });
 
   const { error: schemaError, value: data } = schema.validate(id);
 
@@ -42,8 +43,7 @@ const avatarFileSchema = (file) => {
         .required()
         .messages(pathMessages),
     })
-    .unknown(true)
-    .messages(joiConfigMessages);
+    .unknown(true);
 
   const { error: schemaError, value: data } = schema.validate(file);
 
@@ -68,8 +68,7 @@ const thumbnailFileSchema = (file) => {
         .required()
         .messages(pathMessages),
     })
-    .unknown(true)
-    .messages(joiConfigMessages);
+    .unknown(true);
 
   const { error: schemaError, value: data } = schema.validate(file);
 
@@ -96,8 +95,7 @@ const galleryFileSchema = (file) => {
             .required()
             .messages(pathMessages),
         })
-        .unknown(true)
-        .messages(joiConfigMessages),
+        .unknown(true),
     )
     .required();
 

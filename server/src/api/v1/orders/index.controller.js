@@ -1,5 +1,5 @@
+const orderSchema = require('./index.model');
 const { dbIdSchema } = require('../../../models');
-const { orderSchema } = require('./index.model');
 const { responseWithError } = require('../../../helpers/errors');
 const { productsDB, ordersDB } = require('../../../db');
 
@@ -82,9 +82,9 @@ const getOrder = async (req, res, next) => {
 };
 
 const addOrder = async (req, res, next) => {
-  req.body.paid = false;
+  req.body.isPaid = false;
 
-  const { schemaError, data } = orderSchema(req.body, false, false);
+  const { schemaError, data } = orderSchema(req.body);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -199,8 +199,8 @@ const addOrder = async (req, res, next) => {
 
     const order = await ordersDB.insert({
       ...data,
-      accepted: false,
-      refused: false,
+      isAccepted: false,
+      isRefused: false,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,
@@ -291,8 +291,8 @@ const refuseOrder = async (req, res, next) => {
       { _id: params.id },
       {
         $set: {
-          accepted: false,
-          refused: true,
+          isAccepted: false,
+          isRefused: true,
           updated_at: new Date(),
         },
       },
@@ -398,8 +398,8 @@ const acceptOrder = async (req, res, next) => {
       { _id: params.id },
       {
         $set: {
-          accepted: true,
-          refused: false,
+          isAccepted: true,
+          isRefused: false,
           updated_at: new Date(),
         },
       },

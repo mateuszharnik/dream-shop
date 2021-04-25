@@ -1,6 +1,6 @@
 const fs = require('fs');
 const sharp = require('sharp');
-const { productSchema } = require('./index.model');
+const productSchema = require('./index.model');
 const { dbIdRegExp } = require('../../../helpers/regexp');
 const {
   dbIdSchema,
@@ -266,7 +266,7 @@ const addProduct = async (req, res, next) => {
       req.body.gallery = [];
     }
 
-    const { schemaError, data } = productSchema(req.body, false, false);
+    const { schemaError, data } = productSchema(req.body);
 
     if (schemaError) {
       return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -691,7 +691,7 @@ const updateProduct = async (req, res, next) => {
       req.body.gallery = [];
     }
 
-    const { schemaError, data } = productSchema(req.body, false, false);
+    const { schemaError, data } = productSchema(req.body);
 
     if (schemaError) {
       return responseWithError(res, next, 400, schemaError.details[0].message);

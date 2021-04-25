@@ -36,6 +36,8 @@ const PASSWORDS_NOT_MATCH = 'Hasła nie są takie same.';
 const ADMIN = 'administrator';
 const USER = 'user';
 
+const DEFAULT_USERNAME = 'administrator';
+
 module.exports = {
   USER_NOT_FOUND,
   USER_NOT_UPDATED,
@@ -66,4 +68,5 @@ module.exports = {
   PASSWORDS_NOT_MATCH,
   ADMIN,
   USER,
+  DEFAULT_USERNAME,
 };

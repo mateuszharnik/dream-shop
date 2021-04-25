@@ -12,7 +12,7 @@ const seedRegulations = async () => {
 
     if (schemaError) {
       // eslint-disable-next-line no-console
-      return console.error(schemaError);
+      return console.error(schemaError.details[0].message);
     }
 
     data.purify_content = purify(data.content);
@@ -27,7 +27,6 @@ const seedRegulations = async () => {
 
   try {
     await regulationsDB.remove();
-
     await regulationsDB.insert(regulationsArr);
 
     // eslint-disable-next-line no-console

@@ -1,6 +1,6 @@
 const { productCategoriesDB, productsDB, productFiltersDB } = require('../../../db');
 const { responseWithError } = require('../../../helpers/errors');
-const { productCategorySchema } = require('./index.model');
+const productCategorySchema = require('./index.model');
 const { addCategory } = require('../../../helpers/product-categories');
 const { dbIdSchema } = require('../../../models');
 
@@ -13,7 +13,7 @@ const addProductCategory = async (req, res, next) => {
     req.body.category = addCategory(req.body.name);
   }
 
-  const { schemaError, data } = productCategorySchema(req.body, false, false);
+  const { schemaError, data } = productCategorySchema(req.body);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);

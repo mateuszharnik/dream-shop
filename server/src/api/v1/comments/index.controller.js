@@ -1,8 +1,13 @@
-const { commentSchema } = require('./index.model');
+const commentSchema = require('./index.model');
 const { dbIdSchema } = require('../../../models');
 const { commentsDB, productsDB, usersDB } = require('../../../db');
 const { responseWithError } = require('../../../helpers/errors');
 const { purify } = require('../../../helpers/sanitize');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const {
+  OK,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const getComments = async (req, res, next) => {
   const { product_id = '', sort = 'desc' } = req.query;
@@ -68,7 +73,7 @@ const getComments = async (req, res, next) => {
       };
     });
 
-    res.status(200).json({
+    res.status(OK).json({
       total,
       pagination: {
         skip,
@@ -80,7 +85,7 @@ const getComments = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
@@ -122,14 +127,14 @@ const getComment = async (req, res, next) => {
       }
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       ...comment,
       ...authorInfo,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
@@ -161,14 +166,14 @@ const deleteComments = async (req, res, next) => {
       );
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       message: 'Usunięto wszystkie komentarze.',
       items: deletedComments.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
@@ -228,14 +233,14 @@ const deleteComment = async (req, res, next) => {
       );
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       ...deletedComment,
       ...authorInfo,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
@@ -274,7 +279,7 @@ const updateComment = async (req, res, next) => {
       user_id: comment.user_id,
     };
 
-    const { schemaError, data } = commentSchema(body, false, false);
+    const { schemaError, data } = commentSchema(body);
 
     if (schemaError) {
       return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -341,14 +346,14 @@ const updateComment = async (req, res, next) => {
       );
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       ...updatedComment,
       ...authorInfo,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
@@ -358,7 +363,7 @@ const addComment = async (req, res, next) => {
     user_id: req.user && req.user._id ? req.user._id : '',
   };
 
-  const { schemaError, data } = commentSchema(body, false, false);
+  const { schemaError, data } = commentSchema(body);
 
   if (schemaError) {
     return responseWithError(res, next, 400, schemaError.details[0].message);
@@ -423,14 +428,14 @@ const addComment = async (req, res, next) => {
       );
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       ...comment,
       ...authorInfo,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

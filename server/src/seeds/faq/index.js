@@ -14,7 +14,7 @@ const seedFAQCategories = async () => {
 
     if (schemaError) {
       // eslint-disable-next-line no-console
-      return console.error(schemaError);
+      return console.error(schemaError.details[0].message);
     }
 
     categories.push({
@@ -28,7 +28,6 @@ const seedFAQCategories = async () => {
   try {
     await faqDB.remove();
     await faqCategoriesDB.remove();
-
     await faqCategoriesDB.insert(categories);
 
     // eslint-disable-next-line no-console

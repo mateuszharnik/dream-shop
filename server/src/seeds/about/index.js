@@ -9,7 +9,7 @@ const seedAbout = async () => {
 
   if (schemaError) {
     // eslint-disable-next-line no-console
-    return console.error(schemaError);
+    return console.error(schemaError.details[0].message);
   }
 
   data.purify_information = purify(data.information);

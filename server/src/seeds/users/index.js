@@ -9,14 +9,13 @@ const seedUsers = async () => {
 
   if (schemaError) {
     // eslint-disable-next-line no-console
-    return console.error(schemaError);
+    return console.error(schemaError.details[0].message);
   }
 
   try {
     data.password = await bcrypt.hash(data.password, 12);
 
     await usersDB.remove();
-
     await usersDB.insert({
       ...data,
       created_at: new Date(),

@@ -5,9 +5,13 @@ const {
 const {
   PRODUCT_CATEGORY_NAME_REQUIRED,
   PRODUCT_CATEGORY_NAME_NOT_CORRECT,
+  PRODUCT_CATEGORY_NAME_MIN_LENGTH,
+  PRODUCT_CATEGORY_NAME_MAX_LENGTH,
   PRODUCT_CATEGORY_REQUIRED,
   PRODUCT_CATEGORY_INVALID,
   PRODUCT_CATEGORY_PATTERN,
+  PRODUCT_CATEGORY_MIN_LENGTH,
+  PRODUCT_CATEGORY_MAX_LENGTH,
 } = require('../../../constants/products');
 
 // CATEGORY NAME
@@ -25,6 +29,14 @@ const productCategoryNamePattern = {
 
 const productCategoryNameNotEmpty = {
   'string.empty': PRODUCT_CATEGORY_NAME_REQUIRED,
+};
+
+const productCategoryNameMin = {
+  'string.min': PRODUCT_CATEGORY_NAME_MIN_LENGTH,
+};
+
+const productCategoryNameMax = {
+  'string.max': PRODUCT_CATEGORY_NAME_MAX_LENGTH,
 };
 
 // CATEGORY
@@ -48,11 +60,21 @@ const productCategoryNotEmpty = {
   'string.empty': PRODUCT_CATEGORY_REQUIRED,
 };
 
+const productCategoryMin = {
+  'string.min': PRODUCT_CATEGORY_MIN_LENGTH,
+};
+
+const productCategoryMax = {
+  'string.max': PRODUCT_CATEGORY_MAX_LENGTH,
+};
+
 const productCategoryNameMessages = {
   ...productCategoryNameRequired,
   ...productCategoryNameNotEmpty,
   ...productCategoryNameString,
   ...productCategoryNamePattern,
+  ...productCategoryNameMin,
+  ...productCategoryNameMax,
 };
 
 const productCategoryMessages = {
@@ -61,6 +83,8 @@ const productCategoryMessages = {
   ...productCategoryString,
   ...productCategoryPattern,
   ...productCategoryInvalid,
+  ...productCategoryMin,
+  ...productCategoryMax,
 };
 
 module.exports = {
@@ -69,10 +93,14 @@ module.exports = {
   productCategoryNameString,
   productCategoryNamePattern,
   productCategoryNameMessages,
+  productCategoryNameMin,
+  productCategoryNameMax,
   productCategoryInvalid,
   productCategoryRequired,
   productCategoryNotEmpty,
   productCategoryString,
   productCategoryPattern,
   productCategoryMessages,
+  productCategoryMin,
+  productCategoryMax,
 };
