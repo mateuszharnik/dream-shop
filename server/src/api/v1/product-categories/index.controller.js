@@ -1,66 +1,24 @@
-const { productCategoriesDB, productsDB, productFiltersDB } = require('../../../db');
-const { responseWithError } = require('../../../helpers/errors');
-const productCategorySchema = require('./index.model');
-const { addCategory } = require('../../../helpers/product-categories');
-const { dbIdSchema } = require('../../../models');
+const { productCategoriesDB, productFiltersDB } = require('../../../db');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { DESC } = require('../../../helpers/constants/queries');
+const {
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
+const {
+  PRODUCT_CATEGORIES_NOT_FOUND,
+  PRODUCT_CATEGORIES_DELETED,
+  PRODUCT_CATEGORIES_NOT_ADDED_IN_FILTERS,
+} = require('../../../helpers/constants/product-categories');
 
-const addProductCategory = async (req, res, next) => {
-  if (req.body.category) {
-    return responseWithError(res, next, 400, 'Właściwość "category" jest niedozwolona.');
-  }
-
-  if (req.body.name && typeof req.body.name === 'string') {
-    req.body.category = addCategory(req.body.name);
-  }
-
-  const { schemaError, data } = productCategorySchema(req.body);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
+const getAddedProductCategory = async (req, res) => {
+  const { newCategory: category } = req.data;
 
   try {
-    const category = await productCategoriesDB.findOne({
-      $or: [
-        { name: data.name },
-        { category: data.category },
-      ],
-    });
-
-    if (category && category.deleted_at === null) {
-      return responseWithError(res, next, 500, 'Kategoria znajduje się już w bazie danych.');
-    }
-
-    let newCategory = null;
-
-    if (category && category.deleted_at) {
-      newCategory = await productCategoriesDB.findOneAndUpdate(
-        { name: data.name },
-        {
-          $set: {
-            count: 0,
-            created_at: new Date(),
-            updated_at: new Date(),
-            deleted_at: null,
-          },
-        },
-      );
-    } else {
-      newCategory = await productCategoriesDB.insert({
-        ...data,
-        count: 0,
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null,
-      });
-    }
-
-    if (!newCategory) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać kategorii w bazie danych.');
-    }
-
     const filter = await productFiltersDB.insert({
-      category: newCategory.category,
+      category: category.category,
       filters: {},
       created_at: new Date(),
       updated_at: new Date(),
@@ -68,161 +26,79 @@ const addProductCategory = async (req, res, next) => {
     });
 
     if (!filter) {
-      return responseWithError(res, next, 500, 'Nie udało się zapisać kategorii w filtrach.');
+      return req.data.responseWithError(
+        CONFLICT,
+        PRODUCT_CATEGORIES_NOT_ADDED_IN_FILTERS,
+      );
     }
 
-    res.status(200).json({ ...newCategory });
+    res.status(OK).json(category);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const getProductCategories = async (req, res, next) => {
+const getProductCategories = async (req, res) => {
+  const { sort = DESC } = req.query;
+
   try {
     const total = await productCategoriesDB.count({ deleted_at: null });
-
-    if (!total) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać liczby kategorii.');
-    }
-
     const categories = await productCategoriesDB.find(
       { deleted_at: null },
-      { sort: { created_at: -1 } },
+      {
+        sort: {
+          created_at: sort === DESC ? -1 : 1,
+        },
+      },
     );
 
     if (!categories) {
-      return responseWithError(res, next, 500, 'Nie udało się pobrać kategorii produktów.');
+      req.data.responseWithError(NOT_FOUND, PRODUCT_CATEGORIES_NOT_FOUND);
     }
 
-    res.status(200).json(categories);
+    res.status(OK).json({
+      total,
+      categories,
+    });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteProductCategories = async (req, res, next) => {
+const getDeletedProductCategories = async (req, res) => {
+  const { deletedCategories } = req.data;
+
   try {
-    const categories = await productCategoriesDB.find(
-      {
-        $and: [
-          { deleted_at: null },
-          { category: { $not: /^(bestsellery|nowosci)$/ } },
-        ],
-      },
-    );
-
-    if (!categories.length) {
-      return responseWithError(res, next, 500, 'W bazie danych nie ma żadnych kategorii.');
-    }
-
-    const deletedCategories = await productCategoriesDB.update(
-      {
-        $and: [
-          { deleted_at: null },
-          { category: { $not: /^(bestsellery|nowosci)$/ } },
-        ],
-      },
-      { $set: { deleted_at: new Date(), count: 0 } },
-      { multi: true },
-    );
-
-    if (!deletedCategories) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii.');
-    }
-
-    const deletedProducts = await productsDB.update(
-      {},
-      { $set: { deleted_at: new Date() } },
-      { multi: true },
-    );
-
-    if (!deletedProducts) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć produktów przypisanych do kategorii.');
-    }
-
-    const filters = await productFiltersDB.update(
-      {},
-      { $set: { deleted_at: new Date() } },
-      { multi: true },
-    );
-
-    if (!filters) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii w filtrach.');
-    }
-
-    res.status(200).json({
-      message: 'Usunięto wszystkie kategorie.',
+    res.status(OK).json({
+      message: PRODUCT_CATEGORIES_DELETED,
       items: deletedCategories.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteProductCategory = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(req.params);
-
-  if (paramsSchemaError) {
-    return responseWithError(res, next, 400, paramsSchemaError.details[0].message);
-  }
+const getDeletedProductCategory = async (req, res) => {
+  const { deletedCategory } = req.data;
 
   try {
-    const category = await productCategoriesDB.findOne({ _id: params.id });
-
-    if (!category || (category && category.deleted_at)) {
-      return responseWithError(res, next, 500, 'Kategoria nie istnieje.');
-    }
-
-    if (category && (category.category === 'bestsellery' || category.category === 'nowosci')) {
-      return responseWithError(res, next, 500, 'Nie możesz usunąć tej kategorii.');
-    }
-
-    const deletedCategory = await productCategoriesDB.findOneAndUpdate(
-      { _id: params.id },
-      { $set: { deleted_at: new Date(), count: 0 } },
-    );
-
-    if (!deletedCategory) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii.');
-    }
-
-    const deletedProducts = await productsDB.update(
-      { category: deletedCategory.name },
-      { $set: { deleted_at: new Date() } },
-      { multi: true },
-    );
-
-    if (!deletedProducts) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć produktów przypisanych do kategorii.');
-    }
-
-    const filter = await productFiltersDB.update(
-      { category: deletedCategory.name },
-      { $set: { deleted_at: new Date() } },
-      { multi: true },
-    );
-
-    if (!filter) {
-      return responseWithError(res, next, 500, 'Nie udało się usunąć kategorii w filtrach.');
-    }
-
-    res.status(200).json({ ...deletedCategory });
+    res.status(OK).json(deletedCategory);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
 module.exports = {
-  addProductCategory,
+  getAddedProductCategory,
   getProductCategories,
-  deleteProductCategories,
-  deleteProductCategory,
+  getDeletedProductCategories,
+  getDeletedProductCategory,
 };

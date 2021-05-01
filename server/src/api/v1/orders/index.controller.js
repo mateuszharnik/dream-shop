@@ -1,42 +1,45 @@
-const orderSchema = require('./index.model');
-const { dbIdSchema } = require('../../../models');
-const { responseWithError } = require('../../../helpers/errors');
-const { productsDB, ordersDB } = require('../../../db');
+const { ordersDB } = require('../../../db');
+const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { DESC } = require('../../../helpers/constants/queries');
+const {
+  OK,
+  NOT_FOUND,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
+const {
+  ORDERS_NOT_FOUND,
+  ORDER_NOT_DELETED,
+  ORDERS_NOT_DELETED,
+  ORDERS_DELETED,
+  ORDER_NOT_ACCEPTED,
+  ORDER_NOT_REFUSED,
+  ORDER_NOT_PAID,
+  ORDER_NOT_ADDED,
+} = require('../../../helpers/constants/orders');
 
-const getOrders = async (req, res, next) => {
-  const { sort = 'desc' } = req.query;
-  let { skip = 0, limit = 6 } = req.query;
-
-  skip = parseInt(skip, 10) || 0;
-  limit = parseInt(limit, 10) || 6;
-
-  skip = skip < 0 ? 0 : skip;
-
-  limit = Math.min(50, Math.max(1, limit));
+const getOrders = async (req, res) => {
+  const { sort = DESC } = req.query;
+  const { skip, limit } = req.data;
 
   try {
     const total = await ordersDB.count({ deleted_at: null });
     const orders = await ordersDB.find(
       { deleted_at: null },
       {
-        skip: Number(skip),
-        limit: Number(limit),
+        skip,
+        limit,
         sort: {
-          created_at: sort === 'desc' ? -1 : 1,
+          created_at: sort === DESC ? -1 : 1,
         },
       },
     );
 
     if (!orders) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się pobrać zamówień.',
-      );
+      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
     }
 
-    res.status(200).json({
+    res.status(OK).json({
       total,
       orders,
       pagination: {
@@ -48,157 +51,29 @@ const getOrders = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const getOrder = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
+const getOrder = async (req, res) => {
+  const { order } = req.data;
 
   try {
-    const order = await ordersDB.findOne({ _id: params.id });
-
-    if (!order || (order && order.deleted_at)) {
-      return responseWithError(res, next, 500, 'Zamówienie nie istnieje.');
-    }
-
-    res.status(200).json(order);
+    res.status(OK).json(order);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const addOrder = async (req, res, next) => {
-  req.body.isPaid = false;
-
-  const { schemaError, data } = orderSchema(req.body);
-
-  if (schemaError) {
-    return responseWithError(res, next, 400, schemaError.details[0].message);
-  }
+const addOrder = async (req, res) => {
+  const { order } = req.data;
 
   try {
-    const arrayOfIDs = data.products.map((product) => product._id);
-
-    const products = await productsDB.find({
-      _id: { $in: arrayOfIDs },
-      deleted_at: null,
-    });
-
-    const notExistingProducts = arrayOfIDs.reduce((array, id) => {
-      const index = products.findIndex((product) => product._id.toString() === id);
-
-      if (index === -1) {
-        array.push(id);
-      }
-
-      return array;
-    }, []);
-
-    if (notExistingProducts.length) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        `Produkt o id ${notExistingProducts[0]} nie istnieje.`,
-      );
-    }
-
-    const notEnoughProductsQuantity = products.reduce((array, product) => {
-      const index = data.products.findIndex(
-        ({ _id }) => _id.toString() === product._id.toString(),
-      );
-
-      if (product.quantity < data.products[index].quantity) {
-        array.push(product);
-      }
-
-      return array;
-    }, []);
-
-    if (notEnoughProductsQuantity.length) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        `Produkt ${notEnoughProductsQuantity[0].name} nie ma wystarczającej ilości dostępnych sztuk.`,
-      );
-    }
-
-    const changedProducts = products.reduce((array, product) => {
-      const index = data.products.findIndex(
-        ({ _id }) => _id.toString() === product._id.toString(),
-      );
-
-      const propsArr = ['name', 'price', 'thumbnail', 'company_name', 'category_name'];
-
-      propsArr.every((prop) => {
-        if (product[prop] !== data.products[index][prop]) {
-          array.push(product);
-          return false;
-        }
-
-        return true;
-      });
-
-      return array;
-    }, []);
-
-    if (changedProducts.length) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        `Produkt ${changedProducts[0].name} został zaktualizowany od momentu dodania go do koszyka.`,
-      );
-    }
-
-    const bulkArr = products.reduce((array, product) => {
-      const index = data.products.findIndex(
-        ({ _id }) => _id.toString() === product._id.toString(),
-      );
-
-      array.push({
-        updateOne: {
-          filter: { _id: product._id },
-          update: {
-            $set: {
-              quantity: product.quantity - data.products[index].quantity,
-              updated_at: new Date(),
-            },
-          },
-        },
-      });
-
-      return array;
-    }, []);
-
-    const updatedProducts = await productsDB.bulkWrite(bulkArr);
-
-    if (updatedProducts.modifiedCount !== data.products.length) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się zaktualizować wszystkich produktów.',
-      );
-    }
-
-    const order = await ordersDB.insert({
-      ...data,
+    const updatedOrder = await ordersDB.insert({
+      ...order,
+      isPaid: false,
       isAccepted: false,
       isRefused: false,
       created_at: new Date(),
@@ -206,89 +81,22 @@ const addOrder = async (req, res, next) => {
       deleted_at: null,
     });
 
-    if (!order) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się dodać zamówienia.',
-      );
+    if (!updatedOrder) {
+      return req.data.responseWithError(CONFLICT, ORDER_NOT_ADDED);
     }
 
-    res.status(200).json(order);
+    res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const refuseOrder = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
+const refuseOrder = async (req, res) => {
   try {
-    const order = await ordersDB.findOne({ _id: params.id });
-
-    if (!order) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Zamówienie nie istnieje.',
-      );
-    }
-
-    const arrayOfIDs = order.products.map((product) => product._id);
-
-    const products = await productsDB.find({
-      _id: { $in: arrayOfIDs },
-      deleted_at: null,
-    });
-
-    const bulkArr = products.reduce((array, product) => {
-      const index = order.products.findIndex(
-        ({ _id }) => _id.toString() === product._id.toString(),
-      );
-
-      array.push({
-        updateOne: {
-          filter: { _id: product._id },
-          update: {
-            $set: {
-              quantity: product.quantity - order.products[index].quantity,
-              updated_at: new Date(),
-            },
-          },
-        },
-      });
-
-      return array;
-    }, []);
-
-    const updatedProducts = await productsDB.bulkWrite(bulkArr);
-
-    if (!updatedProducts) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się zaktualizować wszystkich produktów.',
-      );
-    }
-
     const updatedOrder = await ordersDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       {
         $set: {
           isAccepted: false,
@@ -299,103 +107,45 @@ const refuseOrder = async (req, res, next) => {
     );
 
     if (!updatedOrder) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się oznaczyć zamówienia jako anulowane.',
-      );
+      return req.data.responseWithError(CONFLICT, ORDER_NOT_REFUSED);
     }
 
-    res.status(200).json(updatedOrder);
+    res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const paidOrder = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
+const paidOrder = async (req, res) => {
   try {
-    const order = await ordersDB.findOne({ _id: params.id });
-
-    if (!order) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Zamówienie nie istnieje.',
-      );
-    }
-
     const updatedOrder = await ordersDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       {
         $set: {
-          paid: true,
+          isPaid: true,
           updated_at: new Date(),
         },
       },
     );
 
     if (!updatedOrder) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się opłacić zamówienia.',
-      );
+      return req.data.responseWithError(CONFLICT, ORDER_NOT_PAID);
     }
 
-    res.status(200).json(updatedOrder);
+    res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const acceptOrder = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
+const acceptOrder = async (req, res) => {
   try {
-    const order = await ordersDB.findOne({ _id: params.id });
-
-    if (!order) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Zamówienie nie istnieje.',
-      );
-    }
-
     const updatedOrder = await ordersDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       {
         $set: {
           isAccepted: true,
@@ -406,33 +156,23 @@ const acceptOrder = async (req, res, next) => {
     );
 
     if (!updatedOrder) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się oznaczyć zamówienia jako wysłane.',
-      );
+      return req.data.responseWithError(CONFLICT, ORDER_NOT_ACCEPTED);
     }
 
-    res.status(200).json(updatedOrder);
+    res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteOrders = async (req, res, next) => {
+const deleteOrders = async (req, res) => {
   try {
     const orders = await ordersDB.find({ deleted_at: null });
 
     if (!orders.length) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'W bazie danych nie ma żadnych zamówień.',
-      );
+      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
     }
 
     const deletedOrders = await ordersDB.update(
@@ -442,70 +182,36 @@ const deleteOrders = async (req, res, next) => {
     );
 
     if (!deletedOrders) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się usunąć zamówień.',
-      );
+      return req.data.responseWithError(CONFLICT, ORDERS_NOT_DELETED);
     }
 
-    res.status(200).json({
-      message: 'Usunięto wszystkie zamówienia',
+    res.status(OK).json({
+      message: ORDERS_DELETED,
       items: deletedOrders.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 
-const deleteOrder = async (req, res, next) => {
-  const { schemaError: paramsSchemaError, data: params } = dbIdSchema(
-    req.params,
-  );
-
-  if (paramsSchemaError) {
-    return responseWithError(
-      res,
-      next,
-      400,
-      paramsSchemaError.details[0].message,
-    );
-  }
-
+const deleteOrder = async (req, res) => {
   try {
-    const order = await ordersDB.findOne({ _id: params.id });
-
-    if (!order || (order && order.deleted_at)) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Zamówienie nie znajduje się w bazie danych.',
-      );
-    }
-
     const deletedOrder = await ordersDB.findOneAndUpdate(
-      { _id: params.id },
+      { _id: req.params.id },
       { $set: { deleted_at: new Date() } },
     );
 
     if (!deletedOrder) {
-      return responseWithError(
-        res,
-        next,
-        500,
-        'Nie udało się usunąć zamówienia.',
-      );
+      return req.data.responseWithError(CONFLICT, ORDER_NOT_DELETED);
     }
 
-    res.status(200).json(deletedOrder);
+    res.status(OK).json(deletedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return responseWithError(res, next, 500, 'Wystąpił błąd.');
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
   }
 };
 

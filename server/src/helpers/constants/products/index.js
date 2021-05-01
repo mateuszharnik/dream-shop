@@ -1,4 +1,4 @@
-const FILTERS_NOT_FOUND = 'Nie udało się pobrać filtrów produktów.';
+const PRODUCTS_NOT_UPDATED = 'Nie udało się zaktualizować wszystkich produktów.';
 
 const PRODUCT_NAME_REQUIRED = 'Nazwa produktu jest nieprawidłowa.';
 const PRODUCT_NAME_MIN_LENGTH = 'Nazwa produktu musi mieć minimum 3 znaki.';
@@ -30,9 +30,18 @@ const PRODUCT_GALLERY_MAX_LENGTH = 'Galeria może mieć maksymalnie 9 obrazów.'
 
 const BESTSELLERS = 'bestsellery';
 const NEWS = 'nowości';
+const NAME = 'name';
+const PRICE = 'price';
+const THUMBNAIL = 'thumbnail';
+const COMPANY_NAME = 'company_name';
+const CATEGORY_NAME = 'category_name';
+
+const PRODUCT_WITH_ID_NOT_EXIST = (id = '') => `Produkt o id ${id} nie istnieje.`;
+const PRODUCT_WITH_ID_NO_ENOUGHT_QUANTITY = (name = '') => `Produkt ${name} nie ma wystarczającej ilości dostępnych sztuk.`;
+const PRODUCT_WITH_ID_CHANGED = (name = '') => `Produkt ${name} został zaktualizowany od momentu dodania go do koszyka.`;
 
 module.exports = {
-  FILTERS_NOT_FOUND,
+  PRODUCTS_NOT_UPDATED,
   PRODUCT_NAME_REQUIRED,
   PRODUCT_NAME_MIN_LENGTH,
   PRODUCT_NAME_MAX_LENGTH,
@@ -55,4 +64,12 @@ module.exports = {
   PRODUCT_GALLERY_MAX_LENGTH,
   BESTSELLERS,
   NEWS,
+  NAME,
+  PRICE,
+  THUMBNAIL,
+  COMPANY_NAME,
+  CATEGORY_NAME,
+  PRODUCT_WITH_ID_NOT_EXIST,
+  PRODUCT_WITH_ID_NO_ENOUGHT_QUANTITY,
+  PRODUCT_WITH_ID_CHANGED,
 };

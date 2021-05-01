@@ -1,5 +1,5 @@
 const { productFiltersDB } = require('../../../db');
-const { FILTERS_NOT_FOUND } = require('../../../helpers/constants/products');
+const { FILTERS_NOT_FOUND } = require('../../../helpers/constants/product-filters');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
   OK,

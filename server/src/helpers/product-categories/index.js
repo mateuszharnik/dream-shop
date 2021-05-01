@@ -11,6 +11,6 @@ const letters = {
   ' ': '-',
 };
 
-const addCategory = (category) => category.toLowerCase().split('').map((letter) => (letters[letter] ? letters[letter] : letter)).join('');
+const convertCategory = (category) => category.toLowerCase().split('').map((letter) => (letters[letter] ? letters[letter] : letter)).join('');
 
-module.exports = { addCategory };
+module.exports = convertCategory;
