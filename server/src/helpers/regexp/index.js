@@ -46,6 +46,8 @@ const faqTitleRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ0-9\-, .%@$!
 
 const productPriceRegExp = /^(0|[1-9][0-9]{0,8}),[0-9]{2} zł$/;
 
+const productCategoriesRegExp = /^(bestsellery|nowosci)$/;
+
 module.exports = {
   faqTitleRegExp,
   productPriceRegExp,
@@ -71,4 +73,5 @@ module.exports = {
   productCategoryRegExp,
   productCategoryNameRegExp,
   usernameRegExp,
+  productCategoriesRegExp,
 };

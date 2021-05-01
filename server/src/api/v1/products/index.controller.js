@@ -1,6 +1,7 @@
 const fs = require('fs');
 const sharp = require('sharp');
 const productSchema = require('./index.model');
+const convertCategory = require('../../../helpers/product-categories');
 const { dbIdRegExp } = require('../../../helpers/regexp');
 const {
   dbIdSchema,
@@ -13,7 +14,6 @@ const {
   productCategoriesDB,
   productFiltersDB,
 } = require('../../../db');
-const { addCategory } = require('../../../helpers/product-categories');
 const { purify } = require('../../../helpers/sanitize');
 const { getThumbnailUrl } = require('../../../helpers/files');
 
@@ -186,7 +186,7 @@ const addProduct = async (req, res, next) => {
   }
 
   if (req.body.category_name && typeof req.body.category_name === 'string') {
-    req.body.category = addCategory(req.body.category_name);
+    req.body.category = convertCategory(req.body.category_name);
   }
 
   try {
@@ -592,7 +592,7 @@ const updateProduct = async (req, res, next) => {
   }
 
   if (req.body.category_name && typeof req.body.category_name === 'string') {
-    req.body.category = addCategory(req.body.category_name);
+    req.body.category = convertCategory(req.body.category_name);
   }
 
   if (!req.body.gallery) {

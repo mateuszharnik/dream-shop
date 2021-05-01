@@ -2,6 +2,7 @@ const RECOVERY = 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie pó
 const LOGIN = 'Przekroczono limit. Spróbuj zalogować się ponownie później.';
 const NEWSLETTER = 'Przekroczono limit. Spróbuj zapisać się ponownie później.';
 const MESSAGES = 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.';
+const COMMENTS = 'Przekroczono limit. Spróbuj dodać komentarz ponownie później.';
 
 const SMALL = 3;
 const MEDIUM = 10;
@@ -12,6 +13,7 @@ module.exports = {
   LOGIN,
   NEWSLETTER,
   MESSAGES,
+  COMMENTS,
   SMALL,
   LARGE,
   MEDIUM,
