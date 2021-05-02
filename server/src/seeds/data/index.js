@@ -1,5 +1,5 @@
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
-const { BESTSELLERS, NEWS } = require('../../helpers/constants/products');
+const { BESTSELLERS_PL, NEWS_PL } = require('../../helpers/constants/products');
 const {
   ADMIN,
   USER,
@@ -14,13 +14,13 @@ const {
 } = require('../../helpers/constants/regulations');
 const { capitalize } = require('../../helpers/strings');
 const {
-  RETURNS,
-  DELIVERY,
-  PAYMENT,
-  SERVICE,
-  PRODUCTS,
-  DISCOUNTS,
-  OTHERS,
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
 } = require('../../helpers/constants/faq');
 
 const user = {
@@ -51,21 +51,21 @@ const about = {
 
 const productCategories = [
   {
-    name: capitalize(BESTSELLERS),
+    name: capitalize(BESTSELLERS_PL),
   },
   {
-    name: capitalize(NEWS),
+    name: capitalize(NEWS_PL),
   },
 ];
 
 const faqCategories = [
-  RETURNS,
-  DELIVERY,
-  PAYMENT,
-  SERVICE,
-  PRODUCTS,
-  DISCOUNTS,
-  OTHERS,
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
 ];
 
 const contact = {

@@ -4,6 +4,7 @@ const PRODUCT_CATEGORIES_NOT_DELETED = 'Nie udało się usunąć kategorii.';
 const PRODUCT_CATEGORY_NOT_EXIST = 'Kategoria nie istnieje.';
 const PRODUCT_CATEGORY_ALREADY_EXIST = 'Kategoria już istnieje.';
 const PRODUCT_CATEGORY_NOT_ADDED = 'Nie udało się zapisać kategorii.';
+const PRODUCT_CATEGORY_NOT_UPDATED = 'Nie udało się zaktualizować liczby produktów w kategorii.';
 
 const PRODUCT_WITH_CATEGORY_NOT_DELETED = 'Nie udało się usunąć produktów przypisanych do kategorii.';
 
@@ -26,4 +27,5 @@ module.exports = {
   PRODUCT_CATEGORY_ALREADY_EXIST,
   PRODUCT_CATEGORY_NOT_ADDED,
   PRODUCT_CATEGORIES_NOT_ADDED_IN_FILTERS,
+  PRODUCT_CATEGORY_NOT_UPDATED,
 };

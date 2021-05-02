@@ -19,13 +19,13 @@ const CONTENT_REQUIRED = 'Musisz podać treść.';
 const CONTENT_MIN_LENGTH = 'Treść pytania musi mieć minimum 10 znaków.';
 const CONTENT_MAX_LENGTH = 'Treść pytania może mieć maksymalnie 5000 znaków.';
 
-const RETURNS = 'zwroty';
-const DELIVERY = 'dostawa';
-const PAYMENT = 'płatności';
-const SERVICE = 'obsługa';
-const PRODUCTS = 'produkty';
-const DISCOUNTS = 'rabaty';
-const OTHERS = 'inne';
+const RETURNS_PL = 'zwroty';
+const DELIVERY_PL = 'dostawa';
+const PAYMENT_PL = 'płatności';
+const SERVICE_PL = 'obsługa';
+const PRODUCTS_PL = 'produkty';
+const DISCOUNTS_PL = 'rabaty';
+const OTHERS_PL = 'inne';
 
 module.exports = {
   FAQ_ALREADY_EXIST,
@@ -45,11 +45,11 @@ module.exports = {
   CONTENT_REQUIRED,
   CONTENT_MIN_LENGTH,
   CONTENT_MAX_LENGTH,
-  RETURNS,
-  DELIVERY,
-  PAYMENT,
-  SERVICE,
-  PRODUCTS,
-  DISCOUNTS,
-  OTHERS,
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
 };

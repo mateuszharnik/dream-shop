@@ -11,20 +11,28 @@ const {
   ONE_THOUSAND,
 } = require('../../../helpers/constants/numbers');
 const {
-  RETURNS,
-  DELIVERY,
-  PAYMENT,
-  SERVICE,
-  PRODUCTS,
-  DISCOUNTS,
-  OTHERS,
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
 } = require('../../../helpers/constants/faq');
 
 const faqSchema = (faq) => {
   const schema = Joi.object().keys({
     category: Joi.string()
       .trim()
-      .valid(RETURNS, DELIVERY, PAYMENT, SERVICE, PRODUCTS, DISCOUNTS, OTHERS)
+      .valid(
+        RETURNS_PL,
+        DELIVERY_PL,
+        PAYMENT_PL,
+        SERVICE_PL,
+        PRODUCTS_PL,
+        DISCOUNTS_PL,
+        OTHERS_PL,
+      )
       .required()
       .messages(categoryMessages),
     title: Joi.string()

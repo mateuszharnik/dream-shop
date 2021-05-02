@@ -6,6 +6,7 @@ const { updateUserSchema } = require('./index.model');
 const { getAvatarUrl } = require('../../../helpers/files');
 const { usersDB } = require('../../../db');
 const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
+const { ONE_HUNDRED_AND_FIFTY } = require('../../../helpers/constants/numbers');
 const {
   USER_NOT_FOUND,
   USERNAME_ALREADY_EXIST,
@@ -156,7 +157,7 @@ const replaceAvatar = async (req, res, next) => {
 
     await sharp(req.data.file.path)
       .toFormat(JPEG)
-      .resize(150)
+      .resize(ONE_HUNDRED_AND_FIFTY)
       .toFile(`${req.data.file.destination}/${fileName}`);
 
     if (fs.existsSync(req.data.file.path)) {

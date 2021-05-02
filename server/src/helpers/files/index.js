@@ -1,4 +1,6 @@
 const { PATH } = require('../constants/files');
+const { GALLERY, THUMBNAIL } = require('../constants/products');
+const { ONE, NINE } = require('../constants/numbers');
 
 const getAvatarUrl = (file) => {
   if (file) {
@@ -18,7 +20,19 @@ const getThumbnailUrl = (file) => {
   return '';
 };
 
+const productFields = [
+  {
+    name: THUMBNAIL,
+    maxCount: ONE,
+  },
+  {
+    name: GALLERY,
+    maxCount: NINE,
+  },
+];
+
 module.exports = {
+  productFields,
   getAvatarUrl,
   getThumbnailUrl,
 };

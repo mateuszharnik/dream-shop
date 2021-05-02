@@ -1,19 +1,27 @@
 const Joi = require('joi');
 const { categoryMessages } = require('../../../helpers/errors/messages/faq');
 const {
-  RETURNS,
-  DELIVERY,
-  PAYMENT,
-  SERVICE,
-  PRODUCTS,
-  DISCOUNTS,
-  OTHERS,
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
 } = require('../../../helpers/constants/faq');
 
 const faqCategoriesSchema = (faqCategories) => {
   const schema = Joi.string()
     .trim()
-    .valid(RETURNS, DELIVERY, PAYMENT, SERVICE, PRODUCTS, DISCOUNTS, OTHERS)
+    .valid(
+      RETURNS_PL,
+      DELIVERY_PL,
+      PAYMENT_PL,
+      SERVICE_PL,
+      PRODUCTS_PL,
+      DISCOUNTS_PL,
+      OTHERS_PL,
+    )
     .required()
     .messages(categoryMessages);
 

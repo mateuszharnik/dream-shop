@@ -42,7 +42,10 @@ const {
   ONE_THOUSAND,
   THREE_HUNDRED,
 } = require('../../../helpers/constants/numbers');
-const { BESTSELLERS, NEWS } = require('../../../helpers/constants/products');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../../../helpers/constants/products');
 
 const orderSchema = (order) => {
   const schema = Joi.object().keys({
@@ -79,7 +82,7 @@ const orderSchema = (order) => {
             .messages(thumbnailMessages),
           category_name: Joi.string()
             .trim()
-            .invalid(BESTSELLERS, NEWS)
+            .invalid(BESTSELLERS_PL, NEWS_PL)
             .required()
             .messages(categoryNameMessages),
           quantity: Joi.number()
