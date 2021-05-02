@@ -6,7 +6,10 @@ const {
   productFiltersDB,
 } = require('../../../db');
 const { productCategoriesRegExp } = require('../../../helpers/regexp');
-const { BESTSELLERS, NEWS } = require('../../../helpers/constants/products');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../../../helpers/constants/products');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
   NOT_FOUND,
@@ -120,8 +123,8 @@ const findCategoryByName = async (req, res, next) => {
 const checkIfCategoryCanBeDeleted = (req, res, next) => {
   const { category } = req.data;
 
-  const categoryNameIsCorrect = category.category === BESTSELLERS
-    || category.category === convertCategory(NEWS);
+  const categoryNameIsCorrect = category.category === BESTSELLERS_PL
+    || category.category === convertCategory(NEWS_PL);
 
   if (category && categoryNameIsCorrect) {
     return req.data.responseWithError(CONFLICT, CATEGORY_CANNOT_BE_DELETED);

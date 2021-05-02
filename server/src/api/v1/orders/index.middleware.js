@@ -17,7 +17,7 @@ const {
   COMPANY_NAME,
   CATEGORY_NAME,
   PRODUCT_WITH_ID_NOT_EXIST,
-  PRODUCT_WITH_ID_NO_ENOUGHT_QUANTITY,
+  PRODUCT_WITH_ID_NO_ENOUGH_QUANTITY,
   PRODUCT_WITH_ID_CHANGED,
 } = require('../../../helpers/constants/products');
 
@@ -170,7 +170,7 @@ const checkEnoughProductsQuantity = async (req, res, next) => {
     if (notEnoughProductsQuantity.length) {
       return req.data.responseWithError(
         NOT_FOUND,
-        PRODUCT_WITH_ID_NO_ENOUGHT_QUANTITY(notEnoughProductsQuantity[0].name),
+        PRODUCT_WITH_ID_NO_ENOUGH_QUANTITY(notEnoughProductsQuantity[0].name),
       );
     }
 
