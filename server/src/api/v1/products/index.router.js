@@ -1,8 +1,41 @@
 const { Router } = require('express');
 const { productUpload } = require('../../../middlewares/files');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
+const { getSkipAndLimit } = require('../../../middlewares/queries');
+const { productFields } = require('../../../helpers/files');
+const { validateDBId } = require('../../../middlewares/validation');
 const {
-  getProducts, getProduct, addProduct, deleteProduct, updateProduct, deleteProducts,
+  updateThumbnail,
+  updateGallery,
+  validateProduct,
+  getProductQueries,
+  getSortQueries,
+  checkIfCategoryExist,
+  replaceThumbnail,
+  replaceGallery,
+  addProduct,
+  checkIfProductCategoryExist,
+  findAndUpdateProductFiltersOnAdd,
+  findAndUpdateProductFiltersOnDelete,
+  updateProductCategory,
+  findProduct,
+  findProducts,
+  deleteProduct,
+  deleteProducts,
+  deleteThumbnailAndGalleryFiles,
+  deleteProductFilters,
+  deleteThumbnailAndGalleryDirectories,
+  deleteProductCategories,
+  updateProduct,
+  findAndUpdateProductFiltersOnUpdate,
+} = require('./index.middleware');
+const {
+  getProducts,
+  getProduct,
+  getAddedProduct,
+  getDeletedProduct,
+  getUpdatedProduct,
+  getDeletedProducts,
 } = require('./index.controller');
 const {
   createData,
@@ -15,6 +48,9 @@ router.get(
   '/',
   createData,
   createResponseWithError,
+  getSkipAndLimit,
+  getProductQueries,
+  getSortQueries,
   getProducts,
 );
 
@@ -22,6 +58,7 @@ router.get(
   '/:id',
   createData,
   createResponseWithError,
+  validateDBId,
   getProduct,
 );
 
@@ -31,17 +68,16 @@ router.post(
   createResponseWithError,
   isNotLoggedIn,
   isAdmin,
-  productUpload.fields([
-    {
-      name: 'thumbnail',
-      maxCount: 1,
-    },
-    {
-      name: 'gallery',
-      maxCount: 9,
-    },
-  ]),
+  productUpload.fields(productFields),
+  checkIfCategoryExist,
+  replaceThumbnail,
+  replaceGallery(),
+  validateProduct,
   addProduct,
+  checkIfProductCategoryExist,
+  findAndUpdateProductFiltersOnAdd,
+  updateProductCategory,
+  getAddedProduct,
 );
 
 router.put(
@@ -50,17 +86,21 @@ router.put(
   createResponseWithError,
   isNotLoggedIn,
   isAdmin,
-  productUpload.fields([
-    {
-      name: 'thumbnail',
-      maxCount: 1,
-    },
-    {
-      name: 'gallery',
-      maxCount: 9,
-    },
-  ]),
+  productUpload.fields(productFields),
+  checkIfCategoryExist,
+  validateDBId,
+  replaceThumbnail,
+  replaceGallery(true),
+  validateProduct,
+  findProduct,
+  checkIfProductCategoryExist,
+  findAndUpdateProductFiltersOnDelete(true),
   updateProduct,
+  findAndUpdateProductFiltersOnUpdate,
+  updateThumbnail,
+  updateGallery,
+  updateProductCategory,
+  getUpdatedProduct,
 );
 
 router.delete(
@@ -69,7 +109,13 @@ router.delete(
   createResponseWithError,
   isNotLoggedIn,
   isAdmin,
+  validateDBId,
+  findProduct,
   deleteProduct,
+  findAndUpdateProductFiltersOnDelete(),
+  updateProductCategory,
+  deleteThumbnailAndGalleryFiles,
+  getDeletedProduct,
 );
 
 router.delete(
@@ -78,7 +124,12 @@ router.delete(
   createResponseWithError,
   isNotLoggedIn,
   isAdmin,
+  findProducts,
   deleteProducts,
+  deleteProductFilters,
+  deleteThumbnailAndGalleryDirectories,
+  deleteProductCategories,
+  getDeletedProducts,
 );
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnDestroy, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Slide } from '@animations/index';
 import { trackID } from '@helpers/index';
-import { User, ProductCategory } from '@models/index';
+import { User, ProductCategory, ProductCategoryWithPagination } from '@models/index';
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
 import { ProductsService } from '@services/products.service';
@@ -43,7 +43,9 @@ export class NavigationComponent implements OnDestroy {
     this.subscriptions.push(
       this.productsService
         .getCategories()
-        .subscribe((categories: ProductCategory[]) => {
+        .subscribe((data: ProductCategoryWithPagination) => {
+          const { categories = [] } = data;
+
           const categoriesWithCount: ProductCategory[] = categories.filter(
             (category: ProductCategory): boolean => category.count > 0,
           );

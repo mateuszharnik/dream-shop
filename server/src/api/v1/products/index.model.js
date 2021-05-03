@@ -6,7 +6,10 @@ const {
   THREE_HUNDRED,
   ONE_THOUSAND,
 } = require('../../../helpers/constants/numbers');
-const { BESTSELLERS, NEWS } = require('../../../helpers/constants/products');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../../../helpers/constants/products');
 const {
   productNameMessages,
   priceMessages,
@@ -58,7 +61,7 @@ const productSchema = (product) => {
       .messages(priceMessages),
     category_name: Joi.string()
       .trim()
-      .invalid(BESTSELLERS, NEWS)
+      .invalid(BESTSELLERS_PL, NEWS_PL)
       .required()
       .messages(categoryNameMessages),
     category: Joi.string()

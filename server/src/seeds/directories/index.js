@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {
-  AVATARS,
-  PRODUCTS,
+  AVATARS_DIR,
+  PRODUCTS_DIR,
   DELETED_AVATAR_FOLDER,
   DELETED_PRODUCTS_FOLDER,
   CREATED_AVATAR_FOLDER,
@@ -10,23 +10,23 @@ const {
 
 const createDirectories = () => {
   try {
-    if (fs.existsSync(AVATARS)) {
-      fs.rmdirSync(AVATARS, { recursive: true });
+    if (fs.existsSync(AVATARS_DIR)) {
+      fs.rmdirSync(AVATARS_DIR, { recursive: true });
       // eslint-disable-next-line no-console
       console.log(DELETED_AVATAR_FOLDER);
     }
 
-    fs.mkdirSync(AVATARS, { recursive: true });
+    fs.mkdirSync(AVATARS_DIR, { recursive: true });
     // eslint-disable-next-line no-console
     console.log(CREATED_AVATAR_FOLDER);
 
-    if (fs.existsSync(PRODUCTS)) {
-      fs.rmdirSync(PRODUCTS, { recursive: true });
+    if (fs.existsSync(PRODUCTS_DIR)) {
+      fs.rmdirSync(PRODUCTS_DIR, { recursive: true });
       // eslint-disable-next-line no-console
       console.log(DELETED_PRODUCTS_FOLDER);
     }
 
-    fs.mkdirSync(PRODUCTS, { recursive: true });
+    fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
     // eslint-disable-next-line no-console
     console.log(CREATED_PRODUCTS_FOLDER);
   } catch (error) {

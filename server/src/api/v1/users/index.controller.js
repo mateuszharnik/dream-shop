@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { signToken } = require('../../../helpers/token');
 const { usersDB } = require('../../../db');
-const { AVATARS } = require('../../../helpers/constants/directories');
+const { AVATARS_DIR } = require('../../../helpers/constants/directories');
 const {
   USER_NOT_FOUND,
   USER_NOT_UPDATED,
@@ -78,7 +78,7 @@ const updateUser = async (req, res) => {
       || (req.data.userDB.avatar && !req.body.avatar)
     ) {
       const avatarName = req.data.userDB.avatar.replace(AVATARS_URL, '');
-      const avatarDir = `${AVATARS}/${avatarName}`;
+      const avatarDir = `${AVATARS_DIR}/${avatarName}`;
 
       if (fs.existsSync(avatarDir)) {
         fs.unlinkSync(avatarDir);

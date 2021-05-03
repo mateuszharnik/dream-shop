@@ -22,7 +22,7 @@ const productFilters = require('./api/v1/product-filters/index.router');
 const { CLIENT_URL } = require('./config');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./middlewares/auth');
-const { UPLOADS } = require('./helpers/constants/directories');
+const { UPLOADS_DIR } = require('./helpers/constants/directories');
 const { V1 } = require('./helpers/constants/api');
 const { OK } = require('./helpers/constants/status-codes');
 const {
@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(cors({ origin: CLIENT_URL }));
-app.use(`/${UPLOADS}`, express.static(UPLOADS));
+app.use(`/${UPLOADS_DIR}`, express.static(UPLOADS_DIR));
 app.use(checkToken);
 
 app.get(HOME, (req, res) => res.status(OK).json({ message: '👽' }));
