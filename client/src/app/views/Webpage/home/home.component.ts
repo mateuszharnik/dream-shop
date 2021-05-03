@@ -18,6 +18,7 @@ import {
   SocialMedia,
   ProductCategory,
   Regulations,
+  ProductCategoryWithPagination,
 } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { HeightService } from '@services/height.service';
@@ -98,7 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     try {
       const socialMediaResponse: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       const contactResponse: Contact = await this.contactService.fetchContact();
-      const productCategories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const productCategories: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
       const regulations: Regulations[] = await this.regulationsService.fetchRegulations();
       this.productsService.setCategories(productCategories);
       this.socialMediaService.setSocialMedia(socialMediaResponse);

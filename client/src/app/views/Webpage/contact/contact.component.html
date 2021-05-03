@@ -63,18 +63,13 @@
               }"
             >
               <h3 class="h6 mb-6 bolder text-primary">Informacje kontaktowe</h3>
-              <div *ngIf="contact.address">
-                <p
-                  *ngIf="
-                    contact.address.street && contact.address.street_number
-                  "
-                  class="mb-0"
-                >
-                  ul. {{ contact.address.street }}
-                  {{ contact.address.street_number }}
+              <div>
+                <p *ngIf="contact.street && contact.street_number" class="mb-0">
+                  ul. {{ contact.street }}
+                  {{ contact.street_number }}
                 </p>
-                <p *ngIf="contact.address.zip_code && contact.address.city">
-                  {{ contact.address.zip_code }} {{ contact.address.city }}
+                <p *ngIf="contact.zip_code && contact.city">
+                  {{ contact.zip_code }} {{ contact.city }}
                 </p>
               </div>
               <div>

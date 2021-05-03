@@ -5,6 +5,7 @@ import {
   DeleteResponse,
   Product,
   ProductCategory,
+  ProductCategoryWithPagination,
   ProductInCart,
   ProductParams,
   ProductWithPagination,
@@ -17,19 +18,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class ProductsService {
   products: Product[] = [];
   productsInCart: Product[] = [];
-  categories: ProductCategory[] = [];
+  categories: ProductCategoryWithPagination = null;
 
   productsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
     this.products,
   );
 
-  productsInCartSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
-    this.productsInCart,
-  );
+  productsInCartSubject: BehaviorSubject<Product[]> = new BehaviorSubject<
+    Product[]
+  >(this.productsInCart);
 
-  categoriesSubject: BehaviorSubject<ProductCategory[]> = new BehaviorSubject<
-    ProductCategory[]
-  >(this.categories);
+  categoriesSubject: BehaviorSubject<ProductCategoryWithPagination> = new BehaviorSubject<ProductCategoryWithPagination>(
+    this.categories,
+  );
 
   constructor(private http: HttpClient) {}
 
@@ -59,8 +60,9 @@ export class ProductsService {
     return this.http.get<ProductWithPagination>(url).toPromise();
   }
 
-
-  fetchProductsInCart(products: ProductInCart[]): Promise<ProductWithPagination> {
+  fetchProductsInCart(
+    products: ProductInCart[],
+  ): Promise<ProductWithPagination> {
     const ids: string[] = products.map((product: ProductInCart) => product._id);
 
     return this.http
@@ -118,9 +120,11 @@ export class ProductsService {
       .toPromise();
   }
 
-  fetchProductCategories(): Promise<ProductCategory[]> {
+  fetchProductCategories(): Promise<ProductCategoryWithPagination> {
     return this.http
-      .get<ProductCategory[]>(`http://localhost:3000/v1/product-categories`)
+      .get<ProductCategoryWithPagination>(
+        `http://localhost:3000/v1/product-categories`,
+      )
       .toPromise();
   }
 
@@ -169,11 +173,11 @@ export class ProductsService {
       .toPromise();
   }
 
-  setCategories(categories: ProductCategory[]) {
+  setCategories(categories: ProductCategoryWithPagination) {
     this.categoriesSubject.next(categories);
   }
 
-  getCategories(): Observable<ProductCategory[]> {
+  getCategories(): Observable<ProductCategoryWithPagination> {
     return this.categoriesSubject.asObservable();
   }
 

@@ -42,8 +42,8 @@
           <div
             class="order p-4 flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-12"
             [ngClass]="{
-              'order--refused': order.refused,
-              'order--accepted': order.accepted
+              'order--refused': order.isRefused,
+              'order--accepted': order.isAccepted
             }"
           >
             <div class="mb-2 truncate md:mb-0">
@@ -52,8 +52,8 @@
             <div
               class="order__head absolute"
               [ngClass]="{
-                'order__head--refused': order.refused,
-                'order__head--accepted': order.accepted
+                'order__head--refused': order.isRefused,
+                'order__head--accepted': order.isAccepted
               }"
             >
               {{ orderStatus(order) }}

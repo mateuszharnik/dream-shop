@@ -15,17 +15,41 @@
     border: 0.1rem solid $color-danger;
     color: $color-danger;
     background-color: $color-danger-2;
+
+    a {
+      color: darken($color-danger, 30%);
+
+      &:hover {
+        color: darken($color-danger, 40%);
+      }
+    }
   }
 
   &-success {
     border: 0.1rem solid $color-success;
     color: $color-success;
     background-color: $color-success-2;
+
+    a {
+      color: darken($color-success, 30%);
+
+      &:hover {
+        color: darken($color-success, 40%);
+      }
+    }
   }
 
   &-warning {
     border: 0.1rem solid $color-warning;
     color: $color-warning;
     background-color: $color-warning-2;
+
+    a {
+      color: darken($color-warning, 30%);
+
+      &:hover {
+        color: darken($color-warning, 40%);
+      }
+    }
   }
 }

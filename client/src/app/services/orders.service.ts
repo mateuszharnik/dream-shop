@@ -89,7 +89,7 @@ export class OrdersService {
   paidOrder(id: string): Promise<Order> {
     return this.http
       .put<Order>(
-        `http://localhost:3000/v1/orders/paid/${id}`,
+        `http://localhost:3000/v1/orders/pay/${id}`,
         {},
       )
       .toPromise();

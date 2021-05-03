@@ -104,11 +104,10 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   checkContact(contact: Contact): boolean {
     const address: boolean = !!(
-      contact.address &&
-      (contact.address.street ||
-        contact.address.street_number ||
-        contact.address.zip_code ||
-        contact.address.city)
+      contact.street ||
+      contact.street_number ||
+      contact.zip_code ||
+      contact.city
     );
 
     const result: boolean = !!(
