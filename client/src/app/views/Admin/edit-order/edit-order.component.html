@@ -25,27 +25,27 @@
           <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
           <div
             class="mb-2"
-            [ngClass]="order.paid ? 'text-success' : 'text-danger'"
+            [ngClass]="order.isPaid ? 'text-success' : 'text-danger'"
           >
             {{
-              order.paid
+              order.isPaid
                 ? "Zamówienie zostało opłacone."
                 : "Zamówienie nie zostało opłacone."
             }}
           </div>
-          <div *ngIf="order.accepted" class="text-success mb-2">
+          <div *ngIf="order.isAccepted" class="text-success mb-2">
             Zamówienie zostało zaakceptowane i oznaczone jako wysłane.
           </div>
-          <div *ngIf="order.refused" class="text-danger">
+          <div *ngIf="order.isRefused" class="text-danger">
             Zamówienie zostało odrzucone.
           </div>
         </div>
       </div>
       <div class="flex flex-column sm:block">
         <app-button
-          *ngIf="!order.accepted"
+          *ngIf="!order.isAccepted"
           [buttonTitle]="'Zaakceptuj zamówienie i oznacz jako wysłane'"
-          [buttonDisabled]="isDisabled || !order.paid"
+          [buttonDisabled]="isDisabled || !order.isPaid"
           [buttonClass]="acceptButtonClass()"
           [buttonOnClick]="true"
           (whenButtonClick)="openModal(false)"
@@ -54,9 +54,9 @@
           <app-fa-icon [faClass]="'far fa-paper-plane ml-1'"></app-fa-icon>
         </app-button>
         <app-button
-          *ngIf="!order.refused"
+          *ngIf="!order.isRefused"
           [buttonTitle]="'Oznacz zamówienie jako odrzucone'"
-          [buttonDisabled]="isDisabled || !order.paid"
+          [buttonDisabled]="isDisabled || !order.isPaid"
           [buttonClass]="'button button-danger button-small'"
           [buttonOnClick]="true"
           (whenButtonClick)="openModal(true)"
@@ -88,7 +88,7 @@
         <strong class="normal">
           <div class="text-danger mb-4 bolder uppercase">
             {{
-              order.paid
+              order.isPaid
                 ? "Zamówienie zostało już opłacone"
                 : "Zamówienie nie zostało jeszcze opłacone"
             }}

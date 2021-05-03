@@ -110,10 +110,10 @@ export class ContactComponent implements OnInit, OnDestroy {
     const phone: string = contact && contact.phone ? contact.phone : '';
     const nip: string = contact && contact.nip ? contact.nip : '';
     const workingHours: string = contact && contact.working_hours ? contact.working_hours : '';
-    const street: string = contact && contact.address && contact.address.street ? contact.address.street : '';
-    const streetNumber: string = contact && contact.address && contact.address.street_number ? contact.address.street_number : '';
-    const zipCode: string = contact && contact.address && contact.address.zip_code ? contact.address.zip_code : '';
-    const city: string = contact && contact.address && contact.address.city ? contact.address.city : '';
+    const street: string = contact && contact.street ? contact.street : '';
+    const streetNumber: string = contact && contact.street_number ? contact.street_number : '';
+    const zipCode: string = contact && contact.zip_code ? contact.zip_code : '';
+    const city: string = contact && contact.city ? contact.city : '';
 
     this.form = this.formBuilder.group({
       email: [email, {

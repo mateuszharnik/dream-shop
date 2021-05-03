@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { categoriesValidator, trackID } from '@helpers/index';
-import { Alert, Alerts, DeleteResponse, ProductCategory } from '@models/index';
+import { Alert, Alerts, DeleteResponse, ProductCategory, ProductCategoryWithPagination } from '@models/index';
 import { CategoriesModals } from '@models/modals';
 import { ProductsService } from '@services/products.service';
 import { SpinnerService } from '@services/spinner.service';
@@ -53,20 +53,30 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
   ) {
     this.trackID = trackID;
 
-    this.subscriptions.push(this.productsService.getCategories().subscribe((data: ProductCategory[]) => {
-      this.categories = data;
+    this.subscriptions.push(
+      this.productsService
+        .getCategories()
+        .subscribe((data: ProductCategoryWithPagination) => {
+          const { categories = [] } = data || {};
 
-      if (data.length) {
-        this.filteredCategories = data.filter(
-          (category: ProductCategory) => category.category !== 'nowosci' && category.category !== 'bestsellery',
-        );
-      }
-    }));
+          this.categories = this.categories;
+
+          if (categories.length) {
+            this.filteredCategories = categories.filter(
+              (category: ProductCategory) =>
+                category.category !== 'nowosci' &&
+                category.category !== 'bestsellery',
+            );
+          }
+        }),
+    );
   }
 
   async ngOnInit() {
     try {
-      const response: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const response: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
+      this.categories = response.categories;
+
       this.productsService.setCategories(response);
       this.createForm(this.categories);
       this.setLoading();
@@ -151,9 +161,9 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
 
     try {
       const response: ProductCategory = await this.productsService.saveProductCategory(this.form.value);
-      const categories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const categories: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
       this.productsService.setCategories(categories);
-      this.createForm(categories);
+      this.createForm(categories.categories);
       this.setAlerts('', '', 'Pomyślnie dodano kategorię.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -174,9 +184,9 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
 
     try {
       const deleteResponse: ProductCategory = await this.productsService.deleteProductCategory(id);
-      const categories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const categories: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
       this.productsService.setCategories(categories);
-      this.createForm(categories);
+      this.createForm(categories.categories);
       this.setAlerts('', '', 'Pomyślnie usunięto kategorię.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -200,9 +210,9 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
 
     try {
       const deleteResponse: DeleteResponse = await this.productsService.deleteProductCategories();
-      const categories: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const categories: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
       this.productsService.setCategories(categories);
-      this.createForm(categories);
+      this.createForm(categories.categories);
       this.setAlerts('', '', 'Pomyślnie usunięto wszystkie kategorie.');
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
@@ -227,8 +237,6 @@ export class ProductCategoriesComponent implements OnInit, OnDestroy {
     } else {
       this.modals.deleteCategories = this.categories;
     }
-
-    this.setFocus();
   }
 
   setFocus() {

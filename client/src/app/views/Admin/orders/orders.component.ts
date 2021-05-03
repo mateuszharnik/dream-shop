@@ -221,11 +221,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   orderStatus(order: Order): 'Opłacono' | 'Odrzucono' | 'Wysłano' | 'Nie opłacono' {
-    if (order.accepted) {
+    if (order.isAccepted) {
       return 'Wysłano';
-    } else if (order.refused) {
+    } else if (order.isRefused) {
       return 'Odrzucono';
-    } else if (order.paid) {
+    } else if (order.isPaid) {
       return 'Opłacono';
     } else {
       return 'Nie opłacono';

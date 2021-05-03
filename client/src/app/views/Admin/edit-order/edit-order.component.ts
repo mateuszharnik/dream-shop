@@ -112,7 +112,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   acceptButtonClass(): string {
     return `button button-success button-small ${
-      !this.order.refused ? 'sm:mr-4 mb-2 sm:mb-0' : ''
+      !this.order.isRefused ? 'sm:mr-4 mb-2 sm:mb-0' : ''
     }`;
   }
 

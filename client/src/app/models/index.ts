@@ -17,6 +17,12 @@ export interface Comment {
   deleted_at?: Date | null;
 }
 
+export interface CommentsWithPagination {
+  total: number;
+  comments: Comment[];
+  pagination: Pagination;
+}
+
 export interface Alerts {
   server: string;
   error: string;
@@ -82,9 +88,9 @@ export interface Order {
   _id?: string;
   contact: OrderContact;
   products: OrderProduct[];
-  paid?: boolean;
-  accepted?: boolean;
-  refused?: boolean;
+  isPaid?: boolean;
+  isAccepted?: boolean;
+  isRefused?: boolean;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;
@@ -96,10 +102,14 @@ export interface OrderWithPagination {
   pagination: Pagination;
 }
 
+export interface ProductCategoryWithPagination {
+  total: number;
+  categories: ProductCategory[];
+}
+
 export interface ProductCategory {
   _id?: string;
   category?: string;
-  categories?: ProductCategory[];
   name: string;
   count?: number;
   created_at?: Date;
@@ -159,12 +169,10 @@ export interface Contact {
   email: string;
   phone: string;
   nip: string;
-  address: {
-    street: string;
-    street_number: string;
-    city: string;
-    zip_code: string;
-  };
+  street: string;
+  street_number: string;
+  city: string;
+  zip_code: string;
   working_hours: string;
   created_at?: Date;
   updated_at?: Date;

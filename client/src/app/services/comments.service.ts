@@ -1,23 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { getFullToken } from '@helpers/token';
-import { DeleteResponse, Comment } from '@models/index';
+import { DeleteResponse, Comment, CommentsWithPagination } from '@models/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
-  comments: Comment[] = [];
-  commentsSubject: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(
+  comments: CommentsWithPagination = null;
+  commentsSubject: BehaviorSubject<CommentsWithPagination> = new BehaviorSubject<CommentsWithPagination>(
     this.comments,
   );
 
   constructor(private http: HttpClient) {}
 
-  fetchComments(id: string): Promise<Comment[]> {
+  fetchComments(id: string): Promise<CommentsWithPagination> {
     return this.http
-      .get<Comment[]>(`http://localhost:3000/v1/comments?product_id=${id}`)
+      .get<CommentsWithPagination>(
+        `http://localhost:3000/v1/comments?product_id=${id}`,
+      )
       .toPromise();
   }
 
@@ -28,8 +30,18 @@ export class CommentsService {
   }
 
   saveComment(data: Comment): Promise<Comment> {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    };
+
+    if (getFullToken()) {
+      headers.Authorization = getFullToken();
+    }
+
     return this.http
-      .post<Comment>(`http://localhost:3000/v1/comments`, data)
+      .post<Comment>(`http://localhost:3000/v1/comments`, data, {
+        headers: new HttpHeaders(headers),
+      })
       .toPromise();
   }
 
@@ -66,11 +78,11 @@ export class CommentsService {
       .toPromise();
   }
 
-  setComments(comments: Comment[]) {
+  setComments(comments: CommentsWithPagination) {
     this.commentsSubject.next(comments);
   }
 
-  getComments(): Observable<Comment[]> {
+  getComments(): Observable<CommentsWithPagination> {
     return this.commentsSubject.asObservable();
   }
 }

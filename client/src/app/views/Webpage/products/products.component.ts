@@ -152,7 +152,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       );
 
       if (this.options.category === 'wszystkie') {
-        this.categories = await this.productsService.fetchProductCategories();
+        const data = await this.productsService.fetchProductCategories();
+        const { categories } = data;
+        this.categories = categories;
         this.categories = this.categories.filter(
           ({ category: cat }) => cat !== 'bestsellery' && cat !== 'nowosci',
         );
@@ -191,7 +193,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       );
 
       if (this.options.category === 'wszystkie') {
-        this.categories = await this.productsService.fetchProductCategories();
+        const data = await this.productsService.fetchProductCategories();
+        const { categories } = data;
+        this.categories = categories;
         this.categories = this.categories.filter(
           ({ category }) => category !== 'bestsellery' && category !== 'n,owosci',
         );
@@ -228,7 +232,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       if (this.options.category !== 'wszystkie') {
         this.categories = [];
       } else {
-        this.categories = await this.productsService.fetchProductCategories();
+        const data = await this.productsService.fetchProductCategories();
+        const { categories } = data;
+        this.categories = categories;
         this.categories = this.categories.filter(
           ({ category }) => category !== 'bestsellery' && category !== 'nowosci',
         );

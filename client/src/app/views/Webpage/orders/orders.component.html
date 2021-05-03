@@ -18,21 +18,21 @@
               <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
               <div
                 class="mb-2"
-                [ngClass]="order.paid ? 'text-success' : 'text-danger'"
+                [ngClass]="order.isPaid ? 'text-success' : 'text-danger'"
               >
                 {{
-                  order.paid
+                  order.isPaid
                     ? "Zamówienie zostało opłacone."
                     : "Zamówienie nie zostało opłacone."
                 }}
               </div>
-              <div *ngIf="order.accepted" class="text-success mb-2">
+              <div *ngIf="order.isAccepted" class="text-success mb-2">
                 Zamówienie zostało zaakceptowane i oznaczone jako wysłane.
               </div>
-              <div *ngIf="order.refused" class="text-danger mb-2">
+              <div *ngIf="order.isRefused" class="text-danger mb-2">
                 Zamówienie zostało odrzucone.
               </div>
-              <div *ngIf="order.refused" class="row">
+              <div *ngIf="order.isRefused" class="row">
                 <div class="column-12 md:column-6 m-auto">
                   Jeżeli nie wiesz dlaczego Twoje zamówienie zostało odrzucone
                   możesz skontaktować się z nami korzystając z naszego
@@ -45,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!order.paid" class="text-center">
+            <div *ngIf="!order.isPaid" class="text-center">
               <div class="mt-6">
                 <app-button
                   [buttonTitle]="'Opłać zamówienie'"

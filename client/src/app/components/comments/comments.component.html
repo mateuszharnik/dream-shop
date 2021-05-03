@@ -9,8 +9,8 @@
     <div class="comment p-4 mb-6" *ngFor="let comment of comments">
       <div class="comment__head mb-6">
         <img
-          *ngIf="comment.author_image; else defaultAvatar"
-          [src]="comment.author_image"
+          *ngIf="comment.avatar; else defaultAvatar"
+          [src]="comment.avatar"
           alt="Avatar użytkownika"
           class="comment__image"
         />
@@ -20,7 +20,7 @@
           </div>
         </ng-template>
         <div class="comment__author truncate bolder mr-auto">
-          {{ comment.author }}
+          {{ comment.username }}
         </div>
         <app-button
           *ngIf="

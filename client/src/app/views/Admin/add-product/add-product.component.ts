@@ -13,6 +13,7 @@ import {
   Alerts,
   Product,
   ProductCategory,
+  ProductCategoryWithPagination,
   ProductWithPagination,
 } from '@models/index';
 import { ProductsService } from '@services/products.service';
@@ -101,11 +102,13 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.productsService
         .getCategories()
-        .subscribe((data: ProductCategory[]) => {
-          this.categories = data;
+        .subscribe((data: ProductCategoryWithPagination) => {
+          const { categories = [] } = data || {};
 
-          if (data.length) {
-            this.filteredCategories = data.filter(
+          this.categories = categories;
+
+          if (categories.length) {
+            this.filteredCategories = categories.filter(
               (category: ProductCategory) =>
                 category.category !== 'nowosci' &&
                 category.category !== 'bestsellery',
@@ -123,9 +126,11 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      const response: ProductCategory[] = await this.productsService.fetchProductCategories();
+      const response: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
+      this.categories = response.categories;
       this.productsService.setCategories(response);
-      if (response.length <= 2) {
+
+      if (response.categories.length <= 2) {
         this.setAlerts(
           'Zanim dodasz produkt musisz najpierw utworzyć co najmniej 1 kategorię.',
         );

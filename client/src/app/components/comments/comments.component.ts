@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CommentsService } from '@services/comments.service';
-import { Alerts, Alert, Comment, User } from '@models/index';
+import { Alerts, Alert, Comment, User, CommentsWithPagination } from '@models/index';
 import { markdown } from '@helpers/index';
 import { SpinnerService } from '@services/spinner.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -58,7 +58,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(
-      this.commentsService.getComments().subscribe((comments: Comment[]) => {
+      this.commentsService.getComments().subscribe((data: CommentsWithPagination) => {
+        const { comments = [] } = data || {};
+
         if (comments.length) {
           this.comments = comments.map((comment: Comment) => ({
             ...comment,
@@ -79,7 +81,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.createForm();
 
     try {
-      const comments: Comment[] = await this.commentsService.fetchComments(
+      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
         this.id,
       );
 
@@ -106,7 +108,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   async deleteComment(id: string) {
     try {
       const response: Comment = await this.commentsService.deleteComment(id);
-      const comments: Comment[] = await this.commentsService.fetchComments(
+      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
         this.id,
       );
 
@@ -134,12 +136,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
         ...this.form.value,
         product_id: this.id,
         user_id: this.user && this.user._id ? this.user._id : '',
-        author: this.user && this.user.username ? this.user.username : 'Anonim',
-        author_image: this.user && this.user.avatar ? this.user.avatar : '',
       };
 
       const response: Comment = await this.commentsService.saveComment(data);
-      const comments: Comment[] = await this.commentsService.fetchComments(
+      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
         this.id,
       );
 
@@ -147,7 +147,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
       this.form.reset();
       this.setAlerts('', '', 'Pomyślnie dodano komentarz.');
     } catch (error) {
-      console.log(error);
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {

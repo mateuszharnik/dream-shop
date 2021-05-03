@@ -12,6 +12,7 @@ import { SpinnerService } from '@services/spinner.service';
 })
 export class RecoveryComponent implements OnInit {
   form: FormGroup = null;
+  isLink = false;
   isSubmitted = false;
   isDisabled = false;
   isLoading = true;
@@ -90,8 +91,17 @@ export class RecoveryComponent implements OnInit {
 
     try {
       const response = await this.authService.sendRecoveryEmail(this.form.value);
+
+      if (response.message.includes('http')) {
+        this.isLink = true;
+      } else {
+        this.isLink = false;
+      }
+
       this.setAlerts('', '', response.message);
     } catch (error) {
+      this.isLink = false;
+
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {

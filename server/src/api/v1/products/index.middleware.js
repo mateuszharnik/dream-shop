@@ -705,6 +705,8 @@ const findAndUpdateProductFiltersOnUpdate = async (req, res, next) => {
     if (!updatedFilter) {
       return req.data.responseWithError(CONFLICT, FILTERS_NOT_UPDATED);
     }
+
+    next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

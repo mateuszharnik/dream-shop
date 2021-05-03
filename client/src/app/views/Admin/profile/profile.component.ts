@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { imageValidator, match, matchRequired } from '@helpers/index';
@@ -8,7 +14,9 @@ import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
 
 declare global {
-  interface Window { FileReader: FileReader; }
+  interface Window {
+    FileReader: FileReader;
+  }
 }
 
 @Component({
@@ -44,7 +52,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   usernameAlerts: Alert[] = [
     { id: '0', message: 'Nazwa użytkownika jest za krótka.', key: 'minlength' },
     { id: '1', message: 'Nazwa użytkownika jest za długa.', key: 'maxlength' },
-    { id: '2', message: 'Nazwa użytkownika jest nieprawidłowa.', key: 'pattern' },
+    {
+      id: '2',
+      message: 'Nazwa użytkownika jest nieprawidłowa.',
+      key: 'pattern',
+    },
   ];
   emailAlerts: Alert[] = [
     { id: '0', message: 'Adres email jest wymagany.', key: 'required' },
@@ -68,9 +80,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
   ) {
-    this.subscriptions.push(this.userService.getUser().subscribe((data: User) => {
-      this.user = data;
-    }));
+    this.subscriptions.push(
+      this.userService.getUser().subscribe((data: User) => {
+        this.user = data;
+      }),
+    );
   }
 
   async ngOnInit() {
@@ -102,7 +116,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
   setAlerts(server = '', error = '', success = '') {
@@ -117,43 +133,55 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const name: string = user && user.name ? user.name : '';
     const username: string = user && user.username ? user.username : '';
 
-    this.form = this.formBuilder.group({
-      email: [email, {
-        validators: [
-          // tslint:disable-next-line:max-line-length
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-          Validators.required,
+    this.form = this.formBuilder.group(
+      {
+        email: [
+          email,
+          {
+            validators: [
+              Validators.pattern(
+                // tslint:disable-next-line:max-line-length
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              ),
+              Validators.required,
+            ],
+          },
         ],
-      }],
-      username: [username, {
-        validators: [
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          Validators.pattern(/^[a-zA-Z0-9]+$/),
+        username: [
+          username,
+          {
+            validators: [
+              Validators.minLength(2),
+              Validators.maxLength(20),
+              Validators.pattern(/^[a-zA-Z0-9]+$/),
+            ],
+          },
         ],
-      }],
-      name: [name, {
-        validators: [
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/),
+        name: [
+          name,
+          {
+            validators: [
+              Validators.minLength(2),
+              Validators.maxLength(20),
+              Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/),
+            ],
+          },
         ],
-      }],
-      password: [''],
-      new_password: ['', {
-        validators: [
-          Validators.minLength(8),
-          Validators.maxLength(50),
+        password: [''],
+        new_password: [
+          '',
+          {
+            validators: [Validators.minLength(8), Validators.maxLength(50)],
+          },
         ],
-      }],
-      confirm_new_password: ['', {
-        validators: [
-          Validators.minLength(8),
-          Validators.maxLength(50),
+        confirm_new_password: [
+          '',
+          {
+            validators: [Validators.minLength(8), Validators.maxLength(50)],
+          },
         ],
-      }],
-      avatar: [avatar],
-    },
+        avatar: [avatar],
+      },
       {
         validators: [
           matchRequired('new_password', 'password'),
@@ -167,9 +195,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   validation(prop: string): boolean {
     return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
+      (this.formControls[prop].errors &&
+        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
+      (this.formControls[prop].errors && this.isSubmitted)
+    );
   }
 
   computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
@@ -205,12 +234,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
     formData.append('password', this.form.value.password);
     formData.append('new_password', this.form.value.new_password);
     formData.append('username', this.form.value.username);
-    formData.append('confirm_new_password', this.form.value.confirm_new_password);
+    formData.append(
+      'confirm_new_password',
+      this.form.value.confirm_new_password,
+    );
 
     try {
-      const response: User = await this.userService.updateUser(this.user._id, formData);
+      const response: User = await this.userService.updateUser(
+        this.user._id,
+        formData,
+      );
       this.userService.setUser(response);
       this.setAlerts('', '', 'Pomyślnie zaktualizowano.');
+
+      this.form.patchValue({
+        confirm_new_password: '',
+        new_password: '',
+        password: '',
+      });
     } catch (error) {
       if (error.status === 0 || error.status === 404) {
         this.setAlerts('Brak połączenia z serwerem.');
