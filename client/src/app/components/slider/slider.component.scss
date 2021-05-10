@@ -1,11 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../assets/scss/variables";
-@import "~swiper/swiper.scss";
-@import "~swiper/components/a11y/a11y.scss";
-@import "~swiper/components/effect-fade/effect-fade.scss";
-@import "~swiper/components/pagination/pagination.scss";
 
-// Slider
+/* ====== Slider ====== */
 .slider {
   height: calc(100vh - 6.6rem);
   width: 100%;

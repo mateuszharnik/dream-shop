@@ -1,12 +1,11 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../assets/scss/variables";
-@import "../../../assets/scss/animations";
 
-// Auth Wrapper
+/* ====== Auth Wrapper ====== */
 .auth-wrapper {
-  max-width: 45rem;
+  max-width: $auth-wrapper-max-width;
   background: $color-white;
-  border: 0.1rem solid $color-primary;
-  border-radius: 1rem;
-  animation: fade 2s forwards;
+  border: $auth-wrapper-border;
+  border-radius: $auth-wrapper-border-radius;
+  animation: $auth-wrapper-animation;
 }

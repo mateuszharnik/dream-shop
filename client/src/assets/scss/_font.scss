@@ -1,29 +1,29 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// Fonts
+/* ====== Fonts ====== */
 .light {
-  font-weight: 300;
+  font-weight: $font-weight-light;
 }
 
 .normal {
-  font-weight: 400;
+  font-weight: $font-weight-normal;
 }
 
 .bold {
-  font-weight: 500;
+  font-weight: $font-weight-bold;
 }
 
 .bolder {
-  font-weight: 700;
+  font-weight: $font-weight-bolder;
 }
 
-// Breaks
+/* ====== Breaks ====== */
 .break-word {
   word-break: break-word;
 }
 
-// Aligns
+/* ====== Aligns ====== */
 .text-center {
   text-align: center;
 }
@@ -40,7 +40,7 @@
   text-align: right;
 }
 
-// Transforms
+/* ====== Transforms ====== */
 .uppercase {
   text-transform: uppercase;
 }
@@ -63,26 +63,29 @@
   ($xl, "xl")
 {
   @media (min-width: $width) {
+    /* ====== Fonts ====== */
     .#{$media}\:light {
-      font-weight: 300;
+      font-weight: $font-weight-light;
     }
 
     .#{$media}\:normal {
-      font-weight: 400;
+      font-weight: $font-weight-normal;
     }
 
     .#{$media}\:bold {
-      font-weight: 500;
+      font-weight: $font-weight-bold;
     }
 
     .#{$media}\:bolder {
-      font-weight: 700;
+      font-weight: $font-weight-bolder;
     }
 
+    /* ====== Breaks ====== */
     .#{$media}\:break-word {
       word-wrap: break-word;
     }
 
+    /* ====== Aligns ====== */
     .#{$media}\:text-center {
       text-align: center;
     }
@@ -99,6 +102,7 @@
       text-align: right;
     }
 
+    /* ====== Transforms ====== */
     .#{$media}\:uppercase {
       text-transform: uppercase;
     }

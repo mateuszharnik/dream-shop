@@ -1,9 +1,13 @@
+/* ====== Imports ====== */
+@import "./variables";
+
+/* ====== Fade ====== */
 @keyframes fade {
   0% {
-    opacity: 0;
+    opacity: $fade-animation-opacity-start;
   }
 
   100% {
-    opacity: 1;
+    opacity: $fade-animation-opacity-end;
   }
 }

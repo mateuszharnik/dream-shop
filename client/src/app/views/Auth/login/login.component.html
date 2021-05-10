@@ -2,12 +2,8 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #loginPageView>
-  <app-auth-wrapper>
-    <app-form
-      (whenFormSubmit)="submit()"
-      [formName]="form"
-      [formClass]="'form'"
-    >
+  <app-auth-wrapper [pageTitle]="'Zaloguj się'">
+    <app-form (whenFormSubmit)="logIn()" [formName]="form" [formClass]="'form'">
       <div class="row">
         <div class="column-12 mb-4">
           <app-input
@@ -17,7 +13,7 @@
             [inputPlaceholder]="'example@domain.com'"
             [inputClass]="'form__input w-100'"
             [inputValidation]="validation('username')"
-            [inputAlerts]="usernameAlerts"
+            [inputAlerts]="usernameValidationErrors"
             [inputGroup]="form"
             [inputForm]="form"
           ></app-input>
@@ -31,7 +27,7 @@
             [inputPlaceholder]="'********'"
             [inputClass]="'form__input w-100'"
             [inputValidation]="validation('password')"
-            [inputAlerts]="passwordAlerts"
+            [inputAlerts]="passwordValidationErrors"
             [inputGroup]="form"
             [inputForm]="form"
           ></app-input>
@@ -52,21 +48,21 @@
       </div>
     </app-form>
     <app-alert
-      *ngIf="alerts.server || alerts.error"
+      *ngIf="serverErrorAlert || errorAlert"
       [alertClass]="'alert alert-danger m-auto my-6'"
     >
-      {{ alerts.server ? alerts.server : alerts.error }}
+      {{ serverErrorAlert ? serverErrorAlert : errorAlert }}
     </app-alert>
     <app-alert
-      *ngIf="alerts.success"
+      *ngIf="successAlert"
       [alertClass]="'alert alert-success m-auto my-6'"
     >
-      {{ alerts.success }}
+      {{ successAlert }}
     </app-alert>
-    <div class="my-3">
+    <div class="my-4">
       Nie pamiętasz hasła?
       <app-router-link
-        [linkRouter]="'/odzyskaj'"
+        [linkRouter]="routes.RECOVERY"
         [linkTitle]="'Przejdź do strony odzyskiwania hasła'"
       >
         Odzyskaj hasło
@@ -74,7 +70,7 @@
     </div>
     <div>
       <app-router-link
-        [linkRouter]="'/'"
+        [linkRouter]="routes.HOME"
         [linkTitle]="'Wróć do strony głównej'"
       >
         <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Strona

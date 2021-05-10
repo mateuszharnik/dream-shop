@@ -1,7 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// Paddings
+/* ====== Paddings ====== */
 @for $i from 0 through $count {
   .p-#{$i} {
     padding: $i * $space + rem;
@@ -37,6 +37,7 @@
 @each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
   ($xl, "xl")
 {
+  /* ====== Paddings ====== */
   @media (min-width: $width) {
     @for $i from 0 through $count {
       .#{$media}\:p-#{$i} {

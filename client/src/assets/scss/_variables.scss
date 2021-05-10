@@ -1,10 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "~swiper/swiper-vars.scss";
 
-// Font Family
-$font-family: "Montserrat", sans-serif;
-
-// Colors
+/* ====== Colors ====== */
 $color-black: #000000;
 $color-white: #ffffff;
 $color-primary: #964dec;
@@ -19,27 +16,52 @@ $color-danger-2: #ffbfbd;
 $color-success: #51c757;
 $color-success-2: #d5ffd7;
 
-// Swiper
+/* ====== Defaults ====== */
+$default-font-size: 1.6rem;
+$default-line-height: 1.5;
+$default-font-weight: 400;
+$default-border-radius: 0.4rem;
+$default-outline: none;
+$default-transition: box-shadow 0.3s ease-in-out;
+$default-box-shadow-focus: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5)
+  inset;
+
+/* ====== HTML ====== */
+$html-font-size: 62.5%;
+
+/* ====== Font Family ====== */
+$font-family: "Montserrat", sans-serif;
+
+/* ====== Font Weight ====== */
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 500;
+$font-weight-bolder: 700;
+
+/* ====== Basic ====== */
+$basic-box-sizing: border-box;
+
+/* ====== Swiper ====== */
 $themeColor: $color-primary;
 
-// Media
+/* ====== Media ====== */
 $xs: 425px;
 $sm: 600px;
 $md: 768px;
 $lg: 1024px;
 $xl: 1280px;
 
-// Grid
+/* ====== Grid ====== */
 $columns: 12;
 
-// Flex
+/* ====== Flex ====== */
 $orders: 12;
 
-// Margin & Padding
+/* ====== Margin & Padding ====== */
 $space: 0.4;
 $count: 20;
 
-// Z-index
+/* ====== Z-index ====== */
 $z-index-1: 100;
 $z-index-2: 200;
 $z-index-3: 300;
@@ -51,38 +73,153 @@ $z-index-8: 800;
 $z-index-9: 900;
 $z-index-10: 1000;
 
-// Basic
-$basic-color: lighten($color-dark, 22%);
-$basic-bg-color: $color-white;
+/* ====== Body ====== */
+$body-color: lighten($color-dark, 22%);
+$body-bg-color: $color-white;
+$body-font-size: $default-font-size;
+$body-line-height: $default-line-height;
+
+/* ====== Width ====== */
+$width-auto: auto;
+$width-100: 100%;
+$max-width: $width-100;
+$min-width: $width-100;
+$view-width: 100vw;
+$max-view-width: $view-width;
+$min-view-width: $view-width;
+
+/* ====== Height ====== */
+$height-auto: auto;
+$height-100: 100%;
+$max-height: $height-100;
+$min-height: $height-100;
+$view-height: 100vh;
+$max-view-height: $view-height;
+$min-view-height: $view-height;
+
+/* ====== Positions ====== */
+$position-relative: relative;
+$position-fixed: fixed;
+$position-absolute: absolute;
+
+/* ====== Lists ====== */
+$lists-margin: 0rem;
+$lists-padding: 0rem;
+
+/* ====== Paragraph ====== */
+$paragraph-font-size: $default-font-size;
+$paragraph-line-height: $default-line-height;
+$paragraph-margin: 0rem 0rem 1.6rem;
+
+$paragraph-outline-focus: $default-outline;
+
+/* ====== Headers ====== */
+$h1-font-size: 4rem;
+$h1-line-height: 4.8rem;
+
+$h2-font-size: 3.6rem;
+$h2-line-height: 4.4rem;
+
+$h3-font-size: 3.2rem;
+$h3-line-height: 4rem;
+
+$h4-font-size: 2.8rem;
+$h4-line-height: 3.6rem;
+
+$h5-font-size: 2.4rem;
+$h5-line-height: 3.2rem;
+
+$h6-font-size: 2rem;
+$h6-line-height: 2.8rem;
+
+$headers-font-weight: 500;
+$headers-margin: 0rem 0rem 0.8rem;
+
+$headers-outline-focus: $default-outline;
+
+/* ====== Link ====== */
+$link-padding: 0rem;
+$link-line-height: normal;
+
+$link-bg-color: transparent;
+$link-color: $color-primary;
+$link-color-hover: darken($color-primary, 15%);
+
+$link-text-decoration: none;
+$link-text-decoration-hover: underline;
 
 $a-color: $color-primary;
 $a-color-hover: darken($color-primary, 15%);
 
 $focus-outline-color: fade-out($color-primary, 0.5);
+$link-box-shadow-focus: 0rem 0rem 0rem 0.3rem $focus-outline-color;
 
-// Button
+/* ====== Container ====== */
+$container-width: $width-100;
+$container-margin: 0rem auto;
+$container-padding: 0rem 1.5rem;
+
+/* ====== Buttons ====== */
 $button-color: $color-white;
+$button-bg-color: $color-gray;
+$button-bg-color-hover: darken($button-bg-color, 7%);
 $button-bg-color: $color-primary;
 $button-border-color: darken($color-primary, 7%);
 $button-bg-color-hover: darken($color-primary, 7%);
 $button-color-hover: $color-white;
 $button-focus-outline-color: $focus-outline-color;
 
-// Selection
+$button-padding: 0.7rem 1.5rem;
+$button-border: 0.1rem solid darken($button-bg-color, 7%);
+$button-line-height: $default-line-height;
+$button-border-radius: $default-border-radius;
+$button-cursor: pointer;
+
+$button-box-shadow-focus: 0rem 0rem 0rem 0.3rem fade-out($button-bg-color, 0.5);
+
+$button-transition: background-color 0.3s ease-in-out,
+  box-shadow 0.3s ease-in-out;
+$button-transition-hover: background-color 0.3s ease-in-out;
+
+$button-opacity-disabled: 0.6;
+$button-cursor-disabled: not-allowed;
+
+$button-small-padding: 0.5rem 1rem;
+$button-small-font-size: 1.4rem;
+
+$button-primary-bg-color: $color-primary;
+$button-primary-bg-color-hover: darken($color-primary, 7%);
+$button-primary-border: 0.1rem solid darken($color-primary, 7%);
+$button-primary-box-shadow-focus: 0rem 0rem 0rem 0.3rem
+  fade-out($color-primary, 0.5);
+
+$button-danger-bg-color: $color-danger;
+$button-danger-bg-color-hover: darken($color-danger, 7%);
+$button-danger-border: 0.1rem solid darken($color-danger, 7%);
+$button-danger-box-shadow-focus: 0rem 0rem 0rem 0.3rem
+  fade-out($color-danger, 0.5);
+
+$button-success-bg-color: $color-success;
+$button-success-bg-color-hover: darken($color-success, 7%);
+$button-success-border: 0.1rem solid darken($color-success, 7%);
+$button-success-box-shadow-focus: 0rem 0rem 0rem 0.3rem
+  fade-out($color-success, 0.5);
+
+/* ====== Selection ====== */
 $selection-color: $color-white;
 $selection-bg-color: $color-primary;
 
-// Skip Link
+/* ====== Skip Link ====== */
 $skip-link-border-color: $color-dark;
 $skip-link-bg-color: $color-white;
 $skip-link-color: $color-primary;
 
-// Header
+/* ====== Header ====== */
 $header-bg-color: $color-secondary;
 $header-border-bottom-color: darken($color-secondary, 8%);
 $header-box-shadow-color: fade-out($color-black, 0.75);
 
-// Navigation
+/* ====== Navigation ====== */
 $dropdown-border-top-color: darken($color-secondary, 4%);
 
 $navigation-item-border-top-color: darken($color-secondary, 4%);
@@ -91,7 +228,7 @@ $navigation-link-bg-color: transparent;
 $navigation-link-color: $color-dark;
 $navigation-link-color-hover: darken($color-primary, 8%);
 
-// Cart Button
+/* ====== Cart Button ====== */
 $cart-button-color: lighten($color-dark, 22%);
 $cart-button-bg-color: transparent;
 $cart-button-bg-color-hover: $color-dark;
@@ -99,7 +236,7 @@ $cart-counter-border-color: darken($color-primary, 7%);
 $cart-counter-color: $color-white;
 $cart-counter-bg-color: $color-primary;
 
-// Search Bar
+/* ====== Search Bar ====== */
 $search-button-color: lighten($color-dark, 22%);
 $search-button-bg-color: transparent;
 $search-button-color-hover: $color-dark;
@@ -109,14 +246,14 @@ $search-bar-input-color: $color-dark;
 $search-input-border-color: $color-primary;
 $search-input-placeholder-color: $color-gray;
 
-// Hamburger Button
+/* ====== Hamburger Button ====== */
 $hamburger-bg-color: transparent;
 
 $hamburger-icon-bg-color-hover: $color-dark;
 $hamburger-icon-bg-color: lighten($color-dark, 22%);
 $hamburger-icon-bg-color-open: transparent;
 
-// Contact Form
+/* ====== Contact Form ====== */
 $form-errors-color: $color-danger;
 
 $form-caret-color: $color-primary;
@@ -137,7 +274,7 @@ $form-border-color-focus: $color-primary;
 
 $form-focus-outline-color: $focus-outline-color;
 
-// Accordion
+/* ====== Accordion ====== */
 $accordion-border-color: darken($color-light, 18%);
 
 $accordion-body-bg-color: $color-white;
@@ -148,11 +285,21 @@ $accordion-button-color: $color-primary;
 $accordion-button-bg-color: transparent;
 $accordion-button-color-hover: darken($color-primary, 15%);
 
-// About Page
+/* ====== About Page ====== */
 $about-page-bg-color: $color-white;
 
-// Contact Page
+/* ====== Contact Page ====== */
 $contact-page-bg-color: $color-white;
 
-// FAQ Page
+/* ====== FAQ Page ====== */
 $faq-page-bg-color: $color-white;
+
+/* ====== Auth Wrapper ====== */
+$auth-wrapper-max-width: 45rem;
+$auth-wrapper-border: 0.1rem solid $color-primary;
+$auth-wrapper-border-radius: 1rem;
+$auth-wrapper-animation: fade 2s forwards;
+
+/* ====== Fade Animation ====== */
+$fade-animation-opacity-start: 0;
+$fade-animation-opacity-end: 1;

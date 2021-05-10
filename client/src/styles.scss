@@ -1,9 +1,17 @@
+/* ====== Variables ====== */
+@import "./assets/scss/variables";
+
+/* ====== Libs ====== */
 @import "~leaflet/dist/leaflet.css";
 @import "~aos/dist/aos.css";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/a11y/a11y.scss";
+@import "~swiper/components/navigation/navigation.scss";
+@import "~swiper/components/pagination/pagination.scss";
+@import "~swiper/components/effect-fade/effect-fade.scss";
 
-// Helper Classes
+/* ====== Helper Classes ====== */
 @import "./assets/scss/normalize";
-@import "./assets/scss/variables";
 @import "./assets/scss/basic";
 @import "./assets/scss/grid";
 @import "./assets/scss/position";
