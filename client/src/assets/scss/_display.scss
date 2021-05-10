@@ -1,7 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// Display
+/* ====== Display ====== */
 .hidden {
   display: none;
 }
@@ -38,6 +38,7 @@
 @each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
   ($xl, "xl")
 {
+  /* ====== Display ====== */
   @media (min-width: $width) {
     .#{$media}\:hidden {
       display: none;

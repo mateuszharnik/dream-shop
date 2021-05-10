@@ -1,10 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../assets/scss/variables";
-@import "~swiper/swiper.scss";
-@import "~swiper/components/a11y/a11y.scss";
-@import "~swiper/components/navigation/navigation.scss";
-@import "~swiper/components/pagination/pagination.scss";
 
+/* ====== Product Images ====== */
 .product-images {
   .swiper-slider {
     width: 100%;
