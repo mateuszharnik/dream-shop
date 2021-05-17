@@ -16,6 +16,7 @@ import { emailValidators } from '@helpers/validation/auth';
 import { NOT_FOUND } from '@helpers/constants/status-codes';
 import { SERVER_CONNECTION_ERROR } from '@helpers/constants/errors';
 import { validation } from '@helpers/validation';
+import { HTTP } from '@helpers/constants/auth';
 import { setAlerts } from '@helpers/alerts';
 import { setLoading, startSubmittingForm } from '@helpers/components';
 import { RECOVERY_PAGE } from '@helpers/constants/titles';
@@ -44,7 +45,6 @@ export class RecoveryComponent implements OnInit {
   serverErrorAlert = '';
   errorAlert = '';
   successAlert = '';
-  documentEl: Document = null;
 
   /* ====== Functions ====== */
   validation = null;
@@ -61,7 +61,7 @@ export class RecoveryComponent implements OnInit {
     private authService: AuthService,
     private documentRefService: DocumentRefService,
   ) {
-    this.documentEl = this.documentRefService.nativeDocument;
+    this.documentRefService.nativeDocument.title = RECOVERY_PAGE;
 
     this.validation = validation(this, 'RecoveryComponent');
     this.setAlerts = setAlerts(this, 'RecoveryComponent');
@@ -72,8 +72,6 @@ export class RecoveryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.documentEl.title = RECOVERY_PAGE;
-
     this.createForm();
     this.setLoading();
   }
@@ -106,11 +104,7 @@ export class RecoveryComponent implements OnInit {
         this.form.value,
       );
 
-      if (response.message.includes('http')) {
-        this.isLink = true;
-      } else {
-        this.isLink = false;
-      }
+      this.isLink = response.message.includes(HTTP) ? true : false;
 
       this.setAlerts({ successAlert: response.message });
     } catch (error) {

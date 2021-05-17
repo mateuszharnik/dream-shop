@@ -30,6 +30,7 @@ import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { PageWrapperComponent } from '@components/page-wrapper/page-wrapper.component';
 import { ProductsSortComponent } from '@components/products-sort/products-sort.component';
 import { ProductsFiltersComponent } from '@components/products-filters/products-filters.component';
+import { AdminWrapperComponent } from '@components/admin-wrapper/admin-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ProductsFiltersComponent } from '@components/products-filters/products-
     FaIconComponent,
     RouterLinkComponent,
     AuthWrapperComponent,
+    AdminWrapperComponent,
     LinkComponent,
     ImageComponent,
     HamburgerButtonComponent,
@@ -75,6 +77,7 @@ import { ProductsFiltersComponent } from '@components/products-filters/products-
     FaIconComponent,
     RouterLinkComponent,
     AuthWrapperComponent,
+    AdminWrapperComponent,
     LinkComponent,
     ImageComponent,
     HamburgerButtonComponent,

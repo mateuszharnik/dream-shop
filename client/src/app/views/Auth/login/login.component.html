@@ -1,7 +1,7 @@
-<div *ngIf="isLoading; else loginPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #loginPageView>
+<ng-template #main>
   <app-auth-wrapper [pageTitle]="'Zaloguj się'">
     <app-form (whenFormSubmit)="logIn()" [formName]="form" [formClass]="'form'">
       <div class="row">

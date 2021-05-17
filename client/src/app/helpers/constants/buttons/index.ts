@@ -16,3 +16,9 @@ export const SEND_EMAIL_TEXT = 'Wyślij';
 export const SEND_EMAIL_TITLE = 'Wyślij wiadomość';
 export const SPINNER_ICON = 'fas fa-spinner fa-spin ml-1';
 export const PAPER_PLANE_ICON = 'far fa-paper-plane ml-1';
+
+/* ====== Save Button ====== */
+export const SAVING_TEXT = 'Zapisywanie';
+export const SAVING_TITLE = 'Zapisywanie zmian';
+export const SAVE_TEXT = 'Zapisz';
+export const SAVE_TITLE = 'Zapisz zmiany';

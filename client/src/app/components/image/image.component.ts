@@ -1,4 +1,11 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { checkRequiredProp } from '@helpers/validation';
 
 @Component({
   selector: 'app-image',
@@ -6,8 +13,21 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./image.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ImageComponent {
+export class ImageComponent implements OnInit, OnChanges {
   @Input() imageClass = '';
-  @Input() imageSrc: string = null;
-  @Input() imageAltText: string = null;
+  @Input() imageSrc: string;
+  @Input() imageAltText: string;
+
+  ngOnInit() {
+    this.checkAllRequiredProps();
+  }
+
+  ngOnChanges() {
+    this.checkAllRequiredProps();
+  }
+
+  checkAllRequiredProps() {
+    checkRequiredProp(this.imageSrc, 'imageSrc');
+    checkRequiredProp(this.imageAltText, 'imageAltText');
+  }
 }
