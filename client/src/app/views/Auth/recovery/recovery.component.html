@@ -1,7 +1,7 @@
-<div *ngIf="isLoading; else recoveryPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #recoveryPageView>
+<ng-template #main>
   <app-auth-wrapper [pageTitle]="'Odzyskiwanie hasła'">
     <p class="text-center">
       Jeżeli nie pamiętasz hasła możesz podać adres email, na który zostanie

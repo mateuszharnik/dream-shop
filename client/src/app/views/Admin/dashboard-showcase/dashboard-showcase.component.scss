@@ -1,26 +1,22 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../../assets/scss/variables";
-@import "../../../../assets/scss/animations";
 
-.dashboard-page {
-  color: #2c2c2c;
-  max-width: 26rem;
-  animation: fade 2s forwards;
+/* ====== Dashboard Showcase ====== */
+.dashboard-showcase {
+  color: $dashboard-showcase-color;
+  max-width: $dashboard-showcase-max-width;
+  animation: $dashboard-showcase-animation;
 
   @media (min-width: $sm) {
-    max-width: 50rem;
+    max-width: $dashboard-showcase-sm-max-width;
   }
 
   @media (min-width: $lg) {
-    max-width: 100%;
+    max-width: $dashboard-showcase-lg-max-width;
   }
 }
 
 .bg-gradient {
-  background-color: $color-primary;
-  background-image: linear-gradient(
-    45deg,
-    darken($color-secondary, 5%),
-    darken($color-secondary, 20%)
-  );
+  background-color: $bg-gradient-bg-color;
+  background-image: $bg-gradient-bg-image;
 }

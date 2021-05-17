@@ -5,7 +5,7 @@ import {
   ViewEncapsulation,
   OnChanges,
 } from '@angular/core';
-import { checkRequiredProp } from '@helpers/index';
+import { checkRequiredProp } from '@helpers/validation';
 
 @Component({
   selector: 'app-auth-wrapper',
@@ -17,14 +17,10 @@ export class AuthWrapperComponent implements OnInit, OnChanges {
   @Input() pageTitle: string;
 
   ngOnInit() {
-    this.checkAllRequiredProp();
+    checkRequiredProp(this.pageTitle, 'pageTitle');
   }
 
   ngOnChanges() {
-    this.checkAllRequiredProp();
-  }
-
-  checkAllRequiredProp() {
     checkRequiredProp(this.pageTitle, 'pageTitle');
   }
 }

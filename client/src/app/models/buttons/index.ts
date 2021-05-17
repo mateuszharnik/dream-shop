@@ -10,3 +10,7 @@ export type ButtonChangePasswordText = 'Zmień' | 'Zmienianie';
 export type ButtonSendEmailTitle = 'Wysyłanie wiadomości' | 'Wyślij wiadomość';
 export type ButtonSendEmailText = 'Wysyłanie' | 'Wyślij';
 export type ButtonSendEmailIcon = 'fas fa-spinner fa-spin ml-1' | 'far fa-paper-plane ml-1';
+
+/* ====== Save ====== */
+export type ButtonSaveTitle = 'Zapisz zmiany' | 'Zapisywanie zmian';
+export type ButtonSaveText = 'Zapisz' | 'Zapisywanie';

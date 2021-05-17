@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorAlert = '';
   successAlert = '';
   subscriptions: Subscription[] = [];
-  documentEl: Document = null;
 
   /* ====== Functions ====== */
   validation = null;
@@ -76,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private alertsService: AlertsService,
     private documentRefService: DocumentRefService,
   ) {
-    this.documentEl = this.documentRefService.nativeDocument;
+    this.documentRefService.nativeDocument.title = LOGIN_PAGE;
 
     this.validation = validation(this, 'LoginComponent');
     this.setAlerts = setAlerts(this, 'LoginComponent');
@@ -89,8 +88,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.documentEl.title = LOGIN_PAGE;
-
     this.createForm();
     this.setLoading();
   }

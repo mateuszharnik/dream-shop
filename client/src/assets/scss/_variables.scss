@@ -3,6 +3,7 @@
 
 /* ====== Colors ====== */
 $color-black: #000000;
+$color-black-2: #2c2c2c;
 $color-white: #ffffff;
 $color-primary: #964dec;
 $color-secondary: #ead8ff;
@@ -299,6 +300,45 @@ $auth-wrapper-max-width: 45rem;
 $auth-wrapper-border: 0.1rem solid $color-primary;
 $auth-wrapper-border-radius: 1rem;
 $auth-wrapper-animation: fade 2s forwards;
+
+/* ====== Admin Wrapper ====== */
+$admin-wrapper-padding-left: 32rem;
+
+$admin-wrapper-section-animation: fade 2s forwards;
+$admin-wrapper-section-bg-color: $color-white;
+$admin-wrapper-section-padding-top: 8.9rem;
+$admin-wrapper-section-lg-padding-top: 4.2rem;
+
+$admin-wrapper-section-item-md-max-width: 45rem;
+
+$admin-wrapper-header-border-bottom: 0.1rem solid darken($color-white, 15%);
+
+$admin-wrapper-content-width: $width-100;
+$admin-wrapper-content-max-width: 60rem;
+
+$admin-wrapper-content-products-max-width: 90rem;
+
+/* ====== Dashboard ====== */
+$dashboard-header-width: $width-100;
+$dashboard-header-min-height: 6.5rem;
+$dashboard-header-lg-min-height: 0rem;
+$dashboard-header-bg-color: $color-white;
+$dashboard-header-z-index: $z-index-3;
+$dashboard-header-position: $position-fixed;
+
+/* ====== Dashboard Showcase ====== */
+$dashboard-showcase-max-width: 26rem;
+$dashboard-showcase-sm-max-width: 50rem;
+$dashboard-showcase-lg-max-width: $width-100;
+$dashboard-showcase-color: $color-black-2;
+$dashboard-showcase-animation: fade 2s forwards;
+
+$bg-gradient-bg-color: $color-primary;
+$bg-gradient-bg-image: linear-gradient(
+  45deg,
+  darken($color-secondary, 5%),
+  darken($color-secondary, 20%)
+);
 
 /* ====== Fade Animation ====== */
 $fade-animation-opacity-start: 0;

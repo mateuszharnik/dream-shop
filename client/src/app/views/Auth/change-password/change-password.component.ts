@@ -59,7 +59,6 @@ export class ChangePasswordComponent implements OnInit {
   serverErrorAlert = '';
   errorAlert = '';
   successAlert = '';
-  documentEl: Document = null;
 
   /* ====== Functions ====== */
   validation = null;
@@ -87,7 +86,7 @@ export class ChangePasswordComponent implements OnInit {
     private userService: UserService,
     private documentRefService: DocumentRefService,
   ) {
-    this.documentEl = this.documentRefService.nativeDocument;
+    this.documentRefService.nativeDocument.title = CHANGE_PASSWORD_PAGE;
 
     this.validation = validation(this, 'ChangePasswordComponent');
     this.setAlerts = setAlerts(this, 'ChangePasswordComponent');
@@ -102,8 +101,6 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.documentEl.title = CHANGE_PASSWORD_PAGE;
-
     try {
       const { email } = await this.authService.checkRecoveryToken(this.id);
 

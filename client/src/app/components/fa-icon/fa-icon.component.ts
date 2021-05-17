@@ -1,5 +1,11 @@
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
-import { checkRequiredProp } from '@helpers/index';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { checkRequiredProp } from '@helpers/validation';
 
 @Component({
   selector: 'app-fa-icon',

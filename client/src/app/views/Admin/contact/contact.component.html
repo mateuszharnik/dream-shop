@@ -1,14 +1,17 @@
-<div *ngIf="isLoading; else contactPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #contactPageView>
-  <section class="admin-page-section p-6 min-vh-100">
-    <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">Informacje Kontaktowe</h2>
+<ng-template #main>
+  <app-admin-wrapper>
+    <header class="admin-wrapper-section__header">
+      <h2 class="h4 text-center mb-6">
+        Informacje Kontaktowe
+        <span class="hidden"> - Ustawienia</span>
+      </h2>
     </header>
-    <article
-      *ngIf="!alerts.server; else showError"
-      class="admin-page-section__article m-auto mt-6 text-center"
+    <div
+      *ngIf="!serverErrorAlert; else showError"
+      class="admin-wrapper-section__content m-auto mt-6 text-center"
     >
       <p class="mb-6">
         Tutaj możesz zmienić informacje kontaktowe dla swojej strony.
@@ -16,7 +19,7 @@
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
-        (whenFormSubmit)="submit()"
+        (whenFormSubmit)="saveSettings()"
       >
         <div class="row">
           <div class="column-12 mb-4">
@@ -28,7 +31,8 @@
               [inputPlaceholder]="'example@domain.com'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('email')"
-              [inputAlerts]="emailAlerts"
+              [inputAlerts]="emailValidationErrors"
+              [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
             ></app-input>
@@ -39,14 +43,11 @@
               [inputID]="'phone'"
               [inputType]="'tel'"
               [inputLabel]="'Numer telefonu'"
-              [inputPlaceholder]="'+48 123 123 123'"
+              [inputPlaceholder]="'123 123 123'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('phone')"
-              [inputAlerts]="phoneAlerts"
+              [inputAlerts]="phoneValidationErrors"
               [inputRequired]="false"
-              [inputMessage]="
-                'Numer kierunkowy nie jest automatycznie dopisywany'
-              "
               [inputGroup]="form"
               [inputForm]="form"
             ></app-input>
@@ -59,7 +60,7 @@
               [inputPlaceholder]="'1234567890'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('nip')"
-              [inputAlerts]="nipAlerts"
+              [inputAlerts]="nipValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -73,7 +74,7 @@
               [inputPlaceholder]="'Ulica'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('street')"
-              [inputAlerts]="streetAlerts"
+              [inputAlerts]="streetValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -87,7 +88,7 @@
               [inputPlaceholder]="'7/21'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('street_number')"
-              [inputAlerts]="streetNumberAlerts"
+              [inputAlerts]="streetNumberValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -101,7 +102,7 @@
               [inputPlaceholder]="'Miasto'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('city')"
-              [inputAlerts]="cityAlerts"
+              [inputAlerts]="cityValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -115,7 +116,7 @@
               [inputPlaceholder]="'10-100'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('zip_code')"
-              [inputAlerts]="zipCodeAlerts"
+              [inputAlerts]="zipCodeValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -129,7 +130,7 @@
               [inputPlaceholder]="'08:30 - 18:30'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('working_hours')"
-              [inputAlerts]="workingHoursAlerts"
+              [inputAlerts]="workingHoursValidationErrors"
               [inputRequired]="false"
               [inputMessage]="'Proszę użyć formatu: 00:00 - 00:00'"
               [inputGroup]="form"
@@ -139,10 +140,10 @@
           <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
-              [buttonTitle]="computedButtonTitle()"
+              [buttonTitle]="buttonTitle(isDisabled)"
               [buttonDisabled]="isDisabled"
             >
-              {{ computedButtonText() }}
+              {{ buttonText(isDisabled) }}
               <app-fa-icon
                 *ngIf="isDisabled"
                 [faClass]="'fas fa-spinner fa-spin ml-1'"
@@ -152,20 +153,20 @@
         </div>
       </app-form>
       <app-alert
-        *ngIf="alerts.error"
+        *ngIf="errorAlert"
         [alertClass]="'alert alert-danger mt-6 m-auto'"
       >
-        {{ alerts.error }}
+        {{ errorAlert }}
       </app-alert>
       <app-alert
-        *ngIf="alerts.success"
+        *ngIf="successAlert"
         [alertClass]="'alert alert-success mt-6 m-auto'"
       >
-        {{ alerts.success }}
+        {{ successAlert }}
       </app-alert>
-    </article>
+    </div>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <div class="center text-center m-0">{{ serverErrorAlert }}</div>
     </ng-template>
-  </section>
+  </app-admin-wrapper>
 </ng-template>
