@@ -5,27 +5,27 @@ import { AuthService } from '@services/auth.service';
 import { DocumentRefService } from '@services/document-ref.service';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
-import Routes from '@models/routes';
+import { ClientRoutes } from '@models/routes';
 import { ValidationError } from '@models/errors';
 import {
   ButtonChangePasswordText,
   ButtonChangePasswordTitle,
 } from '@models/buttons';
-import routes, { ADMIN } from '@helpers/constants/routes';
+import { clientRoutes } from '@helpers/variables/routes';
 import { match } from '@helpers/index';
 import { setToken } from '@helpers/token';
-import { CONFIRM_PASSWORD, PASSWORD } from '@helpers/constants/auth';
-import { SERVER_CONNECTION_ERROR } from '@helpers/constants/errors';
+import { CONFIRM_PASSWORD, PASSWORD } from '@helpers/variables/constants/auth';
+import { serverErrorMessage } from '@helpers/variables/errors';
 import { validation } from '@helpers/validation';
 import { setAlerts } from '@helpers/alerts';
 import { setLoading, startSubmittingForm } from '@helpers/components';
-import { CHANGE_PASSWORD_PAGE } from '@helpers/constants/titles';
+import { changePasswordPageTitle } from '@helpers/variables/titles';
 import {
-  CHANGE_PASSWORD_TEXT,
-  CHANGE_PASSWORD_TITLE,
-  CHANGING_PASSWORD_TEXT,
-  CHANGING_PASSWORD_TITLE,
-} from '@helpers/constants/buttons';
+  changePasswordText,
+  changePasswordTitle,
+  changingPasswordText,
+  changingPasswordTitle,
+} from '@helpers/variables/buttons';
 import {
   newPasswordConfirmValidators,
   newPasswordValidators,
@@ -40,7 +40,7 @@ import {
 import {
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
-} from '@helpers/constants/status-codes';
+} from '@helpers/variables/constants/status-codes';
 
 @Component({
   selector: 'app-change-password',
@@ -50,7 +50,7 @@ import {
 })
 export class ChangePasswordComponent implements OnInit {
   form: FormGroup = null;
-  routes: Routes = routes;
+  routes: ClientRoutes = clientRoutes;
   isLoading = true;
   isSubmitted = false;
   isDisabled = false;
@@ -86,7 +86,7 @@ export class ChangePasswordComponent implements OnInit {
     private userService: UserService,
     private documentRefService: DocumentRefService,
   ) {
-    this.documentRefService.nativeDocument.title = CHANGE_PASSWORD_PAGE;
+    this.documentRefService.nativeDocument.title = changePasswordPageTitle;
 
     this.validation = validation(this, 'ChangePasswordComponent');
     this.setAlerts = setAlerts(this, 'ChangePasswordComponent');
@@ -106,19 +106,19 @@ export class ChangePasswordComponent implements OnInit {
 
       this.email = email;
     } catch (error) {
-      this.onErrorInInit(error);
+      this.onErrorInit(error);
     } finally {
       this.createForm();
       this.setLoading();
     }
   }
 
-  onErrorInInit(error) {
+  onErrorInit(error) {
     if (error.status === NOT_FOUND) {
-      this.router.navigate([routes.NOT_FOUND]);
+      this.router.navigate([this.routes.notFound]);
       return;
     } else if (!error.status) {
-      this.setAlerts({ serverErrorAlert: SERVER_CONNECTION_ERROR });
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
     } else if (error.status === INTERNAL_SERVER_ERROR) {
       this.setAlerts({ serverErrorAlert: error.error.message });
     } else {
@@ -137,11 +137,11 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   buttonTitle(condition = false): ButtonChangePasswordTitle {
-    return condition ? CHANGING_PASSWORD_TITLE : CHANGE_PASSWORD_TITLE;
+    return condition ? changingPasswordTitle : changePasswordTitle;
   }
 
   buttonText(condition = false): ButtonChangePasswordText {
-    return condition ? CHANGING_PASSWORD_TEXT : CHANGE_PASSWORD_TEXT;
+    return condition ? changingPasswordText : changePasswordText;
   }
 
   async changePassword() {
@@ -158,15 +158,15 @@ export class ChangePasswordComponent implements OnInit {
       this.userService.setUser(user);
       setToken(token);
 
-      this.router.navigate([ADMIN]);
+      this.router.navigate([this.routes.admin]);
     } catch (error) {
       this.onError(error);
     }
   }
 
   onError(error) {
-    if (!error.status || error.status === NOT_FOUND) {
-      this.setAlerts({ serverErrorAlert: SERVER_CONNECTION_ERROR });
+    if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
     } else {
       this.setAlerts({ errorAlert: error.error.message });
     }

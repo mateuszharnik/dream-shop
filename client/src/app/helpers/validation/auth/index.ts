@@ -1,5 +1,9 @@
 import { Validators } from '@angular/forms';
 import { emailRegExp, usernameRegExp } from '@helpers/regexp';
+import {
+  newPasswordMinLength,
+  newPasswordMaxLength,
+} from '@helpers/variables/auth';
 
 /* ====== Username ====== */
 export const usernameValidators = {
@@ -14,8 +18,8 @@ export const passwordValidators = {
 /* ====== New Password ====== */
 export const newPasswordValidators = {
   validators: [
-    Validators.minLength(8),
-    Validators.maxLength(50),
+    Validators.minLength(newPasswordMinLength),
+    Validators.maxLength(newPasswordMaxLength),
     Validators.required,
   ],
 };

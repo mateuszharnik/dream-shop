@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
+import { DocumentRefService } from '@services/document-ref.service';
 import { User } from '@models/index';
 import { setLoading } from '@helpers/components';
+import { dashboardAdminPageTitle } from '@helpers/variables/titles';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,7 +24,10 @@ export class DashboardShowcaseComponent implements OnInit, OnDestroy {
   constructor(
     private spinnerService: SpinnerService,
     private userService: UserService,
+    private documentRefService: DocumentRefService,
   ) {
+    this.documentRefService.nativeDocument.title = dashboardAdminPageTitle;
+
     this.setLoading = setLoading(this, 'DashboardShowcaseComponent');
 
     this.addUserSubscription();

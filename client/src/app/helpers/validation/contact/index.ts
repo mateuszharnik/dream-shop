@@ -1,5 +1,11 @@
 import { Validators } from '@angular/forms';
 import {
+  cityMinLength,
+  cityMaxLength,
+  streetMaxLength,
+  streetMinLength,
+} from '@helpers/variables/contact';
+import {
   emailRegExp,
   nipRegExp,
   phoneRegExp,
@@ -25,7 +31,10 @@ export const nipValidators = {
 
 /* ====== City ====== */
 export const cityValidators = {
-  validators: [Validators.minLength(2), Validators.maxLength(100)],
+  validators: [
+    Validators.minLength(cityMinLength),
+    Validators.maxLength(cityMaxLength),
+  ],
 };
 
 /* ====== Zip Code ====== */
@@ -35,7 +44,10 @@ export const zipCodeValidators = {
 
 /* ====== Street ====== */
 export const streetValidators = {
-  validators: [Validators.minLength(2), Validators.maxLength(100)],
+  validators: [
+    Validators.minLength(streetMinLength),
+    Validators.maxLength(streetMaxLength),
+  ],
 };
 
 /* ====== Street Number ====== */

@@ -8,10 +8,10 @@ import { ValidationError } from '@models/errors';
 import { Contact } from '@models/index';
 import { setAlerts } from '@helpers/alerts';
 import { setLoading, startSubmittingForm } from '@helpers/components';
-import { SERVER_CONNECTION_ERROR } from '@helpers/constants/errors';
-import { NOT_FOUND } from '@helpers/constants/status-codes';
-import { SUCCESSFULLY_SAVED } from '@helpers/constants/success';
-import { CONTACT_ADMIN_PAGE } from '@helpers/constants/titles';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import { successfullySavedMessage } from '@helpers/variables/success';
+import { contactAdminPageTitle } from '@helpers/variables/titles';
 import { matchRequired } from '@helpers/index';
 import { validation } from '@helpers/validation';
 import {
@@ -19,13 +19,13 @@ import {
   STREET,
   STREET_NUMBER,
   ZIP_CODE,
-} from '@helpers/constants/contact';
+} from '@helpers/variables/constants/contact';
 import {
-  SAVE_TEXT,
-  SAVE_TITLE,
-  SAVING_TEXT,
-  SAVING_TITLE,
-} from '@helpers/constants/buttons';
+  saveText,
+  saveTitle,
+  savingText,
+  savingTitle,
+} from '@helpers/variables/buttons';
 import {
   cityMatchRequired,
   cityMaxLength,
@@ -107,7 +107,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     private documentRefService: DocumentRefService,
     private contactService: ContactService,
   ) {
-    this.documentRefService.nativeDocument.title = CONTACT_ADMIN_PAGE;
+    this.documentRefService.nativeDocument.title = contactAdminPageTitle;
 
     this.validation = validation(this, 'ContactComponent');
     this.setAlerts = setAlerts(this, 'ContactComponent');
@@ -182,11 +182,11 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   buttonTitle(condition = false): ButtonSaveTitle {
-    return condition ? SAVING_TITLE : SAVE_TITLE;
+    return condition ? savingTitle : saveTitle;
   }
 
   buttonText(condition = false): ButtonSaveText {
-    return condition ? SAVING_TEXT : SAVE_TEXT;
+    return condition ? savingText : saveText;
   }
 
   async saveSettings() {
@@ -200,7 +200,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.form.value,
       );
       this.contactService.setContact(this.contact);
-      this.setAlerts({ successAlert: SUCCESSFULLY_SAVED });
+      this.setAlerts({ successAlert: successfullySavedMessage });
     } catch (error) {
       this.onError(error);
     } finally {
@@ -211,7 +211,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   onError(error) {
     if (!error.status || error.status === NOT_FOUND) {
-      this.setAlerts({ serverErrorAlert: SERVER_CONNECTION_ERROR });
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
     } else {
       this.setAlerts({ errorAlert: error.error.message });
     }

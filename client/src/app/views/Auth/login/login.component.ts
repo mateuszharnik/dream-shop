@@ -6,16 +6,16 @@ import { AuthService } from '@services/auth.service';
 import { SpinnerService } from '@services/spinner.service';
 import { DocumentRefService } from '@services/document-ref.service';
 import { UserService } from '@services/user.service';
-import Routes from '@models/routes';
+import { ClientRoutes } from '@models/routes';
 import { ValidationError } from '@models/errors';
 import { ButtonLogInText, ButtonLogInTitle } from '@models/buttons';
-import routes, { ADMIN } from '@helpers/constants/routes';
-import { NOT_FOUND } from '@helpers/constants/status-codes';
+import { clientRoutes } from '@helpers/variables/routes';
 import { setToken } from '@helpers/token';
 import { validation } from '@helpers/validation';
 import { setAlerts } from '@helpers/alerts';
 import { setLoading, startSubmittingForm } from '@helpers/components';
-import { LOGIN_PAGE } from '@helpers/constants/titles';
+import { loginPageTitle } from '@helpers/variables/titles';
+import { loggingIn, logInText, logInTitle } from '@helpers/variables/buttons';
 import {
   passwordRequired,
   usernamePattern,
@@ -26,14 +26,9 @@ import {
   usernameValidators,
 } from '@helpers/validation/auth';
 import {
-  SERVER_CONNECTION_ERROR,
-  SESSION_EXPIRED,
-} from '@helpers/constants/errors';
-import {
-  LOGGING_IN,
-  LOG_IN_TEXT,
-  LOG_IN_TITLE,
-} from '@helpers/constants/buttons';
+  serverErrorMessage,
+  sessionExpiredMessage,
+} from '@helpers/variables/errors';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -44,7 +39,7 @@ import { Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
-  routes: Routes = routes;
+  routes: ClientRoutes = clientRoutes;
   isLoading = true;
   isSubmitted = false;
   isDisabled = false;
@@ -75,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private alertsService: AlertsService,
     private documentRefService: DocumentRefService,
   ) {
-    this.documentRefService.nativeDocument.title = LOGIN_PAGE;
+    this.documentRefService.nativeDocument.title = loginPageTitle;
 
     this.validation = validation(this, 'LoginComponent');
     this.setAlerts = setAlerts(this, 'LoginComponent');
@@ -106,7 +101,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   addAlertSubscription() {
     this.subscriptions.push(
       this.alertsService.getAlert().subscribe((alert: string) => {
-        if (alert === SESSION_EXPIRED) {
+        if (alert === sessionExpiredMessage) {
           this.setAlerts({ errorAlert: alert });
         } else {
           this.setAlerts({ successAlert: alert });
@@ -116,11 +111,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   buttonTitle(condition = false): ButtonLogInTitle {
-    return condition ? LOGGING_IN : LOG_IN_TITLE;
+    return condition ? loggingIn : logInTitle;
   }
 
   buttonText(condition = false): ButtonLogInText {
-    return condition ? LOGGING_IN : LOG_IN_TEXT;
+    return condition ? loggingIn : logInText;
   }
 
   createForm() {
@@ -143,15 +138,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.userService.setUser(user);
       setToken(token);
 
-      this.router.navigate([ADMIN]);
+      this.router.navigate([this.routes.admin]);
     } catch (error) {
       this.onError(error);
     }
   }
 
   onError(error) {
-    if (!error.status || error.status === NOT_FOUND) {
-      this.setAlerts({ serverErrorAlert: SERVER_CONNECTION_ERROR });
+    if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
     } else {
       this.setAlerts({ errorAlert: error.error.message });
     }

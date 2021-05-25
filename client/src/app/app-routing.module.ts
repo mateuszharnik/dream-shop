@@ -5,86 +5,88 @@ import { InitialGuard } from '@guards/initial.guard';
 import { SpinnerGuard } from '@guards/spinner.guard';
 import { HomeComponent } from '@webpage/home/home.component';
 import { ShowcaseComponent } from '@webpage/showcase/showcase.component';
+import getRoute from '@helpers/router';
+import { clientRoutes } from '@helpers/variables/routes';
 
 const routes: Routes = [
   {
-    path: '',
+    path: getRoute(clientRoutes.home),
     data: { showSpinner: true },
     canActivate: [SpinnerGuard, InitialGuard],
     children: [
       {
-        path: '',
+        path: getRoute(clientRoutes.home),
         component: HomeComponent,
         data: { showSpinner: true },
         canActivate: [SpinnerGuard],
         children: [
           {
-            path: '',
+            path: getRoute(clientRoutes.home),
             data: { animation: 'home' },
             component: ShowcaseComponent,
           },
           {
-            path: 'koszyk',
+            path: getRoute(clientRoutes.cart),
             data: { animation: 'cart' },
             loadChildren: '@webpage/cart/cart.module#CartModule',
           },
           {
-            path: 'zamowienia/:id',
+            path: getRoute(`${clientRoutes.orders}/:id`),
             data: { animation: 'orders' },
             loadChildren: '@webpage/orders/orders.module#OrdersModule',
           },
           {
-            path: 'o-nas',
+            path: getRoute(clientRoutes.about),
             data: { animation: 'about' },
             loadChildren: '@webpage/about/about.module#AboutModule',
           },
           {
-            path: 'kontakt',
+            path: getRoute(clientRoutes.contact),
             data: { animation: 'contact' },
             loadChildren: '@webpage/contact/contact.module#ContactModule',
           },
           {
-            path: 'produkty',
+            path: getRoute(clientRoutes.products),
             data: { animation: 'products' },
             loadChildren: '@webpage/products/products.module#ProductsModule',
           },
           {
-            path: 'produkt/:id',
+            path: getRoute(`${clientRoutes.product}/:id`),
             data: { animation: 'product' },
             loadChildren: '@webpage/product/product.module#ProductModule',
           },
           {
-            path: 'najczesciej-zadawane-pytania',
+            path: getRoute(clientRoutes.faq),
             data: { animation: 'faq' },
             loadChildren: '@webpage/faq/faq.module#FaqModule',
           },
         ],
       },
       {
-        path: 'zaloguj',
+        path: getRoute(clientRoutes.login),
         loadChildren: '@auth/login/login.module#LoginModule',
       },
       {
-        path: 'odzyskaj',
+        path: getRoute(clientRoutes.recovery),
         loadChildren: '@auth/recovery/recovery.module#RecoveryModule',
       },
       {
-        path: 'admin',
+        path: getRoute(clientRoutes.admin),
         canActivate: [DashboardGuard],
         children: [
           {
-            path: '',
+            path: getRoute(clientRoutes.home),
             loadChildren: '@admin/dashboard/dashboard.module#DashboardModule',
           },
         ],
       },
       {
-        path: '404',
+        path: getRoute(clientRoutes.notFound),
         loadChildren: '@webpage/not-found/not-found.module#NotFoundModule',
       },
       {
         path: '**',
-        redirectTo: '404',
+        redirectTo: getRoute(clientRoutes.notFound),
         pathMatch: 'full',
       },
     ],
@@ -95,4 +97,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

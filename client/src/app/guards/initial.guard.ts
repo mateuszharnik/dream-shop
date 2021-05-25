@@ -1,24 +1,40 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { decodeToken, getToken } from '@helpers/token';
-import { User } from '@models/index';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { UserService } from '@services/user.service';
+import { User } from '@models/index';
+import { decodeToken, getToken } from '@helpers/token';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitialGuard implements CanActivate, CanActivateChild {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return this.checkToken(next, state);
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return this.checkToken(next, state);
   }
 
@@ -41,12 +57,13 @@ export class InitialGuard implements CanActivate, CanActivateChild {
       return true;
     }
 
-    return this.userService.fetchUser(user._id)
-      .then((data: User) => {
-        this.userService.setUser(data);
+    return this.userService
+      .fetchUser(user._id)
+      .then((userData: User) => {
+        this.userService.setUser(userData);
         return true;
       })
-      .catch(error => {
+      .catch((error) => {
         this.userService.removeUser();
         return true;
       });

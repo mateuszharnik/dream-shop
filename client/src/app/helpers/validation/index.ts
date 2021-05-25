@@ -1,7 +1,7 @@
-import { NANOID_ALPHABET } from '@helpers/constants/validation';
 import { customAlphabet } from 'nanoid';
+import { nanoIDAlphabet, nanoIDLength } from '@helpers/variables/validation';
 
-const nanoid = customAlphabet(NANOID_ALPHABET, 10);
+const nanoid = customAlphabet(nanoIDAlphabet, nanoIDLength);
 
 export const getID = (): string => nanoid();
 
