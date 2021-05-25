@@ -3,15 +3,9 @@
 
 /* ====== Admin Wrapper ====== */
 .admin-wrapper {
-  z-index: $z-index-1;
-
-  @media (min-width: $lg) {
-    padding-left: $admin-wrapper-padding-left;
-  }
-
   &-section {
     animation: $admin-wrapper-section-animation;
-    position: $position-relative;
+    position: $admin-wrapper-section-position;
     background-color: $admin-wrapper-section-bg-color;
     padding-top: $admin-wrapper-section-padding-top;
 

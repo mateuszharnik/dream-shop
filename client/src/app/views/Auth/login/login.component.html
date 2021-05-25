@@ -49,20 +49,22 @@
     </app-form>
     <app-alert
       *ngIf="serverErrorAlert || errorAlert"
-      [alertClass]="'alert alert-danger m-auto my-6'"
+      [alertClassType]="'danger'"
+      [alertClass]="'m-auto my-6'"
     >
       {{ serverErrorAlert ? serverErrorAlert : errorAlert }}
     </app-alert>
     <app-alert
       *ngIf="successAlert"
-      [alertClass]="'alert alert-success m-auto my-6'"
+      [alertClassType]="'success'"
+      [alertClass]="'m-auto my-6'"
     >
       {{ successAlert }}
     </app-alert>
     <div class="my-4">
       Nie pamiętasz hasła?
       <app-router-link
-        [linkRouter]="routes.RECOVERY"
+        [linkRouter]="routes.recovery"
         [linkTitle]="'Przejdź do strony odzyskiwania hasła'"
       >
         Odzyskaj hasło
@@ -70,7 +72,7 @@
     </div>
     <div>
       <app-router-link
-        [linkRouter]="routes.HOME"
+        [linkRouter]="routes.home"
         [linkTitle]="'Wróć do strony głównej'"
       >
         <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Strona

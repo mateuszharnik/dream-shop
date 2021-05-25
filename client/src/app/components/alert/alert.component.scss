@@ -1,54 +1,55 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../assets/scss/variables";
 
+/* ====== Alert ====== */
 .alert {
-  padding: 1rem;
-  width: 100%;
-  max-width: 45rem;
-  border-radius: 0.4rem;
-  background-color: #efefef;
-  border: 0.1rem solid #969696;
-  color: #969696;
-  text-align: center;
+  padding: $alert-padding;
+  width: $alert-width;
+  max-width: $alert-max-width;
+  border-radius: $alert-border-radius;
+  background-color: $alert-bg-color;
+  border: $alert-border;
+  color: $alert-color;
+  text-align: $alert-text-align;
 
   &-danger {
-    border: 0.1rem solid $color-danger;
-    color: $color-danger;
-    background-color: $color-danger-2;
+    border: $alert-danger-border;
+    color: $alert-danger-color;
+    background-color: $alert-danger-bg-color;
 
     a {
-      color: darken($color-danger, 30%);
+      color: $alert-danger-link-color;
 
       &:hover {
-        color: darken($color-danger, 40%);
+        color: $alert-danger-link-color-hover;
       }
     }
   }
 
   &-success {
-    border: 0.1rem solid $color-success;
-    color: $color-success;
-    background-color: $color-success-2;
+    border: $alert-success-border;
+    color: $alert-success-color;
+    background-color: $alert-success-bg-color;
 
     a {
-      color: darken($color-success, 30%);
+      color: $alert-success-link-color;
 
       &:hover {
-        color: darken($color-success, 40%);
+        color: $alert-success-link-color-hover;
       }
     }
   }
 
   &-warning {
-    border: 0.1rem solid $color-warning;
-    color: $color-warning;
-    background-color: $color-warning-2;
+    border: $alert-warning-border;
+    color: $alert-warning-color;
+    background-color: $alert-warning-bg-color;
 
     a {
-      color: darken($color-warning, 30%);
+      color: $alert-warning-link-color;
 
       &:hover {
-        color: darken($color-warning, 40%);
+        color: $alert-warning-link-color-hover;
       }
     }
   }

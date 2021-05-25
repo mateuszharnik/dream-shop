@@ -3,3 +3,5 @@ export interface Alerts {
   errorAlert?: string;
   successAlert?: string;
 }
+
+export type AlertClassType = 'danger' | 'warning' | 'success';

@@ -5,7 +5,7 @@
   <app-auth-wrapper [pageTitle]="'Odzyskiwanie hasła'">
     <p class="text-center">
       Jeżeli nie pamiętasz hasła możesz podać adres email, na który zostanie
-      wysłana wiadomość z adresem do zmiany hasła.
+      wysłana wiadomość z linkiem do zmiany hasła.
     </p>
     <app-form
       (whenFormSubmit)="sendEmail()"
@@ -41,13 +41,15 @@
     </app-form>
     <app-alert
       *ngIf="serverErrorAlert || errorAlert"
-      [alertClass]="'alert alert-danger m-auto my-6'"
+      [alertClassType]="'danger'"
+      [alertClass]="'m-auto my-6'"
     >
       {{ serverErrorAlert ? serverErrorAlert : errorAlert }}
     </app-alert>
     <app-alert
       *ngIf="successAlert"
-      [alertClass]="'alert alert-success m-auto my-6'"
+      [alertClassType]="'success'"
+      [alertClass]="'m-auto my-6'"
     >
       <div *ngIf="isLink; else successMessage">
         Zresetuj hasło korzystając z
@@ -61,12 +63,16 @@
         {{ successAlert }}
       </ng-template>
     </app-alert>
-    <app-alert *ngIf="isLink" [alertClass]="'alert alert-warning m-auto my-6'">
+    <app-alert
+      *ngIf="isLink"
+      [alertClassType]="'warning'"
+      [alertClass]="'m-auto my-6'"
+    >
       Wysyłanie wiadomości zostało wyłączone na serwerze.
     </app-alert>
     <div class="mt-4">
       <app-router-link
-        [linkRouter]="routes.LOGIN"
+        [linkRouter]="routes.login"
         [linkTitle]="'Wróć do strony logowania'"
       >
         <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Zaloguj

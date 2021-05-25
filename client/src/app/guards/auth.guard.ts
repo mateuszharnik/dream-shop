@@ -7,8 +7,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { AlertsService } from '@services/alerts.service';
-import { ADMIN } from '@helpers/constants/routes';
+import { clientRoutes } from '@helpers/variables/routes';
 import { getToken } from '@helpers/token';
 import { Observable } from 'rxjs';
 
@@ -16,7 +15,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private alertsService: AlertsService) {}
+  constructor(private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -51,7 +50,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return true;
     }
 
-    this.router.navigate([ADMIN]);
+    this.router.navigate([clientRoutes.admin]);
     return false;
   }
 }

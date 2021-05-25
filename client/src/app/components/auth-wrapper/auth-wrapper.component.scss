@@ -4,7 +4,7 @@
 /* ====== Auth Wrapper ====== */
 .auth-wrapper {
   max-width: $auth-wrapper-max-width;
-  background: $color-white;
+  background: $auth-wrapper-bg-color;
   border: $auth-wrapper-border;
   border-radius: $auth-wrapper-border-radius;
   animation: $auth-wrapper-animation;

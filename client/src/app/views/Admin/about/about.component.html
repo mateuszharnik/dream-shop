@@ -1,14 +1,17 @@
-<div *ngIf="isLoading; else aboutPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #aboutPageView>
-  <section class="admin-page-section p-6 min-vh-100">
-    <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">Informacje o sklepie</h2>
+<ng-template #main>
+  <app-admin-wrapper>
+    <header class="admin-wrapper-section__header">
+      <h2 class="h4 text-center mb-6">
+        Informacje o sklepie
+        <span class="hidden">- Ustawienia</span>
+      </h2>
     </header>
     <article
-      *ngIf="!alerts.server; else showError"
-      class="admin-page-section__article m-auto mt-6 text-center"
+      *ngIf="!serverErrorAlert; else showError"
+      class="admin-wrapper-section__content m-auto mt-6 text-center"
     >
       <p class="mb-6">
         Tutaj możesz zmienić informacje dotyczące Twojego sklepu.
@@ -16,7 +19,7 @@
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
-        (whenFormSubmit)="submit()"
+        (whenFormSubmit)="saveSettings()"
       >
         <div class="row">
           <div class="column-12 mb-4">
@@ -27,7 +30,8 @@
               [textareaPlaceholder]="'Napisz coś o swojej stronie'"
               [textareaClass]="'form__textarea w-100'"
               [textareaValidation]="validation('information')"
-              [textareaAlerts]="informationAlerts"
+              [textareaAlerts]="informationValidationErrors"
+              [textareaRequired]="false"
               [textareaMessage]="
                 'Język Markdown jest wspierany. Niedozwolone znaki zostaną usunięte.'
               "
@@ -39,10 +43,10 @@
           <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
-              [buttonTitle]="computedButtonTitle()"
+              [buttonTitle]="buttonTitle(isDisabled)"
               [buttonDisabled]="isDisabled"
             >
-              {{ computedButtonText() }}
+              {{ buttonText(isDisabled) }}
               <app-fa-icon
                 *ngIf="isDisabled"
                 [faClass]="'fas fa-spinner fa-spin ml-1'"
@@ -52,20 +56,22 @@
         </div>
       </app-form>
       <app-alert
-        *ngIf="alerts.error"
-        [alertClass]="'alert alert-danger mt-6 m-auto'"
+        *ngIf="errorAlert"
+        [alertClassType]="'danger'"
+        [alertClass]="'mt-6 m-auto'"
       >
-        {{ alerts.error }}
+        {{ errorAlert }}
       </app-alert>
       <app-alert
-        *ngIf="alerts.success"
-        [alertClass]="'alert alert-success mt-6 m-auto'"
+        *ngIf="successAlert"
+        [alertClassType]="'success'"
+        [alertClass]="'mt-6 m-auto'"
       >
-        {{ alerts.success }}
+        {{ successAlert }}
       </app-alert>
     </article>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <div class="center text-center m-0">{{ serverErrorAlert }}</div>
     </ng-template>
-  </section>
+  </app-admin-wrapper>
 </ng-template>

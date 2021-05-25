@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import { MatchMediaService } from '@services/match-media.service';
 import { NavigationService } from '@services/navigation.service';
-import { ADMIN } from '@helpers/constants/routes';
+import { clientRoutes } from '@helpers/variables/routes';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isDashboard = this.router.url === ADMIN;
+    this.isDashboard = this.router.url === clientRoutes.admin;
     this.isLoading = false;
   }
 
@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.navigationService.closeAdminMenu();
           }
           this.setFocus();
-          this.isDashboard = event.url === ADMIN;
+          this.isDashboard = event.url === clientRoutes.admin;
         }
       }),
     );

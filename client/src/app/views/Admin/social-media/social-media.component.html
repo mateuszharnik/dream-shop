@@ -6,7 +6,7 @@
     <header class="admin-wrapper-section__header">
       <h2 class="h4 text-center mb-6">
         Media Społecznościowe
-        <span class="hidden"> - Ustawienia</span>
+        <span class="hidden">- Ustawienia</span>
       </h2>
     </header>
     <div
@@ -99,13 +99,15 @@
       </app-form>
       <app-alert
         *ngIf="errorAlert"
-        [alertClass]="'alert alert-danger mt-6 m-auto'"
+        [alertClassType]="'danger'"
+        [alertClass]="'m-auto mt-6'"
       >
         {{ errorAlert }}
       </app-alert>
       <app-alert
         *ngIf="successAlert"
-        [alertClass]="'alert alert-success mt-6 m-auto'"
+        [alertClassType]="'success'"
+        [alertClass]="'m-auto mt-6'"
       >
         {{ successAlert }}
       </app-alert>

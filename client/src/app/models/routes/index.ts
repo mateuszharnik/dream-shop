@@ -1,22 +1,45 @@
-export default interface Routes {
-  HOME: string;
-  ADMIN: string;
-  RECOVERY: string;
-  LOGIN: string;
-  NOT_FOUND: string;
-  SOCIAL_MEDIA: string;
-  CONTACT: string;
-  ABOUT: string;
-  USERS: string;
-  FAQ: string;
-  FAQ_CATEGORIES: string;
-  NEWSLETTER: string;
-  MAP: string;
-  MESSAGES: string;
-  PRODUCTS: string;
-  COMMENTS: string;
-  PRODUCT_CATEGORIES: string;
-  PRODUCT_FILTERS: string;
-  REGULATIONS: string;
-  ORDERS: string;
+export interface ClientRoutes {
+  home: string;
+  pages: string;
+  admin: string;
+  recovery: string;
+  login: string;
+  notFound: string;
+  cart: string;
+  socialMedia: string;
+  contact: string;
+  about: string;
+  faq: string;
+  faqCategories: string;
+  profile: string;
+  newsletter: string;
+  map: string;
+  messages: string;
+  products: string;
+  product: string;
+  comments: string;
+  productCategories: string;
+  productFilters: string;
+  regulations: string;
+  orders: string;
+}
+
+export interface ServerRoutes {
+  home: string;
+  auth: string;
+  socialMedia: string;
+  contact: string;
+  about: string;
+  users: string;
+  faq: string;
+  faqCategories: string;
+  newsletter: string;
+  map: string;
+  messages: string;
+  products: string;
+  comments: string;
+  productCategories: string;
+  productFilters: string;
+  regulations: string;
+  orders: string;
 }

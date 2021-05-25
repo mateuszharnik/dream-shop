@@ -1,7 +1,7 @@
 <h2 class="logo inline-block">
   <app-router-link
     [linkClass]="'logo__link block h-100'"
-    [linkRouter]="'/'"
+    [linkRouter]="routes.home"
     [linkTitle]="'Wróć do strony głównej'"
   >
     <app-image
@@ -9,6 +9,6 @@
       [imageSrc]="'../../../assets/img/logo.svg'"
       [imageAltText]="'Napis Dream'"
     ></app-image>
-    <span class="hidden"> - Logo</span>
+    <span class="hidden">- Logo strony</span>
   </app-router-link>
 </h2>
