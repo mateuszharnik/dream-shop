@@ -3,9 +3,9 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  MAP_LAT_LNG_REQIURED,
-  MAP_LAT_LNG_NOT_CORRECT,
-} = require('../../../constants/map');
+  mapLatLngReqiuredMessage,
+  mapLatLngNotCorrectMessage,
+} = require('../../../variables/map');
 
 // MAP
 const mapRequired = {
@@ -13,7 +13,7 @@ const mapRequired = {
 };
 
 const mapNotEmpty = {
-  'string.empty': MAP_LAT_LNG_REQIURED,
+  'string.empty': mapLatLngReqiuredMessage,
 };
 
 const mapString = {
@@ -21,7 +21,7 @@ const mapString = {
 };
 
 const mapPattern = {
-  'string.pattern.base': MAP_LAT_LNG_NOT_CORRECT,
+  'string.pattern.base': mapLatLngNotCorrectMessage,
 };
 
 const mapMessages = {

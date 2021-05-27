@@ -2,6 +2,15 @@ const Joi = require('joi');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const {
+  orderProductsMinLength,
+} = require('../../../helpers/variables/orders');
+const {
+  surnameMinLength,
+  surnameMaxLength,
+  nameMinLength,
+  nameMaxLength,
+} = require('../../../helpers/variables/users');
+const {
   nameMessages,
   surnameMessages,
 } = require('../../../helpers/errors/messages/name');
@@ -36,7 +45,6 @@ const { isPaidMessages } = require('../../../helpers/errors/messages/orders');
 const { idMessages } = require('../../../helpers/errors/messages/id');
 const {
   THREE,
-  FIFTY,
   ONE_HUNDRED,
   ONE,
   ONE_THOUSAND,
@@ -92,22 +100,22 @@ const orderSchema = (order) => {
             .messages(quantityMessages),
         }),
       )
-      .min(ONE)
+      .min(orderProductsMinLength)
       .required(),
     contact: Joi.object()
       .keys({
         name: Joi.string()
           .trim()
           .regex(nameRegExp)
-          .min(THREE)
-          .max(FIFTY)
+          .min(nameMinLength)
+          .max(nameMaxLength)
           .required()
           .messages(nameMessages),
         surname: Joi.string()
           .trim()
           .regex(nameRegExp)
-          .min(THREE)
-          .max(FIFTY)
+          .min(surnameMinLength)
+          .max(surnameMaxLength)
           .required()
           .messages(surnameMessages),
         email: Joi.string()

@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { emailRegExp, nameRegExp } = require('../../../helpers/regexp');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const { nameMessages } = require('../../../helpers/errors/messages/name');
 const { termsMessages } = require('../../../helpers/errors/messages/terms');
@@ -7,20 +8,23 @@ const {
   messageMessages,
 } = require('../../../helpers/errors/messages/messages');
 const {
-  THREE,
-  FIFTY,
-  THREE_HUNDRED,
-  FIVE_THOUSAND,
-} = require('../../../helpers/constants/numbers');
-const { emailRegExp, nameRegExp } = require('../../../helpers/regexp');
+  subjectMinLength,
+  subjectMaxLength,
+  messageMinLength,
+  messageMaxLength,
+} = require('../../../helpers/variables/messages');
+const {
+  nameMinLength,
+  nameMaxLength,
+} = require('../../../helpers/variables/users');
 
 const messagesSchema = (message) => {
   const schema = Joi.object().keys({
     name: Joi.string()
       .trim()
       .regex(nameRegExp)
-      .min(THREE)
-      .max(FIFTY)
+      .min(nameMinLength)
+      .max(nameMaxLength)
       .required()
       .messages(nameMessages),
     email: Joi.string()
@@ -30,14 +34,14 @@ const messagesSchema = (message) => {
       .messages(emailMessages),
     subject: Joi.string()
       .trim()
-      .min(THREE)
-      .max(THREE_HUNDRED)
+      .min(subjectMinLength)
+      .max(subjectMaxLength)
       .required()
       .messages(subjectMessages),
     message: Joi.string()
       .trim()
-      .min(THREE)
-      .max(FIVE_THOUSAND)
+      .min(messageMinLength)
+      .max(messageMaxLength)
       .required()
       .messages(messageMessages),
     terms_accepted: Joi.boolean()

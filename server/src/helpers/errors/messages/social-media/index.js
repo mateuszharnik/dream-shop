@@ -3,11 +3,11 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  FACEBOOK_NOT_CORRECT,
-  TWITTER_NOT_CORRECT,
-  INSTAGRAM_NOT_CORRECT,
-  LINKEDIN_NOT_CORRECT,
-} = require('../../../constants/social-media');
+  facebookNotCorrectMessage,
+  twitterNotCorrectMessage,
+  instagramNotCorrectMessage,
+  linkedinNotCorrectMessage,
+} = require('../../../variables/social-media');
 
 // TWITTER
 const twitterRequired = {
@@ -19,7 +19,7 @@ const twitterString = {
 };
 
 const twitterPattern = {
-  'string.pattern.base': TWITTER_NOT_CORRECT,
+  'string.pattern.base': twitterNotCorrectMessage,
 };
 
 // FACEBOOK
@@ -32,7 +32,7 @@ const facebookString = {
 };
 
 const facebookPattern = {
-  'string.pattern.base': FACEBOOK_NOT_CORRECT,
+  'string.pattern.base': facebookNotCorrectMessage,
 };
 
 // INSTAGRAM
@@ -45,7 +45,7 @@ const instagramString = {
 };
 
 const instagramPattern = {
-  'string.pattern.base': INSTAGRAM_NOT_CORRECT,
+  'string.pattern.base': instagramNotCorrectMessage,
 };
 
 // LINKEDIN
@@ -58,7 +58,7 @@ const linkedinString = {
 };
 
 const linkedinPattern = {
-  'string.pattern.base': LINKEDIN_NOT_CORRECT,
+  'string.pattern.base': linkedinNotCorrectMessage,
 };
 
 const facebookMessages = {

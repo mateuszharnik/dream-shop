@@ -3,9 +3,9 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  EMAIL_REQUIRED,
-  EMAIL_NOT_CORRECT,
-} = require('../../../constants/newsletter');
+  emailRequiredMessage,
+  emailNotCorrectMessage,
+} = require('../../../variables/newsletter');
 
 // EMAIL
 const emailRequired = {
@@ -13,7 +13,7 @@ const emailRequired = {
 };
 
 const emailNotEmpty = {
-  'string.empty': EMAIL_REQUIRED,
+  'string.empty': emailRequiredMessage,
 };
 
 const emailString = {
@@ -21,7 +21,7 @@ const emailString = {
 };
 
 const emailPattern = {
-  'string.pattern.base': EMAIL_NOT_CORRECT,
+  'string.pattern.base': emailNotCorrectMessage,
 };
 
 const emailMessages = {

@@ -1,9 +1,9 @@
 const { mapDB } = require('../../../db');
-const {
-  MAP_NOT_FOUND,
-  MAP_NOT_UPDATED,
-} = require('../../../helpers/constants/map');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const {
+  mapNotFoundMessage,
+  mapNotUpdatedMessage,
+} = require('../../../helpers/variables/map');
 const {
   OK,
   NOT_FOUND,
@@ -16,7 +16,7 @@ const getMap = async (req, res) => {
     const map = await mapDB.findOne({ deleted_at: null });
 
     if (!map) {
-      return req.data.responseWithError(NOT_FOUND, MAP_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, mapNotFoundMessage);
     }
 
     res.status(OK).json(map);
@@ -35,7 +35,7 @@ const updateMap = async (req, res) => {
     });
 
     if (!map) {
-      return req.data.responseWithError(NOT_FOUND, MAP_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, mapNotFoundMessage);
     }
 
     const updatedMap = await mapDB.findOneAndUpdate(
@@ -49,7 +49,7 @@ const updateMap = async (req, res) => {
     );
 
     if (!updatedMap) {
-      return req.data.responseWithError(CONFLICT, MAP_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, mapNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedMap);

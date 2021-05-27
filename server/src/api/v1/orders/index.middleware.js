@@ -2,13 +2,11 @@ const orderSchema = require('./index.model');
 const { ordersDB, productsDB } = require('../../../db');
 const { CONFLICT } = require('../../../helpers/constants/status-codes');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { orderNotFoundMessage } = require('../../../helpers/variables/orders');
 const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
 } = require('../../../helpers/constants/status-codes');
-const {
-  ORDER_NOT_FOUND,
-} = require('../../../helpers/constants/orders');
 const {
   PRODUCTS_NOT_UPDATED,
   NAME,
@@ -43,7 +41,7 @@ const findOrder = async (req, res, next) => {
     });
 
     if (!order) {
-      return req.data.responseWithError(NOT_FOUND, ORDER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, orderNotFoundMessage);
     }
 
     req.data.order = order;
@@ -104,7 +102,10 @@ const updateProducts = (withModifiedCount = false) => async (req, res, next) => 
 
     const updatedProducts = await productsDB.bulkWrite(updatedProductsArray);
 
-    if (withModifiedCount && updatedProducts.modifiedCount !== order.products.length) {
+    if (
+      withModifiedCount
+        && updatedProducts.modifiedCount !== order.products.length
+    ) {
       return req.data.responseWithError(CONFLICT, PRODUCTS_NOT_UPDATED);
     }
 

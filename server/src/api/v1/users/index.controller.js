@@ -1,14 +1,14 @@
 const fs = require('fs');
 const { signToken } = require('../../../helpers/token');
 const { usersDB } = require('../../../db');
-const { AVATARS_DIR } = require('../../../helpers/constants/directories');
-const {
-  USER_NOT_FOUND,
-  USER_NOT_UPDATED,
-} = require('../../../helpers/constants/users');
 const { TOKEN_TIME } = require('../../../helpers/constants/auth');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const { AVATARS_URL } = require('../../../helpers/constants/url');
+const { AVATARS_DIR } = require('../../../helpers/constants/directories');
+const {
+  userNotFoundMessage,
+  userNotUpdatedMessage,
+} = require('../../../helpers/variables/users');
 const {
   OK,
   NOT_FOUND,
@@ -24,7 +24,7 @@ const getUser = async (req, res) => {
     });
 
     if (!user) {
-      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, userNotFoundMessage);
     }
 
     const {
@@ -70,7 +70,7 @@ const updateUser = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return req.data.responseWithError(CONFLICT, USER_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, userNotUpdatedMessage);
     }
 
     if (
