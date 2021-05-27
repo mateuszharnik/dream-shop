@@ -2,7 +2,7 @@ const {
   PROPERTY_REQUIRED,
   TYPE_BOOLEAN,
 } = require('../../../constants/error-messages');
-const { TERMS_REQUIRED } = require('../../../constants/messages');
+const { termsRequiredMessage } = require('../../../variables/messages');
 
 // TERMS
 const termsRequired = {
@@ -10,7 +10,7 @@ const termsRequired = {
 };
 
 const termsOnly = {
-  'any.only': TERMS_REQUIRED,
+  'any.only': termsRequiredMessage,
 };
 
 const termsBoolean = {

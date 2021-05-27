@@ -3,13 +3,13 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  SUBJECT_REQUIRED,
-  SUBJECT_MIN_LENGTH,
-  SUBJECT_MAX_LENGTH,
-  MESSAGE_REQUIRED,
-  MESSAGE_MIN_LENGTH,
-  MESSAGE_MAX_LENGTH,
-} = require('../../../constants/messages');
+  subjectRequiredMessage,
+  subjectMinLengthMessage,
+  subjectMaxLengthMessage,
+  messageRequiredMessage,
+  messageMinLengthMessage,
+  messageMaxLengthMessage,
+} = require('../../../variables/messages');
 
 // SUBJECT
 const subjectRequired = {
@@ -21,15 +21,15 @@ const subjectString = {
 };
 
 const subjectNotEmpty = {
-  'string.empty': SUBJECT_REQUIRED,
+  'string.empty': subjectRequiredMessage,
 };
 
 const subjectMin = {
-  'string.min': SUBJECT_MIN_LENGTH,
+  'string.min': subjectMinLengthMessage,
 };
 
 const subjectMax = {
-  'string.max': SUBJECT_MAX_LENGTH,
+  'string.max': subjectMaxLengthMessage,
 };
 
 // MESSAGE
@@ -42,15 +42,15 @@ const messageString = {
 };
 
 const messageNotEmpty = {
-  'string.empty': MESSAGE_REQUIRED,
+  'string.empty': messageRequiredMessage,
 };
 
 const messageMin = {
-  'string.min': MESSAGE_MIN_LENGTH,
+  'string.min': messageMinLengthMessage,
 };
 
 const messageMax = {
-  'string.max': MESSAGE_MAX_LENGTH,
+  'string.max': messageMaxLengthMessage,
 };
 
 const subjectMessages = {

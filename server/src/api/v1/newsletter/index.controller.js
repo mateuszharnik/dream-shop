@@ -1,15 +1,15 @@
 const { emailsDB } = require('../../../db');
-const {
-  EMAILS_NOT_FOUND,
-  EMAILS_DELETED,
-  EMAIL_NOT_DELETED,
-  EMAILS_NOT_DELETED,
-  EMAIL_NOT_FOUND,
-  EMAIL_ALREADY_EXIST,
-  EMAIL_NOT_CREATED,
-} = require('../../../helpers/constants/newsletter');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const { DESC } = require('../../../helpers/constants/queries');
+const {
+  emailsNotFoundMessage,
+  emailsDeletedMessage,
+  emailNotDeletedMessage,
+  emailsNotDeletedMessage,
+  emailNotFoundMessage,
+  emailAlreadyExistMessage,
+  emailNotCreatedMessage,
+} = require('../../../helpers/variables/newsletter');
 const {
   OK,
   NOT_FOUND,
@@ -35,7 +35,7 @@ const getEmails = async (req, res) => {
     );
 
     if (!emails) {
-      return req.data.responseWithError(NOT_FOUND, EMAILS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, emailsNotFoundMessage);
     }
 
     res.status(OK).json({
@@ -59,7 +59,7 @@ const deleteEmails = async (req, res) => {
     const emails = await emailsDB.find({ deleted_at: null });
 
     if (!emails.length) {
-      return req.data.responseWithError(NOT_FOUND, EMAILS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, emailsNotFoundMessage);
     }
 
     const deletedEmails = await emailsDB.update(
@@ -69,11 +69,11 @@ const deleteEmails = async (req, res) => {
     );
 
     if (!deletedEmails) {
-      return req.data.responseWithError(CONFLICT, EMAILS_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, emailsNotDeletedMessage);
     }
 
     res.status(OK).json({
-      message: EMAILS_DELETED,
+      message: emailsDeletedMessage,
       items: deletedEmails.n,
     });
   } catch (error) {
@@ -91,7 +91,7 @@ const deleteEmail = async (req, res) => {
     });
 
     if (!email) {
-      return req.data.responseWithError(NOT_FOUND, EMAIL_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, emailNotFoundMessage);
     }
 
     const deletedEmail = await emailsDB.findOneAndUpdate(
@@ -100,7 +100,7 @@ const deleteEmail = async (req, res) => {
     );
 
     if (!deletedEmail) {
-      return req.data.responseWithError(CONFLICT, EMAIL_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, emailNotDeletedMessage);
     }
 
     res.status(OK).json(deletedEmail);
@@ -119,7 +119,7 @@ const addEmail = async (req, res) => {
     });
 
     if (email) {
-      return req.data.responseWithError(CONFLICT, EMAIL_ALREADY_EXIST);
+      return req.data.responseWithError(CONFLICT, emailAlreadyExistMessage);
     }
 
     const createdEmail = await emailsDB.insert({
@@ -130,7 +130,7 @@ const addEmail = async (req, res) => {
     });
 
     if (!createdEmail) {
-      return req.data.responseWithError(CONFLICT, EMAIL_NOT_CREATED);
+      return req.data.responseWithError(CONFLICT, emailNotCreatedMessage);
     }
 
     res.status(OK).json(createdEmail);

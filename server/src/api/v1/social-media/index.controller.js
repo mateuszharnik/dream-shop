@@ -1,9 +1,9 @@
 const { socialMediaDB } = require('../../../db');
-const {
-  SOCIAL_MEDIA_NOT_FOUND,
-  SOCIAL_MEDIA_NOT_UPDATED,
-} = require('../../../helpers/constants/social-media');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const {
+  socialMediaNotFoundMessage,
+  socialMediaNotUpdatedMessage,
+} = require('../../../helpers/variables/social-media');
 const {
   OK,
   NOT_FOUND,
@@ -16,7 +16,7 @@ const getSocialMedia = async (req, res) => {
     const socialMedia = await socialMediaDB.findOne({ deleted_at: null });
 
     if (!socialMedia) {
-      return req.data.responseWithError(NOT_FOUND, SOCIAL_MEDIA_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, socialMediaNotFoundMessage);
     }
 
     res.status(OK).json(socialMedia);
@@ -35,7 +35,7 @@ const updateSocialMedia = async (req, res) => {
     });
 
     if (!socialMedia) {
-      return req.data.responseWithError(NOT_FOUND, SOCIAL_MEDIA_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, socialMediaNotFoundMessage);
     }
 
     const updatedSocialMedia = await socialMediaDB.findOneAndUpdate(
@@ -49,7 +49,7 @@ const updateSocialMedia = async (req, res) => {
     );
 
     if (!updatedSocialMedia) {
-      return req.data.responseWithError(CONFLICT, SOCIAL_MEDIA_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, socialMediaNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedSocialMedia);

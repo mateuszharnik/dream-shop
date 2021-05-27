@@ -3,7 +3,10 @@ const { emailRegExp, usernameRegExp } = require('../helpers/regexp');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
 const { emailMessages } = require('../helpers/errors/messages/email');
 const { PASSWORD } = require('../helpers/constants/auth');
-const { EIGHT, THIRTY_TWO } = require('../helpers/constants/numbers');
+const {
+  passwordMinLength,
+  passwordMaxLength,
+} = require('../helpers/variables/users');
 const {
   usernameRequired,
   usernameNotEmpty,
@@ -72,8 +75,8 @@ const recoveryPasswordSchema = (passwords) => {
   const schema = Joi.object().keys({
     password: Joi.string()
       .trim()
-      .min(EIGHT)
-      .max(THIRTY_TWO)
+      .min(passwordMinLength)
+      .max(passwordMaxLength)
       .required()
       .messages(passwordMessages),
     confirm_password: Joi.string()

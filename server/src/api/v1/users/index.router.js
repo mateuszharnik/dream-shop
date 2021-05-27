@@ -1,5 +1,12 @@
 const { Router } = require('express');
 const { validateDBId } = require('../../../middlewares/validation');
+const { isNotLoggedIn, isAdminOrOwner } = require('../../../middlewares/auth');
+const { getUser, updateUser } = require('./index.controller');
+const { avatarUpload } = require('../../../middlewares/files');
+const {
+  createData,
+  createResponseWithError,
+} = require('../../../middlewares/index');
 const {
   validateAvatar,
   checkPasswords,
@@ -9,13 +16,6 @@ const {
   validateUser,
   replaceAvatar,
 } = require('./index.middleware');
-const { isNotLoggedIn, isAdminOrOwner } = require('../../../middlewares/auth');
-const { getUser, updateUser } = require('./index.controller');
-const { avatarUpload } = require('../../../middlewares/files');
-const {
-  createData,
-  createResponseWithError,
-} = require('../../../middlewares/index');
 
 const router = Router();
 

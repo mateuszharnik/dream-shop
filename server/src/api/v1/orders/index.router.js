@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const { validateDBId } = require('../../../middlewares/validation');
+const { getSkipAndLimit } = require('../../../middlewares/queries');
 const {
   validateOrder,
   findOrder,
@@ -10,7 +11,6 @@ const {
   checkEnoughProductsQuantity,
   checkChangedProducts,
 } = require('./index.middleware');
-const { getSkipAndLimit } = require('../../../middlewares/queries');
 const {
   getOrders,
   getOrder,

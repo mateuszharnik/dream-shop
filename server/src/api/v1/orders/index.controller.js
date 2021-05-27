@@ -8,15 +8,15 @@ const {
   INTERNAL_SERVER_ERROR,
 } = require('../../../helpers/constants/status-codes');
 const {
-  ORDERS_NOT_FOUND,
-  ORDER_NOT_DELETED,
-  ORDERS_NOT_DELETED,
-  ORDERS_DELETED,
-  ORDER_NOT_ACCEPTED,
-  ORDER_NOT_REFUSED,
-  ORDER_NOT_PAID,
-  ORDER_NOT_ADDED,
-} = require('../../../helpers/constants/orders');
+  ordersNotFoundMessage,
+  orderNotDeletedMessage,
+  ordersNotDeletedMessage,
+  ordersDeletedMessage,
+  orderNotAcceptedMessage,
+  orderNotRefusedMessage,
+  orderNotPaidMessage,
+  orderNotAddedMessage,
+} = require('../../../helpers/variables/orders');
 
 const getOrders = async (req, res) => {
   const { sort = DESC } = req.query;
@@ -36,7 +36,7 @@ const getOrders = async (req, res) => {
     );
 
     if (!orders) {
-      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, ordersNotFoundMessage);
     }
 
     res.status(OK).json({
@@ -82,7 +82,7 @@ const addOrder = async (req, res) => {
     });
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_ADDED);
+      return req.data.responseWithError(CONFLICT, orderNotAddedMessage);
     }
 
     res.status(OK).json(updatedOrder);
@@ -107,7 +107,7 @@ const refuseOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_REFUSED);
+      return req.data.responseWithError(CONFLICT, orderNotRefusedMessage);
     }
 
     res.status(OK).json(updatedOrder);
@@ -131,7 +131,7 @@ const paidOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_PAID);
+      return req.data.responseWithError(CONFLICT, orderNotPaidMessage);
     }
 
     res.status(OK).json(updatedOrder);
@@ -156,7 +156,7 @@ const acceptOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_ACCEPTED);
+      return req.data.responseWithError(CONFLICT, orderNotAcceptedMessage);
     }
 
     res.status(OK).json(updatedOrder);
@@ -172,7 +172,7 @@ const deleteOrders = async (req, res) => {
     const orders = await ordersDB.find({ deleted_at: null });
 
     if (!orders.length) {
-      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, ordersNotFoundMessage);
     }
 
     const deletedOrders = await ordersDB.update(
@@ -182,11 +182,11 @@ const deleteOrders = async (req, res) => {
     );
 
     if (!deletedOrders) {
-      return req.data.responseWithError(CONFLICT, ORDERS_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, ordersNotDeletedMessage);
     }
 
     res.status(OK).json({
-      message: ORDERS_DELETED,
+      message: ordersDeletedMessage,
       items: deletedOrders.n,
     });
   } catch (error) {
@@ -204,7 +204,7 @@ const deleteOrder = async (req, res) => {
     );
 
     if (!deletedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, orderNotDeletedMessage);
     }
 
     res.status(OK).json(deletedOrder);

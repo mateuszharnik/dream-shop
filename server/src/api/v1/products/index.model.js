@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const {
-  ONE,
   NINE,
   THREE,
   THREE_HUNDRED,
@@ -50,7 +49,7 @@ const productSchema = (product) => {
       .required()
       .messages(descriptionMessages),
     quantity: Joi.number()
-      .min(ONE)
+      .min(0)
       .max(ONE_THOUSAND)
       .required()
       .messages(quantityMessages),

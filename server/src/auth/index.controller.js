@@ -4,12 +4,12 @@ const { sendEmail } = require('../helpers/email');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
 const { TWELVE } = require('../helpers/constants/numbers');
-const {
-  USER_NOT_FOUND,
-  PASSWORD_OR_USERNAME_NOT_CORRECT,
-} = require('../helpers/constants/users');
 const { ONE_HOUR } = require('../helpers/constants/time');
 const { ERROR_OCCURRED } = require('../helpers/constants/errors');
+const {
+  userNotFoundMessage,
+  passwordOrUsernameNotCorrectMessage,
+} = require('../helpers/variables/users');
 const {
   LINK_EXPIRED,
   TOKEN_NOT_GENERATED,
@@ -41,13 +41,13 @@ const loginUser = async (req, res) => {
     });
 
     if (!user) {
-      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, userNotFoundMessage);
     }
 
     if (!(await bcrypt.compare(req.data.credentials.password, user.password))) {
       return req.data.responseWithError(
         CONFLICT,
-        PASSWORD_OR_USERNAME_NOT_CORRECT,
+        passwordOrUsernameNotCorrectMessage,
       );
     }
 

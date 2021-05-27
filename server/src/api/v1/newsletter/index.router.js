@@ -4,12 +4,12 @@ const { FIVE_MINUTES } = require('../../../helpers/constants/time');
 const { SMALL, NEWSLETTER } = require('../../../helpers/constants/limiter');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const { getSkipAndLimit } = require('../../../middlewares/queries');
+const { validateDBId } = require('../../../middlewares/validation');
+const { validateNewsletter } = require('./index.middleware');
 const {
   createData,
   createResponseWithError,
 } = require('../../../middlewares/index');
-const { validateDBId } = require('../../../middlewares/validation');
-const { validateNewsletter } = require('./index.middleware');
 const {
   getEmails,
   addEmail,

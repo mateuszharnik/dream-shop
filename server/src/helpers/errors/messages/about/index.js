@@ -3,9 +3,9 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  ABOUT_MIN_LENGTH,
-  ABOUT_MAX_LENGTH,
-} = require('../../../constants/about');
+  aboutMinLengthMessage,
+  aboutMaxLengthMessage,
+} = require('../../../variables/about');
 
 // INFORMATION
 const informationRequired = {
@@ -17,11 +17,11 @@ const informationString = {
 };
 
 const informationMin = {
-  'string.min': ABOUT_MIN_LENGTH,
+  'string.min': aboutMinLengthMessage,
 };
 
 const informationMax = {
-  'string.max': ABOUT_MAX_LENGTH,
+  'string.max': aboutMaxLengthMessage,
 };
 
 const informationMessages = {

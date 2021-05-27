@@ -1,9 +1,9 @@
 const { aboutDB } = require('../../../db');
 const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
 const {
-  ABOUT_NOT_FOUND,
-  ABOUT_NOT_UPDATED,
-} = require('../../../helpers/constants/about');
+  aboutNotFoundMessage,
+  aboutNotUpdatedMessage,
+} = require('../../../helpers/variables/about');
 const {
   OK,
   NOT_FOUND,
@@ -16,7 +16,7 @@ const getAbout = async (req, res) => {
     const about = await aboutDB.findOne({ deleted_at: null });
 
     if (!about) {
-      return req.data.responseWithError(NOT_FOUND, ABOUT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, aboutNotFoundMessage);
     }
 
     res.status(OK).json(about);
@@ -35,7 +35,7 @@ const updateAbout = async (req, res) => {
     });
 
     if (!about) {
-      return req.data.responseWithError(NOT_FOUND, ABOUT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, aboutNotFoundMessage);
     }
 
     const updatedAbout = await aboutDB.findOneAndUpdate(
@@ -49,7 +49,7 @@ const updateAbout = async (req, res) => {
     );
 
     if (!updatedAbout) {
-      return req.data.responseWithError(CONFLICT, ABOUT_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, aboutNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedAbout);

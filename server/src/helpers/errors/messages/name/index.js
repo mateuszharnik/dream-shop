@@ -3,15 +3,15 @@ const {
   TYPE_STRING,
 } = require('../../../constants/error-messages');
 const {
-  NAME_REQUIRED,
-  NAME_NOT_CORRECT,
-  NAME_MIN_LENGTH,
-  NAME_MAX_LENGTH,
-  SURNAME_REQUIRED,
-  SURNAME_NOT_CORRECT,
-  SURNAME_MIN_LENGTH,
-  SURNAME_MAX_LENGTH,
-} = require('../../../constants/users');
+  nameRequiredMessage,
+  nameNotCorrectMessage,
+  nameMinLengthMessage,
+  nameMaxLengthMessage,
+  surnameRequiredMessage,
+  surnameNotCorrectMessage,
+  surnameMinLengthMessage,
+  surnameMaxLengthMessage,
+} = require('../../../variables/users');
 
 // NAME
 const nameRequired = {
@@ -23,19 +23,19 @@ const nameString = {
 };
 
 const namePattern = {
-  'string.pattern.base': NAME_NOT_CORRECT,
+  'string.pattern.base': nameNotCorrectMessage,
 };
 
 const nameNotEmpty = {
-  'string.empty': NAME_REQUIRED,
+  'string.empty': nameRequiredMessage,
 };
 
 const nameMin = {
-  'string.min': NAME_MIN_LENGTH,
+  'string.min': nameMinLengthMessage,
 };
 
 const nameMax = {
-  'string.max': NAME_MAX_LENGTH,
+  'string.max': nameMaxLengthMessage,
 };
 
 // SURNAME
@@ -48,19 +48,19 @@ const surnameString = {
 };
 
 const surnamePattern = {
-  'string.pattern.base': SURNAME_NOT_CORRECT,
+  'string.pattern.base': surnameNotCorrectMessage,
 };
 
 const surnameNotEmpty = {
-  'string.empty': SURNAME_REQUIRED,
+  'string.empty': surnameRequiredMessage,
 };
 
 const surnameMin = {
-  'string.min': SURNAME_MIN_LENGTH,
+  'string.min': surnameMinLengthMessage,
 };
 
 const surnameMax = {
-  'string.max': SURNAME_MAX_LENGTH,
+  'string.max': surnameMaxLengthMessage,
 };
 
 const nameMessages = {

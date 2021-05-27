@@ -17,7 +17,7 @@ const COMPANY_NAME_MIN_LENGTH = 'Nazwa firmy musi mieć minimum 3 znaki.';
 const PRODUCT_DESCRIPTION_MIN_LENGTH = 'Opis produktu musi mieć minimum 3 znaki.';
 const PRODUCT_DESCRIPTION_MAX_LENGTH = 'Opis produktu może mieć maksymalnie 10000 znaków.';
 
-const PRODUCT_QUANTITY_MIN_LENGTH = 'Musisz dodać przynajmniej 1 produkt.';
+const PRODUCT_QUANTITY_MIN_LENGTH = 'Nie możesz dodać mniej niż 0 produktów.';
 const PRODUCT_QUANTITY_MAX_LENGTH = 'Nie możesz dodać więcej niż 1000 produktów.';
 
 const PRODUCT_PRICE_NOT_CORRECT = 'Cena jest nieprawidłowa.';

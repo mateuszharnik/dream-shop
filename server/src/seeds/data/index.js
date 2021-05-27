@@ -3,9 +3,9 @@ const { BESTSELLERS_PL, NEWS_PL } = require('../../helpers/constants/products');
 const {
   ADMIN,
   USER,
-  DEFAULT_USERNAME,
 } = require('../../helpers/constants/users');
-const { MAP_LAT_LNG } = require('../../helpers/constants/map');
+const { defaultUsername } = require('../../helpers/variables/users');
+const { defaultMapLatLng } = require('../../helpers/variables/map');
 const {
   NEWSLETTER_REGULATIONS_NAME,
   NEWSLETTER_REGULATIONS_CONTENT,
@@ -25,7 +25,7 @@ const {
 
 const user = {
   name: '',
-  username: DEFAULT_USERNAME,
+  username: defaultUsername,
   email: ADMIN_EMAIL,
   avatar: '',
   password: ADMIN_PASSWORD,
@@ -80,7 +80,7 @@ const contact = {
 };
 
 const map = {
-  latlng: MAP_LAT_LNG,
+  latlng: defaultMapLatLng,
 };
 
 const socialMedia = {
