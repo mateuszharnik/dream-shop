@@ -1,8 +1,8 @@
 const commentSchema = require('./index.model');
 const { commentsDB, usersDB, productsDB } = require('../../../db');
 const { purify } = require('../../../helpers/sanitize');
-const { ADMIN } = require('../../../helpers/constants/users');
-const { DESC } = require('../../../helpers/constants/queries');
+const { ADMIN } = require('../../../helpers/variables/constants/users');
+const { DESC } = require('../../../helpers/variables/constants/queries');
 const {
   errorOccurred,
   accessNotAllowed,
@@ -20,7 +20,7 @@ const {
   CONFLICT,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateComment = (req, res, next) => {
   req.body.user_id = req.user && req.user._id ? req.user._id : '';

@@ -1,6 +1,6 @@
 const { messagesDB } = require('../../../db');
 const { errorOccurred } = require('../../../helpers/variables/errors');
-const { DESC } = require('../../../helpers/constants/queries');
+const { DESC } = require('../../../helpers/variables/constants/queries');
 const {
   messageNotFoundMessage,
   messageNotUpdatedMessage,
@@ -15,7 +15,7 @@ const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getMessages = async (req, res) => {
   const { sort = DESC } = req.query;

@@ -1,5 +1,5 @@
-const { PATH } = require('../constants/files');
-const { GALLERY, THUMBNAIL } = require('../constants/products');
+const { PATH } = require('../variables/constants/files');
+const { GALLERY, THUMBNAIL } = require('../variables/constants/products');
 const {
   productGalleryMaxLength,
   productThumbnailMaxLength,

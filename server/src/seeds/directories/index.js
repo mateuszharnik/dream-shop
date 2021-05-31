@@ -8,7 +8,7 @@ const {
 const {
   AVATARS_DIR,
   PRODUCTS_DIR,
-} = require('../../helpers/constants/directories');
+} = require('../../helpers/variables/constants/directories');
 
 const createDirectories = () => {
   try {

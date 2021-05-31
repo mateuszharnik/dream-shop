@@ -23,9 +23,9 @@ const routes = require('./helpers/variables/routes');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./middlewares/auth');
 const { CLIENT_URL } = require('./config');
-const { UPLOADS_DIR } = require('./helpers/constants/directories');
-const { V1 } = require('./helpers/constants/api');
-const { OK } = require('./helpers/constants/status-codes');
+const { UPLOADS_DIR } = require('./helpers/variables/constants/directories');
+const { V1 } = require('./helpers/variables/constants/api');
+const { OK } = require('./helpers/variables/constants/status-codes');
 
 const app = express();
 

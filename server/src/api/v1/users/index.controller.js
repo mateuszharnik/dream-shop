@@ -3,18 +3,20 @@ const { signToken } = require('../../../helpers/token');
 const { usersDB } = require('../../../db');
 const { tokenTime } = require('../../../helpers/variables/auth');
 const { errorOccurred } = require('../../../helpers/variables/errors');
-const { AVATARS_URL } = require('../../../helpers/constants/url');
-const { AVATARS_DIR } = require('../../../helpers/constants/directories');
+const { AVATARS_URL } = require('../../../helpers/variables/constants/url');
 const {
   userNotFoundMessage,
   userNotUpdatedMessage,
 } = require('../../../helpers/variables/users');
 const {
+  AVATARS_DIR,
+} = require('../../../helpers/variables/constants/directories');
+const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getUser = async (req, res) => {
   try {

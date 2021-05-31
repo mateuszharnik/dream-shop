@@ -58,7 +58,7 @@ const {
 const {
   BESTSELLERS_PL,
   NEWS_PL,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/products');
 
 const orderSchema = (order) => {
   const schema = Joi.object().keys({

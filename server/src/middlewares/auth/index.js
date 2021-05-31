@@ -1,6 +1,6 @@
 const { setUser } = require('../../helpers/auth');
-const { ADMIN } = require('../../helpers/constants/users');
-const { AUTHORIZATION } = require('../../helpers/constants/auth');
+const { ADMIN } = require('../../helpers/variables/constants/users');
+const { AUTHORIZATION } = require('../../helpers/variables/constants/auth');
 const {
   accessNotAllowed,
   userIsLoggedIn,
@@ -8,7 +8,7 @@ const {
 const {
   FORBIDDEN,
   UNAUTHORIZED,
-} = require('../../helpers/constants/status-codes');
+} = require('../../helpers/variables/constants/status-codes');
 
 const checkToken = async (req, res, next) => {
   const authHeader = req.get(AUTHORIZATION);

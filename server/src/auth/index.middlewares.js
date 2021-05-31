@@ -1,4 +1,4 @@
-const { CONFLICT } = require('../helpers/constants/status-codes');
+const { CONFLICT } = require('../helpers/variables/constants/status-codes');
 const {
   loginSchema,
   recoveryLinkSchema,

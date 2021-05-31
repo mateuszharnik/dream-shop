@@ -36,7 +36,7 @@ const {
   STREET_NUMBER,
   CITY,
   ZIP_CODE,
-} = require('../../../helpers/constants/contact');
+} = require('../../../helpers/variables/constants/contact');
 
 const emailMessages = {
   ...emailRequired,

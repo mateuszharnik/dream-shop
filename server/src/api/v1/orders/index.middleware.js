@@ -2,7 +2,6 @@ const orderSchema = require('./index.model');
 const { ordersDB, productsDB } = require('../../../db');
 const { errorOccurred } = require('../../../helpers/variables/errors');
 const { orderNotFoundMessage } = require('../../../helpers/variables/orders');
-const { CONFLICT } = require('../../../helpers/constants/status-codes');
 const {
   productsNotUpdatedMessage,
   getProductWithIdNotExistMessage,
@@ -10,16 +9,19 @@ const {
   getProductWithIdChangedMessage,
 } = require('../../../helpers/variables/products');
 const {
+  CONFLICT,
+} = require('../../../helpers/variables/constants/status-codes');
+const {
   NAME,
   PRICE,
   THUMBNAIL,
   COMPANY_NAME,
   CATEGORY_NAME,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/products');
 const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateOrder = (req, res, next) => {
   req.body.isPaid = false;

@@ -7,7 +7,6 @@ const { getAvatarUrl } = require('../../../helpers/files');
 const { usersDB } = require('../../../db');
 const { errorOccurred } = require('../../../helpers/variables/errors');
 const { avatarNewSize } = require('../../../helpers/variables/files');
-const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
 const {
   userNotFoundMessage,
   usernameAlreadyExistMessage,
@@ -15,10 +14,14 @@ const {
   passwordsAreNotTheSameMessage,
 } = require('../../../helpers/variables/users');
 const {
+  JPEG,
+  JPEG_EXT,
+} = require('../../../helpers/variables/constants/types');
+const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const findUser = async (req, res, next) => {
   try {

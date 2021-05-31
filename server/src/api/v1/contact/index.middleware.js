@@ -1,5 +1,7 @@
 const contactSchema = require('./index.model');
-const { CONFLICT } = require('../../../helpers/constants/status-codes');
+const {
+  CONFLICT,
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateContact = (req, res, next) => {
   const { schemaError, data: contact } = contactSchema(req.body);
