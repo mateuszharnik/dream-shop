@@ -7,8 +7,10 @@ const {
   passwordMaxLength,
 } = require('../helpers/variables/users');
 const {
-  DEFAULT_PORT,
+  DEFAULT_CLIENT_PORT,
+  DEFAULT_SERVER_PORT,
   DEFAULT_CLIENT_URL,
+  DEFAULT_SERVER_URL,
   DEFAULT_DB_URL,
   DEV,
   PRODUCTION,
@@ -20,8 +22,10 @@ const envSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().trim().default(DEV).valid(DEV, PRODUCTION),
     CLIENT_URL: Joi.string().trim().default(DEFAULT_CLIENT_URL),
+    SERVER_URL: Joi.string().trim().default(DEFAULT_SERVER_URL),
     DB_URL: Joi.string().trim().default(DEFAULT_DB_URL),
-    PORT: Joi.string().trim().default(DEFAULT_PORT),
+    CLIENT_PORT: Joi.string().trim().default(DEFAULT_CLIENT_PORT),
+    SERVER_PORT: Joi.string().trim().default(DEFAULT_SERVER_PORT),
     SECRET: Joi.string().trim().required(),
     ADMIN_EMAIL: Joi.string().trim().regex(emailRegExp).required(),
     ADMIN_PASSWORD: Joi.string()
