@@ -1,6 +1,9 @@
 const { PATH } = require('../constants/files');
 const { GALLERY, THUMBNAIL } = require('../constants/products');
-const { ONE, NINE } = require('../constants/numbers');
+const {
+  productGalleryMaxLength,
+  productThumbnailMaxLength,
+} = require('../variables/products');
 
 const getAvatarUrl = (file) => {
   if (file) {
@@ -23,11 +26,11 @@ const getThumbnailUrl = (file) => {
 const productFields = [
   {
     name: THUMBNAIL,
-    maxCount: ONE,
+    maxCount: productThumbnailMaxLength,
   },
   {
     name: GALLERY,
-    maxCount: NINE,
+    maxCount: productGalleryMaxLength,
   },
 ];
 

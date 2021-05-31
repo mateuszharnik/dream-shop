@@ -1,12 +1,12 @@
 const { emailsDB } = require('../../db');
-const { NEWSLETTER_DELETED } = require('../../helpers/constants/tasks');
+const { newsletterDeletedMessage } = require('../../helpers/variables/tasks');
 
 const removeNewsletterEmails = async () => {
   try {
     await emailsDB.remove();
 
     // eslint-disable-next-line no-console
-    console.log(NEWSLETTER_DELETED);
+    console.log(newsletterDeletedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

@@ -1,15 +1,15 @@
 const { faqDB } = require('../../../db');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const {
-  FAQS_NOT_FOUND,
-  FAQ_NOT_CREATED,
-  FAQ_NOT_FOUND,
-  FAQ_NOT_UPDATED,
-  FAQS_NOT_DELETED,
-  FAQ_NOT_DELETED,
-  FAQS_DELETED,
-  FAQ_ALREADY_EXIST,
-} = require('../../../helpers/constants/faq');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  faqsNotFoundMessage,
+  faqNotCreatedMessage,
+  faqNotFoundMessage,
+  faqNotUpdatedMessage,
+  faqsNotDeletedMessage,
+  faqNotDeletedMessage,
+  faqsDeletedMessage,
+  faqAlreadyExistMessage,
+} = require('../../../helpers/variables/faq');
 const {
   OK,
   NOT_FOUND,
@@ -25,14 +25,14 @@ const getFAQs = async (req, res) => {
     );
 
     if (!faqs) {
-      return req.data.responseWithError(NOT_FOUND, FAQS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqsNotFoundMessage);
     }
 
     res.status(OK).json(faqs);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -41,14 +41,14 @@ const getFAQ = async (req, res) => {
     const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
     if (!faq) {
-      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqNotFoundMessage);
     }
 
     res.status(OK).json(faq);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -57,7 +57,7 @@ const updateFAQ = async (req, res) => {
     const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
     if (!faq) {
-      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqNotFoundMessage);
     }
 
     const updatedFAQ = await faqDB.findOneAndUpdate(
@@ -71,14 +71,14 @@ const updateFAQ = async (req, res) => {
     );
 
     if (!updatedFAQ) {
-      return req.data.responseWithError(CONFLICT, FAQ_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, faqNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -87,7 +87,7 @@ const deleteFAQs = async (req, res) => {
     const faqs = await faqDB.find({ deleted_at: null });
 
     if (!faqs.length) {
-      return req.data.responseWithError(NOT_FOUND, FAQS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqsNotFoundMessage);
     }
 
     const deletedFAQs = await faqDB.update(
@@ -97,17 +97,17 @@ const deleteFAQs = async (req, res) => {
     );
 
     if (!deletedFAQs) {
-      return req.data.responseWithError(CONFLICT, FAQS_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, faqsNotDeletedMessage);
     }
 
     res.status(OK).json({
-      message: FAQS_DELETED,
+      message: faqsDeletedMessage,
       items: deletedFAQs.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -116,7 +116,7 @@ const deleteFAQ = async (req, res) => {
     const faq = await faqDB.findOne({ _id: req.params.id, deleted_at: null });
 
     if (!faq) {
-      return req.data.responseWithError(NOT_FOUND, FAQ_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqNotFoundMessage);
     }
 
     const deletedFAQ = await faqDB.findOneAndUpdate(
@@ -125,14 +125,14 @@ const deleteFAQ = async (req, res) => {
     );
 
     if (!deletedFAQ) {
-      return req.data.responseWithError(CONFLICT, FAQ_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, faqNotDeletedMessage);
     }
 
     res.status(OK).json(deletedFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -144,7 +144,7 @@ const addFAQ = async (req, res) => {
     });
 
     if (faq) {
-      return req.data.responseWithError(CONFLICT, FAQ_ALREADY_EXIST);
+      return req.data.responseWithError(CONFLICT, faqAlreadyExistMessage);
     }
 
     const createdFAQ = await faqDB.insert({
@@ -155,14 +155,14 @@ const addFAQ = async (req, res) => {
     });
 
     if (!createdFAQ) {
-      return req.data.responseWithError(CONFLICT, FAQ_NOT_CREATED);
+      return req.data.responseWithError(CONFLICT, faqNotCreatedMessage);
     }
 
     res.status(OK).json(createdFAQ);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

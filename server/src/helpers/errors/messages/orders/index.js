@@ -1,15 +1,15 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_BOOLEAN,
-} = require('../../../constants/error-messages');
+  propertyRequiredMessage,
+  typeBooleanMessage,
+} = require('../../../variables/error-messages');
 
 // IS PAID
 const isPaidRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const isPaidBoolean = {
-  'boolean.base': TYPE_BOOLEAN,
+  'boolean.base': typeBooleanMessage,
 };
 
 const isPaidMessages = {

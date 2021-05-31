@@ -1,8 +1,4 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   passwordRequiredMessage,
   passwordMinLengthMessage,
   passwordMaxLengthMessage,
@@ -11,10 +7,14 @@ const {
   newPasswordMaxLengthMessage,
   passwordsNotMatchMessage,
 } = require('../../../variables/users');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // PASSWORD
 const passwordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const passwordNotEmpty = {
@@ -22,7 +22,7 @@ const passwordNotEmpty = {
 };
 
 const passwordString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const passwordMin = {
@@ -35,7 +35,7 @@ const passwordMax = {
 
 // NEW PASSWORD
 const newPasswordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const newPasswordNotEmpty = {
@@ -43,7 +43,7 @@ const newPasswordNotEmpty = {
 };
 
 const newPasswordString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const newPasswordMin = {
@@ -56,7 +56,7 @@ const newPasswordMax = {
 
 // CONFIRM PASSWORD
 const confirmPasswordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const confirmPasswordNotMatch = {

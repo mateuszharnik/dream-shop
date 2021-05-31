@@ -1,17 +1,17 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   usernameRequiredMessage,
   usernameMinLengthMessage,
   usernameMaxLengthMessage,
   usernameAlphanumMessage,
 } = require('../../../variables/users');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // USERNAME
 const usernameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const usernameNotEmpty = {
@@ -19,7 +19,7 @@ const usernameNotEmpty = {
 };
 
 const usernameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const usernameMin = {

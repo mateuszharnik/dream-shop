@@ -1,5 +1,5 @@
 const { socialMediaDB } = require('../../../db');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const {
   socialMediaNotFoundMessage,
   socialMediaNotUpdatedMessage,
@@ -23,7 +23,7 @@ const getSocialMedia = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -56,7 +56,7 @@ const updateSocialMedia = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

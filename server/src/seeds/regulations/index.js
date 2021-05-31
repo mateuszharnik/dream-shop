@@ -1,8 +1,8 @@
 const regulationsSchema = require('../../api/v1/regulations/index.model');
 const { regulations } = require('../data');
 const { regulationsDB } = require('../../db');
+const { regulationsSeededMessage } = require('../../helpers/variables/tasks');
 const { purify } = require('../../helpers/sanitize');
-const { REGULATIONS_SEEDED } = require('../../helpers/constants/tasks');
 
 const seedRegulations = async () => {
   const regulationsArr = [];
@@ -30,7 +30,7 @@ const seedRegulations = async () => {
     await regulationsDB.insert(regulationsArr);
 
     // eslint-disable-next-line no-console
-    console.log(REGULATIONS_SEEDED);
+    console.log(regulationsSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

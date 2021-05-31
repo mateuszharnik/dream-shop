@@ -1,6 +1,6 @@
 const contactSchema = require('../../api/v1/contact/index.model');
 const { contact } = require('../data');
-const { CONTACT_SEEDED } = require('../../helpers/constants/tasks');
+const { contactSeededMessage } = require('../../helpers/variables/tasks');
 const { contactDB } = require('../../db');
 
 const seedContact = async () => {
@@ -22,7 +22,7 @@ const seedContact = async () => {
     });
 
     // eslint-disable-next-line no-console
-    console.log(CONTACT_SEEDED);
+    console.log(contactSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

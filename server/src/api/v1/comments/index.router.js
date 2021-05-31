@@ -3,8 +3,11 @@ const { Router } = require('express');
 const { getSkipAndLimit } = require('../../../middlewares/queries');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const { validateDBId } = require('../../../middlewares/validation');
-const { COMMENTS, MEDIUM } = require('../../../helpers/constants/limiter');
-const { FIVE_MINUTES } = require('../../../helpers/constants/time');
+const {
+  commentsLimiterMessage,
+  commentsLimiterLength,
+  commentsLimiterTime,
+} = require('../../../helpers/variables/limiter');
 const {
   createData,
   createResponseWithError,
@@ -30,9 +33,9 @@ const {
 } = require('./index.controller');
 
 const sendCommentLimiter = rateLimit({
-  windowMs: FIVE_MINUTES,
-  max: MEDIUM,
-  message: COMMENTS,
+  windowMs: commentsLimiterTime,
+  max: commentsLimiterLength,
+  message: commentsLimiterMessage,
 });
 
 const router = Router();

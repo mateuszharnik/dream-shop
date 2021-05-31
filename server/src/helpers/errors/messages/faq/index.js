@@ -1,75 +1,75 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  categoryNotCorrectMessage,
+  titleRequiredMessage,
+  titleNotCorrectMessage,
+  titleMinLengthMessage,
+  titleMaxLengthMessage,
+  contentRequiredMessage,
+  contentMinLengthMessage,
+  contentMaxLengthMessage,
+} = require('../../../variables/faq');
 const {
-  CATEGORY_NOT_CORRECT,
-  TITLE_REQUIRED,
-  TITLE_NOT_CORRECT,
-  TITLE_MIN_LENGTH,
-  TITLE_MAX_LENGTH,
-  CONTENT_REQUIRED,
-  CONTENT_MIN_LENGTH,
-  CONTENT_MAX_LENGTH,
-} = require('../../../constants/faq');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // CATEGORIES
 const categoryRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const categoryString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const categoryAllow = {
-  'any.only': CATEGORY_NOT_CORRECT,
+  'any.only': categoryNotCorrectMessage,
 };
 
 // TITLE
 const titleRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const titleString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const titleNotEmpty = {
-  'string.empty': TITLE_REQUIRED,
+  'string.empty': titleRequiredMessage,
 };
 
 const titleMin = {
-  'string.min': TITLE_MIN_LENGTH,
+  'string.min': titleMinLengthMessage,
 };
 
 const titleMax = {
-  'string.max': TITLE_MAX_LENGTH,
+  'string.max': titleMaxLengthMessage,
 };
 
 const titlePattern = {
-  'string.pattern.base': TITLE_NOT_CORRECT,
+  'string.pattern.base': titleNotCorrectMessage,
 };
 
 // CONTENT
 const contentRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const contentString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const contentNotEmpty = {
-  'string.empty': CONTENT_REQUIRED,
+  'string.empty': contentRequiredMessage,
 };
 
 const contentMin = {
-  'string.min': CONTENT_MIN_LENGTH,
+  'string.min': contentMinLengthMessage,
 };
 
 const contentMax = {
-  'string.max': CONTENT_MAX_LENGTH,
+  'string.max': contentMaxLengthMessage,
 };
 
 const titleMessages = {

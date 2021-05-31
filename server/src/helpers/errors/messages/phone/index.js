@@ -1,20 +1,20 @@
+const { phoneNotCorrectMessage } = require('../../../variables/contact');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const { PHONE_NOT_CORRECT } = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // PHONE
 const phoneRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const phoneString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const phonePattern = {
-  'string.pattern.base': PHONE_NOT_CORRECT,
+  'string.pattern.base': phoneNotCorrectMessage,
 };
 
 const phoneMessages = {

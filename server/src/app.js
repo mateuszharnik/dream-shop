@@ -19,13 +19,13 @@ const messages = require('./api/v1/messages/index.router');
 const regulations = require('./api/v1/regulations/index.router');
 const productCategories = require('./api/v1/product-categories/index.router');
 const productFilters = require('./api/v1/product-filters/index.router');
-const { CLIENT_URL } = require('./config');
+const routes = require('./helpers/variables/routes');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./middlewares/auth');
+const { CLIENT_URL } = require('./config');
 const { UPLOADS_DIR } = require('./helpers/constants/directories');
 const { V1 } = require('./helpers/constants/api');
 const { OK } = require('./helpers/constants/status-codes');
-const routes = require('./helpers/variables/routes');
 
 const app = express();
 

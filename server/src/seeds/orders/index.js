@@ -1,12 +1,12 @@
 const { ordersDB } = require('../../db');
-const { ORDERS_DELETED } = require('../../helpers/constants/tasks');
+const { ordersDeletedMessage } = require('../../helpers/variables/tasks');
 
 const removeOrders = async () => {
   try {
     await ordersDB.remove();
 
     // eslint-disable-next-line no-console
-    console.log(ORDERS_DELETED);
+    console.log(ordersDeletedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

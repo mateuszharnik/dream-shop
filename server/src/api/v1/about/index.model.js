@@ -3,16 +3,16 @@ const {
   informationMessages,
 } = require('../../../helpers/errors/messages/about');
 const {
-  aboutMinLength,
-  aboutMaxLength,
+  informationMinLength,
+  informationMaxLength,
 } = require('../../../helpers/variables/about');
 
 const aboutSchema = (about) => {
   const schema = Joi.object().keys({
     information: Joi.string()
       .trim()
-      .min(aboutMinLength)
-      .max(aboutMaxLength)
+      .min(informationMinLength)
+      .max(informationMaxLength)
       .allow('')
       .required()
       .messages(informationMessages),

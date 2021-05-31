@@ -1,8 +1,4 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   subjectRequiredMessage,
   subjectMinLengthMessage,
   subjectMaxLengthMessage,
@@ -10,14 +6,18 @@ const {
   messageMinLengthMessage,
   messageMaxLengthMessage,
 } = require('../../../variables/messages');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // SUBJECT
 const subjectRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const subjectString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const subjectNotEmpty = {
@@ -34,11 +34,11 @@ const subjectMax = {
 
 // MESSAGE
 const messageRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const messageString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const messageNotEmpty = {

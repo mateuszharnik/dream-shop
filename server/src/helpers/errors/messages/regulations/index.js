@@ -1,56 +1,56 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  regulationNameRequiredMessage,
+  regulationNameMinLengthMessage,
+  regulationNameMaxLengthMessage,
+  contentRequiredMessage,
+  contentMinLengthMessage,
+  contentMaxLengthMessage,
+} = require('../../../variables/regulations');
 const {
-  NAME_REQUIRED,
-  NAME_MIN_LENGTH,
-  NAME_MAX_LENGTH,
-  CONTENT_REQUIRED,
-  CONTENT_MIN_LENGTH,
-  CONTENT_MAX_LENGTH,
-} = require('../../../constants/regulations');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // NAME
 const nameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const nameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const nameNotEmpty = {
-  'string.empty': NAME_REQUIRED,
+  'string.empty': regulationNameRequiredMessage,
 };
 
 const nameMin = {
-  'string.min': NAME_MIN_LENGTH,
+  'string.min': regulationNameMinLengthMessage,
 };
 
 const nameMax = {
-  'string.max': NAME_MAX_LENGTH,
+  'string.max': regulationNameMaxLengthMessage,
 };
 
 // CONTENT
 const contentRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const contentString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const contentNotEmpty = {
-  'string.empty': CONTENT_REQUIRED,
+  'string.empty': contentRequiredMessage,
 };
 
 const contentMin = {
-  'string.min': CONTENT_MIN_LENGTH,
+  'string.min': contentMinLengthMessage,
 };
 
 const contentMax = {
-  'string.max': CONTENT_MAX_LENGTH,
+  'string.max': contentMaxLengthMessage,
 };
 
 const nameMessages = {

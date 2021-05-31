@@ -1,8 +1,12 @@
 const env = require('dotenv');
 const Joi = require('joi');
 const { emailRegExp } = require('../helpers/regexp');
+const { missingPropertyMessage } = require('../helpers/variables/config');
 const {
-  MISSING_PROPERTY,
+  passwordMinLength,
+  passwordMaxLength,
+} = require('../helpers/variables/users');
+const {
   DEFAULT_PORT,
   DEFAULT_CLIENT_URL,
   DEFAULT_DB_URL,
@@ -20,7 +24,10 @@ const envSchema = Joi.object()
     PORT: Joi.string().trim().default(DEFAULT_PORT),
     SECRET: Joi.string().trim().required(),
     ADMIN_EMAIL: Joi.string().trim().regex(emailRegExp).required(),
-    ADMIN_PASSWORD: Joi.string().trim().min(8).max(32)
+    ADMIN_PASSWORD: Joi.string()
+      .trim()
+      .min(passwordMinLength)
+      .max(passwordMaxLength)
       .required(),
     EMAIL_LOGIN: Joi.string().trim(),
     EMAIL_HOST: Joi.string().trim(),
@@ -33,7 +40,7 @@ const { error, value: config } = envSchema.validate(process.env);
 
 if (error) {
   // eslint-disable-next-line no-console
-  console.error(`${MISSING_PROPERTY}: ${error.message}`);
+  console.error(`${missingPropertyMessage}: ${error.message}`);
   process.exit(1);
 }
 

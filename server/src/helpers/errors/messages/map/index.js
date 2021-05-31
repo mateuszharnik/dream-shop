@@ -1,15 +1,15 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   mapLatLngReqiuredMessage,
   mapLatLngNotCorrectMessage,
 } = require('../../../variables/map');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // MAP
 const mapRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const mapNotEmpty = {
@@ -17,7 +17,7 @@ const mapNotEmpty = {
 };
 
 const mapString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const mapPattern = {

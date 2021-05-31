@@ -3,8 +3,9 @@ const convertCategory = require('../../helpers/product-categories');
 const { productCategories } = require('../data');
 const { productCategoriesDB } = require('../../db');
 const {
-  PRODUCT_CATEGORIES_DELETED, PRODUCT_CATEGORIES_SEEDED,
-} = require('../../helpers/constants/tasks');
+  productCategoriesDeletedMessage,
+  productCategoriesSeededMessage,
+} = require('../../helpers/variables/tasks');
 
 const seedProductCategories = async () => {
   const categories = [];
@@ -37,9 +38,9 @@ const seedProductCategories = async () => {
     await productCategoriesDB.insert(categories);
 
     // eslint-disable-next-line no-console
-    console.log(PRODUCT_CATEGORIES_DELETED);
+    console.log(productCategoriesDeletedMessage);
     // eslint-disable-next-line no-console
-    console.log(PRODUCT_CATEGORIES_SEEDED);
+    console.log(productCategoriesSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

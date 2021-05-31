@@ -5,9 +5,9 @@ const { avatarFileSchema } = require('../../../models');
 const { updateUserSchema } = require('./index.model');
 const { getAvatarUrl } = require('../../../helpers/files');
 const { usersDB } = require('../../../db');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { avatarNewSize } = require('../../../helpers/variables/files');
 const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
-const { ONE_HUNDRED_AND_FIFTY } = require('../../../helpers/constants/numbers');
 const {
   userNotFoundMessage,
   usernameAlreadyExistMessage,
@@ -34,7 +34,7 @@ const findUser = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -56,7 +56,7 @@ const checkEmail = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -80,7 +80,7 @@ const checkUsername = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -97,7 +97,10 @@ const checkPasswords = async (req, res, next) => {
     if (
       !(await bcrypt.compare(req.data.user.password, req.data.userDB.password))
     ) {
-      return req.data.responseWithError(CONFLICT, passwordsAreNotTheSameMessage);
+      return req.data.responseWithError(
+        CONFLICT,
+        passwordsAreNotTheSameMessage,
+      );
     }
 
     req.data.newUser.password = await bcrypt.hash(
@@ -109,7 +112,7 @@ const checkPasswords = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -157,7 +160,7 @@ const replaceAvatar = async (req, res, next) => {
 
     await sharp(req.data.file.path)
       .toFormat(JPEG)
-      .resize(ONE_HUNDRED_AND_FIFTY)
+      .resize(avatarNewSize)
       .toFile(`${req.data.file.destination}/${fileName}`);
 
     if (fs.existsSync(req.data.file.path)) {
@@ -174,7 +177,7 @@ const replaceAvatar = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

@@ -1,6 +1,6 @@
 const aboutSchema = require('../../api/v1/about/index.model');
 const { about } = require('../data');
-const { ABOUT_SEEDED } = require('../../helpers/constants/tasks');
+const { aboutSeededMessage } = require('../../helpers/variables/tasks');
 const { aboutDB } = require('../../db');
 const { purify } = require('../../helpers/sanitize');
 
@@ -25,7 +25,7 @@ const seedAbout = async () => {
     });
 
     // eslint-disable-next-line no-console
-    console.log(ABOUT_SEEDED);
+    console.log(aboutSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

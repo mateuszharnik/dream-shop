@@ -1,21 +1,21 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   facebookNotCorrectMessage,
   twitterNotCorrectMessage,
   instagramNotCorrectMessage,
   linkedinNotCorrectMessage,
 } = require('../../../variables/social-media');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // TWITTER
 const twitterRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const twitterString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const twitterPattern = {
@@ -24,11 +24,11 @@ const twitterPattern = {
 
 // FACEBOOK
 const facebookRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const facebookString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const facebookPattern = {
@@ -37,11 +37,11 @@ const facebookPattern = {
 
 // INSTAGRAM
 const instagramRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const instagramString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const instagramPattern = {
@@ -50,11 +50,11 @@ const instagramPattern = {
 
 // LINKEDIN
 const linkedinRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const linkedinString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const linkedinPattern = {

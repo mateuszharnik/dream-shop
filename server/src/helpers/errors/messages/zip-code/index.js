@@ -1,27 +1,27 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  zipCodeRequiredMessage,
+  zipCodeNotCorrectMessage,
+} = require('../../../variables/contact');
 const {
-  ZIP_CODE_REQUIRED,
-  ZIP_CODE_NOT_CORRECT,
-} = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // ZIP CODE
 const zipCodeRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const zipCodeString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const zipCodeNotEmpty = {
-  'string.empty': ZIP_CODE_REQUIRED,
+  'string.empty': zipCodeRequiredMessage,
 };
 
 const zipCodePattern = {
-  'string.pattern.base': ZIP_CODE_NOT_CORRECT,
+  'string.pattern.base': zipCodeNotCorrectMessage,
 };
 
 const zipCodeMessages = {

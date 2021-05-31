@@ -1,17 +1,17 @@
 const { productCategoriesDB, productFiltersDB } = require('../../../db');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const { DESC } = require('../../../helpers/constants/queries');
+const {
+  productCategoriesNotFoundMessage,
+  productCategoriesDeletedMessage,
+  productCategoriesNotAddedInFiltersMessage,
+} = require('../../../helpers/variables/product-categories');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
 } = require('../../../helpers/constants/status-codes');
-const {
-  PRODUCT_CATEGORIES_NOT_FOUND,
-  PRODUCT_CATEGORIES_DELETED,
-  PRODUCT_CATEGORIES_NOT_ADDED_IN_FILTERS,
-} = require('../../../helpers/constants/product-categories');
 
 const getAddedProductCategory = async (req, res) => {
   const { newCategory: category } = req.data;
@@ -28,7 +28,7 @@ const getAddedProductCategory = async (req, res) => {
     if (!filter) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_CATEGORIES_NOT_ADDED_IN_FILTERS,
+        productCategoriesNotAddedInFiltersMessage,
       );
     }
 
@@ -36,7 +36,7 @@ const getAddedProductCategory = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -55,7 +55,7 @@ const getProductCategories = async (req, res) => {
     );
 
     if (!categories) {
-      req.data.responseWithError(NOT_FOUND, PRODUCT_CATEGORIES_NOT_FOUND);
+      req.data.responseWithError(NOT_FOUND, productCategoriesNotFoundMessage);
     }
 
     res.status(OK).json({
@@ -65,7 +65,7 @@ const getProductCategories = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -74,13 +74,13 @@ const getDeletedProductCategories = async (req, res) => {
 
   try {
     res.status(OK).json({
-      message: PRODUCT_CATEGORIES_DELETED,
+      message: productCategoriesDeletedMessage,
       items: deletedCategories.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -92,7 +92,7 @@ const getDeletedProductCategory = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

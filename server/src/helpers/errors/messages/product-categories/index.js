@@ -1,71 +1,71 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 const {
-  PRODUCT_CATEGORY_NAME_REQUIRED,
-  PRODUCT_CATEGORY_NAME_NOT_CORRECT,
-  PRODUCT_CATEGORY_NAME_MIN_LENGTH,
-  PRODUCT_CATEGORY_NAME_MAX_LENGTH,
-  PRODUCT_CATEGORY_REQUIRED,
-  PRODUCT_CATEGORY_INVALID,
-  PRODUCT_CATEGORY_PATTERN,
-  PRODUCT_CATEGORY_MIN_LENGTH,
-  PRODUCT_CATEGORY_MAX_LENGTH,
-} = require('../../../constants/products');
+  productCategoryNameRequiredMessage,
+  productCategoryNameNotCorrectMessage,
+  productCategoryNameMinLengthMessage,
+  productCategoryNameMaxLengthMessage,
+  productCategoryRequiredMessage,
+  productCategoryInvalidMessage,
+  productCategoryPatternMessage,
+  productCategoryMinLengthMessage,
+  productCategoryMaxLengthMessage,
+} = require('../../../variables/products');
 
 // CATEGORY NAME
 const productCategoryNameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const productCategoryNameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const productCategoryNamePattern = {
-  'string.pattern.base': PRODUCT_CATEGORY_NAME_NOT_CORRECT,
+  'string.pattern.base': productCategoryNameNotCorrectMessage,
 };
 
 const productCategoryNameNotEmpty = {
-  'string.empty': PRODUCT_CATEGORY_NAME_REQUIRED,
+  'string.empty': productCategoryNameRequiredMessage,
 };
 
 const productCategoryNameMin = {
-  'string.min': PRODUCT_CATEGORY_NAME_MIN_LENGTH,
+  'string.min': productCategoryNameMinLengthMessage,
 };
 
 const productCategoryNameMax = {
-  'string.max': PRODUCT_CATEGORY_NAME_MAX_LENGTH,
+  'string.max': productCategoryNameMaxLengthMessage,
 };
 
 // CATEGORY
 const productCategoryRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const productCategoryInvalid = {
-  'any.invalid': PRODUCT_CATEGORY_INVALID,
+  'any.invalid': productCategoryInvalidMessage,
 };
 
 const productCategoryString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const productCategoryPattern = {
-  'string.pattern.base': PRODUCT_CATEGORY_PATTERN,
+  'string.pattern.base': productCategoryPatternMessage,
 };
 
 const productCategoryNotEmpty = {
-  'string.empty': PRODUCT_CATEGORY_REQUIRED,
+  'string.empty': productCategoryRequiredMessage,
 };
 
 const productCategoryMin = {
-  'string.min': PRODUCT_CATEGORY_MIN_LENGTH,
+  'string.min': productCategoryMinLengthMessage,
 };
 
 const productCategoryMax = {
-  'string.max': PRODUCT_CATEGORY_MAX_LENGTH,
+  'string.max': productCategoryMaxLengthMessage,
 };
 
 const productCategoryNameMessages = {
