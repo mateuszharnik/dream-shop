@@ -1,18 +1,15 @@
-const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
-const { BESTSELLERS_PL, NEWS_PL } = require('../../helpers/constants/products');
-const {
-  ADMIN,
-  USER,
-} = require('../../helpers/constants/users');
+const { capitalize } = require('../../helpers/strings');
 const { defaultUsername } = require('../../helpers/variables/users');
 const { defaultMapLatLng } = require('../../helpers/variables/map');
+const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
+const { BESTSELLERS_PL, NEWS_PL } = require('../../helpers/constants/products');
+const { ADMIN, USER } = require('../../helpers/constants/users');
 const {
-  NEWSLETTER_REGULATIONS_NAME,
-  NEWSLETTER_REGULATIONS_CONTENT,
-  CONTACT_REGULATIONS_NAME,
-  CONTACT_REGULATIONS_CONTENT,
-} = require('../../helpers/constants/regulations');
-const { capitalize } = require('../../helpers/strings');
+  defaultNewsletterRegulationsName,
+  defaultNewsletterRegulationsContent,
+  defaultContactRegulationsName,
+  defaultContactRegulationsContent,
+} = require('../../helpers/variables/regulations');
 const {
   RETURNS_PL,
   DELIVERY_PL,
@@ -36,12 +33,12 @@ const user = {
 
 const regulations = [
   {
-    name: NEWSLETTER_REGULATIONS_NAME,
-    content: NEWSLETTER_REGULATIONS_CONTENT,
+    name: defaultNewsletterRegulationsName,
+    content: defaultNewsletterRegulationsContent,
   },
   {
-    name: CONTACT_REGULATIONS_NAME,
-    content: CONTACT_REGULATIONS_CONTENT,
+    name: defaultContactRegulationsName,
+    content: defaultContactRegulationsContent,
   },
 ];
 

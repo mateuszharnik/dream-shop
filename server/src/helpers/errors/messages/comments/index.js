@@ -1,37 +1,37 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  contentRequiredMessage,
+  contentMinLengthMessage,
+  contentMaxLengthMessage,
+  contentNotCorrectMessage,
+} = require('../../../variables/comments');
 const {
-  CONTENT_REQUIRED,
-  CONTENT_MIN_LENGTH,
-  CONTENT_MAX_LENGTH,
-  CONTENT_NOT_CORRECT,
-} = require('../../../constants/comments');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // CONTENT
 const contentRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const contentString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const contentPattern = {
-  'string.pattern.base': CONTENT_NOT_CORRECT,
+  'string.pattern.base': contentNotCorrectMessage,
 };
 
 const contentNotEmpty = {
-  'string.empty': CONTENT_REQUIRED,
+  'string.empty': contentRequiredMessage,
 };
 
 const contentMin = {
-  'string.min': CONTENT_MIN_LENGTH,
+  'string.min': contentMinLengthMessage,
 };
 
 const contentMax = {
-  'string.max': CONTENT_MAX_LENGTH,
+  'string.max': contentMaxLengthMessage,
 };
 
 const contentMessages = {

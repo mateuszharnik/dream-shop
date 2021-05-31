@@ -1,20 +1,20 @@
+const { pathToFileNotCorrectMessage } = require('../../../variables/files');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const { PATH_TO_FILE_NOT_CORRECT } = require('../../../constants/files');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // AVATAR
 const avatarRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const avatarString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const avatarPattern = {
-  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
+  'string.pattern.base': pathToFileNotCorrectMessage,
 };
 
 const avatarMessages = {

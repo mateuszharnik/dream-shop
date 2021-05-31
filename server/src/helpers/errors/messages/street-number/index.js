@@ -1,27 +1,27 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  streetNumberRequiredMessage,
+  streetNumberNotCorrectMessage,
+} = require('../../../variables/contact');
 const {
-  STREET_NUMBER_REQUIRED,
-  STREET_NUMBER_NOT_CORRECT,
-} = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // STREET NUMBER
 const streetNumberRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const streetNumberString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const streetNumberNotEmpty = {
-  'string.empty': STREET_NUMBER_REQUIRED,
+  'string.empty': streetNumberRequiredMessage,
 };
 
 const streetNumberPattern = {
-  'string.pattern.base': STREET_NUMBER_NOT_CORRECT,
+  'string.pattern.base': streetNumberNotCorrectMessage,
 };
 
 const streetNumberMessages = {

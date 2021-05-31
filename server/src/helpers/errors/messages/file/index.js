@@ -1,61 +1,61 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-  TYPE_NUMBER,
-} = require('../../../constants/error-messages');
+  pathToFileNotCorrectMessage,
+  pathToFileRequiredMessage,
+  fileTypeNotCorrectMessage,
+  fileTypeRequiredMessage,
+  fileSizeMaxMessage,
+} = require('../../../variables/files');
 const {
-  PATH_TO_FILE_NOT_CORRECT,
-  PATH_TO_FILE_REQUIRED,
-  FILE_TYPE_NOT_CORRECT,
-  FILE_TYPE_REQUIRED,
-  FILE_SIZE_MAX,
-} = require('../../../constants/files');
+  propertyRequiredMessage,
+  typeStringMessage,
+  typeNumberMessage,
+} = require('../../../variables/error-messages');
 
 // PATH
 const pathRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const pathNotEmpty = {
-  'string.empty': PATH_TO_FILE_REQUIRED,
+  'string.empty': pathToFileRequiredMessage,
 };
 
 const pathString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const pathPattern = {
-  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
+  'string.pattern.base': pathToFileNotCorrectMessage,
 };
 
 // MIMETYPE
 const mimetypePattern = {
-  'string.pattern.base': FILE_TYPE_NOT_CORRECT,
+  'string.pattern.base': fileTypeNotCorrectMessage,
 };
 
 const mimetypeRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const mimetypeNotEmpty = {
-  'string.empty': FILE_TYPE_REQUIRED,
+  'string.empty': fileTypeRequiredMessage,
 };
 
 const mimetypeString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 // SIZE
 const sizeMax = {
-  'number.max': FILE_SIZE_MAX,
+  'number.max': fileSizeMaxMessage,
 };
 
 const sizeRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const sizeNumber = {
-  'number.base': TYPE_NUMBER,
+  'number.base': typeNumberMessage,
 };
 
 const pathMessages = {

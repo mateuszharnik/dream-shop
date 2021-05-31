@@ -1,6 +1,6 @@
 const { faqCategoriesDB } = require('../../../db');
-const { FAQ_CATEGORIES_NOT_FOUND } = require('../../../helpers/constants/faq');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { faqCategoriesNotFoundMessage } = require('../../../helpers/variables/faq');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const { LOCALE_PL } = require('../../../helpers/constants/queries');
 const {
   OK,
@@ -19,14 +19,14 @@ const getFAQCategories = async (req, res) => {
     );
 
     if (!faqCategories.length) {
-      return req.data.responseWithError(NOT_FOUND, FAQ_CATEGORIES_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, faqCategoriesNotFoundMessage);
     }
 
     res.status(OK).json(faqCategories);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

@@ -1,6 +1,6 @@
 const socialMediaSchema = require('../../api/v1/social-media/index.model');
 const { socialMedia } = require('../data');
-const { SOCIAL_MEDIA_SEEDED } = require('../../helpers/constants/tasks');
+const { socialMediaSeededMessage } = require('../../helpers/variables/tasks');
 const { socialMediaDB } = require('../../db');
 
 const seedSocialMedia = async () => {
@@ -21,7 +21,7 @@ const seedSocialMedia = async () => {
     });
 
     // eslint-disable-next-line no-console
-    console.log(SOCIAL_MEDIA_SEEDED);
+    console.log(socialMediaSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

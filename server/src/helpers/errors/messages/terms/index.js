@@ -1,12 +1,12 @@
-const {
-  PROPERTY_REQUIRED,
-  TYPE_BOOLEAN,
-} = require('../../../constants/error-messages');
 const { termsRequiredMessage } = require('../../../variables/messages');
+const {
+  propertyRequiredMessage,
+  typeBooleanMessage,
+} = require('../../../variables/error-messages');
 
 // TERMS
 const termsRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const termsOnly = {
@@ -14,7 +14,7 @@ const termsOnly = {
 };
 
 const termsBoolean = {
-  'boolean.base': TYPE_BOOLEAN,
+  'boolean.base': typeBooleanMessage,
 };
 
 const termsMessages = {

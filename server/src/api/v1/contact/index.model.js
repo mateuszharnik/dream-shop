@@ -1,4 +1,17 @@
 const Joi = require('joi');
+const { nipMessages } = require('../../../helpers/errors/messages/nip');
+const { phoneMessages } = require('../../../helpers/errors/messages/phone');
+const { cityMessages } = require('../../../helpers/errors/messages/city');
+const { streetMessages } = require('../../../helpers/errors/messages/street');
+const {
+  workingHoursMessages,
+} = require('../../../helpers/errors/messages/hours');
+const {
+  zipCodeMessages,
+} = require('../../../helpers/errors/messages/zip-code');
+const {
+  streetNumberMessages,
+} = require('../../../helpers/errors/messages/street-number');
 const {
   emailRequired,
   emailString,
@@ -12,26 +25,18 @@ const {
   streetNumberRegExp,
   zipCodeRegExp,
 } = require('../../../helpers/regexp');
-const { THREE, ONE_HUNDRED } = require('../../../helpers/constants/numbers');
+const {
+  streetMinLength,
+  streetMaxLength,
+  cityMinLength,
+  cityMaxLength,
+} = require('../../../helpers/variables/contact');
 const {
   STREET,
   STREET_NUMBER,
   CITY,
   ZIP_CODE,
 } = require('../../../helpers/constants/contact');
-const { nipMessages } = require('../../../helpers/errors/messages/nip');
-const { phoneMessages } = require('../../../helpers/errors/messages/phone');
-const {
-  workingHoursMessages,
-} = require('../../../helpers/errors/messages/hours');
-const {
-  zipCodeMessages,
-} = require('../../../helpers/errors/messages/zip-code');
-const { cityMessages } = require('../../../helpers/errors/messages/city');
-const { streetMessages } = require('../../../helpers/errors/messages/street');
-const {
-  streetNumberMessages,
-} = require('../../../helpers/errors/messages/street-number');
 
 const emailMessages = {
   ...emailRequired,
@@ -41,8 +46,8 @@ const emailMessages = {
 
 const street = Joi.string()
   .trim()
-  .min(THREE)
-  .max(ONE_HUNDRED)
+  .min(streetMinLength)
+  .max(streetMaxLength)
   .required()
   .messages(streetMessages);
 
@@ -54,8 +59,8 @@ const street_number = Joi.string()
 
 const city = Joi.string()
   .trim()
-  .min(THREE)
-  .max(ONE_HUNDRED)
+  .min(cityMinLength)
+  .max(cityMaxLength)
   .required()
   .messages(cityMessages);
 

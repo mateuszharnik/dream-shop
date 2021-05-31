@@ -1,18 +1,19 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_ARRAY,
-} = require('../../../constants/error-messages');
-const {
-  rolesRequiredMessage, rolesNotAllowedMessage,
+  rolesRequiredMessage,
+  rolesNotAllowedMessage,
 } = require('../../../variables/users');
+const {
+  propertyRequiredMessage,
+  typeArrayMessage,
+} = require('../../../variables/error-messages');
 
 // ROLES
 const userRolesRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const userRolesArray = {
-  'array.base': TYPE_ARRAY,
+  'array.base': typeArrayMessage,
 };
 
 const userRolesIncludesRequiredUnknowns = {

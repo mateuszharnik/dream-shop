@@ -1,9 +1,17 @@
 const Joi = require('joi');
 const { phoneMessages } = require('../../../helpers/errors/messages/phone');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
+const { orderProductsMinLength } = require('../../../helpers/variables/orders');
+const { cityMessages } = require('../../../helpers/errors/messages/city');
+const { streetMessages } = require('../../../helpers/errors/messages/street');
+const { isPaidMessages } = require('../../../helpers/errors/messages/orders');
+const { idMessages } = require('../../../helpers/errors/messages/id');
 const {
-  orderProductsMinLength,
-} = require('../../../helpers/variables/orders');
+  zipCodeMessages,
+} = require('../../../helpers/errors/messages/zip-code');
+const {
+  streetNumberMessages,
+} = require('../../../helpers/errors/messages/street-number');
 const {
   surnameMinLength,
   surnameMaxLength,
@@ -14,14 +22,6 @@ const {
   nameMessages,
   surnameMessages,
 } = require('../../../helpers/errors/messages/name');
-const {
-  zipCodeMessages,
-} = require('../../../helpers/errors/messages/zip-code');
-const { cityMessages } = require('../../../helpers/errors/messages/city');
-const { streetMessages } = require('../../../helpers/errors/messages/street');
-const {
-  streetNumberMessages,
-} = require('../../../helpers/errors/messages/street-number');
 const {
   nameRegExp,
   emailRegExp,
@@ -41,15 +41,20 @@ const {
   categoryNameMessages,
   productCompanyNameMessages,
 } = require('../../../helpers/errors/messages/product');
-const { isPaidMessages } = require('../../../helpers/errors/messages/orders');
-const { idMessages } = require('../../../helpers/errors/messages/id');
 const {
-  THREE,
-  ONE_HUNDRED,
-  ONE,
-  ONE_THOUSAND,
-  THREE_HUNDRED,
-} = require('../../../helpers/constants/numbers');
+  streetMinLength,
+  streetMaxLength,
+  cityMinLength,
+  cityMaxLength,
+} = require('../../../helpers/variables/contact');
+const {
+  productNameMinLength,
+  productNameMaxLength,
+  companyNameMinLength,
+  companyNameMaxLength,
+  productQuantityRequiredInOrderLength,
+  productQuantityMaxLength,
+} = require('../../../helpers/variables/products');
 const {
   BESTSELLERS_PL,
   NEWS_PL,
@@ -67,15 +72,15 @@ const orderSchema = (order) => {
             .messages(idMessages),
           name: Joi.string()
             .trim()
-            .min(THREE)
-            .max(THREE_HUNDRED)
+            .min(productNameMinLength)
+            .max(productNameMaxLength)
             .regex(productNameRegExp)
             .required()
             .messages(productNameMessages),
           company_name: Joi.string()
             .trim()
-            .min(THREE)
-            .max(THREE_HUNDRED)
+            .min(companyNameMinLength)
+            .max(companyNameMaxLength)
             .required()
             .messages(productCompanyNameMessages),
           price: Joi.string()
@@ -94,8 +99,8 @@ const orderSchema = (order) => {
             .required()
             .messages(categoryNameMessages),
           quantity: Joi.number()
-            .min(ONE)
-            .max(ONE_THOUSAND)
+            .min(productQuantityRequiredInOrderLength)
+            .max(productQuantityMaxLength)
             .required()
             .messages(quantityMessages),
         }),
@@ -130,8 +135,8 @@ const orderSchema = (order) => {
           .messages(phoneMessages),
         city: Joi.string()
           .trim()
-          .min(THREE)
-          .max(ONE_HUNDRED)
+          .min(cityMinLength)
+          .max(cityMaxLength)
           .required()
           .messages(cityMessages),
         zip_code: Joi.string()
@@ -141,8 +146,8 @@ const orderSchema = (order) => {
           .messages(zipCodeMessages),
         street: Joi.string()
           .trim()
-          .min(THREE)
-          .max(ONE_HUNDRED)
+          .min(streetMinLength)
+          .max(streetMaxLength)
           .required()
           .messages(streetMessages),
         street_number: Joi.string()

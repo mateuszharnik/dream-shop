@@ -1,10 +1,10 @@
 const Joi = require('joi');
+const { idMessages } = require('../helpers/errors/messages/id');
 const {
   mimetypeMessages,
   pathMessages,
   sizeMessages,
 } = require('../helpers/errors/messages/file');
-const { idMessages } = require('../helpers/errors/messages/id');
 const {
   mimetypeRegExp,
   avatarPathRegExp,

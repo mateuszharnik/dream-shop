@@ -1,6 +1,6 @@
 const mapSchema = require('../../api/v1/map/index.model');
 const { map } = require('../data');
-const { MAP_SEEDED } = require('../../helpers/constants/tasks');
+const { mapSeededMessage } = require('../../helpers/variables/tasks');
 const { mapDB } = require('../../db');
 
 const seedMap = async () => {
@@ -21,7 +21,7 @@ const seedMap = async () => {
     });
 
     // eslint-disable-next-line no-console
-    console.log(MAP_SEEDED);
+    console.log(mapSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

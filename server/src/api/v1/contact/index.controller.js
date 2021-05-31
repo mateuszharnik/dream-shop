@@ -1,9 +1,9 @@
 const { contactDB } = require('../../../db');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const {
-  CONTACT_NOT_FOUND,
-  CONTACT_NOT_UPDATED,
-} = require('../../../helpers/constants/contact');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  contactNotFoundMessage,
+  contactNotUpdatedMessage,
+} = require('../../../helpers/variables/contact');
 const {
   OK,
   NOT_FOUND,
@@ -16,14 +16,14 @@ const getContact = async (req, res) => {
     const contact = await contactDB.findOne({ deleted_at: null });
 
     if (!contact) {
-      return req.data.responseWithError(NOT_FOUND, CONTACT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, contactNotFoundMessage);
     }
 
     res.status(OK).json(contact);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -35,7 +35,7 @@ const updateContact = async (req, res) => {
     });
 
     if (!contact) {
-      return req.data.responseWithError(NOT_FOUND, CONTACT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, contactNotFoundMessage);
     }
 
     const updatedContact = await contactDB.findOneAndUpdate(
@@ -49,14 +49,14 @@ const updateContact = async (req, res) => {
     );
 
     if (!updatedContact) {
-      return req.data.responseWithError(CONFLICT, CONTACT_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, contactNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedContact);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

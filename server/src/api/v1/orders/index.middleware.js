@@ -1,23 +1,25 @@
 const orderSchema = require('./index.model');
 const { ordersDB, productsDB } = require('../../../db');
-const { CONFLICT } = require('../../../helpers/constants/status-codes');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const { orderNotFoundMessage } = require('../../../helpers/variables/orders');
+const { CONFLICT } = require('../../../helpers/constants/status-codes');
 const {
-  NOT_FOUND,
-  INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+  productsNotUpdatedMessage,
+  getProductWithIdNotExistMessage,
+  getProductWithIdNoEnoughQuantityMessage,
+  getProductWithIdChangedMessage,
+} = require('../../../helpers/variables/products');
 const {
-  PRODUCTS_NOT_UPDATED,
   NAME,
   PRICE,
   THUMBNAIL,
   COMPANY_NAME,
   CATEGORY_NAME,
-  PRODUCT_WITH_ID_NOT_EXIST,
-  PRODUCT_WITH_ID_NO_ENOUGH_QUANTITY,
-  PRODUCT_WITH_ID_CHANGED,
 } = require('../../../helpers/constants/products');
+const {
+  NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/constants/status-codes');
 
 const validateOrder = (req, res, next) => {
   req.body.isPaid = false;
@@ -50,7 +52,7 @@ const findOrder = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -72,7 +74,7 @@ const findProducts = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -106,18 +108,18 @@ const updateProducts = (withModifiedCount = false) => async (req, res, next) => 
       withModifiedCount
         && updatedProducts.modifiedCount !== order.products.length
     ) {
-      return req.data.responseWithError(CONFLICT, PRODUCTS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, productsNotUpdatedMessage);
     }
 
     if (!withModifiedCount && !updatedProducts) {
-      return req.data.responseWithError(CONFLICT, PRODUCTS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, productsNotUpdatedMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -140,7 +142,7 @@ const checkExistingProducts = async (req, res, next) => {
     if (notExistingProducts.length) {
       return req.data.responseWithError(
         NOT_FOUND,
-        PRODUCT_WITH_ID_NOT_EXIST(notExistingProducts[0]),
+        getProductWithIdNotExistMessage(notExistingProducts[0]),
       );
     }
 
@@ -148,7 +150,7 @@ const checkExistingProducts = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -171,7 +173,7 @@ const checkEnoughProductsQuantity = async (req, res, next) => {
     if (notEnoughProductsQuantity.length) {
       return req.data.responseWithError(
         NOT_FOUND,
-        PRODUCT_WITH_ID_NO_ENOUGH_QUANTITY(notEnoughProductsQuantity[0].name),
+        getProductWithIdNoEnoughQuantityMessage(notEnoughProductsQuantity[0].name),
       );
     }
 
@@ -179,7 +181,7 @@ const checkEnoughProductsQuantity = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -209,7 +211,7 @@ const checkChangedProducts = async (req, res, next) => {
     if (changedProducts.length) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_WITH_ID_CHANGED(changedProducts[0].name),
+        getProductWithIdChangedMessage(changedProducts[0].name),
       );
     }
 
@@ -217,7 +219,7 @@ const checkChangedProducts = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

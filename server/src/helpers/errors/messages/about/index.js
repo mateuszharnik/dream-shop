@@ -1,19 +1,19 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   aboutMinLengthMessage,
   aboutMaxLengthMessage,
 } = require('../../../variables/about');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // INFORMATION
 const informationRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const informationString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const informationMin = {

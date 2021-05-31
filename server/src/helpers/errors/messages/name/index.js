@@ -1,8 +1,4 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
   nameRequiredMessage,
   nameNotCorrectMessage,
   nameMinLengthMessage,
@@ -12,14 +8,18 @@ const {
   surnameMinLengthMessage,
   surnameMaxLengthMessage,
 } = require('../../../variables/users');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // NAME
 const nameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const nameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const namePattern = {
@@ -40,11 +40,11 @@ const nameMax = {
 
 // SURNAME
 const surnameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const surnameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const surnamePattern = {

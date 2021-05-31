@@ -1,9 +1,10 @@
 const Joi = require('joi');
 const {
-  THREE,
-  THREE_HUNDRED,
-  FIFTY_THOUSAND,
-} = require('../../../helpers/constants/numbers');
+  regulationNameMinLength,
+  regulationNameMaxLength,
+  contentMinLength,
+  contentMaxLength,
+} = require('../../../helpers/variables/regulations');
 const {
   contentMessages,
   nameMessages,
@@ -13,14 +14,14 @@ const regulationsSchema = (regulations) => {
   const schema = Joi.object().keys({
     content: Joi.string()
       .trim()
-      .min(THREE)
-      .max(FIFTY_THOUSAND)
+      .min(contentMinLength)
+      .max(contentMaxLength)
       .required()
       .messages(contentMessages),
     name: Joi.string()
       .trim()
-      .min(THREE)
-      .max(THREE_HUNDRED)
+      .min(regulationNameMinLength)
+      .max(regulationNameMaxLength)
       .messages(nameMessages),
   });
 

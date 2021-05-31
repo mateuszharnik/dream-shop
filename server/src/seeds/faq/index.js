@@ -2,9 +2,9 @@ const faqCategoriesSchema = require('../../api/v1/faq-categories/index.model');
 const { faqCategories } = require('../data');
 const { faqCategoriesDB, faqDB } = require('../../db');
 const {
-  FAQS_DELETED,
-  FAQS_CATEGORIES_SEEDED,
-} = require('../../helpers/constants/tasks');
+  faqsDeletedMessage,
+  faqsCategoriesSeededMessage,
+} = require('../../helpers/variables/tasks');
 
 const seedFAQCategories = async () => {
   const categories = [];
@@ -31,9 +31,9 @@ const seedFAQCategories = async () => {
     await faqCategoriesDB.insert(categories);
 
     // eslint-disable-next-line no-console
-    console.log(FAQS_DELETED);
+    console.log(faqsDeletedMessage);
     // eslint-disable-next-line no-console
-    console.log(FAQS_CATEGORIES_SEEDED);
+    console.log(faqsCategoriesSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
