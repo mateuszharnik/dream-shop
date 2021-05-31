@@ -1,5 +1,14 @@
 const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
+const { isLoggedIn } = require('../middlewares/auth');
+const {
+  loginLimiterTime,
+  loginLimiterLength,
+  loginLimiterMessage,
+  recoveryLimiterTime,
+  recoveryLimiterLength,
+  recoveryLimiterMessage,
+} = require('../helpers/variables/limiter');
 const {
   createData,
   createResponseWithError,
@@ -10,26 +19,23 @@ const {
   validateRecoveryLink,
   validateRecoveryId,
 } = require('./index.middlewares');
-const { isLoggedIn } = require('../middlewares/auth');
 const {
   loginUser,
   sendRecoveryLink,
   recoveryPassword,
   checkRecoveryLink,
 } = require('./index.controller');
-const { MEDIUM, LOGIN, RECOVERY } = require('../helpers/constants/limiter');
-const { FIFTEEN_MINUTES } = require('../helpers/constants/time');
 
 const loginLimiter = rateLimit({
-  windowMs: FIFTEEN_MINUTES,
-  max: MEDIUM,
-  message: LOGIN,
+  windowMs: loginLimiterTime,
+  max: loginLimiterLength,
+  message: loginLimiterMessage,
 });
 
 const recoveryLimiter = rateLimit({
-  windowMs: FIFTEEN_MINUTES,
-  max: MEDIUM,
-  message: RECOVERY,
+  windowMs: recoveryLimiterTime,
+  max: recoveryLimiterLength,
+  message: recoveryLimiterMessage,
 });
 
 const router = Router();

@@ -1,32 +1,32 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  cityNameRequiredMessage,
+  cityNameMinLengthMessage,
+  cityNameMaxLengthMessage,
+} = require('../../../variables/contact');
 const {
-  CITY_NAME_REQUIRED,
-  CITY_NAME_MIN_LENGTH,
-  CITY_NAME_MAX_LENGTH,
-} = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // CITY
 const cityRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const cityString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const cityNotEmpty = {
-  'string.empty': CITY_NAME_REQUIRED,
+  'string.empty': cityNameRequiredMessage,
 };
 
 const cityMin = {
-  'string.min': CITY_NAME_MIN_LENGTH,
+  'string.min': cityNameMinLengthMessage,
 };
 
 const cityMax = {
-  'string.max': CITY_NAME_MAX_LENGTH,
+  'string.max': cityNameMaxLengthMessage,
 };
 
 const cityMessages = {

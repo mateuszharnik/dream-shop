@@ -5,35 +5,42 @@ const convertCategory = require('../../../helpers/product-categories');
 const { dbIdRegExp } = require('../../../helpers/regexp');
 const { purify } = require('../../../helpers/sanitize');
 const { getThumbnailUrl } = require('../../../helpers/files');
+const { thumbnailFileSchema, galleryFileSchema } = require('../../../models');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { DESC } = require('../../../helpers/variables/constants/queries');
+const { PRODUCTS_URL } = require('../../../helpers/variables/constants/url');
+const {
+  filtersNotUpdatedMessage,
+} = require('../../../helpers/variables/product-filters');
+const {
+  categoryIsForbiddenMessage,
+  productCategoryNotExistMessage,
+  productCategoryNotUpdatedMessage,
+} = require('../../../helpers/variables/product-categories');
 const {
   productsDB,
   productCategoriesDB,
   productFiltersDB,
 } = require('../../../db');
-const { thumbnailFileSchema, galleryFileSchema } = require('../../../models');
-const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
 const {
-  CONFLICT,
-  NOT_FOUND,
-  INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const { DESC } = require('../../../helpers/constants/queries');
-const { PRODUCTS_URL } = require('../../../helpers/constants/url');
-const { PRODUCTS_DIR } = require('../../../helpers/constants/directories');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  productNotUpdatedMessage,
+  productNotAddedMessage,
+  productsNotDeletedMessage,
+  productNotFoundMessage,
+  productNotDeletedMessage,
+  productsNotFoundMessage,
+} = require('../../../helpers/variables/products');
 const {
-  ONE_HUNDRED,
-  NINE_HUNDRED,
-  ONE_THOUSAND_TWO_HUNDRED,
-} = require('../../../helpers/constants/numbers');
+  productImageNewHeight,
+  productImageNewWidth,
+} = require('../../../helpers/variables/files');
 const {
-  CATEGORY_IS_FORBIDDEN,
-  PRODUCT_CATEGORY_NOT_EXIST,
-  PRODUCT_CATEGORY_NOT_UPDATED,
-} = require('../../../helpers/constants/product-categories');
+  PRODUCTS_DIR,
+} = require('../../../helpers/variables/constants/directories');
 const {
-  FILTERS_NOT_UPDATED,
-} = require('../../../helpers/constants/product-filters');
+  JPEG,
+  JPEG_EXT,
+} = require('../../../helpers/variables/constants/types');
 const {
   BESTSELLERS_PL,
   NEWS_PL,
@@ -41,13 +48,14 @@ const {
   PRICE_PL,
   ALPHABET_PL,
   COMPANY_NAME,
-  PRODUCT_NOT_UPDATED,
-  PRODUCT_NOT_ADDED,
-  PRODUCTS_NOT_DELETED,
-  PRODUCT_NOT_FOUND,
-  PRODUCT_NOT_DELETED,
-  PRODUCTS_NOT_FOUND,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/products');
+const {
+  CONFLICT,
+  NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
+} = require('../../../helpers/variables/constants/status-codes');
+
+const timeout = 100;
 
 const validateProduct = (req, res, next) => {
   const { schemaError, data: product } = productSchema(req.body);
@@ -145,7 +153,7 @@ const getSortQueries = (req, res, next) => {
 
 const checkIfCategoryExist = (req, res, next) => {
   if (req.body.category) {
-    return req.data.responseWithError(CONFLICT, CATEGORY_IS_FORBIDDEN);
+    return req.data.responseWithError(CONFLICT, categoryIsForbiddenMessage);
   }
 
   if (req.body.category_name && typeof req.body.category_name === 'string') {
@@ -177,7 +185,7 @@ const replaceThumbnail = async (req, res, next) => {
 
     await sharp(file.path)
       .toFormat(JPEG)
-      .resize(NINE_HUNDRED, ONE_THOUSAND_TWO_HUNDRED)
+      .resize(productImageNewWidth, productImageNewHeight)
       .toFile(`${file.destination}/${fileName}`);
 
     if (fs.existsSync(file.path)) {
@@ -196,7 +204,7 @@ const replaceThumbnail = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -238,7 +246,7 @@ const replaceGallery = (inGallery = false) => async (req, res, next) => {
 
         await sharp(file.path)
           .toFormat(JPEG)
-          .resize(NINE_HUNDRED, ONE_THOUSAND_TWO_HUNDRED)
+          .resize(productImageNewWidth, productImageNewHeight)
           .toFile(`${file.destination}/${fileName}`);
 
         if (fs.existsSync(file.path)) {
@@ -259,7 +267,7 @@ const replaceGallery = (inGallery = false) => async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -275,7 +283,7 @@ const addProduct = async (req, res, next) => {
     });
 
     if (!product) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_NOT_ADDED);
+      return req.data.responseWithError(CONFLICT, productNotAddedMessage);
     }
 
     req.data.product = product;
@@ -284,7 +292,7 @@ const addProduct = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -298,14 +306,17 @@ const checkIfProductCategoryExist = async (req, res, next) => {
     });
 
     if (!category) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCT_CATEGORY_NOT_EXIST);
+      return req.data.responseWithError(
+        NOT_FOUND,
+        productCategoryNotExistMessage,
+      );
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -352,14 +363,14 @@ const findAndUpdateProductFiltersOnAdd = async (req, res, next) => {
     );
 
     if (!updatedFilter) {
-      return req.data.responseWithError(CONFLICT, FILTERS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, filtersNotUpdatedMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -378,14 +389,17 @@ const updateProductCategory = async (req, res, next) => {
     );
 
     if (!updatedCategory) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_CATEGORY_NOT_UPDATED);
+      return req.data.responseWithError(
+        CONFLICT,
+        productCategoryNotUpdatedMessage,
+      );
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -397,7 +411,7 @@ const findProduct = async (req, res, next) => {
     });
 
     if (!product) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, productNotFoundMessage);
     }
 
     req.data.product = product;
@@ -406,7 +420,7 @@ const findProduct = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -418,7 +432,7 @@ const deleteProduct = async (req, res, next) => {
     );
 
     if (!deletedProduct) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, productNotDeletedMessage);
     }
 
     req.data.product = deletedProduct;
@@ -427,7 +441,7 @@ const deleteProduct = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -437,7 +451,7 @@ const findAndUpdateProductFiltersOnDelete = (
   const { product } = req.data;
 
   const compareCategoryName = product.category_name !== req.body.category_name
-    || product.company_name !== req.body.company_name;
+      || product.company_name !== req.body.company_name;
 
   if (withCompareCategoryName && !compareCategoryName) {
     return next();
@@ -486,14 +500,14 @@ const findAndUpdateProductFiltersOnDelete = (
     );
 
     if (!updatedFilter) {
-      return req.data.responseWithError(CONFLICT, FILTERS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, filtersNotUpdatedMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -525,7 +539,7 @@ const deleteThumbnailAndGalleryFiles = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -534,14 +548,14 @@ const findProducts = async (req, res, next) => {
     const products = await productsDB.find({ deleted_at: null });
 
     if (!products.length) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCTS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, productsNotFoundMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -554,7 +568,7 @@ const deleteProducts = async (req, res, next) => {
     );
 
     if (!deletedProducts) {
-      return req.data.responseWithError(CONFLICT, PRODUCTS_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, productsNotDeletedMessage);
     }
 
     req.data.deletedProducts = deletedProducts;
@@ -563,7 +577,7 @@ const deleteProducts = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -576,14 +590,14 @@ const deleteProductFilters = async (req, res, next) => {
     );
 
     if (!updatedFilters) {
-      return req.data.responseWithError(CONFLICT, FILTERS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, filtersNotUpdatedMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -594,14 +608,14 @@ const deleteThumbnailAndGalleryDirectories = async (req, res, next) => {
 
       setTimeout(() => {
         fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
-      }, ONE_HUNDRED);
+      }, timeout);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -614,14 +628,17 @@ const deleteProductCategories = async (req, res, next) => {
     );
 
     if (!categories) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_CATEGORY_NOT_UPDATED);
+      return req.data.responseWithError(
+        CONFLICT,
+        productCategoryNotUpdatedMessage,
+      );
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -640,7 +657,7 @@ const updateProduct = async (req, res, next) => {
     );
 
     if (!updatedProduct) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, productNotUpdatedMessage);
     }
 
     req.data.updatedProduct = updatedProduct;
@@ -649,7 +666,7 @@ const updateProduct = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -703,14 +720,14 @@ const findAndUpdateProductFiltersOnUpdate = async (req, res, next) => {
     );
 
     if (!updatedFilter) {
-      return req.data.responseWithError(CONFLICT, FILTERS_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, filtersNotUpdatedMessage);
     }
 
     next();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -738,7 +755,7 @@ const updateThumbnail = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -787,7 +804,7 @@ const updateGallery = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

@@ -1,12 +1,46 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { match } from '@helpers/index';
-import { setToken } from '@helpers/token';
-import { Alert, Alerts, UserWithToken } from '@models/index';
 import { AuthService } from '@services/auth.service';
+import { DocumentRefService } from '@services/document-ref.service';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
+import { ClientRoutes } from '@models/routes';
+import { ValidationError } from '@models/errors';
+import {
+  ButtonChangePasswordText,
+  ButtonChangePasswordTitle,
+} from '@models/buttons';
+import { clientRoutes } from '@helpers/variables/routes';
+import { match } from '@helpers/index';
+import { setToken } from '@helpers/token';
+import { CONFIRM_PASSWORD, PASSWORD } from '@helpers/variables/constants/auth';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { validation } from '@helpers/validation';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading, startSubmittingForm } from '@helpers/components';
+import { changePasswordPageTitle } from '@helpers/variables/titles';
+import {
+  changePasswordText,
+  changePasswordTitle,
+  changingPasswordText,
+  changingPasswordTitle,
+} from '@helpers/variables/buttons';
+import {
+  newPasswordConfirmValidators,
+  newPasswordValidators,
+} from '@helpers/validation/auth';
+import {
+  newPasswordConfirmMatch,
+  newPasswordConfirmRequired,
+  newPasswordMaxLength,
+  newPasswordMinLength,
+  newPasswordRequired,
+} from '@helpers/errors/messages/auth';
+import {
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} from '@helpers/variables/constants/status-codes';
 
 @Component({
   selector: 'app-change-password',
@@ -16,26 +50,31 @@ import { UserService } from '@services/user.service';
 })
 export class ChangePasswordComponent implements OnInit {
   form: FormGroup = null;
+  routes: ClientRoutes = clientRoutes;
+  isLoading = true;
   isSubmitted = false;
   isDisabled = false;
-  isLoading = true;
-  id: string = null;
-  email: string = null;
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
+  id = '';
+  email = '';
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
 
-  passwordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę podać nowe hasło.', key: 'required.' },
-    { id: '1', message: 'Nowe hasło musi mieć minimum 8 znaków.', key: 'minlength' },
-    { id: '2', message: 'Nowe hasło nie może mieć więcej niż 50 znaków.', key: 'maxlength' },
+  /* ====== Functions ====== */
+  validation = null;
+  setAlerts = null;
+  setLoading = null;
+  startSubmittingForm = null;
+
+  /* ====== Validation Errors ====== */
+  passwordValidationErrors: ValidationError[] = [
+    newPasswordRequired,
+    newPasswordMaxLength,
+    newPasswordMinLength,
   ];
-
-  confirmPasswordAlerts: Alert[] = [
-    { id: '0', message: 'Proszę powtórzyć nowe hasło.', key: 'required' },
-    { id: '1', message: 'Hasła nie są takie same.', key: 'match' },
+  confirmPasswordValidationErrors: ValidationError[] = [
+    newPasswordConfirmRequired,
+    newPasswordConfirmMatch,
   ];
 
   constructor(
@@ -45,105 +84,95 @@ export class ChangePasswordComponent implements OnInit {
     private spinnerService: SpinnerService,
     private authService: AuthService,
     private userService: UserService,
+    private documentRefService: DocumentRefService,
   ) {
+    this.documentRefService.nativeDocument.title = changePasswordPageTitle;
+
+    this.validation = validation(this, 'ChangePasswordComponent');
+    this.setAlerts = setAlerts(this, 'ChangePasswordComponent');
+    this.setLoading = setLoading(this, 'ChangePasswordComponent');
+    this.startSubmittingForm = startSubmittingForm(
+      this,
+      'ChangePasswordComponent',
+    );
+
+    this.id = this.activateRoute.snapshot.params.id;
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
   async ngOnInit() {
-    this.id = this.activateRoute.snapshot.params.id;
-
     try {
-      const response = await this.authService.checkRecoveryToken(this.id);
+      const { email } = await this.authService.checkRecoveryToken(this.id);
 
-      this.email = response.email;
-      this.createForm();
-      this.setLoading();
+      this.email = email;
     } catch (error) {
-      if (error.status === 404) {
-        this.router.navigate(['/404']);
-        return;
-      } else if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else if (error.status === 500) {
-        this.setAlerts(error.error.message);
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-
+      this.onErrorInit(error);
+    } finally {
       this.createForm();
       this.setLoading();
     }
   }
 
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
+  onErrorInit(error) {
+    if (error.status === NOT_FOUND) {
+      this.router.navigate([this.routes.notFound]);
+      return;
+    } else if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else if (error.status === INTERNAL_SERVER_ERROR) {
+      this.setAlerts({ serverErrorAlert: error.error.message });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
+    }
   }
 
   createForm() {
-    this.form = this.formBuilder.group({
-      password: ['', {
-        validators: [
-          Validators.minLength(8),
-          Validators.maxLength(50),
-          Validators.required,
-        ],
-      }],
-      confirm_password: ['', {
-        validators: [
-          Validators.required,
-        ],
-      }],
-    }, { validator: match('password', 'confirm_password') });
+    this.form = this.formBuilder.group(
+      {
+        password: ['', newPasswordValidators],
+        confirm_password: ['', newPasswordConfirmValidators],
+      },
+      { validator: match(PASSWORD, CONFIRM_PASSWORD) },
+    );
   }
 
-  computedButtonTitle(): 'Zmień swoje hasło' | 'Zmiana hasła w toku' {
-    return this.isDisabled ? 'Zmiana hasła w toku' : 'Zmień swoje hasło';
+  buttonTitle(condition = false): ButtonChangePasswordTitle {
+    return condition ? changingPasswordTitle : changePasswordTitle;
   }
 
-  computedButtonText(): 'Zmień' | 'Zmienianie' {
-    return this.isDisabled ? 'Zmienianie' : 'Zmień';
+  buttonText(condition = false): ButtonChangePasswordText {
+    return condition ? changingPasswordText : changePasswordText;
   }
 
-  validation(prop: string): boolean {
-    return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
-  }
-
-  async submit() {
-    this.isSubmitted = true;
-
-    if (this.form.invalid) {
+  async changePassword() {
+    if (!this.startSubmittingForm()) {
       return;
     }
 
-    this.isDisabled = true;
-
     try {
-      const response: UserWithToken = await this.authService.resetPassword(this.form.value, this.id);
-      this.userService.setUser(response.user);
-      setToken(response.token);
-      this.router.navigate(['/admin']);
+      const { user, token = '' } = await this.authService.resetPassword(
+        this.form.value,
+        this.id,
+      );
+
+      this.userService.setUser(user);
+      setToken(token);
+
+      this.router.navigate([this.routes.admin]);
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-    } finally {
-      this.isDisabled = false;
-      this.isSubmitted = false;
+      this.onError(error);
     }
+  }
+
+  onError(error) {
+    if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
+    }
+
+    this.isDisabled = false;
+    this.isSubmitted = false;
   }
 
   get formControls() {

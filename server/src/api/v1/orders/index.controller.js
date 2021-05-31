@@ -1,22 +1,22 @@
 const { ordersDB } = require('../../../db');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
-const { DESC } = require('../../../helpers/constants/queries');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { DESC } = require('../../../helpers/variables/constants/queries');
+const {
+  ordersNotFoundMessage,
+  orderNotDeletedMessage,
+  ordersNotDeletedMessage,
+  ordersDeletedMessage,
+  orderNotAcceptedMessage,
+  orderNotRefusedMessage,
+  orderNotPaidMessage,
+  orderNotAddedMessage,
+} = require('../../../helpers/variables/orders');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const {
-  ORDERS_NOT_FOUND,
-  ORDER_NOT_DELETED,
-  ORDERS_NOT_DELETED,
-  ORDERS_DELETED,
-  ORDER_NOT_ACCEPTED,
-  ORDER_NOT_REFUSED,
-  ORDER_NOT_PAID,
-  ORDER_NOT_ADDED,
-} = require('../../../helpers/constants/orders');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getOrders = async (req, res) => {
   const { sort = DESC } = req.query;
@@ -36,7 +36,7 @@ const getOrders = async (req, res) => {
     );
 
     if (!orders) {
-      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, ordersNotFoundMessage);
     }
 
     res.status(OK).json({
@@ -51,7 +51,7 @@ const getOrders = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -63,7 +63,7 @@ const getOrder = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -82,14 +82,14 @@ const addOrder = async (req, res) => {
     });
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_ADDED);
+      return req.data.responseWithError(CONFLICT, orderNotAddedMessage);
     }
 
     res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -107,14 +107,14 @@ const refuseOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_REFUSED);
+      return req.data.responseWithError(CONFLICT, orderNotRefusedMessage);
     }
 
     res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -131,14 +131,14 @@ const paidOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_PAID);
+      return req.data.responseWithError(CONFLICT, orderNotPaidMessage);
     }
 
     res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -156,14 +156,14 @@ const acceptOrder = async (req, res) => {
     );
 
     if (!updatedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_ACCEPTED);
+      return req.data.responseWithError(CONFLICT, orderNotAcceptedMessage);
     }
 
     res.status(OK).json(updatedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -172,7 +172,7 @@ const deleteOrders = async (req, res) => {
     const orders = await ordersDB.find({ deleted_at: null });
 
     if (!orders.length) {
-      return req.data.responseWithError(NOT_FOUND, ORDERS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, ordersNotFoundMessage);
     }
 
     const deletedOrders = await ordersDB.update(
@@ -182,17 +182,17 @@ const deleteOrders = async (req, res) => {
     );
 
     if (!deletedOrders) {
-      return req.data.responseWithError(CONFLICT, ORDERS_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, ordersNotDeletedMessage);
     }
 
     res.status(OK).json({
-      message: ORDERS_DELETED,
+      message: ordersDeletedMessage,
       items: deletedOrders.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -204,14 +204,14 @@ const deleteOrder = async (req, res) => {
     );
 
     if (!deletedOrder) {
-      return req.data.responseWithError(CONFLICT, ORDER_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, orderNotDeletedMessage);
     }
 
     res.status(OK).json(deletedOrder);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

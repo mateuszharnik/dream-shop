@@ -1,36 +1,36 @@
 const productCategorySchema = require('./index.model');
 const convertCategory = require('../../../helpers/product-categories');
+const { productCategoriesRegExp } = require('../../../helpers/regexp');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const {
   productCategoriesDB,
   productsDB,
   productFiltersDB,
 } = require('../../../db');
-const { productCategoriesRegExp } = require('../../../helpers/regexp');
+const {
+  productCategoriesNotFoundMessage,
+  categoryIsForbiddenMessage,
+  productCategoryNotExistMessage,
+  categoryCannotBeDeletedMessage,
+  productCategoriesNotDeletedMessage,
+  productWithCategoryNotDeletedMessage,
+  productCategoriesNotDeletedInFiltersMessage,
+  productCategoryAlreadyExistMessage,
+  productCategoryNotAddedMessage,
+} = require('../../../helpers/variables/product-categories');
 const {
   BESTSELLERS_PL,
   NEWS_PL,
-} = require('../../../helpers/constants/products');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+} = require('../../../helpers/variables/constants/products');
 const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const {
-  PRODUCT_CATEGORIES_NOT_FOUND,
-  CATEGORY_IS_FORBIDDEN,
-  PRODUCT_CATEGORY_NOT_EXIST,
-  CATEGORY_CANNOT_BE_DELETED,
-  PRODUCT_CATEGORIES_NOT_DELETED,
-  PRODUCT_WITH_CATEGORY_NOT_DELETED,
-  PRODUCT_CATEGORIES_NOT_DELETED_IN_FILTERS,
-  PRODUCT_CATEGORY_ALREADY_EXIST,
-  PRODUCT_CATEGORY_NOT_ADDED,
-} = require('../../../helpers/constants/product-categories');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateProductCategory = (req, res, next) => {
   if (req.body.category) {
-    return req.data.responseWithError(CONFLICT, CATEGORY_IS_FORBIDDEN);
+    return req.data.responseWithError(CONFLICT, categoryIsForbiddenMessage);
   }
 
   if (req.body.name && typeof req.body.name === 'string') {
@@ -62,7 +62,7 @@ const findCategories = async (req, res, next) => {
     if (!categories.length) {
       return req.data.responseWithError(
         NOT_FOUND,
-        PRODUCT_CATEGORIES_NOT_FOUND,
+        productCategoriesNotFoundMessage,
       );
     }
 
@@ -70,16 +70,22 @@ const findCategories = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
 const findCategory = async (req, res, next) => {
   try {
-    const category = await productCategoriesDB.findOne({ _id: req.params.id, deleted_at: null });
+    const category = await productCategoriesDB.findOne({
+      _id: req.params.id,
+      deleted_at: null,
+    });
 
     if (!category) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCT_CATEGORY_NOT_EXIST);
+      return req.data.responseWithError(
+        NOT_FOUND,
+        productCategoryNotExistMessage,
+      );
     }
 
     req.data.category = category;
@@ -88,7 +94,7 @@ const findCategory = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -106,7 +112,7 @@ const findCategoryByName = async (req, res, next) => {
     if (category && category.deleted_at === null) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_CATEGORY_ALREADY_EXIST,
+        productCategoryAlreadyExistMessage,
       );
     }
 
@@ -116,7 +122,7 @@ const findCategoryByName = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -127,7 +133,7 @@ const checkIfCategoryCanBeDeleted = (req, res, next) => {
     || category.category === convertCategory(NEWS_PL);
 
   if (category && categoryNameIsCorrect) {
-    return req.data.responseWithError(CONFLICT, CATEGORY_CANNOT_BE_DELETED);
+    return req.data.responseWithError(CONFLICT, categoryCannotBeDeletedMessage);
   }
 
   next();
@@ -143,7 +149,7 @@ const deleteProductCategory = async (req, res, next) => {
     if (!deletedCategory) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_CATEGORIES_NOT_DELETED,
+        productCategoriesNotDeletedMessage,
       );
     }
 
@@ -153,7 +159,7 @@ const deleteProductCategory = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -175,7 +181,7 @@ const deleteProducts = (deleteAll = false) => async (req, res, next) => {
     if (!deletedProducts) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_WITH_CATEGORY_NOT_DELETED,
+        productWithCategoryNotDeletedMessage,
       );
     }
 
@@ -183,7 +189,7 @@ const deleteProducts = (deleteAll = false) => async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -205,7 +211,7 @@ const deleteProductFilters = (deleteAll = false) => async (req, res, next) => {
     if (!deletedFilters) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_CATEGORIES_NOT_DELETED_IN_FILTERS,
+        productCategoriesNotDeletedInFiltersMessage,
       );
     }
 
@@ -213,7 +219,7 @@ const deleteProductFilters = (deleteAll = false) => async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -233,7 +239,7 @@ const deleteProductCategories = async (req, res, next) => {
     if (!deletedCategories) {
       return req.data.responseWithError(
         CONFLICT,
-        PRODUCT_CATEGORIES_NOT_DELETED,
+        productCategoriesNotDeletedMessage,
       );
     }
 
@@ -243,7 +249,7 @@ const deleteProductCategories = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -276,7 +282,10 @@ const addProductCategory = async (req, res, next) => {
     }
 
     if (!newCategory) {
-      return req.data.responseWithError(CONFLICT, PRODUCT_CATEGORY_NOT_ADDED);
+      return req.data.responseWithError(
+        CONFLICT,
+        productCategoryNotAddedMessage,
+      );
     }
 
     req.data.newCategory = newCategory;
@@ -285,7 +294,7 @@ const addProductCategory = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

@@ -1,14 +1,14 @@
-<div *ngIf="isLoading; else recoveryPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #recoveryPageView>
-  <app-auth-wrapper>
-    <p>
+<ng-template #main>
+  <app-auth-wrapper [pageTitle]="'Odzyskiwanie hasła'">
+    <p class="text-center">
       Jeżeli nie pamiętasz hasła możesz podać adres email, na który zostanie
-      wysłana wiadomość z adresem do zmiany hasła.
+      wysłana wiadomość z linkiem do zmiany hasła.
     </p>
     <app-form
-      (whenFormSubmit)="submit()"
+      (whenFormSubmit)="sendEmail()"
       [formName]="form"
       [formClass]="'form'"
     >
@@ -22,7 +22,7 @@
             [inputPlaceholder]="'example@domain.com'"
             [inputClass]="'form__input w-100'"
             [inputValidation]="validation('email')"
-            [inputAlerts]="emailAlerts"
+            [inputAlerts]="emailValidationErrors"
             [inputGroup]="form"
             [inputForm]="form"
           ></app-input>
@@ -30,43 +30,49 @@
         <div class="column-12 text-center">
           <app-button
             [buttonType]="'submit'"
-            [buttonTitle]="computedButtonTitle()"
+            [buttonTitle]="buttonTitle(isDisabled)"
             [buttonDisabled]="isDisabled"
           >
-            {{ computedButtonText() }}
-            <app-fa-icon [faClass]="computedButtonIcon()"></app-fa-icon>
+            {{ buttonText(isDisabled) }}
+            <app-fa-icon [faClass]="buttonIcon(isDisabled)"></app-fa-icon>
           </app-button>
         </div>
       </div>
     </app-form>
     <app-alert
-      *ngIf="alerts.server || alerts.error"
-      [alertClass]="'alert alert-danger m-auto my-6'"
+      *ngIf="serverErrorAlert || errorAlert"
+      [alertClassType]="'danger'"
+      [alertClass]="'m-auto my-6'"
     >
-      {{ alerts.server ? alerts.server : alerts.error }}
+      {{ serverErrorAlert ? serverErrorAlert : errorAlert }}
     </app-alert>
     <app-alert
-      *ngIf="alerts.success"
-      [alertClass]="'alert alert-success m-auto my-6'"
+      *ngIf="successAlert"
+      [alertClassType]="'success'"
+      [alertClass]="'m-auto my-6'"
     >
       <div *ngIf="isLink; else successMessage">
         Zresetuj hasło korzystając z
         <app-link
-          [linkRouter]="alerts.success"
+          [linkRouter]="successAlert"
           [linkTitle]="'Przejdź do strony zmiany hasła'"
           >linku</app-link
         >.
       </div>
       <ng-template #successMessage>
-        {{ alerts.success }}
+        {{ successAlert }}
       </ng-template>
     </app-alert>
-    <app-alert *ngIf="isLink" [alertClass]="'alert alert-warning m-auto my-6'">
+    <app-alert
+      *ngIf="isLink"
+      [alertClassType]="'warning'"
+      [alertClass]="'m-auto my-6'"
+    >
       Wysyłanie wiadomości zostało wyłączone na serwerze.
     </app-alert>
-    <div>
+    <div class="mt-4">
       <app-router-link
-        [linkRouter]="'/zaloguj'"
+        [linkRouter]="routes.login"
         [linkTitle]="'Wróć do strony logowania'"
       >
         <app-fa-icon [faClass]="'fas fa-arrow-left mr-1'"></app-fa-icon>Zaloguj

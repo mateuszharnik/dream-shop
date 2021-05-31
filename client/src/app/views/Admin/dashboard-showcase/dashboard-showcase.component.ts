@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { User } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
+import { DocumentRefService } from '@services/document-ref.service';
+import { User } from '@models/index';
+import { setLoading } from '@helpers/components';
+import { dashboardAdminPageTitle } from '@helpers/variables/titles';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,24 +14,44 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardShowcaseComponent implements OnInit, OnDestroy {
-  isLoading = true;
   user: User = null;
+  isLoading = true;
   subscriptions: Subscription[] = [];
 
-  constructor(private spinnerService: SpinnerService, private userService: UserService) {
-    this.subscriptions.push(this.userService.getUser().subscribe((data: User) => {
-      this.user = data;
-    }));
+  /* ====== Functions ====== */
+  setLoading = null;
+
+  constructor(
+    private spinnerService: SpinnerService,
+    private userService: UserService,
+    private documentRefService: DocumentRefService,
+  ) {
+    this.documentRefService.nativeDocument.title = dashboardAdminPageTitle;
+
+    this.setLoading = setLoading(this, 'DashboardShowcaseComponent');
+
+    this.addUserSubscription();
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.isLoading = false;
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
+    this.setLoading();
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.removeSubscriptions();
+  }
+
+  addUserSubscription() {
+    this.subscriptions.push(
+      this.userService.getUser().subscribe((user: User) => {
+        this.user = user;
+      }),
+    );
+  }
+
+  removeSubscriptions() {
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 }

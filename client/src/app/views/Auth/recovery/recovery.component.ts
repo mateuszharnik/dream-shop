@@ -1,8 +1,32 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Alert, Alerts } from '@models/index';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
+import { DocumentRefService } from '@services/document-ref.service';
 import { SpinnerService } from '@services/spinner.service';
+import { ClientRoutes } from '@models/routes';
+import { ValidationError } from '@models/errors';
+import {
+  ButtonSendEmailIcon,
+  ButtonSendEmailText,
+  ButtonSendEmailTitle,
+} from '@models/buttons';
+import { clientRoutes } from '@helpers/variables/routes';
+import { emailPattern, emailRequired } from '@helpers/errors/messages/auth';
+import { emailValidators } from '@helpers/validation/auth';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { validation } from '@helpers/validation';
+import { HTTP } from '@helpers/variables/constants/auth';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading, startSubmittingForm } from '@helpers/components';
+import { recoveryPageTitle } from '@helpers/variables/titles';
+import {
+  paperPlaneIcon,
+  sendingEmailText,
+  sendingEmailTitle,
+  sendEmailText,
+  sendEmailTitle,
+  spinnerIcon,
+} from '@helpers/variables/buttons';
 
 @Component({
   selector: 'app-recovery',
@@ -12,22 +36,37 @@ import { SpinnerService } from '@services/spinner.service';
 })
 export class RecoveryComponent implements OnInit {
   form: FormGroup = null;
+  routes: ClientRoutes = clientRoutes;
+  isLoading = true;
   isLink = false;
   isSubmitted = false;
   isDisabled = false;
-  isLoading = true;
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
 
-  emailAlerts: Alert[] = [
-    { id: '0', message: 'Adres email jest nieprawidłowy.', key: 'pattern' },
-    { id: '1', message: 'Proszę podać adres email.', key: 'required' },
-  ];
+  /* ====== Functions ====== */
+  validation = null;
+  setAlerts = null;
+  setLoading = null;
+  startSubmittingForm = null;
 
-  constructor(private formBuilder: FormBuilder, private spinnerService: SpinnerService, private authService: AuthService) {
+  /* ====== Validation Errors ====== */
+  emailValidationErrors: ValidationError[] = [emailPattern, emailRequired];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: SpinnerService,
+    private authService: AuthService,
+    private documentRefService: DocumentRefService,
+  ) {
+    this.documentRefService.nativeDocument.title = recoveryPageTitle;
+
+    this.validation = validation(this, 'RecoveryComponent');
+    this.setAlerts = setAlerts(this, 'RecoveryComponent');
+    this.setLoading = setLoading(this, 'RecoveryComponent');
+    this.startSubmittingForm = startSubmittingForm(this, 'RecoveryComponent');
+
     this.isLoading = this.spinnerService.getLoadingValue();
   }
 
@@ -36,80 +75,51 @@ export class RecoveryComponent implements OnInit {
     this.setLoading();
   }
 
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
   createForm() {
     this.form = this.formBuilder.group({
-      email: ['', {
-        validators: [
-          // tslint:disable-next-line: max-line-length
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-          Validators.required,
-        ],
-      }],
+      email: ['', emailValidators],
     });
   }
 
-  computedButtonTitle(): 'Wysyłanie wiadomości' | 'Wyślij wiadomość' {
-    return this.isDisabled ? 'Wysyłanie wiadomości' : 'Wyślij wiadomość';
+  buttonTitle(condition = false): ButtonSendEmailTitle {
+    return condition ? sendingEmailTitle : sendEmailTitle;
   }
 
-  computedButtonText(): 'Wysyłanie' | 'Wyślij' {
-    return this.isDisabled ? 'Wysyłanie' : 'Wyślij';
+  buttonText(condition = false): ButtonSendEmailText {
+    return condition ? sendingEmailText : sendEmailText;
   }
 
-  computedButtonIcon(): 'fas fa-spinner fa-spin ml-1' | 'far fa-paper-plane ml-1' {
-    return this.isDisabled ? 'fas fa-spinner fa-spin ml-1' : 'far fa-paper-plane ml-1';
+  buttonIcon(condition = false): ButtonSendEmailIcon {
+    return condition ? spinnerIcon : paperPlaneIcon;
   }
 
-  validation(prop: string): boolean {
-    return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
-  }
-
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
-  }
-
-  async submit() {
-    this.isSubmitted = true;
-
-    if (this.form.invalid) {
+  async sendEmail() {
+    if (!this.startSubmittingForm()) {
       return;
     }
 
-    this.isDisabled = true;
-
     try {
-      const response = await this.authService.sendRecoveryEmail(this.form.value);
+      const response = await this.authService.sendRecoveryEmail(
+        this.form.value,
+      );
 
-      if (response.message.includes('http')) {
-        this.isLink = true;
-      } else {
-        this.isLink = false;
-      }
+      this.isLink = response.message.includes(HTTP) ? true : false;
 
-      this.setAlerts('', '', response.message);
+      this.setAlerts({ successAlert: response.message });
     } catch (error) {
       this.isLink = false;
-
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
+      this.onError(error);
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
+    }
+  }
+
+  onError(error) {
+    if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
     }
   }
 

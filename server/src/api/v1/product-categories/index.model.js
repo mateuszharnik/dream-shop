@@ -7,22 +7,27 @@ const {
   productCategoryNameMessages,
   productCategoryMessages,
 } = require('../../../helpers/errors/messages/product-categories');
-const { THREE, ONE_HUNDRED } = require('../../../helpers/constants/numbers');
+const {
+  productCategoryMaxLength,
+  productCategoryMinLength,
+  productCategoryNameMaxLength,
+  productCategoryNameMinLength,
+} = require('../../../helpers/variables/products');
 
 const productCategorySchema = (category) => {
   const schema = Joi.object().keys({
     name: Joi.string()
       .regex(productCategoryNameRegExp)
       .trim()
-      .min(THREE)
-      .max(ONE_HUNDRED)
+      .min(productCategoryNameMinLength)
+      .max(productCategoryNameMaxLength)
       .required()
       .messages(productCategoryNameMessages),
     category: Joi.string()
       .trim()
       .lowercase()
-      .min(THREE)
-      .max(ONE_HUNDRED)
+      .min(productCategoryMinLength)
+      .max(productCategoryMaxLength)
       .regex(productCategoryRegExp)
       .required()
       .messages(productCategoryMessages),

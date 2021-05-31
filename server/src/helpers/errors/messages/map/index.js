@@ -1,27 +1,27 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  mapLatLngReqiuredMessage,
+  mapLatLngNotCorrectMessage,
+} = require('../../../variables/map');
 const {
-  MAP_LAT_LNG_REQIURED,
-  MAP_LAT_LNG_NOT_CORRECT,
-} = require('../../../constants/map');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // MAP
 const mapRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const mapNotEmpty = {
-  'string.empty': MAP_LAT_LNG_REQIURED,
+  'string.empty': mapLatLngReqiuredMessage,
 };
 
 const mapString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const mapPattern = {
-  'string.pattern.base': MAP_LAT_LNG_NOT_CORRECT,
+  'string.pattern.base': mapLatLngNotCorrectMessage,
 };
 
 const mapMessages = {

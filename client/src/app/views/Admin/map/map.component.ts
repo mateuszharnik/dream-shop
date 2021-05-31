@@ -1,9 +1,26 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Alert, Alerts, Map, MapEvent } from '@models/index';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DocumentRefService } from '@services/document-ref.service';
 import { MapService } from '@services/map.service';
 import { SpinnerService } from '@services/spinner.service';
+import { ButtonSaveText, ButtonSaveTitle } from '@models/buttons';
+import { ValidationError } from '@models/errors';
+import { Map, MapEvent } from '@models/index';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading, startSubmittingForm } from '@helpers/components';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import { successfullySavedMessage } from '@helpers/variables/success';
+import { mapAdminPageTitle } from '@helpers/variables/titles';
+import { latlngPattern } from '@helpers/errors/messages/map';
+import { validation } from '@helpers/validation';
+import { latlngValidators } from '@helpers/validation/map';
+import {
+  saveText,
+  saveTitle,
+  savingText,
+  savingTitle,
+} from '@helpers/variables/buttons';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,126 +32,107 @@ import { Subscription } from 'rxjs';
 export class MapComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   map: Map = null;
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
   subscriptions: Subscription[] = [];
 
-  latlngAlerts: Alert[] = [
-    { id: '0', message: 'Podana pozycja nie jest prawidłowa.', key: 'pattern' },
-  ];
+  /* ====== Functions ====== */
+  validation = null;
+  setAlerts = null;
+  setLoading = null;
+  startSubmittingForm = null;
+
+  /* ====== Validation Errors ====== */
+  latlngValidationErrors: ValidationError[] = [latlngPattern];
 
   constructor(
     private spinnerService: SpinnerService,
     private formBuilder: FormBuilder,
     private mapService: MapService,
-    private router: Router,
+    private documentRefService: DocumentRefService,
   ) {
-    this.subscriptions.push(
-      this.mapService.getMap().subscribe((data: Map) => {
-        this.map = data;
-      }),
-    );
+    this.documentRefService.nativeDocument.title = mapAdminPageTitle;
+
+    this.validation = validation(this, 'MapComponent');
+    this.setAlerts = setAlerts(this, 'MapComponent');
+    this.setLoading = setLoading(this, 'MapComponent');
+    this.startSubmittingForm = startSubmittingForm(this, 'MapComponent');
+
+    this.addMapSubscription();
   }
 
   async ngOnInit() {
     try {
-      const response: Map = await this.mapService.fetchMap();
-      this.mapService.setMap(response);
-      this.createForm(this.map);
-      this.setLoading();
+      this.map = await this.mapService.fetchMap();
+      this.mapService.setMap(this.map);
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-
+      this.onError(error);
+    } finally {
       this.createForm(this.map);
       this.setLoading();
     }
   }
 
   ngOnDestroy() {
+    this.removeSubscriptions();
+  }
+
+  addMapSubscription() {
+    this.subscriptions.push(
+      this.mapService.getMap().subscribe((map: Map) => {
+        this.map = map;
+      }),
+    );
+  }
+
+  removeSubscriptions() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
   }
 
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
-  }
-
   createForm(map: Map) {
-    const latlng = map && map.latlng ? map.latlng : '';
+    const { latlng = '' } = map || {};
 
     this.form = this.formBuilder.group({
-      latlng: [
-        latlng,
-        {
-          validators: [
-            Validators.pattern(/^\(-?[0-9]+\.[0-9]+,\s-?[0-9]+\.[0-9]+\)$/),
-          ],
-        },
-      ],
+      latlng: [latlng, latlngValidators],
     });
   }
 
-  validation(prop: string): boolean {
-    return (
-      (this.formControls[prop].errors &&
-        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
-      (this.formControls[prop].errors && this.isSubmitted)
-    );
+  buttonTitle(condition = false): ButtonSaveTitle {
+    return condition ? savingTitle : saveTitle;
   }
 
-  computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
-    return this.isDisabled ? 'Zapisywanie zmian' : 'Zapisz zmiany';
+  buttonText(condition = false): ButtonSaveText {
+    return condition ? savingText : saveText;
   }
 
-  computedButtonText(): 'Zapisz' | 'Zapisywanie' {
-    return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
-  }
-
-  async submit() {
-    this.isSubmitted = true;
-
-    if (this.form.invalid) {
+  async saveSettings() {
+    if (!this.startSubmittingForm()) {
       return;
     }
 
-    this.isDisabled = true;
-
     try {
-      const response: Map = await this.mapService.saveMap(
-        this.map._id,
-        this.form.value,
-      );
-      this.mapService.setMap(response);
-      this.setAlerts('', '', 'Pomyślnie zapisano.');
+      this.map = await this.mapService.saveMap(this.map._id, this.form.value);
+      this.mapService.setMap(this.map);
+      this.setAlerts({ successAlert: successfullySavedMessage });
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
+      this.onError(error);
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
+    }
+  }
+
+  onError(error) {
+    if (!error.status || error.status === NOT_FOUND) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
     }
   }
 

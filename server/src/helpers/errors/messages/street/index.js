@@ -1,32 +1,32 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  streetNameRequiredMessage,
+  streetNameMaxLengthMessage,
+  streetNameMinLengthMessage,
+} = require('../../../variables/contact');
 const {
-  STREET_NAME_REQUIRED,
-  STREET_NAME_MAX_LENGTH,
-  STREET_NAME_MIN_LENGTH,
-} = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // STREET
 const streetRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const streetString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const streetNotEmpty = {
-  'string.empty': STREET_NAME_REQUIRED,
+  'string.empty': streetNameRequiredMessage,
 };
 
 const streetMin = {
-  'string.min': STREET_NAME_MIN_LENGTH,
+  'string.min': streetNameMinLengthMessage,
 };
 
 const streetMax = {
-  'string.max': STREET_NAME_MAX_LENGTH,
+  'string.max': streetNameMaxLengthMessage,
 };
 
 const streetMessages = {

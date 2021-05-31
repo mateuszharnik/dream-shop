@@ -1,27 +1,27 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  emailRequiredMessage,
+  emailNotCorrectMessage,
+} = require('../../../variables/newsletter');
 const {
-  EMAIL_REQUIRED,
-  EMAIL_NOT_CORRECT,
-} = require('../../../constants/newsletter');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // EMAIL
 const emailRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const emailNotEmpty = {
-  'string.empty': EMAIL_REQUIRED,
+  'string.empty': emailRequiredMessage,
 };
 
 const emailString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const emailPattern = {
-  'string.pattern.base': EMAIL_NOT_CORRECT,
+  'string.pattern.base': emailNotCorrectMessage,
 };
 
 const emailMessages = {

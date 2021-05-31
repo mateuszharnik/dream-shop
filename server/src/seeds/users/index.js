@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const { usersDB } = require('../../db');
 const { userSchema } = require('../../api/v1/users/index.model');
 const { user } = require('../data');
-const { USER_SEEDED } = require('../../helpers/constants/tasks');
+const { userSeededMessage } = require('../../helpers/variables/tasks');
 
 const seedUsers = async () => {
   const { schemaError, data } = userSchema(user);
@@ -24,7 +24,7 @@ const seedUsers = async () => {
     });
 
     // eslint-disable-next-line no-console
-    console.log(USER_SEEDED);
+    console.log(userSeededMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

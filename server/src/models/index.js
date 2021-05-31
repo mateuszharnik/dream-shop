@@ -1,10 +1,10 @@
 const Joi = require('joi');
+const { idMessages } = require('../helpers/errors/messages/id');
 const {
   mimetypeMessages,
   pathMessages,
   sizeMessages,
 } = require('../helpers/errors/messages/file');
-const { idMessages } = require('../helpers/errors/messages/id');
 const {
   mimetypeRegExp,
   avatarPathRegExp,
@@ -14,7 +14,7 @@ const {
 const {
   AVATAR_MAX_SIZE,
   THUMBNAIL_MAX_SIZE,
-} = require('../helpers/constants/files');
+} = require('../helpers/variables/constants/files');
 
 const dbIdSchema = (id) => {
   const schema = Joi.object()

@@ -1,22 +1,20 @@
+const { hoursNotCorrectMessage } = require('../../../variables/contact');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const {
-  HOURS_NOT_CORRECT,
-} = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // WORKING HOURS
 const workingHoursRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const workingHoursString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const workingHoursPattern = {
-  'string.pattern.base': HOURS_NOT_CORRECT,
+  'string.pattern.base': hoursNotCorrectMessage,
 };
 
 const workingHoursMessages = {

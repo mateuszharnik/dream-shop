@@ -1,20 +1,22 @@
 const fs = require('fs');
 const { signToken } = require('../../../helpers/token');
 const { usersDB } = require('../../../db');
-const { AVATARS_DIR } = require('../../../helpers/constants/directories');
+const { tokenTime } = require('../../../helpers/variables/auth');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { AVATARS_URL } = require('../../../helpers/variables/constants/url');
 const {
-  USER_NOT_FOUND,
-  USER_NOT_UPDATED,
-} = require('../../../helpers/constants/users');
-const { TOKEN_TIME } = require('../../../helpers/constants/auth');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
-const { AVATARS_URL } = require('../../../helpers/constants/url');
+  userNotFoundMessage,
+  userNotUpdatedMessage,
+} = require('../../../helpers/variables/users');
+const {
+  AVATARS_DIR,
+} = require('../../../helpers/variables/constants/directories');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getUser = async (req, res) => {
   try {
@@ -24,7 +26,7 @@ const getUser = async (req, res) => {
     });
 
     if (!user) {
-      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, userNotFoundMessage);
     }
 
     const {
@@ -53,7 +55,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -70,7 +72,7 @@ const updateUser = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return req.data.responseWithError(CONFLICT, USER_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, userNotUpdatedMessage);
     }
 
     if (
@@ -108,7 +110,7 @@ const updateUser = async (req, res) => {
     };
 
     if (req.user._id === req.params.id) {
-      const token = await signToken(payload, TOKEN_TIME);
+      const token = await signToken(payload, tokenTime);
 
       res.status(OK).json({ ...payload, token });
     } else {
@@ -117,7 +119,7 @@ const updateUser = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

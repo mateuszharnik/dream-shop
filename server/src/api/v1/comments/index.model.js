@@ -1,8 +1,13 @@
 const Joi = require('joi');
-const { TEN, FIVE_THOUSAND } = require('../../../helpers/constants/numbers');
 const { dbIdRegExp } = require('../../../helpers/regexp');
-const { contentMessages } = require('../../../helpers/errors/messages/comments');
 const { idMessages } = require('../../../helpers/errors/messages/id');
+const {
+  contentMessages,
+} = require('../../../helpers/errors/messages/comments');
+const {
+  contentMinLenght,
+  contentMaxLenght,
+} = require('../../../helpers/variables/comments');
 
 const commentSchema = (comment) => {
   const schema = Joi.object().keys({
@@ -19,8 +24,8 @@ const commentSchema = (comment) => {
       .messages(idMessages),
     content: Joi.string()
       .trim()
-      .min(TEN)
-      .max(FIVE_THOUSAND)
+      .min(contentMinLenght)
+      .max(contentMaxLenght)
       .required()
       .messages(contentMessages),
   });

@@ -1,14 +1,14 @@
 const { setUser } = require('../../helpers/auth');
-const { ADMIN } = require('../../helpers/constants/users');
-const { AUTHORIZATION } = require('../../helpers/constants/auth');
+const { ADMIN } = require('../../helpers/variables/constants/users');
+const { AUTHORIZATION } = require('../../helpers/variables/constants/auth');
+const {
+  accessNotAllowed,
+  userIsLoggedIn,
+} = require('../../helpers/variables/errors');
 const {
   FORBIDDEN,
   UNAUTHORIZED,
-} = require('../../helpers/constants/status-codes');
-const {
-  ACCESS_NOT_ALLOWED,
-  USER_IS_LOGGED_IN,
-} = require('../../helpers/constants/errors');
+} = require('../../helpers/variables/constants/status-codes');
 
 const checkToken = async (req, res, next) => {
   const authHeader = req.get(AUTHORIZATION);
@@ -26,7 +26,7 @@ const checkToken = async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   if (req.user.roles.indexOf(ADMIN) === -1) {
-    return req.data.responseWithError(UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+    return req.data.responseWithError(UNAUTHORIZED, accessNotAllowed);
   }
 
   next();
@@ -34,7 +34,7 @@ const isAdmin = (req, res, next) => {
 
 const isAdminOrOwner = (req, res, next) => {
   if (req.user._id !== req.params.id || req.user.roles.indexOf(ADMIN) === -1) {
-    return req.data.responseWithError(UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+    return req.data.responseWithError(UNAUTHORIZED, accessNotAllowed);
   }
 
   next();
@@ -42,7 +42,7 @@ const isAdminOrOwner = (req, res, next) => {
 
 const isNotLoggedIn = (req, res, next) => {
   if (!req.user) {
-    return req.data.responseWithError(UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+    return req.data.responseWithError(UNAUTHORIZED, accessNotAllowed);
   }
 
   next();
@@ -50,7 +50,7 @@ const isNotLoggedIn = (req, res, next) => {
 
 const isLoggedIn = (req, res, next) => {
   if (req.user) {
-    return req.data.responseWithError(FORBIDDEN, USER_IS_LOGGED_IN);
+    return req.data.responseWithError(FORBIDDEN, userIsLoggedIn);
   }
 
   next();

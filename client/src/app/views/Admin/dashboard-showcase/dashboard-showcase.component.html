@@ -1,14 +1,15 @@
-<div *ngIf="isLoading; else dashboardShowcaseView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #dashboardShowcaseView>
-  <div class="w-100 min-vh-100 relative bg-gradient">
-    <section class="dashboard-page w-100 center text-center">
+<ng-template #main>
+  <main class="z-index-1 w-100 min-vh-100 relative bg-gradient">
+    <section class="dashboard-showcase w-100 center text-center">
       <app-avatar *ngIf="user" [avatar]="user.avatar"></app-avatar>
-      <h3 *ngIf="user" class="h2 my-4">
-        Witaj {{ user.name || user.username }}&nbsp;!
-      </h3>
-      <p>Użyj nawigacji w celu przejścia do interesującej Cię strony.</p>
+      <h2 class="my-4">
+        Witaj<span *ngIf="user"> {{ user.name || user.username }}</span
+        >&nbsp;!
+      </h2>
+      <div>Użyj nawigacji w celu przejścia do interesującej Cię strony.</div>
     </section>
-  </div>
+  </main>
 </ng-template>

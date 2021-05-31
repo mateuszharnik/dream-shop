@@ -1,9 +1,36 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Alert, Alerts, SocialMedia } from '@models/index';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DocumentRefService } from '@services/document-ref.service';
 import { SocialMediaService } from '@services/social-media.service';
 import { SpinnerService } from '@services/spinner.service';
+import { ButtonSaveText, ButtonSaveTitle } from '@models/buttons';
+import { ValidationError } from '@models/errors';
+import { SocialMedia } from '@models/index';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading, startSubmittingForm } from '@helpers/components';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import { successfullySavedMessage } from '@helpers/variables/success';
+import { socialMediaAdminPageTitle } from '@helpers/variables/titles';
+import { validation } from '@helpers/validation';
+import {
+  saveText,
+  saveTitle,
+  savingText,
+  savingTitle,
+} from '@helpers/variables/buttons';
+import {
+  facebookPattern,
+  instagramPattern,
+  linkedinPattern,
+  twitterPattern,
+} from '@helpers/errors/messages/social-media';
+import {
+  facebookValidators,
+  instagramValidators,
+  linkedinValidators,
+  twitterValidators,
+} from '@helpers/validation/social-media';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,144 +42,127 @@ import { Subscription } from 'rxjs';
 export class SocialMediaComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
   socialMedia: SocialMedia = null;
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
-  subscriptions: Subscription[] = [];
   isLoading = true;
   isDisabled = false;
   isSubmitted = false;
-  trackID = null;
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
+  subscriptions: Subscription[] = [];
 
-  facebookAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
-  ];
-  instagramAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
-  ];
-  twitterAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
-  ];
-  linkedinAlerts: Alert[] = [
-    { id: '0', message: 'Adres jest nieprawidłowy (Upewnij się czy link zaczyna się od http://).', key: 'pattern' },
-  ];
+  /* ====== Functions ====== */
+  validation = null;
+  setAlerts = null;
+  setLoading = null;
+  startSubmittingForm = null;
+
+  /* ====== Validation Errors ====== */
+  facebookValidationErrors: ValidationError[] = [facebookPattern];
+  instagramValidationErrors: ValidationError[] = [instagramPattern];
+  twitterValidationErrors: ValidationError[] = [twitterPattern];
+  linkedinValidationErrors: ValidationError[] = [linkedinPattern];
 
   constructor(
     private spinnerService: SpinnerService,
     private formBuilder: FormBuilder,
+    private documentRefService: DocumentRefService,
     private socialMediaService: SocialMediaService,
-    private router: Router,
   ) {
-    this.subscriptions.push(this.socialMediaService.getSocialMedia().subscribe((data: SocialMedia) => {
-      this.socialMedia = data;
-    }));
+    this.documentRefService.nativeDocument.title = socialMediaAdminPageTitle;
+
+    this.validation = validation(this, 'SocialMediaComponent');
+    this.setAlerts = setAlerts(this, 'SocialMediaComponent');
+    this.setLoading = setLoading(this, 'SocialMediaComponent');
+    this.startSubmittingForm = startSubmittingForm(
+      this,
+      'SocialMediaComponent',
+    );
+
+    this.addSocialMediaSubscription();
   }
 
   async ngOnInit() {
     try {
-      const response: SocialMedia = await this.socialMediaService.fetchSocialMedia();
-      this.socialMediaService.setSocialMedia(response);
-      this.createForm(this.socialMedia);
-      this.setLoading();
+      this.socialMedia = await this.socialMediaService.fetchSocialMedia();
+      this.socialMediaService.setSocialMedia(this.socialMedia);
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-
+      this.onError(error);
+    } finally {
       this.createForm(this.socialMedia);
       this.setLoading();
     }
-  }
-
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.removeSubscriptions();
   }
 
-  createForm(socialMedia: SocialMedia) {
-    const twitter: string = socialMedia && socialMedia.twitter ? socialMedia.twitter : '';
-    const facebook: string = socialMedia && socialMedia.facebook ? socialMedia.facebook : '';
-    const instagram: string = socialMedia && socialMedia.instagram ? socialMedia.instagram : '';
-    const linkedin: string = socialMedia && socialMedia.linkedin ? socialMedia.linkedin : '';
-
-    this.form = this.formBuilder.group({
-      twitter: [twitter, {
-        validators: [
-          Validators.pattern(/^https?:\/\/(www.)?twitter.com\/.+$/),
-        ],
-      }],
-      facebook: [facebook, {
-        validators: [
-          Validators.pattern(/^https?:\/\/(www.)?facebook.com\/.+$/),
-        ],
-      }],
-      linkedin: [linkedin, {
-        validators: [
-          Validators.pattern(/^https?:\/\/(www.)?linkedin.com\/.+$/),
-        ],
-      }],
-      instagram: [instagram, {
-        validators: [
-          Validators.pattern(/^https?:\/\/(www.)?instagram.com\/.+$/),
-        ],
-      }],
-    },
+  addSocialMediaSubscription() {
+    this.subscriptions.push(
+      this.socialMediaService
+        .getSocialMedia()
+        .subscribe((socialMedia: SocialMedia) => {
+          this.socialMedia = socialMedia;
+        }),
     );
   }
 
-  validation(prop: string): boolean {
-    return (
-      this.formControls[prop].errors && (this.formControls[prop].dirty || this.formControls[prop].touched))
-      || (this.formControls[prop].errors && this.isSubmitted
-      );
+  removeSubscriptions() {
+    this.subscriptions.forEach((subscription: Subscription) =>
+      subscription.unsubscribe(),
+    );
   }
 
-  computedButtonTitle(): 'Zapisz zmiany' | 'Zapisywanie zmian' {
-    return this.isDisabled ? 'Zapisywanie zmian' : 'Zapisz zmiany';
+  createForm(socialMedia: SocialMedia) {
+    const {
+      twitter = '',
+      facebook = '',
+      instagram = '',
+      linkedin = '',
+    } = socialMedia || {};
+
+    this.form = this.formBuilder.group({
+      twitter: [twitter, twitterValidators],
+      facebook: [facebook, facebookValidators],
+      linkedin: [linkedin, linkedinValidators],
+      instagram: [instagram, instagramValidators],
+    });
   }
 
-  computedButtonText(): 'Zapisz' | 'Zapisywanie' {
-    return this.isDisabled ? 'Zapisywanie' : 'Zapisz';
+  buttonTitle(condition = false): ButtonSaveTitle {
+    return condition ? savingTitle : saveTitle;
   }
 
-  async submit() {
-    this.isSubmitted = true;
+  buttonText(condition = false): ButtonSaveText {
+    return condition ? savingText : saveText;
+  }
 
-    if (this.form.invalid) {
+  async saveSettings() {
+    if (!this.startSubmittingForm()) {
       return;
     }
 
-    this.isDisabled = true;
-
     try {
-      const response: SocialMedia = await this.socialMediaService.saveSocialMedia(this.socialMedia._id, this.form.value);
-      this.socialMediaService.setSocialMedia(response);
-      this.setAlerts('', '', 'Pomyślnie zapisano.');
+      this.socialMedia = await this.socialMediaService.saveSocialMedia(
+        this.socialMedia._id,
+        this.form.value,
+      );
+
+      this.socialMediaService.setSocialMedia(this.socialMedia);
+      this.setAlerts({ successAlert: successfullySavedMessage });
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
+      this.onError(error);
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
+    }
+  }
+
+  onError(error) {
+    if (!error.status || error.status === NOT_FOUND) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
     }
   }
 

@@ -19,31 +19,13 @@ const messages = require('./api/v1/messages/index.router');
 const regulations = require('./api/v1/regulations/index.router');
 const productCategories = require('./api/v1/product-categories/index.router');
 const productFilters = require('./api/v1/product-filters/index.router');
-const { CLIENT_URL } = require('./config');
+const routes = require('./helpers/variables/routes');
 const { notFound, errorHandler } = require('./middlewares/errors');
 const { checkToken } = require('./middlewares/auth');
-const { UPLOADS_DIR } = require('./helpers/constants/directories');
-const { V1 } = require('./helpers/constants/api');
-const { OK } = require('./helpers/constants/status-codes');
-const {
-  HOME,
-  USERS,
-  ABOUT,
-  AUTH,
-  SOCIAL_MEDIA,
-  CONTACT,
-  MAP,
-  REGULATIONS,
-  FAQ,
-  FAQ_CATEGORIES,
-  NEWSLETTER,
-  MESSAGES,
-  PRODUCTS,
-  PRODUCT_CATEGORIES,
-  PRODUCT_FILTERS,
-  COMMENTS,
-  ORDERS,
-} = require('./helpers/constants/routes');
+const { CLIENT_URL } = require('./config');
+const { UPLOADS_DIR } = require('./helpers/variables/constants/directories');
+const { V1 } = require('./helpers/variables/constants/api');
+const { OK } = require('./helpers/variables/constants/status-codes');
 
 const app = express();
 
@@ -56,24 +38,24 @@ app.use(cors({ origin: CLIENT_URL }));
 app.use(`/${UPLOADS_DIR}`, express.static(UPLOADS_DIR));
 app.use(checkToken);
 
-app.get(HOME, (req, res) => res.status(OK).json({ message: '👽' }));
+app.get(routes.home, (req, res) => res.status(OK).json({ message: '👽' }));
 
-app.use(AUTH, auth);
-app.use(`${V1}${SOCIAL_MEDIA}`, socialMedia);
-app.use(`${V1}${CONTACT}`, contact);
-app.use(`${V1}${ABOUT}`, about);
-app.use(`${V1}${USERS}`, users);
-app.use(`${V1}${FAQ}`, faq);
-app.use(`${V1}${FAQ_CATEGORIES}`, faqCategories);
-app.use(`${V1}${NEWSLETTER}`, newsletter);
-app.use(`${V1}${MAP}`, map);
-app.use(`${V1}${MESSAGES}`, messages);
-app.use(`${V1}${PRODUCTS}`, products);
-app.use(`${V1}${COMMENTS}`, comments);
-app.use(`${V1}${PRODUCT_CATEGORIES}`, productCategories);
-app.use(`${V1}${PRODUCT_FILTERS}`, productFilters);
-app.use(`${V1}${REGULATIONS}`, regulations);
-app.use(`${V1}${ORDERS}`, orders);
+app.use(routes.auth, auth);
+app.use(`${V1}${routes.socialMedia}`, socialMedia);
+app.use(`${V1}${routes.contact}`, contact);
+app.use(`${V1}${routes.about}`, about);
+app.use(`${V1}${routes.users}`, users);
+app.use(`${V1}${routes.faq}`, faq);
+app.use(`${V1}${routes.faqCategories}`, faqCategories);
+app.use(`${V1}${routes.newsletter}`, newsletter);
+app.use(`${V1}${routes.map}`, map);
+app.use(`${V1}${routes.messages}`, messages);
+app.use(`${V1}${routes.products}`, products);
+app.use(`${V1}${routes.comments}`, comments);
+app.use(`${V1}${routes.productCategories}`, productCategories);
+app.use(`${V1}${routes.productFilters}`, productFilters);
+app.use(`${V1}${routes.regulations}`, regulations);
+app.use(`${V1}${routes.orders}`, orders);
 
 app.use(notFound);
 app.use(errorHandler);

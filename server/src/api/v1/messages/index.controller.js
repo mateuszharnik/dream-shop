@@ -1,21 +1,21 @@
 const { messagesDB } = require('../../../db');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { DESC } = require('../../../helpers/variables/constants/queries');
 const {
-  MESSAGE_NOT_FOUND,
-  MESSAGE_NOT_UPDATED,
-  MESSAGES_NOT_DELETED,
-  MESSAGES_DELETED,
-  MESSAGE_NOT_CREATED,
-  MESSAGES_NOT_FOUND,
-  MESSAGE_NOT_DELETED,
-} = require('../../../helpers/constants/messages');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  messageNotFoundMessage,
+  messageNotUpdatedMessage,
+  messagesNotDeletedMessage,
+  messagesDeletedMessage,
+  messageNotCreatedMessage,
+  messagesNotFoundMessage,
+  messageNotDeletedMessage,
+} = require('../../../helpers/variables/messages');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const { DESC } = require('../../../helpers/constants/queries');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getMessages = async (req, res) => {
   const { sort = DESC } = req.query;
@@ -35,7 +35,7 @@ const getMessages = async (req, res) => {
     );
 
     if (!messages) {
-      return req.data.responseWithError(NOT_FOUND, MESSAGES_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, messagesNotFoundMessage);
     }
 
     res.status(OK).json({
@@ -50,7 +50,7 @@ const getMessages = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -62,7 +62,7 @@ const getMessage = async (req, res) => {
     });
 
     if (!message) {
-      return req.data.responseWithError(NOT_FOUND, MESSAGE_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, messageNotFoundMessage);
     }
 
     const updatedMessage = await messagesDB.findOneAndUpdate(
@@ -76,14 +76,14 @@ const getMessage = async (req, res) => {
     );
 
     if (!updatedMessage) {
-      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, messageNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -98,14 +98,14 @@ const addMessage = async (req, res) => {
     });
 
     if (!message) {
-      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_CREATED);
+      return req.data.responseWithError(CONFLICT, messageNotCreatedMessage);
     }
 
     res.status(OK).json(message);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -114,7 +114,7 @@ const deleteMessages = async (req, res) => {
     const messages = await messagesDB.find({ deleted_at: null });
 
     if (!messages.length) {
-      return req.data.responseWithError(NOT_FOUND, MESSAGES_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, messagesNotFoundMessage);
     }
 
     const deletedMessages = await messagesDB.update(
@@ -124,17 +124,17 @@ const deleteMessages = async (req, res) => {
     );
 
     if (!deletedMessages) {
-      return req.data.responseWithError(CONFLICT, MESSAGES_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, messagesNotDeletedMessage);
     }
 
     res.status(OK).json({
-      message: MESSAGES_DELETED,
+      message: messagesDeletedMessage,
       items: deletedMessages.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -146,7 +146,7 @@ const deleteMessage = async (req, res) => {
     });
 
     if (!message) {
-      return req.data.responseWithError(NOT_FOUND, MESSAGE_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, messageNotFoundMessage);
     }
 
     const deletedMessage = await messagesDB.findOneAndUpdate(
@@ -155,14 +155,14 @@ const deleteMessage = async (req, res) => {
     );
 
     if (!deletedMessage) {
-      return req.data.responseWithError(CONFLICT, MESSAGE_NOT_DELETED);
+      return req.data.responseWithError(CONFLICT, messageNotDeletedMessage);
     }
 
     res.status(OK).json(deletedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

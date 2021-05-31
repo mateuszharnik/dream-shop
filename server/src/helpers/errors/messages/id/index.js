@@ -1,37 +1,40 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const { ID_NOT_CORRECT, ID_REQUIRED } = require('../../../constants/id');
+  idNotCorrectMessage,
+  idRequiredMessage,
+} = require('../../../variables/id');
+const {
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // DATABASE ID
 const idRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const idString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const idNotEmpty = {
-  'string.empty': ID_REQUIRED,
+  'string.empty': idRequiredMessage,
 };
 
 const idPattern = {
-  'string.pattern.base': ID_NOT_CORRECT,
+  'string.pattern.base': idNotCorrectMessage,
 };
 
 // RESET PASSWORD TOKEN ID
 const resetPasswordIdRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const resetPasswordIdString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const resetPasswordIdNotEmpty = {
-  'string.empty': ID_REQUIRED,
+  'string.empty': idRequiredMessage,
 };
 
 const idMessages = {

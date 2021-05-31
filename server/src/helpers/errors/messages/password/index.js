@@ -1,66 +1,66 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  passwordRequiredMessage,
+  passwordMinLengthMessage,
+  passwordMaxLengthMessage,
+  newPasswordRequiredMessage,
+  newPasswordMinLengthMessage,
+  newPasswordMaxLengthMessage,
+  passwordsNotMatchMessage,
+} = require('../../../variables/users');
 const {
-  PASSWORD_REQUIRED,
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
-  NEW_PASSWORD_REQUIRED,
-  NEW_PASSWORD_MIN_LENGTH,
-  NEW_PASSWORD_MAX_LENGTH,
-  PASSWORDS_NOT_MATCH,
-} = require('../../../constants/users');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // PASSWORD
 const passwordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const passwordNotEmpty = {
-  'string.empty': PASSWORD_REQUIRED,
+  'string.empty': passwordRequiredMessage,
 };
 
 const passwordString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const passwordMin = {
-  'string.min': PASSWORD_MIN_LENGTH,
+  'string.min': passwordMinLengthMessage,
 };
 
 const passwordMax = {
-  'string.max': PASSWORD_MAX_LENGTH,
+  'string.max': passwordMaxLengthMessage,
 };
 
 // NEW PASSWORD
 const newPasswordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const newPasswordNotEmpty = {
-  'string.empty': NEW_PASSWORD_REQUIRED,
+  'string.empty': newPasswordRequiredMessage,
 };
 
 const newPasswordString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const newPasswordMin = {
-  'string.min': NEW_PASSWORD_MIN_LENGTH,
+  'string.min': newPasswordMinLengthMessage,
 };
 
 const newPasswordMax = {
-  'string.max': NEW_PASSWORD_MAX_LENGTH,
+  'string.max': newPasswordMaxLengthMessage,
 };
 
 // CONFIRM PASSWORD
 const confirmPasswordRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const confirmPasswordNotMatch = {
-  'any.only': PASSWORDS_NOT_MATCH,
+  'any.only': passwordsNotMatchMessage,
 };
 
 const passwordMessages = {

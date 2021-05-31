@@ -1,15 +1,15 @@
 const Joi = require('joi');
 const {
-  ONE,
-  NINE,
-  THREE,
-  THREE_HUNDRED,
-  ONE_THOUSAND,
-} = require('../../../helpers/constants/numbers');
-const {
-  BESTSELLERS_PL,
-  NEWS_PL,
-} = require('../../../helpers/constants/products');
+  productNameMinLength,
+  productNameMaxLength,
+  companyNameMinLength,
+  companyNameMaxLength,
+  productDescriptionMinLength,
+  productDescriptionMaxLength,
+  productQuantityMaxLength,
+  productQuantityMinLength,
+  productGalleryMaxLength,
+} = require('../../../helpers/variables/products');
 const {
   productNameMessages,
   priceMessages,
@@ -27,31 +27,35 @@ const {
   productNameRegExp,
   productCategoryRegExp,
 } = require('../../../helpers/regexp');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../../../helpers/variables/constants/products');
 
 const productSchema = (product) => {
   const schema = Joi.object().keys({
     name: Joi.string()
       .trim()
-      .min(THREE)
-      .max(THREE_HUNDRED)
+      .min(productNameMinLength)
+      .max(productNameMaxLength)
       .regex(productNameRegExp)
       .required()
       .messages(productNameMessages),
     company_name: Joi.string()
       .trim()
-      .min(THREE)
-      .max(THREE_HUNDRED)
+      .min(companyNameMinLength)
+      .max(companyNameMaxLength)
       .required()
       .messages(productCompanyNameMessages),
     description: Joi.string()
       .trim()
-      .min(THREE)
-      .max(ONE_THOUSAND)
+      .min(productDescriptionMinLength)
+      .max(productDescriptionMaxLength)
       .required()
       .messages(descriptionMessages),
     quantity: Joi.number()
-      .min(ONE)
-      .max(ONE_THOUSAND)
+      .min(productQuantityMinLength)
+      .max(productQuantityMaxLength)
       .required()
       .messages(quantityMessages),
     price: Joi.string()
@@ -77,7 +81,7 @@ const productSchema = (product) => {
       .messages(thumbnailMessages),
     gallery: Joi.array()
       .items(Joi.string().trim().regex(thumbnailRegExp))
-      .max(NINE)
+      .max(productGalleryMaxLength)
       .messages(galleryMessages),
   });
 

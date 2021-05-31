@@ -1,12 +1,12 @@
 const { commentsDB } = require('../../db');
-const { COMMENTS_DELETED } = require('../../helpers/constants/tasks');
+const { commentsDeletedMessage } = require('../../helpers/variables/tasks');
 
 const removeComments = async () => {
   try {
     await commentsDB.remove();
 
     // eslint-disable-next-line no-console
-    console.log(COMMENTS_DELETED);
+    console.log(commentsDeletedMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

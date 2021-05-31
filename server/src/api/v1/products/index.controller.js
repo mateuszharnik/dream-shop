@@ -1,16 +1,16 @@
 const { productsDB } = require('../../../db');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
-const { LOCALE_PL } = require('../../../helpers/constants/queries');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { LOCALE_PL } = require('../../../helpers/variables/constants/queries');
+const {
+  productNotFoundMessage,
+  productsNotFoundMessage,
+  productsDeletedMessage,
+} = require('../../../helpers/variables/products');
 const {
   OK,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const {
-  PRODUCT_NOT_FOUND,
-  PRODUCTS_NOT_FOUND,
-  PRODUCTS_DELETED,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getProducts = async (req, res) => {
   const { cart = '' } = req.query;
@@ -37,7 +37,7 @@ const getProducts = async (req, res) => {
     const products = await productsDB.find(query, productsOptions);
 
     if (!products) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCTS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, productsNotFoundMessage);
     }
 
     const data = {
@@ -58,7 +58,7 @@ const getProducts = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -70,7 +70,7 @@ const getProduct = async (req, res) => {
     });
 
     if (!product) {
-      return req.data.responseWithError(NOT_FOUND, PRODUCT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, productNotFoundMessage);
     }
 
     const updatedProduct = await productsDB.findOneAndUpdate(
@@ -82,7 +82,7 @@ const getProduct = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -94,7 +94,7 @@ const getAddedProduct = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -106,7 +106,7 @@ const getDeletedProduct = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -115,13 +115,13 @@ const getDeletedProducts = async (req, res) => {
 
   try {
     res.status(OK).json({
-      message: PRODUCTS_DELETED,
+      message: productsDeletedMessage,
       items: deletedProducts.n,
     });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -133,7 +133,7 @@ const getUpdatedProduct = async (req, res) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

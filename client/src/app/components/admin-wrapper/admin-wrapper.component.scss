@@ -1,0 +1,37 @@
+/* ====== Imports ====== */
+@import "../../../assets/scss/variables";
+
+/* ====== Admin Wrapper ====== */
+.admin-wrapper {
+  &-section {
+    animation: $admin-wrapper-section-animation;
+    position: $admin-wrapper-section-position;
+    background-color: $admin-wrapper-section-bg-color;
+    padding-top: $admin-wrapper-section-padding-top;
+
+    @media (min-width: $lg) {
+      padding-top: $admin-wrapper-section-lg-padding-top;
+    }
+
+    .item {
+      @media (min-width: $md) {
+        max-width: $admin-wrapper-section-item-md-max-width;
+      }
+    }
+
+    &__header {
+      border-bottom: $admin-wrapper-header-border-bottom;
+    }
+
+    &__content {
+      width: $admin-wrapper-content-width;
+      max-width: $admin-wrapper-content-max-width;
+
+      &--products {
+        @media (min-width: $lg) {
+          max-width: $admin-wrapper-content-products-max-width;
+        }
+      }
+    }
+  }
+}

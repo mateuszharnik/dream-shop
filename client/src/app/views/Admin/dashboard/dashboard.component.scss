@@ -1,4 +1,4 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../../assets/scss/variables";
 @import "../../../../assets/scss/animations";
 
@@ -43,14 +43,23 @@
   }
 }
 
-.dashboard-header {
-  width: 100%;
-  min-height: 6.5rem;
-  position: fixed;
-  z-index: $z-index-3;
-  background-color: $color-white;
+/* ====== Dashboard ====== */
+.dashboard-wrapper {
+  z-index: $dashboard-wrapper-z-index;
 
   @media (min-width: $lg) {
-    min-height: 0rem;
+    padding-left: $dashboard-wrapper-lg-padding-left;
+  }
+}
+
+.dashboard-header {
+  width: $dashboard-header-width;
+  min-height: $dashboard-header-min-height;
+  position: $dashboard-header-position;
+  z-index: $dashboard-header-z-index;
+  background-color: $dashboard-header-bg-color;
+
+  @media (min-width: $lg) {
+    min-height: $dashboard-header-lg-min-height;
   }
 }

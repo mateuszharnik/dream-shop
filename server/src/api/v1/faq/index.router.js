@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
+const { validateDBId } = require('../../../middlewares/validation');
+const { validateFAQ } = require('./index.middleware');
 const {
   createData,
   createResponseWithError,
 } = require('../../../middlewares/index');
-const { validateDBId } = require('../../../middlewares/validation');
-const { validateFAQ } = require('./index.middleware');
 const {
   getFAQs,
   getFAQ,

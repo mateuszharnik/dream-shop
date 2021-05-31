@@ -1,81 +1,81 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// Link like button
+/* ====== Buttons ====== */
 .button {
-  padding: 0.7rem 1.4rem;
-  border-radius: 0.4rem;
-  line-height: 1.5;
-  cursor: pointer;
+  padding: $button-padding;
+  border-radius: $button-border-radius;
+  line-height: $button-line-height;
+  cursor: $button-cursor;
   display: inline-block;
-  color: $color-white;
-  background-color: $color-gray;
-  border: 0.1rem solid darken($color-gray, 7%);
-  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: $button-color;
+  background-color: $button-bg-color;
+  border: $button-border;
+  transition: $button-transition;
 
   &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    opacity: $button-opacity-disabled;
+    cursor: $button-cursor-disabled;
   }
 
   &:focus {
-    box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-gray, 0.5);
+    box-shadow: $button-box-shadow-focus;
   }
 
   &:hover {
-    color: $color-white;
-    background-color: darken($color-gray, 7%);
+    color: $button-color;
+    background-color: $button-bg-color-hover;
     text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
+    transition: $button-transition-hover;
   }
 
   &-small {
-    padding: 0.5rem 1rem;
-    font-size: 1.4rem;
+    padding: $button-small-padding;
+    font-size: $button-small-font-size;
   }
 
   &-primary {
-    color: $color-white;
-    background-color: $color-primary;
-    border: 0.1rem solid darken($color-primary, 7%);
+    color: $button-color;
+    background-color: $button-primary-bg-color;
+    border: $button-primary-border;
 
     &:hover {
-      color: $color-white;
-      background-color: darken($color-primary, 7%);
+      color: $button-color;
+      background-color: $button-primary-bg-color-hover;
     }
 
     &:focus {
-      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-primary, 0.5);
+      box-shadow: $button-primary-box-shadow-focus;
     }
   }
 
   &-danger {
-    color: $color-white;
-    background-color: $color-danger;
-    border: 0.1rem solid darken($color-danger, 7%);
+    color: $button-color;
+    background-color: $button-danger-bg-color;
+    border: $button-danger-border;
 
     &:hover {
-      color: $color-white;
-      background-color: darken($color-danger, 7%);
+      color: $button-color;
+      background-color: $button-danger-bg-color-hover;
     }
 
     &:focus {
-      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-danger, 0.5);
+      box-shadow: $button-danger-box-shadow-focus;
     }
   }
 
   &-success {
-    color: $color-white;
-    background-color: $color-success;
-    border: 0.1rem solid darken($color-success, 7%);
+    color: $button-color;
+    background-color: $button-success-bg-color;
+    border: $button-success-border;
 
     &:hover {
-      color: $color-white;
-      background-color: darken($color-success, 7%);
+      color: $button-color;
+      background-color: $button-success-bg-color-hover;
     }
 
     &:focus {
-      box-shadow: 0rem 0rem 0rem 0.3rem fade-out($color-success, 0.5);
+      box-shadow: $button-success-box-shadow-focus;
     }
   }
 }

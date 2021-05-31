@@ -1,17 +1,17 @@
 const { regulationsDB } = require('../../../db');
+const { errorOccurred } = require('../../../helpers/variables/errors');
 const {
-  REGULATIONS_NOT_FOUND,
-  REGULATION_NOT_FOUND,
-  REGULATION_NOT_UPDATED,
-  REGULATION_NAME_IS_NOT_ALLOWED,
-} = require('../../../helpers/constants/regulations');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  regulationsNotFoundMessage,
+  regulationNotFoundMessage,
+  regulationNotUpdatedMessage,
+  regulationNameIsNotAllowedMessage,
+} = require('../../../helpers/variables/regulations');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getRegulations = async (req, res) => {
   const { name = '' } = req.query;
@@ -28,14 +28,14 @@ const getRegulations = async (req, res) => {
     const regulations = await regulationsDB.find(query);
 
     if (!regulations) {
-      return req.data.responseWithError(NOT_FOUND, REGULATIONS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, regulationsNotFoundMessage);
     }
 
     res.status(OK).json(regulations);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -47,20 +47,23 @@ const getRegulation = async (req, res) => {
     });
 
     if (!regulation) {
-      return req.data.responseWithError(NOT_FOUND, REGULATION_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, regulationNotFoundMessage);
     }
 
     res.status(OK).json(regulation);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
 const updateRegulation = async (req, res) => {
   if (req.data.regulation.name) {
-    return req.data.responseWithError(CONFLICT, REGULATION_NAME_IS_NOT_ALLOWED);
+    return req.data.responseWithError(
+      CONFLICT,
+      regulationNameIsNotAllowedMessage,
+    );
   }
 
   try {
@@ -70,7 +73,7 @@ const updateRegulation = async (req, res) => {
     });
 
     if (!regulation) {
-      return req.data.responseWithError(NOT_FOUND, REGULATION_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, regulationNotFoundMessage);
     }
 
     const updatedRegulation = await regulationsDB.findOneAndUpdate(
@@ -84,14 +87,14 @@ const updateRegulation = async (req, res) => {
     );
 
     if (!updatedRegulation) {
-      return req.data.responseWithError(CONFLICT, REGULATION_NOT_UPDATED);
+      return req.data.responseWithError(CONFLICT, regulationNotUpdatedMessage);
     }
 
     res.status(OK).json(updatedRegulation);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

@@ -6,10 +6,11 @@ const {
   contentMessages,
 } = require('../../../helpers/errors/messages/faq');
 const {
-  TEN,
-  FIVE_THOUSAND,
-  ONE_THOUSAND,
-} = require('../../../helpers/constants/numbers');
+  contentMinLength,
+  contentMaxLength,
+  titleMinLength,
+  titleMaxLength,
+} = require('../../../helpers/variables/faq');
 const {
   RETURNS_PL,
   DELIVERY_PL,
@@ -18,7 +19,7 @@ const {
   PRODUCTS_PL,
   DISCOUNTS_PL,
   OTHERS_PL,
-} = require('../../../helpers/constants/faq');
+} = require('../../../helpers/variables/constants/faq');
 
 const faqSchema = (faq) => {
   const schema = Joi.object().keys({
@@ -37,15 +38,15 @@ const faqSchema = (faq) => {
       .messages(categoryMessages),
     title: Joi.string()
       .trim()
-      .min(TEN)
-      .max(ONE_THOUSAND)
+      .min(titleMinLength)
+      .max(titleMaxLength)
       .regex(faqTitleRegExp)
       .required()
       .messages(titleMessages),
     content: Joi.string()
       .trim()
-      .min(TEN)
-      .max(FIVE_THOUSAND)
+      .min(contentMinLength)
+      .max(contentMaxLength)
       .required()
       .messages(contentMessages),
   });

@@ -1,40 +1,44 @@
 const Joi = require('joi');
+const { userRolesMessages } = require('../../../helpers/errors/messages/roles');
+const { emailMessages } = require('../../../helpers/errors/messages/email');
+const { avatarMessages } = require('../../../helpers/errors/messages/avatar');
+const { nameMessages } = require('../../../helpers/errors/messages/name');
+const { ADMIN, USER } = require('../../../helpers/variables/constants/users');
+const { NEW_PASSWORD } = require('../../../helpers/variables/constants/auth');
+const {
+  usernameMessages,
+} = require('../../../helpers/errors/messages/username');
 const {
   nameRegExp,
   emailRegExp,
   avatarRegExp,
 } = require('../../../helpers/regexp');
 const {
-  usernameMessages,
-} = require('../../../helpers/errors/messages/username');
-const {
   passwordMessages,
   confirmPasswordMessages,
   newPasswordMessages,
 } = require('../../../helpers/errors/messages/password');
-const { NEW_PASSWORD } = require('../../../helpers/constants/auth');
 const {
-  THREE,
-  EIGHT,
-  THIRTY_TWO,
-  FIFTY,
-} = require('../../../helpers/constants/numbers');
-const { userRolesMessages } = require('../../../helpers/errors/messages/roles');
-const { emailMessages } = require('../../../helpers/errors/messages/email');
-const { avatarMessages } = require('../../../helpers/errors/messages/avatar');
-const { nameMessages } = require('../../../helpers/errors/messages/name');
+  nameMinLength,
+  nameMaxLength,
+  usernameMinLength,
+  usernameMaxLength,
+  passwordMinLength,
+  passwordMaxLength,
+  newPasswordMinLength,
+  newPasswordMaxLength,
+} = require('../../../helpers/variables/users');
 const {
   resetPasswordTokenExpMessages,
   resetPasswordTokenMessages,
 } = require('../../../helpers/errors/messages/reset-password-token');
-const { ADMIN, USER } = require('../../../helpers/constants/users');
 
 const password = Joi.string().trim().required().messages(passwordMessages);
 
 const newPassword = Joi.string()
   .trim()
-  .min(EIGHT)
-  .max(THIRTY_TWO)
+  .min(newPasswordMinLength)
+  .max(newPasswordMaxLength)
   .required()
   .messages(newPasswordMessages);
 
@@ -43,16 +47,16 @@ const userSchema = (user) => {
     name: Joi.string()
       .trim()
       .regex(nameRegExp)
-      .min(THREE)
-      .max(FIFTY)
+      .min(nameMinLength)
+      .max(nameMaxLength)
       .allow('')
       .required()
       .messages(nameMessages),
     username: Joi.string()
       .trim()
       .alphanum()
-      .min(THREE)
-      .max(FIFTY)
+      .min(usernameMinLength)
+      .max(usernameMaxLength)
       .required()
       .messages(usernameMessages),
     email: Joi.string()
@@ -67,8 +71,8 @@ const userSchema = (user) => {
       .required()
       .messages(avatarMessages),
     password: Joi.string()
-      .min(EIGHT)
-      .max(THIRTY_TWO)
+      .min(passwordMinLength)
+      .max(passwordMaxLength)
       .required()
       .messages(passwordMessages),
     roles: Joi.array()
@@ -102,16 +106,16 @@ const updateUserSchema = (user) => {
     name: Joi.string()
       .trim()
       .regex(nameRegExp)
-      .min(THREE)
-      .max(FIFTY)
+      .min(nameMinLength)
+      .max(nameMaxLength)
       .allow('')
       .required()
       .messages(nameMessages),
     username: Joi.string()
       .trim()
       .alphanum()
-      .min(THREE)
-      .max(FIFTY)
+      .min(usernameMinLength)
+      .max(usernameMaxLength)
       .required()
       .messages(usernameMessages),
     email: Joi.string()

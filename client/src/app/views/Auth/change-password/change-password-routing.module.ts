@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@guards/auth.guard';
+import getRoute from '@helpers/router';
+import { clientRoutes } from '@helpers/variables/routes';
 import { ChangePasswordComponent } from './change-password.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: getRoute(clientRoutes.home),
     canActivate: [AuthGuard],
     component: ChangePasswordComponent,
   },
@@ -15,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ChangePasswordRoutingModule { }
+export class ChangePasswordRoutingModule {}

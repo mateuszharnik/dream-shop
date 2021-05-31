@@ -1,4 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  OnChanges,
+} from '@angular/core';
+import { checkRequiredProp } from '@helpers/validation';
 
 @Component({
   selector: 'app-auth-wrapper',
@@ -6,4 +13,14 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./auth-wrapper.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AuthWrapperComponent { }
+export class AuthWrapperComponent implements OnInit, OnChanges {
+  @Input() pageTitle: string;
+
+  ngOnInit() {
+    checkRequiredProp(this.pageTitle, 'pageTitle');
+  }
+
+  ngOnChanges() {
+    checkRequiredProp(this.pageTitle, 'pageTitle');
+  }
+}

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { SpinnerService } from '@services/spinner.service';
 import { Observable } from 'rxjs';
 
@@ -7,11 +12,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SpinnerGuard implements CanActivate {
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(private spinnerService: SpinnerService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     this.toggleSpinner(next.data.showSpinner ? true : false);
     return true;
   }

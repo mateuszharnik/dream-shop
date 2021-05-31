@@ -3,26 +3,26 @@ const { signToken } = require('../helpers/token');
 const { sendEmail } = require('../helpers/email');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
-const { TWELVE } = require('../helpers/constants/numbers');
+const { errorOccurred } = require('../helpers/variables/errors');
+const { ONE_HOUR } = require('../helpers/variables/constants/time');
 const {
-  USER_NOT_FOUND,
-  PASSWORD_OR_USERNAME_NOT_CORRECT,
-} = require('../helpers/constants/users');
-const { ONE_HOUR } = require('../helpers/constants/time');
-const { ERROR_OCCURRED } = require('../helpers/constants/errors');
+  userNotFoundMessage,
+  passwordOrUsernameNotCorrectMessage,
+} = require('../helpers/variables/users');
 const {
-  LINK_EXPIRED,
-  TOKEN_NOT_GENERATED,
-  MESSAGE_SEND_SUCCESS,
-  EMAIL_NOT_EXIST,
-  TOKEN_TIME,
-} = require('../helpers/constants/auth');
+  linkExpiredMessage,
+  tokenNotGeneratedMessage,
+  messageSendSuccessMessage,
+  emailNotExistMessage,
+  tokenTime,
+  tokenLength,
+} = require('../helpers/variables/auth');
 const {
   OK,
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../helpers/constants/status-codes');
+} = require('../helpers/variables/constants/status-codes');
 const {
   EMAIL_HOST,
   EMAIL_PORT,
@@ -41,13 +41,13 @@ const loginUser = async (req, res) => {
     });
 
     if (!user) {
-      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, userNotFoundMessage);
     }
 
     if (!(await bcrypt.compare(req.data.credentials.password, user.password))) {
       return req.data.responseWithError(
         CONFLICT,
-        PASSWORD_OR_USERNAME_NOT_CORRECT,
+        passwordOrUsernameNotCorrectMessage,
       );
     }
 
@@ -73,13 +73,13 @@ const loginUser = async (req, res) => {
       updated_at,
     };
 
-    const token = await signToken(payload, TOKEN_TIME);
+    const token = await signToken(payload, tokenTime);
 
     res.status(OK).json({ user: { ...payload }, token });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -88,7 +88,7 @@ const sendRecoveryLink = async (req, res) => {
     const user = await usersDB.findOne({ email: req.data.email });
 
     if (!user) {
-      return req.data.responseWithError(CONFLICT, EMAIL_NOT_EXIST);
+      return req.data.responseWithError(CONFLICT, emailNotExistMessage);
     }
 
     const resetPasswordToken = await generateRandomBytes(user._id);
@@ -105,26 +105,24 @@ const sendRecoveryLink = async (req, res) => {
     );
 
     if (!newUser) {
-      return req.data.responseWithError(CONFLICT, TOKEN_NOT_GENERATED);
+      return req.data.responseWithError(CONFLICT, tokenNotGeneratedMessage);
     }
 
     if (!(EMAIL_HOST && EMAIL_PORT && EMAIL_LOGIN && EMAIL_PASSWORD)) {
-      return res
-        .status(OK)
-        .json({
-          message: `${CLIENT_URL}/odzyskaj/${newUser.reset_password_token}`,
-        });
+      return res.status(OK).json({
+        message: `${CLIENT_URL}/odzyskaj/${newUser.reset_password_token}`,
+      });
     }
 
     const success = await sendEmail(newUser);
 
     if (success) {
-      res.status(OK).json({ message: MESSAGE_SEND_SUCCESS });
+      res.status(OK).json({ message: messageSendSuccessMessage });
     }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -133,10 +131,13 @@ const recoveryPassword = async (req, res) => {
     const user = await usersDB.findOne({ reset_password_token: req.params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
-      return req.data.responseWithError(CONFLICT, LINK_EXPIRED);
+      return req.data.responseWithError(CONFLICT, linkExpiredMessage);
     }
 
-    const password = await bcrypt.hash(req.data.passwords.password, TWELVE);
+    const password = await bcrypt.hash(
+      req.data.passwords.password,
+      tokenLength,
+    );
 
     const newUser = await usersDB.findOneAndUpdate(
       { reset_password_token: req.params.id },
@@ -151,7 +152,7 @@ const recoveryPassword = async (req, res) => {
     );
 
     if (!newUser) {
-      return req.data.responseWithError(CONFLICT, LINK_EXPIRED);
+      return req.data.responseWithError(CONFLICT, linkExpiredMessage);
     }
 
     const {
@@ -176,13 +177,13 @@ const recoveryPassword = async (req, res) => {
       updated_at,
     };
 
-    const token = await signToken(payload, TOKEN_TIME);
+    const token = await signToken(payload, tokenTime);
 
     res.status(OK).json({ user: { ...payload }, token });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -191,14 +192,14 @@ const checkRecoveryLink = async (req, res) => {
     const user = await usersDB.findOne({ reset_password_token: req.params.id });
 
     if (!user || user.reset_password_token_exp < new Date().getTime()) {
-      return req.data.responseWithError(CONFLICT, LINK_EXPIRED);
+      return req.data.responseWithError(CONFLICT, linkExpiredMessage);
     }
 
     res.status(OK).json({ email: user.email });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

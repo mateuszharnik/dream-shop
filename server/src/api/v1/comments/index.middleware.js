@@ -1,26 +1,26 @@
 const commentSchema = require('./index.model');
 const { commentsDB, usersDB, productsDB } = require('../../../db');
 const { purify } = require('../../../helpers/sanitize');
-const { ADMIN } = require('../../../helpers/constants/users');
+const { ADMIN } = require('../../../helpers/variables/constants/users');
+const { DESC } = require('../../../helpers/variables/constants/queries');
 const {
-  ERROR_OCCURRED,
-  ACCESS_NOT_ALLOWED,
-} = require('../../../helpers/constants/errors');
-const { UNAUTHORIZED } = require('../../../helpers/constants/status-codes');
+  errorOccurred,
+  accessNotAllowed,
+} = require('../../../helpers/variables/errors');
 const {
+  commentsNotFoundMessage,
+  commentNotFoundMessage,
+  ownerOfCommentNotExistMessage,
+  commentCannotBeEditedMessage,
+  productWithCommentNotFoundMessage,
+  defaultUsername,
+} = require('../../../helpers/variables/comments');
+const {
+  UNAUTHORIZED,
   CONFLICT,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
-const { DESC } = require('../../../helpers/constants/queries');
-const {
-  COMMENTS_NOT_FOUND,
-  COMMENT_NOT_FOUND,
-  OWNER_OF_COMMENT_NOT_EXIST,
-  AUTHOR_USERNAME,
-  COMMENT_CANNOT_BE_EDITED,
-  PRODUCT_WITH_COMMENT_NOT_FOUND,
-} = require('../../../helpers/constants/comments');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateComment = (req, res, next) => {
   req.body.user_id = req.user && req.user._id ? req.user._id : '';
@@ -46,7 +46,7 @@ const findComment = async (req, res, next) => {
     });
 
     if (!comment) {
-      return req.data.responseWithError(NOT_FOUND, COMMENT_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, commentNotFoundMessage);
     }
 
     req.data.comment = comment;
@@ -55,7 +55,7 @@ const findComment = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -80,7 +80,7 @@ const findComments = async (req, res, next) => {
     });
 
     if (!comments) {
-      return req.data.responseWithError(NOT_FOUND, COMMENTS_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, commentsNotFoundMessage);
     }
 
     req.data.comments = comments;
@@ -90,7 +90,7 @@ const findComments = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -110,7 +110,7 @@ const findUsersInfo = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -120,7 +120,7 @@ const addUsersInfoToComments = async (req, res, next) => {
   try {
     const commentsWithUserInfo = comments.map((comment) => {
       const author = {
-        username: AUTHOR_USERNAME,
+        username: defaultUsername,
         avatar: '',
       };
 
@@ -145,7 +145,7 @@ const addUsersInfoToComments = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -157,7 +157,7 @@ const checkIfUserIsOwnerOfComment = (req, res, next) => {
     (comment.user_id && user._id !== comment.user_id)
     || user.roles.indexOf(ADMIN) === -1
   ) {
-    return req.data.responseWithError(UNAUTHORIZED, ACCESS_NOT_ALLOWED);
+    return req.data.responseWithError(UNAUTHORIZED, accessNotAllowed);
   }
 
   next();
@@ -167,7 +167,7 @@ const checkIfCommentAuthorIsNotAnonim = (req, res, next) => {
   const { comment } = req.data;
 
   if (!comment.user_id) {
-    return req.data.responseWithError(CONFLICT, COMMENT_CANNOT_BE_EDITED);
+    return req.data.responseWithError(CONFLICT, commentCannotBeEditedMessage);
   }
 
   next();
@@ -178,7 +178,7 @@ const addAuthorInfo = (isDeleted = false) => async (req, res, next) => {
 
   try {
     const author = {
-      username: AUTHOR_USERNAME,
+      username: defaultUsername,
       avatar: '',
     };
 
@@ -194,7 +194,7 @@ const addAuthorInfo = (isDeleted = false) => async (req, res, next) => {
       if (!user && isDeleted) {
         return req.data.responseWithError(
           NOT_FOUND,
-          OWNER_OF_COMMENT_NOT_EXIST,
+          ownerOfCommentNotExistMessage,
         );
       }
 
@@ -210,7 +210,7 @@ const addAuthorInfo = (isDeleted = false) => async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -226,7 +226,7 @@ const findProduct = async (req, res, next) => {
     if (!product) {
       return req.data.responseWithError(
         NOT_FOUND,
-        PRODUCT_WITH_COMMENT_NOT_FOUND,
+        productWithCommentNotFoundMessage,
       );
     }
 
@@ -234,7 +234,7 @@ const findProduct = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

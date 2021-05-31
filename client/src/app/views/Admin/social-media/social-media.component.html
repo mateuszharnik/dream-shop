@@ -1,14 +1,17 @@
-<div *ngIf="isLoading; else socialMediaView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #socialMediaView>
-  <section class="admin-page-section p-6 min-vh-100">
-    <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">Social Media</h2>
+<ng-template #main>
+  <app-admin-wrapper>
+    <header class="admin-wrapper-section__header">
+      <h2 class="h4 text-center mb-6">
+        Media Społecznościowe
+        <span class="hidden">- Ustawienia</span>
+      </h2>
     </header>
-    <article
-      *ngIf="!alerts.server; else showError"
-      class="admin-page-section__article m-auto mt-6 text-center"
+    <div
+      *ngIf="!serverErrorAlert; else showError"
+      class="admin-wrapper-section__content m-auto mt-6 text-center"
     >
       <p class="mb-6">
         Tutaj możesz dodać linki do swoich mediów społecznościowych.
@@ -16,7 +19,7 @@
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
-        (whenFormSubmit)="submit()"
+        (whenFormSubmit)="saveSettings()"
       >
         <div class="row">
           <div class="column-12 mb-4">
@@ -28,7 +31,7 @@
               [inputPlaceholder]="'Adres konta na Facebook'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('facebook')"
-              [inputAlerts]="facebookAlerts"
+              [inputAlerts]="facebookValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -43,7 +46,7 @@
               [inputPlaceholder]="'Adres konta na Instagram'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('instagram')"
-              [inputAlerts]="instagramAlerts"
+              [inputAlerts]="instagramValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -58,7 +61,7 @@
               [inputPlaceholder]="'Adres konta na LinkedIn'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('linkedin')"
-              [inputAlerts]="linkedinAlerts"
+              [inputAlerts]="linkedinValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -73,7 +76,7 @@
               [inputPlaceholder]="'Adres konta na Twitter'"
               [inputClass]="'form__input w-100'"
               [inputValidation]="validation('twitter')"
-              [inputAlerts]="twitterAlerts"
+              [inputAlerts]="twitterValidationErrors"
               [inputRequired]="false"
               [inputGroup]="form"
               [inputForm]="form"
@@ -82,10 +85,10 @@
           <div class="column-12 text-center">
             <app-button
               [buttonType]="'submit'"
-              [buttonTitle]="computedButtonTitle()"
+              [buttonTitle]="buttonTitle(isDisabled)"
               [buttonDisabled]="isDisabled"
             >
-              {{ computedButtonText() }}
+              {{ buttonText(isDisabled) }}
               <app-fa-icon
                 *ngIf="isDisabled"
                 [faClass]="'fas fa-spinner fa-spin ml-1'"
@@ -95,20 +98,22 @@
         </div>
       </app-form>
       <app-alert
-        *ngIf="alerts.error"
-        [alertClass]="'alert alert-danger mt-6 m-auto'"
+        *ngIf="errorAlert"
+        [alertClassType]="'danger'"
+        [alertClass]="'m-auto mt-6'"
       >
-        {{ alerts.error }}
+        {{ errorAlert }}
       </app-alert>
       <app-alert
-        *ngIf="alerts.success"
-        [alertClass]="'alert alert-success mt-6 m-auto'"
+        *ngIf="successAlert"
+        [alertClassType]="'success'"
+        [alertClass]="'m-auto mt-6'"
       >
-        {{ alerts.success }}
+        {{ successAlert }}
       </app-alert>
-    </article>
+    </div>
     <ng-template #showError>
-      <p class="center m-0">{{ alerts.server }}</p>
+      <div class="center text-center m-0">{{ serverErrorAlert }}</div>
     </ng-template>
-  </section>
+  </app-admin-wrapper>
 </ng-template>

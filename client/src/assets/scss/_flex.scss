@@ -1,7 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// FLex
+/* ====== Flex ====== */
 .flex-row {
   flex-direction: row;
 }
@@ -52,6 +52,7 @@
   ($xl, "xl")
 {
   @media (min-width: $width) {
+    /* ====== Flex ====== */
     .#{$media}\:flex-row {
       flex-direction: row;
     }

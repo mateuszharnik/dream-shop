@@ -1,0 +1,22 @@
+/* ====== Imports ====== */
+@import "./variables";
+
+/* ====== Z-index ====== */
+@for $i from 1 through $count {
+  .z-index-#{$i} {
+    z-index: $i * 100;
+  }
+}
+
+@each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
+  ($xl, "xl")
+{
+  /* ====== Z-index ====== */
+  @media (min-width: $width) {
+    @for $i from 1 through $count {
+      .#{$media}\:z-index-#{$i} {
+        z-index: $i * 100;
+      }
+    }
+  }
+}

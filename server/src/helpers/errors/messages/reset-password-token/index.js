@@ -1,32 +1,30 @@
+const { resetPasswordTokeRequiredMessage } = require('../../../variables/auth');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-  TYPE_NUMBER,
-} = require('../../../constants/error-messages');
-const {
-  RESET_PASSWORD_TOKE_REQUIRED,
-} = require('../../../constants/auth');
+  propertyRequiredMessage,
+  typeStringMessage,
+  typeNumberMessage,
+} = require('../../../variables/error-messages');
 
 // RESET PASSWORD TOKEN
 const resetPasswordTokenRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const resetPasswordTokenString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const resetPasswordTokenNotEmpty = {
-  'string.empty': RESET_PASSWORD_TOKE_REQUIRED,
+  'string.empty': resetPasswordTokeRequiredMessage,
 };
 
 // RESET PASSWORD TOKEN EXP
 const resetPasswordTokenExpRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const resetPasswordTokenExpNumber = {
-  'number.base': TYPE_NUMBER,
+  'number.base': typeNumberMessage,
 };
 
 const resetPasswordTokenMessages = {

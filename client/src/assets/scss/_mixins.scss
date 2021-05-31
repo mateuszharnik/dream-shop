@@ -1,0 +1,16 @@
+/* ====== Imports ====== */
+@import "./variables";
+
+/* ====== Mixins ====== */
+@mixin center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin container {
+  width: $container-width;
+  position: $position-relative;
+  margin: $container-margin;
+  padding: $container-padding;
+}

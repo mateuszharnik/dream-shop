@@ -1,7 +1,7 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
 
-// Text colors
+/* ====== Text colors ====== */
 .text-white {
   color: $color-white;
 }
@@ -38,7 +38,7 @@
   color: $color-secondary;
 }
 
-// Background colors
+/* ====== Background colors ====== */
 .bg-white {
   background-color: $color-white;
 }
@@ -79,72 +79,74 @@
   ($xl, "xl")
 {
   @media (min-width: $width) {
+    /* ====== Text colors ====== */
     .#{$media}\:text-white {
       color: $color-white;
-    }
-
-    .#{$media}\:bg-white {
-      background-color: $color-white;
     }
 
     .#{$media}\:text-light {
       color: $color-light;
     }
 
-    .#{$media}\:bg-light {
-      background-color: $color-light;
-    }
-
     .#{$media}\:text-black {
       color: $color-black;
-    }
-
-    .#{$media}\:bg-black {
-      background-color: $color-black;
     }
 
     .#{$media}\:text-dark {
       color: $color-dark;
     }
 
-    .#{$media}\:bg-dark {
-      background-color: $color-dark;
-    }
-
     .#{$media}\:text-gray {
       color: $color-gray;
-    }
-
-    .#{$media}\:bg-gray {
-      background-color: $color-gray;
     }
 
     .#{$media}\:text-primary {
       color: $color-primary;
     }
 
-    .#{$media}\:bg-primary {
-      background-color: $color-primary;
-    }
-
     .#{$media}\:text-danger {
       color: $color-danger;
-    }
-
-    .#{$media}\:bg-danger {
-      background-color: $color-danger;
     }
 
     .#{$media}\:text-success {
       color: $color-success;
     }
 
-    .#{$media}\:bg-success {
-      background-color: $color-success;
-    }
-
     .#{$media}\:text-secondary {
       color: $color-secondary;
+    }
+
+    /* ====== Background colors ====== */
+    .#{$media}\:bg-white {
+      background-color: $color-white;
+    }
+
+    .#{$media}\:bg-light {
+      background-color: $color-light;
+    }
+
+    .#{$media}\:bg-black {
+      background-color: $color-black;
+    }
+
+    .#{$media}\:bg-dark {
+      background-color: $color-dark;
+    }
+
+    .#{$media}\:bg-gray {
+      background-color: $color-gray;
+    }
+
+    .#{$media}\:bg-primary {
+      background-color: $color-primary;
+    }
+
+    .#{$media}\:bg-danger {
+      background-color: $color-danger;
+    }
+
+    .#{$media}\:bg-success {
+      background-color: $color-success;
     }
 
     .#{$media}\:bg-secondary {

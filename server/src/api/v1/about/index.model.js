@@ -1,15 +1,18 @@
 const Joi = require('joi');
-const { TEN, FIFTY_THOUSAND } = require('../../../helpers/constants/numbers');
 const {
   informationMessages,
 } = require('../../../helpers/errors/messages/about');
+const {
+  informationMinLength,
+  informationMaxLength,
+} = require('../../../helpers/variables/about');
 
 const aboutSchema = (about) => {
   const schema = Joi.object().keys({
     information: Joi.string()
       .trim()
-      .min(TEN)
-      .max(FIFTY_THOUSAND)
+      .min(informationMinLength)
+      .max(informationMaxLength)
       .allow('')
       .required()
       .messages(informationMessages),

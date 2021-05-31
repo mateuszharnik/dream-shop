@@ -1,34 +1,36 @@
 const fs = require('fs');
 const {
+  deletedAvatarFolderMessage,
+  deletedProductsFolderMessage,
+  createdAvatarFolderMessage,
+  createdProductsFolderMessage,
+} = require('../../helpers/variables/directories');
+const {
   AVATARS_DIR,
   PRODUCTS_DIR,
-  DELETED_AVATAR_FOLDER,
-  DELETED_PRODUCTS_FOLDER,
-  CREATED_AVATAR_FOLDER,
-  CREATED_PRODUCTS_FOLDER,
-} = require('../../helpers/constants/directories');
+} = require('../../helpers/variables/constants/directories');
 
 const createDirectories = () => {
   try {
     if (fs.existsSync(AVATARS_DIR)) {
       fs.rmdirSync(AVATARS_DIR, { recursive: true });
       // eslint-disable-next-line no-console
-      console.log(DELETED_AVATAR_FOLDER);
+      console.log(deletedAvatarFolderMessage);
     }
 
     fs.mkdirSync(AVATARS_DIR, { recursive: true });
     // eslint-disable-next-line no-console
-    console.log(CREATED_AVATAR_FOLDER);
+    console.log(createdAvatarFolderMessage);
 
     if (fs.existsSync(PRODUCTS_DIR)) {
       fs.rmdirSync(PRODUCTS_DIR, { recursive: true });
       // eslint-disable-next-line no-console
-      console.log(DELETED_PRODUCTS_FOLDER);
+      console.log(deletedProductsFolderMessage);
     }
 
     fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
     // eslint-disable-next-line no-console
-    console.log(CREATED_PRODUCTS_FOLDER);
+    console.log(createdProductsFolderMessage);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

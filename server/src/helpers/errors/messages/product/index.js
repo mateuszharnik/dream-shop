@@ -1,156 +1,156 @@
+const { pathToFileNotCorrectMessage } = require('../../../variables/files');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-  TYPE_ARRAY,
-  TYPE_NUMBER,
-} = require('../../../constants/error-messages');
+  productNameRequiredMessage,
+  productNameMinLengthMessage,
+  productNameMaxLengthMessage,
+  companyNameMinLengthMessage,
+  companyNameMaxLengthMessage,
+  productDescriptionMinLengthMessage,
+  productDescriptionMaxLengthMessage,
+  productQuantityMinLengthMessage,
+  productQuantityMaxLengthMessage,
+  productPriceNotCorrectMessage,
+  productCategoryNameNotCorrectMessage,
+  productGalleryMaxLengthMessage,
+} = require('../../../variables/products');
 const {
-  PRODUCT_NAME_REQUIRED,
-  PRODUCT_NAME_MIN_LENGTH,
-  PRODUCT_NAME_MAX_LENGTH,
-  COMPANY_NAME_MIN_LENGTH,
-  COMPANY_NAME_MAX_LENGTH,
-  PRODUCT_DESCRIPTION_MIN_LENGTH,
-  PRODUCT_DESCRIPTION_MAX_LENGTH,
-  PRODUCT_QUANTITY_MIN_LENGTH,
-  PRODUCT_QUANTITY_MAX_LENGTH,
-  PRODUCT_PRICE_NOT_CORRECT,
-  PRODUCT_CATEGORY_NAME_NOT_CORRECT,
-  PRODUCT_GALLERY_MAX_LENGTH,
-} = require('../../../constants/products');
-const { PATH_TO_FILE_NOT_CORRECT } = require('../../../constants/files');
+  propertyRequiredMessage,
+  typeStringMessage,
+  typeArrayMessage,
+  typeNumberMessage,
+} = require('../../../variables/error-messages');
 
 // NAME
 const productNameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const productNamePattern = {
-  'string.pattern.base': PRODUCT_NAME_REQUIRED,
+  'string.pattern.base': productNameRequiredMessage,
 };
 
 const productNameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const productNameMin = {
-  'string.min': PRODUCT_NAME_MIN_LENGTH,
+  'string.min': productNameMinLengthMessage,
 };
 
 const productNameMax = {
-  'string.max': PRODUCT_NAME_MAX_LENGTH,
+  'string.max': productNameMaxLengthMessage,
 };
 
 // COMPANY NAME
 const productCompanyNameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const productCompanyNameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const productCompanyNameMin = {
-  'string.min': COMPANY_NAME_MIN_LENGTH,
+  'string.min': companyNameMinLengthMessage,
 };
 
 const productCompanyNameMax = {
-  'string.max': COMPANY_NAME_MAX_LENGTH,
+  'string.max': companyNameMaxLengthMessage,
 };
 
 // DESCRIPTION
 const descriptionRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const descriptionString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const descriptionMin = {
-  'string.min': PRODUCT_DESCRIPTION_MIN_LENGTH,
+  'string.min': productDescriptionMinLengthMessage,
 };
 
 const descriptionMax = {
-  'string.max': PRODUCT_DESCRIPTION_MAX_LENGTH,
+  'string.max': productDescriptionMaxLengthMessage,
 };
 
 // QUANTITY
 const quantityRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const quantityNumber = {
-  'number.base': TYPE_NUMBER,
+  'number.base': typeNumberMessage,
 };
 
 const quantityMin = {
-  'number.min': PRODUCT_QUANTITY_MIN_LENGTH,
+  'number.min': productQuantityMinLengthMessage,
 };
 
 const quantityMax = {
-  'number.max': PRODUCT_QUANTITY_MAX_LENGTH,
+  'number.max': productQuantityMaxLengthMessage,
 };
 
 // PRICE
 const priceRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const priceString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const pricePattern = {
-  'string.pattern.base': PRODUCT_PRICE_NOT_CORRECT,
+  'string.pattern.base': productPriceNotCorrectMessage,
 };
 
 // CATEGORY
 const categoryRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const categoryString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 // CATEGORY NAME
 const categoryNameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const categoryNameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const categoryNamePattern = {
-  'string.pattern.base': PRODUCT_CATEGORY_NAME_NOT_CORRECT,
+  'string.pattern.base': productCategoryNameNotCorrectMessage,
 };
 
 // THUMBNAIL
 const thumbnailRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const thumbnailString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const thumbnailPattern = {
-  'string.pattern.base': PATH_TO_FILE_NOT_CORRECT,
+  'string.pattern.base': pathToFileNotCorrectMessage,
 };
 
 // GALLERY
 const galleryRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const galleryMax = {
-  'array.max': PRODUCT_GALLERY_MAX_LENGTH,
+  'array.max': productGalleryMaxLengthMessage,
 };
 
 const galleryArray = {
-  'array.base': TYPE_ARRAY,
+  'array.base': typeArrayMessage,
 };
 
 const galleryMessages = {

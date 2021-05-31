@@ -1,15 +1,18 @@
 const rateLimit = require('express-rate-limit');
 const { Router } = require('express');
-const { FIVE_MINUTES } = require('../../../helpers/constants/time');
-const { SMALL, NEWSLETTER } = require('../../../helpers/constants/limiter');
 const { isAdmin, isNotLoggedIn } = require('../../../middlewares/auth');
 const { getSkipAndLimit } = require('../../../middlewares/queries');
+const { validateDBId } = require('../../../middlewares/validation');
+const { validateNewsletter } = require('./index.middleware');
 const {
   createData,
   createResponseWithError,
 } = require('../../../middlewares/index');
-const { validateDBId } = require('../../../middlewares/validation');
-const { validateNewsletter } = require('./index.middleware');
+const {
+  newsletterLimiterMessage,
+  newsletterLimiterTime,
+  newsletterLimiterLength,
+} = require('../../../helpers/variables/limiter');
 const {
   getEmails,
   addEmail,
@@ -18,9 +21,9 @@ const {
 } = require('./index.controller');
 
 const newsletterLimiter = rateLimit({
-  windowMs: FIVE_MINUTES,
-  max: SMALL,
-  message: NEWSLETTER,
+  windowMs: newsletterLimiterTime,
+  max: newsletterLimiterLength,
+  message: newsletterLimiterMessage,
 });
 
 const router = Router();

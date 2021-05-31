@@ -1,37 +1,37 @@
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
+  usernameRequiredMessage,
+  usernameMinLengthMessage,
+  usernameMaxLengthMessage,
+  usernameAlphanumMessage,
+} = require('../../../variables/users');
 const {
-  USERNAME_REQUIRED,
-  USERNAME_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  USERNAME_ALPHANUM,
-} = require('../../../constants/users');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // USERNAME
 const usernameRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const usernameNotEmpty = {
-  'string.empty': USERNAME_REQUIRED,
+  'string.empty': usernameRequiredMessage,
 };
 
 const usernameString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const usernameMin = {
-  'string.min': USERNAME_MIN_LENGTH,
+  'string.min': usernameMinLengthMessage,
 };
 
 const usernameMax = {
-  'string.max': USERNAME_MAX_LENGTH,
+  'string.max': usernameMaxLengthMessage,
 };
 
 const usernameAlphanum = {
-  'string.alphanum': USERNAME_ALPHANUM,
+  'string.alphanum': usernameAlphanumMessage,
 };
 
 const usernameMessages = {

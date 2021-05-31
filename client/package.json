@@ -29,6 +29,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "marked": "^1.0.0",
+    "nanoid": "^3.1.22",
     "rxjs": "~6.3.3",
     "swiper": "^6.4.5",
     "tslib": "^1.9.0",

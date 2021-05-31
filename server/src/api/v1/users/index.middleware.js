@@ -5,27 +5,30 @@ const { avatarFileSchema } = require('../../../models');
 const { updateUserSchema } = require('./index.model');
 const { getAvatarUrl } = require('../../../helpers/files');
 const { usersDB } = require('../../../db');
-const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
-const { ONE_HUNDRED_AND_FIFTY } = require('../../../helpers/constants/numbers');
+const { errorOccurred } = require('../../../helpers/variables/errors');
+const { avatarNewSize } = require('../../../helpers/variables/files');
 const {
-  USER_NOT_FOUND,
-  USERNAME_ALREADY_EXIST,
-  EMAIL_ALREADY_EXIST,
-  PASSWORDS_ARE_NOT_THE_SAME,
-} = require('../../../helpers/constants/users');
-const { ERROR_OCCURRED } = require('../../../helpers/constants/errors');
+  userNotFoundMessage,
+  usernameAlreadyExistMessage,
+  emailAlreadyExistMessage,
+  passwordsAreNotTheSameMessage,
+} = require('../../../helpers/variables/users');
+const {
+  JPEG,
+  JPEG_EXT,
+} = require('../../../helpers/variables/constants/types');
 const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const findUser = async (req, res, next) => {
   try {
     const user = await usersDB.findOne({ _id: req.params.id });
 
     if (!user) {
-      return req.data.responseWithError(NOT_FOUND, USER_NOT_FOUND);
+      return req.data.responseWithError(NOT_FOUND, userNotFoundMessage);
     }
 
     req.data.userDB = user;
@@ -34,7 +37,7 @@ const findUser = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -47,7 +50,7 @@ const checkEmail = async (req, res, next) => {
     const email = await usersDB.findOne({ email: req.data.user.email });
 
     if (email && email._id.toString() !== req.params.id) {
-      return req.data.responseWithError(CONFLICT, EMAIL_ALREADY_EXIST);
+      return req.data.responseWithError(CONFLICT, emailAlreadyExistMessage);
     }
 
     req.data.newUser.email = req.data.user.email;
@@ -56,7 +59,7 @@ const checkEmail = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -71,7 +74,7 @@ const checkUsername = async (req, res, next) => {
     });
 
     if (username && username._id.toString() !== req.params.id) {
-      return req.data.responseWithError(CONFLICT, USERNAME_ALREADY_EXIST);
+      return req.data.responseWithError(CONFLICT, usernameAlreadyExistMessage);
     }
 
     req.data.newUser.username = req.data.user.username;
@@ -80,7 +83,7 @@ const checkUsername = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -97,7 +100,10 @@ const checkPasswords = async (req, res, next) => {
     if (
       !(await bcrypt.compare(req.data.user.password, req.data.userDB.password))
     ) {
-      return req.data.responseWithError(CONFLICT, PASSWORDS_ARE_NOT_THE_SAME);
+      return req.data.responseWithError(
+        CONFLICT,
+        passwordsAreNotTheSameMessage,
+      );
     }
 
     req.data.newUser.password = await bcrypt.hash(
@@ -109,7 +115,7 @@ const checkPasswords = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 
@@ -157,7 +163,7 @@ const replaceAvatar = async (req, res, next) => {
 
     await sharp(req.data.file.path)
       .toFormat(JPEG)
-      .resize(ONE_HUNDRED_AND_FIFTY)
+      .resize(avatarNewSize)
       .toFile(`${req.data.file.destination}/${fileName}`);
 
     if (fs.existsSync(req.data.file.path)) {
@@ -174,7 +180,7 @@ const replaceAvatar = async (req, res, next) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return req.data.responseWithError(INTERNAL_SERVER_ERROR, ERROR_OCCURRED);
+    return req.data.responseWithError(INTERNAL_SERVER_ERROR, errorOccurred);
   }
 };
 

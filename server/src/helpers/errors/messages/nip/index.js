@@ -1,20 +1,20 @@
+const { nipNotCorrectMessage } = require('../../../variables/contact');
 const {
-  PROPERTY_REQUIRED,
-  TYPE_STRING,
-} = require('../../../constants/error-messages');
-const { NIP_NOT_CORRECT } = require('../../../constants/contact');
+  propertyRequiredMessage,
+  typeStringMessage,
+} = require('../../../variables/error-messages');
 
 // NIP
 const nipRequired = {
-  'any.required': PROPERTY_REQUIRED,
+  'any.required': propertyRequiredMessage,
 };
 
 const nipString = {
-  'string.base': TYPE_STRING,
+  'string.base': typeStringMessage,
 };
 
 const nipPattern = {
-  'string.pattern.base': NIP_NOT_CORRECT,
+  'string.pattern.base': nipNotCorrectMessage,
 };
 
 const nipMessages = {

@@ -8,7 +8,7 @@ const {
   PRODUCTS_PL,
   DISCOUNTS_PL,
   OTHERS_PL,
-} = require('../../../helpers/constants/faq');
+} = require('../../../helpers/variables/constants/faq');
 
 const faqCategoriesSchema = (faqCategories) => {
   const schema = Joi.string()

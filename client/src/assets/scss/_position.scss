@@ -1,24 +1,23 @@
-// Imports
+/* ====== Imports ====== */
 @import "./variables";
+@import "./mixins";
 
-// Positions
+/* ====== Positions ====== */
 .relative {
-  position: relative;
+  position: $position-relative;
 }
 
 .absolute {
-  position: absolute;
+  position: $position-absolute;
 }
 
 .fixed {
-  position: fixed;
+  position: $position-fixed;
 }
 
 .center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: $position-absolute;
+  @include center;
 }
 
 @each $width, $media in ($xs, "xs"), ($sm, "sm"), ($md, "md"), ($lg, "lg"),
@@ -26,22 +25,20 @@
 {
   @media (min-width: $width) {
     .#{$media}\:relative {
-      position: relative;
+      position: $position-relative;
     }
 
     .#{$media}\:absolute {
-      position: absolute;
+      position: $position-absolute;
     }
 
     .#{$media}\:fixed {
-      position: fixed;
+      position: $position-fixed;
     }
 
     .#{$media}\:center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: $position-absolute;
+      @include center;
     }
   }
 }
