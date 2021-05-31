@@ -1,4 +1,4 @@
-const { FIVE_MINUTES, FIFTEEN_MINUTES } = require('../../constants/time');
+const { FIVE_MINUTES, FIFTEEN_MINUTES } = require('../constants/time');
 
 const recoveryLimiterMessage = 'Przekroczono limit. Spróbuj wysłać wiadomość ponownie później.';
 const loginLimiterMessage = 'Przekroczono limit. Spróbuj zalogować się ponownie później.';

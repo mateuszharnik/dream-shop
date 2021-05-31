@@ -1,6 +1,6 @@
 const { productsDB } = require('../../../db');
 const { errorOccurred } = require('../../../helpers/variables/errors');
-const { LOCALE_PL } = require('../../../helpers/constants/queries');
+const { LOCALE_PL } = require('../../../helpers/variables/constants/queries');
 const {
   productNotFoundMessage,
   productsNotFoundMessage,
@@ -10,7 +10,7 @@ const {
   OK,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getProducts = async (req, res) => {
   const { cart = '' } = req.query;

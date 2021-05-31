@@ -12,7 +12,7 @@ const {
   DEFAULT_DB_URL,
   DEV,
   PRODUCTION,
-} = require('../helpers/constants/config');
+} = require('../helpers/variables/constants/config');
 
 env.config();
 

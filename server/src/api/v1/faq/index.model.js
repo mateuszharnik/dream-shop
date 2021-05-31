@@ -19,7 +19,7 @@ const {
   PRODUCTS_PL,
   DISCOUNTS_PL,
   OTHERS_PL,
-} = require('../../../helpers/constants/faq');
+} = require('../../../helpers/variables/constants/faq');
 
 const faqSchema = (faq) => {
   const schema = Joi.object().keys({

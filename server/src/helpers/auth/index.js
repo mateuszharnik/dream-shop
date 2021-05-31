@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const { verifyToken } = require('../token');
 const { tokenNotGeneratedMessage } = require('../variables/auth');
-const { HEX } = require('../constants/types');
+const { HEX } = require('../variables/constants/types');
 
 const generateRandomBytes = (prefix) => new Promise((resolve, reject) => {
   crypto.randomBytes(10, (error, buf) => {

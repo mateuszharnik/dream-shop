@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const { primary } = require('../variables/colors');
-const { PRODUCTION } = require('../constants/config');
+const { PRODUCTION } = require('../variables/constants/config');
 const {
   CLIENT_URL,
   NODE_ENV,

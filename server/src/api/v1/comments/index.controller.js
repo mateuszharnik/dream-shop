@@ -13,7 +13,7 @@ const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
   CONFLICT,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getComments = async (req, res) => {
   const {

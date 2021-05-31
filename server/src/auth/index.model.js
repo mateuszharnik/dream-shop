@@ -2,7 +2,7 @@ const Joi = require('joi');
 const { emailRegExp, usernameRegExp } = require('../helpers/regexp');
 const { resetPasswordIdMessages } = require('../helpers/errors/messages/id');
 const { emailMessages } = require('../helpers/errors/messages/email');
-const { PASSWORD } = require('../helpers/constants/auth');
+const { PASSWORD } = require('../helpers/variables/constants/auth');
 const {
   passwordMinLength,
   passwordMaxLength,

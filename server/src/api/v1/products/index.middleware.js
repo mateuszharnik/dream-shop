@@ -7,10 +7,8 @@ const { purify } = require('../../../helpers/sanitize');
 const { getThumbnailUrl } = require('../../../helpers/files');
 const { thumbnailFileSchema, galleryFileSchema } = require('../../../models');
 const { errorOccurred } = require('../../../helpers/variables/errors');
-const { DESC } = require('../../../helpers/constants/queries');
-const { PRODUCTS_URL } = require('../../../helpers/constants/url');
-const { PRODUCTS_DIR } = require('../../../helpers/constants/directories');
-const { JPEG, JPEG_EXT } = require('../../../helpers/constants/types');
+const { DESC } = require('../../../helpers/variables/constants/queries');
+const { PRODUCTS_URL } = require('../../../helpers/variables/constants/url');
 const {
   filtersNotUpdatedMessage,
 } = require('../../../helpers/variables/product-filters');
@@ -37,18 +35,25 @@ const {
   productImageNewWidth,
 } = require('../../../helpers/variables/files');
 const {
+  PRODUCTS_DIR,
+} = require('../../../helpers/variables/constants/directories');
+const {
+  JPEG,
+  JPEG_EXT,
+} = require('../../../helpers/variables/constants/types');
+const {
   BESTSELLERS_PL,
   NEWS_PL,
   POPULARITY_PL,
   PRICE_PL,
   ALPHABET_PL,
   COMPANY_NAME,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/products');
 const {
   CONFLICT,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const timeout = 100;
 

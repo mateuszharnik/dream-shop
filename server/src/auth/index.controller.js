@@ -4,7 +4,7 @@ const { sendEmail } = require('../helpers/email');
 const { generateRandomBytes } = require('../helpers/auth');
 const { usersDB } = require('../db');
 const { errorOccurred } = require('../helpers/variables/errors');
-const { ONE_HOUR } = require('../helpers/constants/time');
+const { ONE_HOUR } = require('../helpers/variables/constants/time');
 const {
   userNotFoundMessage,
   passwordOrUsernameNotCorrectMessage,
@@ -22,7 +22,7 @@ const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../helpers/constants/status-codes');
+} = require('../helpers/variables/constants/status-codes');
 const {
   EMAIL_HOST,
   EMAIL_PORT,

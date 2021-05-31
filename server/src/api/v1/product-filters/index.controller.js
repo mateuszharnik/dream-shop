@@ -7,7 +7,7 @@ const {
   OK,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getProductFilters = async (req, res) => {
   const { category = '' } = req.query;

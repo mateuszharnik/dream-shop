@@ -14,7 +14,7 @@ const {
 const {
   AVATAR_MAX_SIZE,
   THUMBNAIL_MAX_SIZE,
-} = require('../helpers/constants/files');
+} = require('../helpers/variables/constants/files');
 
 const dbIdSchema = (id) => {
   const schema = Joi.object()

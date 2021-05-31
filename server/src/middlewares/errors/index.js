@@ -1,10 +1,10 @@
 const { NODE_ENV } = require('../../config');
-const { PRODUCTION } = require('../../helpers/constants/config');
+const { PRODUCTION } = require('../../helpers/variables/constants/config');
 const {
   NOT_FOUND,
   OK,
   INTERNAL_SERVER_ERROR,
-} = require('../../helpers/constants/status-codes');
+} = require('../../helpers/variables/constants/status-codes');
 
 const notFound = (req, res, next) => {
   const error = new Error(`Nie znaleziono ${req.originalUrl}`);

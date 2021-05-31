@@ -3,8 +3,8 @@ const { userRolesMessages } = require('../../../helpers/errors/messages/roles');
 const { emailMessages } = require('../../../helpers/errors/messages/email');
 const { avatarMessages } = require('../../../helpers/errors/messages/avatar');
 const { nameMessages } = require('../../../helpers/errors/messages/name');
-const { ADMIN, USER } = require('../../../helpers/constants/users');
-const { NEW_PASSWORD } = require('../../../helpers/constants/auth');
+const { ADMIN, USER } = require('../../../helpers/variables/constants/users');
+const { NEW_PASSWORD } = require('../../../helpers/variables/constants/auth');
 const {
   usernameMessages,
 } = require('../../../helpers/errors/messages/username');

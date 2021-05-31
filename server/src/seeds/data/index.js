@@ -2,14 +2,17 @@ const { capitalize } = require('../../helpers/strings');
 const { defaultUsername } = require('../../helpers/variables/users');
 const { defaultMapLatLng } = require('../../helpers/variables/map');
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = require('../../config');
-const { BESTSELLERS_PL, NEWS_PL } = require('../../helpers/constants/products');
-const { ADMIN, USER } = require('../../helpers/constants/users');
+const { ADMIN, USER } = require('../../helpers/variables/constants/users');
 const {
   defaultNewsletterRegulationsName,
   defaultNewsletterRegulationsContent,
   defaultContactRegulationsName,
   defaultContactRegulationsContent,
 } = require('../../helpers/variables/regulations');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../../helpers/variables/constants/products');
 const {
   RETURNS_PL,
   DELIVERY_PL,
@@ -18,7 +21,7 @@ const {
   PRODUCTS_PL,
   DISCOUNTS_PL,
   OTHERS_PL,
-} = require('../../helpers/constants/faq');
+} = require('../../helpers/variables/constants/faq');
 
 const user = {
   name: '',

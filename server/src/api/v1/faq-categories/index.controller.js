@@ -1,12 +1,12 @@
 const { faqCategoriesDB } = require('../../../db');
 const { faqCategoriesNotFoundMessage } = require('../../../helpers/variables/faq');
 const { errorOccurred } = require('../../../helpers/variables/errors');
-const { LOCALE_PL } = require('../../../helpers/constants/queries');
+const { LOCALE_PL } = require('../../../helpers/variables/constants/queries');
 const {
   OK,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const getFAQCategories = async (req, res) => {
   try {

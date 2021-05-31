@@ -1,6 +1,8 @@
 const regulationsSchema = require('./index.model');
 const { purify } = require('../../../helpers/sanitize');
-const { CONFLICT } = require('../../../helpers/constants/status-codes');
+const {
+  CONFLICT,
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateRegulation = (req, res, next) => {
   const { schemaError, data: regulation } = regulationsSchema(req.body);

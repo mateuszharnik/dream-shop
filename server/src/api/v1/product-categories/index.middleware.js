@@ -21,12 +21,12 @@ const {
 const {
   BESTSELLERS_PL,
   NEWS_PL,
-} = require('../../../helpers/constants/products');
+} = require('../../../helpers/variables/constants/products');
 const {
   NOT_FOUND,
   CONFLICT,
   INTERNAL_SERVER_ERROR,
-} = require('../../../helpers/constants/status-codes');
+} = require('../../../helpers/variables/constants/status-codes');
 
 const validateProductCategory = (req, res, next) => {
   if (req.body.category) {

@@ -3,7 +3,7 @@ const { extname } = require('path');
 const {
   AVATARS_DIR,
   PRODUCTS_DIR,
-} = require('../../helpers/constants/directories');
+} = require('../../helpers/variables/constants/directories');
 
 const avatarStorage = multer.diskStorage({
   destination: (req, file, cb) => {
