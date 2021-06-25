@@ -1,8 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { SpinnerService } from '@services/spinner.service';
 import { RegulationsService } from '@services/regulations.service';
+import { DocumentRefService } from '@services/document-ref.service';
+import { Regulation } from '@models/index';
 import { trackID } from '@helpers/index';
-import { Alerts, Regulations } from '@models/index';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading } from '@helpers/components';
+import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import { serverErrorMessage } from '@helpers/variables/errors';
+import { regulationsAdminPageTitle } from '@helpers/variables/titles';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,63 +19,68 @@ import { Subscription } from 'rxjs';
 })
 export class RegulationsComponent implements OnInit, OnDestroy {
   isLoading = true;
-  trackID = null;
-  regulations: Regulations[] = [];
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
+  regulations: Regulation[] = [];
   subscriptions: Subscription[] = [];
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
+
+  /* ====== Functions ====== */
+  trackID = null;
+  setLoading = null;
+  setAlerts = null;
 
   constructor(
     private spinnerService: SpinnerService,
+    private documentRefService: DocumentRefService,
     private regulationsService: RegulationsService,
   ) {
-    this.trackID = trackID;
+    this.documentRefService.nativeDocument.title = regulationsAdminPageTitle;
 
-    this.subscriptions.push(
-      this.regulationsService
-        .getRegulations()
-        .subscribe((data: Regulations[]) => {
-          this.regulations = data;
-        }),
-    );
+    this.trackID = trackID;
+    this.setAlerts = setAlerts(this, 'RegulationsComponent');
+    this.setLoading = setLoading(this, 'RegulationsComponent');
+
+    this.addRegulationsSubscription();
   }
 
   async ngOnInit() {
     try {
-      const response: Regulations[] = await this.regulationsService.fetchRegulations();
-      this.regulationsService.setRegulations(response);
-      this.setLoading();
+      this.regulations = await this.regulationsService.fetchRegulations();
+      this.regulationsService.setRegulations(this.regulations);
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-
+      this.onError(error);
+    } finally {
       this.setLoading();
     }
   }
 
   ngOnDestroy() {
+    this.removeSubscriptions();
+  }
+
+  addRegulationsSubscription() {
+    this.subscriptions.push(
+      this.regulationsService
+        .getRegulations()
+        .subscribe((regulations: Regulation[]) => {
+          this.regulations = regulations;
+        }),
+    );
+  }
+
+  removeSubscriptions() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
   }
 
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
+  onError(error) {
+    if (!error.status || error.status === NOT_FOUND) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
+    }
   }
 
   editLink(id: string): string {

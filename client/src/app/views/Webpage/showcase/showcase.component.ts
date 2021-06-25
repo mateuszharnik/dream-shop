@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Alerts, Product, ProductWithPagination, Regulations } from '@models/index';
+import { Alerts, Product, ProductWithPagination, Regulation } from '@models/index';
 import { ModalService } from '@services/modal.service';
 import { ProductsService } from '@services/products.service';
 import { RegulationsService } from '@services/regulations.service';
@@ -19,7 +19,7 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
     success: '',
   };
   isLoading = true;
-  regulations: Regulations = null;
+  regulations: Regulation = null;
   subscriptions: Subscription[] = [];
   bestsellerProducts: Product[] = [];
   newProducts: Product[] = [];
@@ -33,9 +33,9 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.regulationsService
         .getRegulations()
-        .subscribe((data: Regulations[]) => {
+        .subscribe((data: Regulation[]) => {
           this.regulations = data.find(
-            (value: Regulations) => value.name === 'newsletter',
+            (value: Regulation) => value.name === 'newsletter',
           );
         }),
     );

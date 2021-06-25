@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Alerts, Contact, Map, Regulations } from '@models/index';
+import { Alerts, Contact, Map, Regulation } from '@models/index';
 import { ContactService } from '@services/contact.service';
 import { MapService } from '@services/map.service';
 import { ModalService } from '@services/modal.service';
@@ -17,7 +17,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   isLoading = true;
   contact: Contact = null;
   map: Map = null;
-  regulations: Regulations = null;
+  regulations: Regulation = null;
   alerts: Alerts = {
     server: '',
     error: '',
@@ -41,9 +41,9 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.regulationsService
         .getRegulations()
-        .subscribe((data: Regulations[]) => {
+        .subscribe((data: Regulation[]) => {
           this.regulations = data.find(
-            (value: Regulations) => value.name === 'kontakt',
+            (value: Regulation) => value.name === 'kontakt',
           );
         }),
     );

@@ -1,23 +1,32 @@
-<div *ngIf="isLoading; else regulationsPageView" class="spinner-wrapper">
+<div *ngIf="isLoading; else main" class="spinner-wrapper">
   <app-spinner></app-spinner>
 </div>
-<ng-template #regulationsPageView>
-  <section class="admin-page-section p-6 min-vh-100">
-    <header class="admin-page-section__header">
-      <h2 class="h4 text-center mb-6">Regulaminy</h2>
+<ng-template #main>
+  <app-admin-wrapper>
+    <header class="admin-wrapper-section__header">
+      <h2 class="h4 text-center mb-6">
+        Regulaminy
+        <span class="hidden">- Ustawienia</span>
+      </h2>
     </header>
-    <article
-      *ngIf="!alerts.server; else showError"
-      class="admin-page-section__article m-auto mt-6 text-center"
+    <div
+      *ngIf="!serverErrorAlert; else showError"
+      class="admin-wrapper-section__content m-auto mt-6 text-center"
     >
       <p class="mb-6">
         Tutaj możesz zarządzać regulaminami dla newslettera i formularza
         kontaktowego.
       </p>
-      <div *ngIf="regulations.length; else showDefault" class="w-100">
+      <div *ngIf="regulations.length; else showDefaultMessage" class="w-100">
         <div
           *ngFor="let regulation of regulations; trackBy: trackID"
-          class="flex flex-justify-between md:flex-align-center flex-column md:flex-row mb-6"
+          class="
+            flex flex-justify-between
+            md:flex-align-center
+            flex-column
+            md:flex-row
+            mb-6
+          "
         >
           <span class="item mb-2 truncate md:mb-0">
             {{ regulation.name | titlecase }}
@@ -32,12 +41,12 @@
           </app-router-link>
         </div>
       </div>
-      <ng-template #showDefault>
-        <p>Brak regulaminów.</p>
+      <ng-template #showDefaultMessage>
+        <div class="text-center m-0">Brak regulaminów.</div>
       </ng-template>
-    </article>
+    </div>
     <ng-template #showError>
-      <p class="center">{{ alerts.server }}</p>
+      <div class="center text-center m-0">{{ serverErrorAlert }}</div>
     </ng-template>
-  </section>
+  </app-admin-wrapper>
 </ng-template>

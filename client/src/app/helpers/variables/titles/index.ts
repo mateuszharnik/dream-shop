@@ -10,3 +10,6 @@ export const mapAdminPageTitle = 'Ustawienia mapy | Dream Shop';
 export const socialMediaAdminPageTitle =
   'Ustawienia mediów społecznościowych | Dream Shop';
 export const contactAdminPageTitle = 'Ustawienia informacji kontaktowych | Dream Shop';
+export const regulationsAdminPageTitle = 'Ustawienia regulaminów | Dream Shop';
+export const editRegulationAdminPageTitle =
+  'Edytuj regulamin | Dream Shop';

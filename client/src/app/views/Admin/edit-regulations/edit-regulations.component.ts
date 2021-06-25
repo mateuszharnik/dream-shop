@@ -1,9 +1,35 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Alert, Alerts, Regulations } from '@models/index';
+import { DocumentRefService } from '@services/document-ref.service';
 import { RegulationsService } from '@services/regulations.service';
 import { SpinnerService } from '@services/spinner.service';
+import { ButtonSaveText, ButtonSaveTitle } from '@models/buttons';
+import { ValidationError } from '@models/errors';
+import { Regulation } from '@models/index';
+import { setAlerts } from '@helpers/alerts';
+import { setLoading, startSubmittingForm } from '@helpers/components';
+import { contentRequired } from '@helpers/errors/messages/regulations';
+import { validation } from '@helpers/validation';
+import { contentValidators } from '@helpers/validation/regulation';
+import { clientRoutes } from '@helpers/variables/routes';
+import { successfullySavedMessage } from '@helpers/variables/success';
+import { editRegulationAdminPageTitle } from '@helpers/variables/titles';
+import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import {
+  saveText,
+  saveTitle,
+  savingText,
+  savingTitle,
+} from '@helpers/variables/buttons';
+import {
+  contentIsRequired,
+  serverErrorMessage,
+} from '@helpers/variables/errors';
+import {
+  contentMaxLength,
+  contentMinLength,
+} from '@helpers/errors/messages/regulations';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,22 +40,27 @@ import { Subscription } from 'rxjs';
 })
 export class EditRegulationsComponent implements OnInit, OnDestroy {
   form: FormGroup = null;
+  regulation: Regulation = null;
+  id: string = null;
   isLoading = true;
-  regulation: Regulations = null;
   isDisabled = false;
   isSubmitted = false;
-  id: string = null;
+  serverErrorAlert = '';
+  errorAlert = '';
+  successAlert = '';
   subscriptions: Subscription[] = [];
-  alerts: Alerts = {
-    server: '',
-    error: '',
-    success: '',
-  };
 
-  contentAlerts: Alert[] = [
-    { id: '0', message: 'Musisz podać treść.', key: 'required' },
-    { id: '2', message: 'Treść jest za krótka.', key: 'minlength' },
-    { id: '3', message: 'Treść jest za długa.', key: 'maxlength' },
+  /* ====== Functions ====== */
+  validation = null;
+  setAlerts = null;
+  setLoading = null;
+  startSubmittingForm = null;
+
+  /* ====== Validation Errors ====== */
+  contentValidationErrors: ValidationError[] = [
+    contentMaxLength,
+    contentMinLength,
+    contentRequired,
   ];
 
   constructor(
@@ -37,117 +68,105 @@ export class EditRegulationsComponent implements OnInit, OnDestroy {
     private activateRoute: ActivatedRoute,
     private spinnerService: SpinnerService,
     private formBuilder: FormBuilder,
+    private documentRefService: DocumentRefService,
     private router: Router,
-  ) {}
-
-  async ngOnInit() {
+  ) {
+    this.documentRefService.nativeDocument.title = editRegulationAdminPageTitle;
     this.id = this.activateRoute.snapshot.params.id;
 
+    this.validation = validation(this, 'EditRegulationsComponent');
+    this.setAlerts = setAlerts(this, 'EditRegulationsComponent');
+    this.setLoading = setLoading(this, 'EditRegulationsComponent');
+    this.startSubmittingForm = startSubmittingForm(
+      this,
+      'EditRegulationsComponent',
+    );
+  }
+
+  async ngOnInit() {
     try {
       this.regulation = await this.regulationsService.fetchRegulation(this.id);
-
-      this.createForm(this.regulation);
-      this.setLoading();
     } catch (error) {
-      if (error.status === 404) {
-        this.router.navigate(['/404']);
-        return;
-      } else if (error.status === 0) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        this.setAlerts('', error.error.message);
-      }
-
+      this.onErrorInit(error);
+    } finally {
+      this.createForm(this.regulation);
       this.setLoading();
     }
   }
 
   ngOnDestroy() {
+    this.removeSubscriptions();
+  }
+
+  removeSubscriptions() {
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
   }
 
-  setAlerts(server = '', error = '', success = '') {
-    this.alerts.server = server;
-    this.alerts.error = error;
-    this.alerts.success = success;
+  onErrorInit(error) {
+    if (!error.status) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else if (error.status === NOT_FOUND) {
+      this.router.navigate([clientRoutes.notFound]);
+    } else {
+      this.setAlerts({ errorAlert: error.error.message });
+    }
   }
 
-  setLoading(loading = false) {
-    this.isLoading = loading;
-    setTimeout(() => {
-      this.spinnerService.setLoading(this.isLoading);
-    }, 50);
-  }
-
-  createForm(regulations: Regulations) {
-    const content: string =
-      regulations && regulations.content ? regulations.content : '';
+  createForm(regulation: Regulation) {
+    const { content = '' } = regulation || {};
 
     this.form = this.formBuilder.group({
-      content: [
-        content,
-        {
-          validators: [
-            Validators.minLength(3),
-            Validators.maxLength(20000),
-            Validators.required,
-          ],
-        },
-      ],
+      content: [content, contentValidators],
     });
   }
 
-  validation(prop: string): boolean {
-    return (
-      (this.formControls[prop].errors &&
-        (this.formControls[prop].dirty || this.formControls[prop].touched)) ||
-      (this.formControls[prop].errors && this.isSubmitted)
-    );
+  buttonTitle(condition = false): ButtonSaveTitle {
+    return condition ? savingTitle : saveTitle;
   }
 
-  buttonText(value: boolean): 'Zapisz' | 'Zapisywanie' {
-    return value ? 'Zapisywanie' : 'Zapisz';
+  buttonText(condition = false): ButtonSaveText {
+    return condition ? savingText : saveText;
   }
 
-  buttonTitle(value: boolean): 'Zapisz zmiany' | 'Zapisywanie zmian' {
-    return value ? 'Zapisywanie zmian' : 'Zapisz zmiany';
+  regulationsLink(): string {
+    const { admin, regulations } = clientRoutes;
+
+    return `${admin}${regulations}`;
   }
 
-  async updateRegulations() {
-    this.isSubmitted = true;
-
-    if (this.form.invalid) {
+  async saveSettings() {
+    if (!this.startSubmittingForm()) {
       return;
     }
 
-    this.isDisabled = true;
-
     try {
-      const response: Regulations = await this.regulationsService.updateRegulations(
-        this.id,
+      this.regulation = await this.regulationsService.updateRegulation(
+        this.regulation._id,
         this.form.value,
       );
-      this.regulation = response;
 
-      const regulations: Regulations[] = await this.regulationsService.fetchRegulations();
-      this.regulationsService.setRegulations(regulations);
-      this.setAlerts('', '', 'Pomyślnie zaktualizowano regulamin.');
+      this.setAlerts({ successAlert: successfullySavedMessage });
     } catch (error) {
-      if (error.status === 0 || error.status === 404) {
-        this.setAlerts('Brak połączenia z serwerem.');
-      } else {
-        if (error.error.message === 'Musisz podać treść.') {
-          this.formControls.content.setValue(this.form.value.content, {
-            onlySelf: true,
-          });
-        }
-        this.setAlerts('', error.error.message);
-      }
+      this.onError(error);
     } finally {
       this.isDisabled = false;
       this.isSubmitted = false;
+    }
+  }
+
+  onError(error) {
+    if (!error.status || error.status === NOT_FOUND) {
+      this.setAlerts({ serverErrorAlert: serverErrorMessage });
+    } else {
+      if (error.error.message === contentIsRequired) {
+        this.formControls.content.setValue(this.form.value.content, {
+          onlySelf: true,
+        });
+      }
+
+      this.setAlerts({ errorAlert: error.error.message });
     }
   }
 

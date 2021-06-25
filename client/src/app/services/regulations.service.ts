@@ -1,38 +1,33 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Regulation } from '@models/index';
 import { getFullToken } from '@helpers/token';
-import { Regulations } from '@models/index';
+import { REGULATIONS_URL } from '@helpers/variables/constants/api';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegulationsService {
-  regulations: Regulations[] = [];
-  regulationsSubject: BehaviorSubject<Regulations[]> = new BehaviorSubject<
-    Regulations[]
-  >(this.regulations);
+  private regulations: Regulation[] = [];
+  private regulationsSubject: BehaviorSubject<Regulation[]> =
+    new BehaviorSubject<Regulation[]>(this.regulations);
 
   constructor(private http: HttpClient) {}
 
-  fetchRegulations(name?: string): Promise<Regulations[]> {
-    let url = 'http://localhost:3000/v1/regulations';
+  fetchRegulations(name?: string): Promise<Regulation[]> {
+    const url = name ? `${REGULATIONS_URL}?name=${name}` : REGULATIONS_URL;
 
-    if (name) {
-      url = `${url}?name=${name}`;
-    }
-    return this.http.get<Regulations[]>(url).toPromise();
+    return this.http.get<Regulation[]>(url).toPromise();
   }
 
-  fetchRegulation(id: string): Promise<Regulations> {
-    return this.http
-      .get<Regulations>(`http://localhost:3000/v1/regulations/${id}`)
-      .toPromise();
+  fetchRegulation(id: string): Promise<Regulation> {
+    return this.http.get<Regulation>(`${REGULATIONS_URL}/${id}`).toPromise();
   }
 
-  updateRegulations(id: string, data: Regulations): Promise<Regulations> {
+  updateRegulation(id: string, regulation: Regulation): Promise<Regulation> {
     return this.http
-      .put<Regulations>(`http://localhost:3000/v1/regulations/${id}`, data, {
+      .put<Regulation>(`${REGULATIONS_URL}/${id}`, regulation, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           Authorization: getFullToken(),
@@ -41,11 +36,11 @@ export class RegulationsService {
       .toPromise();
   }
 
-  setRegulations(regulations: Regulations[]) {
+  setRegulations(regulations: Regulation[]) {
     this.regulationsSubject.next(regulations);
   }
 
-  getRegulations(): Observable<Regulations[]> {
+  getRegulations(): Observable<Regulation[]> {
     return this.regulationsSubject.asObservable();
   }
 }

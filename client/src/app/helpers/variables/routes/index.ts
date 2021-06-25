@@ -24,6 +24,7 @@ export const serverRoutes: ServerRoutes = {
 /* ====== Client Routes ====== */
 export const clientRoutes: ClientRoutes = {
   home: '/',
+  edit: '/edytuj',
   pages: '/strony',
   admin: '/admin',
   recovery: '/odzyskaj',
