@@ -124,7 +124,8 @@ export interface DashboardNavigation {
   icon: string;
 }
 
-export interface Regulations {
+export interface Regulation {
+  _id: string;
   name: string;
   content: string;
   purify_content: string;
