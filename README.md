@@ -1,73 +1,57 @@
 # Dream Shop
 
-## 🚧 Work in progress.
-
-<br/>
-
-This app is not finished and may have bugs so keep that in mind :wink:.
-
----
+🚧 Work in progress. This app is not finished and may have bugs so keep that in mind :wink:.
 
 ## Prerequisites
-
-<br/>
 
 1. [NodeJS](https://nodejs.org/en/download/) - Make sure you have NodeJS version 12.16.2
 1. [Yarn](https://classic.yarnpkg.com/en/) - You have at least Yarn version 1.22.10
 1. [MongoDB](https://www.mongodb.com/) - Please install MongoDB version 4.4.4
 1. [AngularCLI](https://angular.io/cli) - Install using this command:
 
-```sh
-$ yarn add @angular/cli@11.2.2
-```
-
----
+   ```sh
+   $ yarn add @angular/cli@11.2.2
+   ```
 
 ## After you install all [Prerequisites](#prerequisites)
 
-<br/>
-
 1. Clone this repository using command bellow:
 
-```sh
-$ git clone https://github.com/mateuszharnik/dream-shop.git
-```
+   ```sh
+   $ git clone https://github.com/mateuszharnik/dream-shop.git
+   ```
 
 1. Go to the client folder and install all dependencies:
 
-```sh
-$ cd dream-shop/client
-$ yarn install
-```
+   ```sh
+   $ cd dream-shop/client
+   $ yarn install
+   ```
 
 1. Next back to the root folder:
 
-```sh
-$ cd ..
-```
+   ```sh
+   $ cd ..
+   ```
 
 1. Next go to the server folder and install all dependencies:
 
-```sh
-$ cd dream-shop/server
-$ yarn install
-```
+   ```sh
+   $ cd dream-shop/server
+   $ yarn install
+   ```
 
 1. In the server folder copy `.env.example` file and rename it to `.env`:
 
-```sh
-$ cp .env.example .env
-```
-
----
+   ```sh
+   $ cp .env.example .env
+   ```
 
 ## Environment variables
 
-<br/>
-
 You only need to set required environment variables which are included below.
 
-```js
+```sh
 # Enviroment
 NODE_ENV = "development"
 
@@ -90,22 +74,14 @@ ADMIN_EMAIL = "email"
 ADMIN_PASSWORD = "password"
 ```
 
----
-
 ## How to run ?
-
-<br/>
 
 To run this project you need to run two commands.
 
 1. To run client go to the `dream-shop/client` and run command `yarn start`
 1. To run server go to the `dream-shop/server` and run command `yarn dev`
 
----
-
 ## Screenshots
-
-<br/>
 
 ![Main page](https://github.com/mateuszharnik/dream-shop/blob/master/screenshots/main.gif?raw=true)
 
@@ -119,18 +95,10 @@ To run this project you need to run two commands.
 
 ![Orders page](https://github.com/mateuszharnik/dream-shop/blob/master/screenshots/orders.gif?raw=true)
 
----
-
 ## Acknowledgments
-
-<br/>
 
 [Open source libraries used in this project](https://github.com/mateuszharnik/dream-shop/wiki/Open-Source-Libraries)
 
----
-
 ## License
-
-<br/>
 
 [MIT License](https://github.com/mateuszharnik/dream-shop/blob/production/LICENSE.md)
