@@ -17,7 +17,7 @@ import {
   Contact,
   SocialMedia,
   ProductCategory,
-  Regulations,
+  Regulation,
   ProductCategoryWithPagination,
 } from '@models/index';
 import { ContactService } from '@services/contact.service';
@@ -45,13 +45,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   tabIndex = -1;
   isLoading = true;
   subscriptions: Subscription[] = [];
-  regulations: Regulations[] = [];
+  regulations: Regulation[] = [];
   height: number = null;
   footerMargin = 0;
   isDesktop = false;
   contact: Contact = null;
   socialMedia: SocialMedia = null;
-  modal: Regulations = null;
+  modal: Regulation = null;
 
   constructor(
     private router: Router,
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     );
 
     this.subscriptions.push(
-      this.modalService.getModal().subscribe((data: Regulations) => {
+      this.modalService.getModal().subscribe((data: Regulation) => {
         this.modal = data;
       }),
     );
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       const socialMediaResponse: SocialMedia = await this.socialMediaService.fetchSocialMedia();
       const contactResponse: Contact = await this.contactService.fetchContact();
       const productCategories: ProductCategoryWithPagination = await this.productsService.fetchProductCategories();
-      const regulations: Regulations[] = await this.regulationsService.fetchRegulations();
+      const regulations: Regulation[] = await this.regulationsService.fetchRegulations();
       this.productsService.setCategories(productCategories);
       this.socialMediaService.setSocialMedia(socialMediaResponse);
       this.contactService.setContact(contactResponse);

@@ -1,5 +1,6 @@
 export interface ClientRoutes {
   home: string;
+  edit: string;
   pages: string;
   admin: string;
   recovery: string;
