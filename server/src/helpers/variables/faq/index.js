@@ -25,7 +25,10 @@ const contentMaxLengthMessage = 'Treść pytania może mieć maksymalnie 5000 zn
 const contentMinLength = 10;
 const contentMaxLength = 5000;
 
+const defaultContent = '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus aliquid quidem doloribus eos. At eius possimus dolorem culpa soluta rerum voluptate, blanditiis, atque aperiam amet autem recusandae ducimus corrupti porro!</p>';
+
 module.exports = {
+  defaultContent,
   faqAlreadyExistMessage,
   faqNotFoundMessage,
   faqNotUpdatedMessage,

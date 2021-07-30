@@ -1,3 +1,6 @@
+const { capitalize } = require('../../strings');
+
+const exampleThumbnailNotExistMessage = 'Przykładowy obraz nie istnieje.';
 const productsNotUpdatedMessage = 'Nie udało się zaktualizować wszystkich produktów.';
 const productNotUpdatedMessage = 'Nie udało się zaktualizować produktu.';
 const productsNotFoundMessage = 'Produkty nie istnieją.';
@@ -61,7 +64,33 @@ const getProductWithIdNotExistMessage = (id = '') => `Produkt o id ${id} nie ist
 const getProductWithIdNoEnoughQuantityMessage = (name = '') => `Produkt ${name} nie ma wystarczającej ilości dostępnych sztuk.`;
 const getProductWithIdChangedMessage = (name = '') => `Produkt ${name} został zaktualizowany od momentu dodania go do koszyka.`;
 
+const companyNames = ['Firma 1', 'Firma 2', 'Firma 3'];
+
+const categoryName = [
+  capitalize('kremy do rąk'),
+  capitalize('szampony do włosów'),
+  capitalize('kremy do twarzy'),
+  capitalize('kremy do stóp'),
+  capitalize('perfumy'),
+];
+
+const exampleThumbnailName = 'src/assets/img/example-thumbnail.jpg';
+const exampleQuantity = 4;
+const exampleProductsLangth = 300;
+const exampleDescription = `
+  <h2>To jest opis produktu</h2>
+  <img src='http://unsplash.it/800/400?random&gravity=center' alt='Image'/>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero voluptas similique reprehenderit veniam non id facere qui? Molestias accusantium labore sit, blanditiis numquam pariatur adipisci aperiam vitae quaerat! Aperiam, fuga.</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis laboriosam officia eos eveniet asperiores ipsam ut maxime pariatur recusandae, ullam error commodi repudiandae minus voluptates voluptate illum laborum temporibus suscipit!</p>
+`;
+
 module.exports = {
+  exampleDescription,
+  exampleQuantity,
+  exampleProductsLangth,
+  companyNames,
+  categoryName,
+  exampleThumbnailName,
   productsNotUpdatedMessage,
   productNotUpdatedMessage,
   productsNotFoundMessage,
@@ -105,6 +134,7 @@ module.exports = {
   productGalleryMaxLengthMessage,
   productGalleryMaxLength,
   productThumbnailMaxLength,
+  exampleThumbnailNotExistMessage,
   getProductWithIdNotExistMessage,
   getProductWithIdNoEnoughQuantityMessage,
   getProductWithIdChangedMessage,

@@ -22,7 +22,10 @@ const messageMaxLength = 5000;
 
 const termsRequiredMessage = 'Musisz zaakceptować regulamin.';
 
+const defaultMessage = '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus aliquid quidem doloribus eos. At eius possimus dolorem culpa soluta rerum voluptate, blanditiis, atque aperiam amet autem recusandae ducimus corrupti porro!</p>';
+
 module.exports = {
+  defaultMessage,
   messageNotFoundMessage,
   messagesNotFoundMessage,
   messagesNotDeletedMessage,

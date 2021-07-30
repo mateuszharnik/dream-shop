@@ -19,7 +19,10 @@ const defaultUsername = 'Anonim';
 const contentMinLenght = 10;
 const contentMaxLenght = 5000;
 
+const defaultContent = '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus aliquid quidem doloribus eos. At eius possimus dolorem culpa soluta rerum voluptate, blanditiis, atque aperiam amet autem recusandae ducimus corrupti porro!</p>';
+
 module.exports = {
+  defaultContent,
   contentRequiredMessage,
   contentMinLengthMessage,
   contentMaxLengthMessage,

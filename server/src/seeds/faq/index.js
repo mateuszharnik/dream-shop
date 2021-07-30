@@ -1,24 +1,75 @@
-const faqCategoriesSchema = require('../../api/v1/faq-categories/index.model');
-const { faqCategories } = require('../data');
-const { faqCategoriesDB, faqDB } = require('../../db');
+const colors = require('colors/safe');
+const faqSchema = require('../../api/v1/faq/index.model');
+const { purify } = require('../../helpers/sanitize');
+const { faqDB } = require('../../db');
+const { defaultContent: content } = require('../../helpers/variables/faq');
 const {
   faqsDeletedMessage,
-  faqsCategoriesSeededMessage,
+  faqsSeededMessage,
 } = require('../../helpers/variables/tasks');
+const {
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
+} = require('../../helpers/variables/constants/faq');
 
-const seedFAQCategories = async () => {
-  const categories = [];
+const faqCategories = [
+  RETURNS_PL,
+  DELIVERY_PL,
+  PAYMENT_PL,
+  SERVICE_PL,
+  PRODUCTS_PL,
+  DISCOUNTS_PL,
+  OTHERS_PL,
+];
 
-  faqCategories.forEach((faqCategory) => {
-    const { schemaError, data: category } = faqCategoriesSchema(faqCategory);
+const createFAQs = () => {
+  const faqs = [];
+
+  for (let i = 0; i < 100; i += 1) {
+    faqs.push({
+      category: faqCategories[i % faqCategories.length],
+      title: `Tytuł numer ${i + 1}`,
+      content,
+    });
+  }
+
+  return faqs;
+};
+
+const removeFAQs = async () => {
+  try {
+    await faqDB.remove();
+
+    // eslint-disable-next-line no-console
+    console.log(colors.green(faqsDeletedMessage));
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(colors.red(error));
+    process.exit(0);
+  }
+};
+
+const seedExampleFAQs = async () => {
+  const faqs = [];
+
+  createFAQs().forEach((faq) => {
+    const { schemaError, data } = faqSchema(faq);
 
     if (schemaError) {
       // eslint-disable-next-line no-console
-      return console.error(schemaError.details[0].message);
+      console.error(colors.red(schemaError.details[0].message));
+      process.exit(0);
     }
 
-    categories.push({
-      category,
+    data.purify_content = purify(data.content);
+
+    faqs.push({
+      ...data,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,
@@ -27,17 +78,18 @@ const seedFAQCategories = async () => {
 
   try {
     await faqDB.remove();
-    await faqCategoriesDB.remove();
-    await faqCategoriesDB.insert(categories);
+    await faqDB.insert(faqs);
 
     // eslint-disable-next-line no-console
-    console.log(faqsDeletedMessage);
-    // eslint-disable-next-line no-console
-    console.log(faqsCategoriesSeededMessage);
+    console.log(colors.green(faqsSeededMessage));
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    console.error(colors.red(error));
+    process.exit(0);
   }
 };
 
-module.exports = seedFAQCategories;
+module.exports = {
+  removeFAQs,
+  seedExampleFAQs,
+};
