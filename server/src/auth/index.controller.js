@@ -32,12 +32,11 @@ const {
 } = require('../config');
 
 const loginUser = async (req, res) => {
+  const usernameRegExp = new RegExp(`^${req.data.credentials.username}$`, 'i');
+
   try {
     const user = await usersDB.findOne({
-      $or: [
-        { username: req.data.credentials.username },
-        { email: req.data.credentials.username },
-      ],
+      $or: [{ username: usernameRegExp }, { email: usernameRegExp }],
     });
 
     if (!user) {

@@ -95,6 +95,7 @@ const updateProducts = (withModifiedCount = false) => async (req, res, next) => 
           update: {
             $set: {
               quantity: product.quantity - order.products[index].quantity,
+              selled: product.selled + order.products[index].quantity,
               updated_at: new Date(),
             },
           },

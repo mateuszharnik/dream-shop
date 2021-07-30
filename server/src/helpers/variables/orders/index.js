@@ -10,7 +10,22 @@ const orderNotPaidMessage = 'Nie udało się opłacić zamówienia.';
 
 const orderProductsMinLength = 1;
 
+const exampleContact = {
+  name: 'Jan',
+  surname: 'Kowalski',
+  email: 'example@domain.com',
+  phone: '123 123 123',
+  street: 'Street',
+  street_number: '1/1',
+  city: 'City',
+  zip_code: '00-000',
+};
+
+const seedOrdersLimit = 20;
+
 module.exports = {
+  seedOrdersLimit,
+  exampleContact,
   ordersNotFoundMessage,
   orderNotDeletedMessage,
   orderNotFoundMessage,

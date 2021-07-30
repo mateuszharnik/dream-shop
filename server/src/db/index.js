@@ -1,3 +1,4 @@
+const colors = require('colors/safe');
 const monk = require('monk');
 const { DB_URL } = require('../config');
 const {
@@ -20,7 +21,7 @@ const {
 } = require('../helpers/variables/db');
 
 // eslint-disable-next-line no-console
-const db = monk(DB_URL, {}, () => console.log(dbConnected));
+const db = monk(DB_URL, {}, () => console.log(colors.cyan(dbConnected)));
 
 const usersDB = db.get(users);
 const socialMediaDB = db.get(socialMedia);
