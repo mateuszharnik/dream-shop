@@ -24,7 +24,7 @@ const getProducts = async (req, res) => {
       collation: { locale: LOCALE_PL, numericOrdering: true },
     };
 
-    const productsOptions = !cart
+    const productsOptions = cart
       ? options
       : {
         ...options,

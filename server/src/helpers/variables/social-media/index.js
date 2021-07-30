@@ -9,6 +9,20 @@ const instagramNotCorrectMessage = 'Link do konta na Instagram jest nieprawidło
 
 const linkedinNotCorrectMessage = 'Link do konta na LinkedIn jest nieprawidłowy.';
 
+const socialMedia = {
+  twitter: '',
+  facebook: '',
+  linkedin: '',
+  instagram: '',
+};
+
+const exampleSocialMedia = {
+  twitter: 'https://www.twitter.com/',
+  facebook: 'https://www.facebook.com/',
+  linkedin: 'https://www.linkedin.com/',
+  instagram: 'https://www.instagram.com/',
+};
+
 module.exports = {
   socialMediaNotFoundMessage,
   socialMediaNotUpdatedMessage,
@@ -16,4 +30,6 @@ module.exports = {
   twitterNotCorrectMessage,
   instagramNotCorrectMessage,
   linkedinNotCorrectMessage,
+  socialMedia,
+  exampleSocialMedia,
 };
