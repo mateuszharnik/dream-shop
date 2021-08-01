@@ -136,7 +136,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.closeModal('deleteMessage');
       this.isDisabled = false;
       this.isSubmitted = false;
-      jump('.admin-page', {
+      jump('.admin-page-section', {
         duration: 1000,
       });
     }

@@ -44,10 +44,6 @@ export const match = (prop: string, matchingProp: string) => (
 
   let result: ValidationErrors = null;
 
-  if (matchingPropControl.errors && !matchingPropControl.errors.match) {
-    return;
-  }
-
   if (propControl.value !== matchingPropControl.value) {
     if (!matchingPropControl.touched) {
       matchingPropControl.markAsTouched();

@@ -1,3 +1,9 @@
+const { capitalize } = require('../../strings');
+const {
+  BESTSELLERS_PL,
+  NEWS_PL,
+} = require('../constants/products');
+
 const productCategoriesDeletedMessage = 'Usunięto wszystkie kategorie.';
 const productCategoriesNotFoundMessage = 'Nie znaleziono żadnych kategorii.';
 const productCategoriesNotDeletedMessage = 'Nie udało się usunąć kategorii.';
@@ -15,7 +21,42 @@ const categoryCannotBeDeletedMessage = 'Nie możesz usunąć tej kategorii.';
 
 const categoryIsForbiddenMessage = 'Właściwość "category" jest niedozwolona.';
 
+const productCategories = [
+  {
+    name: capitalize(BESTSELLERS_PL),
+  },
+  {
+    name: capitalize(NEWS_PL),
+  },
+];
+
+const exampleProductCategories = [
+  {
+    name: capitalize(BESTSELLERS_PL),
+  },
+  {
+    name: capitalize(NEWS_PL),
+  },
+  {
+    name: capitalize('kremy do rąk'),
+  },
+  {
+    name: capitalize('szampony do włosów'),
+  },
+  {
+    name: capitalize('kremy do twarzy'),
+  },
+  {
+    name: capitalize('kremy do stóp'),
+  },
+  {
+    name: capitalize('perfumy'),
+  },
+];
+
 module.exports = {
+  productCategories,
+  exampleProductCategories,
   productCategoriesDeletedMessage,
   productCategoriesNotFoundMessage,
   productCategoriesNotDeletedMessage,

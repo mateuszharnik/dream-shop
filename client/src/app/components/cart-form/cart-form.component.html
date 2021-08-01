@@ -5,7 +5,7 @@
       <app-form
         [formClass]="'form text-left inline-block'"
         [formName]="form"
-        (whenFormSubmit)="onNextStep()"
+        (whenFormSubmit)="onNextStep($event)"
       >
         <div class="row">
           <div class="column-12 mb-4">
@@ -123,7 +123,7 @@
           <app-button
             [buttonTitle]="'Wróc do produktów'"
             [buttonOnClick]="true"
-            (whenButtonClick)="onPrevStep()"
+            (whenButtonClick)="onPrevStep($event)"
           >
             Wróc
           </app-button>
@@ -132,7 +132,7 @@
             [buttonTitle]="'Przejdź do wyboru płatności'"
             [buttonDisabled]="form.invalid"
             [buttonOnClick]="true"
-            (whenButtonClick)="onNextStep()"
+            (whenButtonClick)="onNextStep($event)"
           >
             Przejdź dalej
           </app-button>

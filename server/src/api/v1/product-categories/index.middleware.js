@@ -168,7 +168,7 @@ const deleteProducts = (deleteAll = false) => async (req, res, next) => {
   const query = {};
 
   if (!deleteAll) {
-    query.category = deletedCategory.name;
+    query.category = deletedCategory.category;
   }
 
   try {

@@ -13,7 +13,7 @@ export class NewsletterService {
 
   constructor(private http: HttpClient) { }
 
-  fetchEmails(skip?: number, limit?: number): Promise<EmailWithPagination> {
+  fetchEmails(skip = 0, limit = 20): Promise<EmailWithPagination> {
     return this.http.get<EmailWithPagination>(`http://localhost:3000/v1/newsletter?skip=${skip}&limit=${limit}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

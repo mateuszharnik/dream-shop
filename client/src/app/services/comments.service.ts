@@ -15,10 +15,10 @@ export class CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  fetchComments(id: string): Promise<CommentsWithPagination> {
+  fetchComments(id: string, limit = 10, skip = 0): Promise<CommentsWithPagination> {
     return this.http
       .get<CommentsWithPagination>(
-        `http://localhost:3000/v1/comments?product_id=${id}`,
+        `http://localhost:3000/v1/comments?product_id=${id}&skip=${skip}&limit=${limit}`,
       )
       .toPromise();
   }

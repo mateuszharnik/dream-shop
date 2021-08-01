@@ -8,6 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { imageValidator, match, matchRequired } from '@helpers/index';
+import { alphanumRegExp, emailRegExp, fullNameRegExp } from '@helpers/regexp';
 import { Alert, Alerts, User } from '@models/index';
 import { SpinnerService } from '@services/spinner.service';
 import { UserService } from '@services/user.service';
@@ -140,8 +141,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           {
             validators: [
               Validators.pattern(
-                // tslint:disable-next-line:max-line-length
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                emailRegExp,
               ),
               Validators.required,
             ],
@@ -151,9 +151,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
           username,
           {
             validators: [
-              Validators.minLength(2),
-              Validators.maxLength(20),
-              Validators.pattern(/^[a-zA-Z0-9]+$/),
+              Validators.minLength(3),
+              Validators.maxLength(50),
+              Validators.pattern(alphanumRegExp),
             ],
           },
         ],
@@ -161,9 +161,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
           name,
           {
             validators: [
-              Validators.minLength(2),
-              Validators.maxLength(20),
-              Validators.pattern(/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/),
+              Validators.minLength(3),
+              Validators.maxLength(50),
+              Validators.pattern(fullNameRegExp),
             ],
           },
         ],
@@ -171,13 +171,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         new_password: [
           '',
           {
-            validators: [Validators.minLength(8), Validators.maxLength(50)],
+            validators: [Validators.minLength(8), Validators.maxLength(32)],
           },
         ],
         confirm_new_password: [
           '',
           {
-            validators: [Validators.minLength(8), Validators.maxLength(50)],
+            validators: [Validators.minLength(8), Validators.maxLength(32)],
           },
         ],
         avatar: [avatar],

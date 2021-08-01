@@ -3,70 +3,68 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from '@guards/dashboard.guard';
 import { SpinnerGuard } from '@guards/spinner.guard';
-import getRoute from '@helpers/router';
-import { clientRoutes } from '@helpers/variables/routes';
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
   {
-    path: getRoute(clientRoutes.home),
+    path: '',
     component: DashboardComponent,
     data: { showSpinner: true },
     canActivate: [SpinnerGuard],
     children: [
       {
-        path: getRoute(clientRoutes.home),
+        path: '',
         canActivate: [DashboardGuard],
         component: DashboardShowcaseComponent,
       },
       {
-        path: getRoute(clientRoutes.socialMedia),
+        path: 'media-spolecznosciowe',
         loadChildren:
           '@admin/social-media/social-media.module#SocialMediaModule',
       },
       {
-        path: getRoute(clientRoutes.orders),
+        path: 'zamowienia',
         loadChildren: '@admin/orders/orders.module#OrdersModule',
       },
       {
-        path: getRoute(clientRoutes.products),
+        path: 'produkty',
         loadChildren: '@admin/products/products.module#ProductsModule',
       },
       {
-        path: getRoute(clientRoutes.profile),
+        path: 'profil',
         loadChildren: '@admin/profile/profile.module#ProfileModule',
       },
       {
-        path: getRoute(clientRoutes.pages),
+        path: 'strony',
         children: [
           {
-            path: getRoute(clientRoutes.contact),
+            path: 'kontakt',
             loadChildren: '@admin/contact/contact.module#ContactModule',
           },
           {
-            path: getRoute(clientRoutes.about),
+            path: 'o-nas',
             loadChildren: '@admin/about/about.module#AboutModule',
           },
           {
-            path: getRoute(clientRoutes.faq),
+            path: 'najczesciej-zadawane-pytania',
             loadChildren: '@admin/faq/faq.module#FAQModule',
           },
         ],
       },
       {
-        path: getRoute(clientRoutes.regulations),
+        path: 'regulaminy',
         loadChildren: '@admin/regulations/regulations.module#RegulationsModule',
       },
       {
-        path: getRoute(clientRoutes.newsletter),
+        path: 'newsletter',
         loadChildren: '@admin/newsletter/newsletter.module#NewsletterModule',
       },
       {
-        path: getRoute(clientRoutes.messages),
+        path: 'wiadomosci',
         loadChildren: '@admin/messages/messages.module#MessagesModule',
       },
       {
-        path: getRoute(clientRoutes.map),
+        path: 'mapa',
         loadChildren: '@admin/map/map.module#MapModule',
       },
     ],

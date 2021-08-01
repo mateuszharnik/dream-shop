@@ -165,7 +165,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       product && product.company_name ? product.company_name : '';
     const price: string = product && product.price ? product.price : '';
     const quantity: string | number =
-      product && product.quantity ? product.quantity : null;
+      product && product.quantity ? product.quantity : 0;
     const description: string =
       product && product.description ? product.description : '';
     const category: string | number =

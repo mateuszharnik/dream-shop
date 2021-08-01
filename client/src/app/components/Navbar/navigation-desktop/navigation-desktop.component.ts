@@ -64,22 +64,22 @@ export class NavigationDesktopComponent implements OnDestroy {
       this.productsService
         .getCategories()
         .subscribe((data: ProductCategoryWithPagination) => {
-          const { categories = [] } = data;
+          if (data && data.categories) {
+            const categoriesWithCount: ProductCategory[] = data.categories.filter(
+              (category: ProductCategory): boolean => category.count > 0,
+            );
 
-          const categoriesWithCount: ProductCategory[] = categories.filter(
-            (category: ProductCategory): boolean => category.count > 0,
-          );
+            this.categories = data.categories.filter(
+              (category: ProductCategory): boolean => {
+                const showBestsellers: boolean =
+                  categoriesWithCount.length &&
+                  (category.category === 'bestsellery' ||
+                    category.category === 'nowosci');
 
-          this.categories = categories.filter(
-            (category: ProductCategory): boolean => {
-              const showBestsellers: boolean =
-                categoriesWithCount.length &&
-                (category.category === 'bestsellery' ||
-                  category.category === 'nowosci');
-
-              return !!category.count || showBestsellers;
-            },
-          );
+                return !!category.count || showBestsellers;
+              },
+            );
+          }
         }),
     );
   }
