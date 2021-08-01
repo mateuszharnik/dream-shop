@@ -1,11 +1,18 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CommentsService } from '@services/comments.service';
-import { Alerts, Alert, Comment, User, CommentsWithPagination } from '@models/index';
+import {
+  Alerts,
+  Alert,
+  Comment,
+  User,
+  CommentsWithPagination,
+} from '@models/index';
 import { markdown } from '@helpers/index';
 import { SpinnerService } from '@services/spinner.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import jump from 'jump.js';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -23,6 +30,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
   isSubmitted = false;
   id: string = null;
   timeout = null;
+  isLoadingMoreComments = false;
+  remainingComments = true;
   subscriptions: Subscription[] = [];
   alerts: Alerts = {
     server: '',
@@ -58,16 +67,20 @@ export class CommentsComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(
-      this.commentsService.getComments().subscribe((data: CommentsWithPagination) => {
-        const { comments = [] } = data || {};
+      this.commentsService
+        .getComments()
+        .subscribe((data: CommentsWithPagination) => {
+          if (data && data.pagination) {
+            this.remainingComments = data.pagination.remaining || false;
+          }
 
-        if (comments.length) {
-          this.comments = comments.map((comment: Comment) => ({
-            ...comment,
-            purify_content: markdown(comment.purify_content),
-          }));
-        }
-      }),
+          if (data && data.comments.length) {
+            this.comments = data.comments.map((comment: Comment) => ({
+              ...comment,
+              purify_content: markdown(comment.purify_content),
+            }));
+          }
+        }),
     );
 
     this.subscriptions.push(
@@ -81,9 +94,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.createForm();
 
     try {
-      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
-        this.id,
-      );
+      const comments: CommentsWithPagination =
+        await this.commentsService.fetchComments(this.id);
 
       this.commentsService.setComments(comments);
       this.setLoading();
@@ -105,12 +117,15 @@ export class CommentsComponent implements OnInit, OnDestroy {
     );
   }
 
-  async deleteComment(id: string) {
+  async fetchComments() {
+    this.isLoadingMoreComments = true;
+
     try {
-      const response: Comment = await this.commentsService.deleteComment(id);
-      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
-        this.id,
-      );
+      const comments: CommentsWithPagination =
+        await this.commentsService.fetchComments(
+          this.id,
+          this.comments.length + 6,
+        );
 
       this.commentsService.setComments(comments);
     } catch (error) {
@@ -119,6 +134,41 @@ export class CommentsComponent implements OnInit, OnDestroy {
       } else {
         this.setAlerts('', error.error.message);
       }
+    } finally {
+      this.isLoadingMoreComments = false;
+
+      this.timeout = setTimeout(() => {
+        this.setAlerts();
+      }, 2000);
+    }
+  }
+
+  async deleteComment(id: string) {
+    try {
+      await this.commentsService.deleteComment(id);
+      const comments: CommentsWithPagination =
+        await this.commentsService.fetchComments(
+          this.id,
+          this.comments.length - 1,
+        );
+
+      this.commentsService.setComments(comments);
+
+      this.setAlerts('', '', 'Poprawnie usunięto komentarz.');
+
+      jump('.comments', {
+        duration: 500,
+      });
+    } catch (error) {
+      if (error.status === 0 || error.status === 404) {
+        this.setAlerts('Brak połączenia z serwerem.');
+      } else {
+        this.setAlerts('', error.error.message);
+      }
+    } finally {
+      this.timeout = setTimeout(() => {
+        this.setAlerts();
+      }, 2000);
     }
   }
 
@@ -138,10 +188,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
         user_id: this.user && this.user._id ? this.user._id : '',
       };
 
-      const response: Comment = await this.commentsService.saveComment(data);
-      const comments: CommentsWithPagination = await this.commentsService.fetchComments(
-        this.id,
-      );
+      await this.commentsService.saveComment(data);
+      const comments: CommentsWithPagination =
+        await this.commentsService.fetchComments(
+          this.id,
+          this.comments.length + 1,
+        );
 
       this.commentsService.setComments(comments);
       this.form.reset();
@@ -157,7 +209,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
       this.isSubmitted = false;
       this.timeout = setTimeout(() => {
         this.setAlerts();
-      }, 3000);
+      }, 2000);
     }
   }
 

@@ -90,6 +90,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     try {
       const product: Product = await this.productsService.fetchProduct(this.id);
+      const { products } = await this.productsService.fetchProductsInCart(
+        this.viewedProducts,
+      );
+
+      if (products.length) {
+        this.viewedProductsService.setProducts(products);
+      } else {
+        this.viewedProductsService.removeProducts();
+      }
 
       this.product = {
         ...product,
@@ -112,8 +121,10 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.viewedProductsService.setProduct(this.product);
       this.setLoading();
     } catch (error) {
-      console.log(error);
-      if (error.status === 0) {
+      if (error.status === 404) {
+        this.router.navigate(['/404']);
+        return;
+      } else if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);

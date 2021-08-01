@@ -13,7 +13,7 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  fetchMessages(skip?: number, limit?: number): Promise<MessageWithPagination> {
+  fetchMessages(skip = 0, limit = 20): Promise<MessageWithPagination> {
     return this.http.get<MessageWithPagination>(`http://localhost:3000/v1/messages?skip=${skip}&limit=${limit}`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

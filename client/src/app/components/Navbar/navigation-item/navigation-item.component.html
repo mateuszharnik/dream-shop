@@ -1,6 +1,6 @@
 <div class="navigation__wrapper" #parent>
   <a
-    *ngIf="!category.categories; else button"
+    *ngIf="!category.category; else button"
     class="navigation__link relative truncate block text-left"
     routerLinkActive="active"
     [title]="linkTitle(category.name)"
@@ -35,7 +35,7 @@
   </ng-template>
 </div>
 <ul
-  *ngIf="category.categories && isOpen"
+  *ngIf="category.category && isOpen"
   class="navigation navigation--dropdown"
   [attr.aria-labelledby]="computedID(category._id)"
   [@Slide]
@@ -43,7 +43,7 @@
 >
   <li
     class="navigation__item"
-    *ngFor="let subcategory of category.categories; trackBy: trackID"
+    *ngFor="let subcategory of category.category; trackBy: trackID"
   >
     <app-navigation-item [category]="subcategory"></app-navigation-item>
   </li>

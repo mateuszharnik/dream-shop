@@ -17,7 +17,7 @@
             <app-button
               [buttonTitle]="'Wróć do formularza'"
               [buttonOnClick]="true"
-              (whenButtonClick)="onPrevStep()"
+              (whenButtonClick)="onPrevStep($event)"
             >
               Wróć
             </app-button>
@@ -25,7 +25,7 @@
               [buttonClass]="'button button-primary ml-4'"
               [buttonTitle]="'Przejdź do podsumowania'"
               [buttonOnClick]="true"
-              (whenButtonClick)="onNextStep()"
+              (whenButtonClick)="onNextStep($event)"
             >
               Przejdź dalej
             </app-button>

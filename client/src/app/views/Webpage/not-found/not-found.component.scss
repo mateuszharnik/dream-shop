@@ -1,11 +1,11 @@
-// Imports
+/* ====== Imports ====== */
 @import "../../../../assets/scss/variables";
 
-// Page 404
+/* ====== Page Not Found ====== */
 .page-404 {
-  letter-spacing: 0.5px;
+  letter-spacing: $not-found-page-letter-spacing;
 
   &__image {
-    max-width: 40rem;
+    max-width: $not-found-page-image-max-width;
   }
 }

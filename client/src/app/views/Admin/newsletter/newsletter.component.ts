@@ -134,7 +134,7 @@ export class NewsletterComponent implements OnInit, OnDestroy {
       this.closeModal('deleteEmail');
       this.isDisabled = false;
       this.isSubmitted = false;
-      jump('.admin-page', {
+      jump('.admin-page-section', {
         duration: 1000,
       });
     }
