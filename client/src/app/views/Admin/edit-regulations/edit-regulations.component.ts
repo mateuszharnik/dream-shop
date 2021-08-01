@@ -15,7 +15,7 @@ import { contentValidators } from '@helpers/validation/regulation';
 import { clientRoutes } from '@helpers/variables/routes';
 import { successfullySavedMessage } from '@helpers/variables/success';
 import { editRegulationAdminPageTitle } from '@helpers/variables/titles';
-import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
+import { CONFLICT, NOT_FOUND } from '@helpers/variables/constants/status-codes';
 import {
   saveText,
   saveTitle,
@@ -107,7 +107,7 @@ export class EditRegulationsComponent implements OnInit, OnDestroy {
   onErrorInit(error) {
     if (!error.status) {
       this.setAlerts({ serverErrorAlert: serverErrorMessage });
-    } else if (error.status === NOT_FOUND) {
+    } else if (error.status === NOT_FOUND || error.status === CONFLICT) {
       this.router.navigate([clientRoutes.notFound]);
     } else {
       this.setAlerts({ errorAlert: error.error.message });
@@ -157,7 +157,11 @@ export class EditRegulationsComponent implements OnInit, OnDestroy {
   }
 
   onError(error) {
-    if (!error.status || error.status === NOT_FOUND) {
+    if (
+      !error.status ||
+      error.status === NOT_FOUND ||
+      error.status === CONFLICT
+    ) {
       this.setAlerts({ serverErrorAlert: serverErrorMessage });
     } else {
       if (error.error.message === contentIsRequired) {

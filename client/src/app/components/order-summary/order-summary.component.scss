@@ -3,11 +3,21 @@
 
 // Order Summary
 .order-summary {
+  @media (min-width: $lg) {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+
+  &__right,
+  &__left {
+    width: 100%;
+    max-width: 40rem;
+  }
+
   &__product {
     display: flex;
-    justify-content: center;
     flex-wrap: nowrap;
-    width: 100%;
   }
 
   &__image {

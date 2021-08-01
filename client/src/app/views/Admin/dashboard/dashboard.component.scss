@@ -34,7 +34,8 @@
       width: 100%;
       max-width: 60rem;
 
-      &--products {
+      &--products,
+      &--orders {
         @media (min-width: $lg) {
           max-width: 90rem;
         }

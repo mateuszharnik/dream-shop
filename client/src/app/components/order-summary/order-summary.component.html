@@ -1,16 +1,18 @@
 <div class="order-summary">
   <h4 class="hidden">Podsumowanie zamówienia</h4>
-  <div class="order-summary__products mb-6">
-    <h3 class="h6 mb-4 bolder">Zakupione produkty</h3>
+  <div class="order-summary__right m-auto mb-6">
+    <h3 class="h6 mb-4 bolder text-center lg:text-left">Zakupione produkty</h3>
     <div
       class="order-summary__product mb-4"
       *ngFor="let product of order.products"
     >
-      <img
-        [src]="product.thumbnail"
-        alt="Produkt"
-        class="order-summary__image"
-      />
+      <div>
+        <img
+          [src]="product.thumbnail"
+          alt="Produkt"
+          class="order-summary__image"
+        />
+      </div>
       <div class="ml-4 text-left">
         <div>
           <span class="bold">Nazwa: </span>
@@ -26,7 +28,10 @@
         </div>
       </div>
     </div>
-    <div class="w-100">
+  </div>
+  <div class="order-summary__left m-auto mb-6">
+    <div class="w-100 mb-6 text-center lg:text-right">
+      <h3 class="h6 mb-4 bolder">Podsumowanie</h3>
       <div>
         <span class="bold">Liczba kupionych produktów: </span>
         {{ totalQuantity() }}
@@ -36,32 +41,32 @@
         {{ totalPrice() }}&nbsp;zł
       </div>
     </div>
-  </div>
-  <div class="order-contact-information mb-6">
-    <h3 class="h6 mb-4 bolder">Dane odbiorcy</h3>
-    <div>
-      <span class="bold">Imię i nazwisko: </span>
-      {{ order.contact.name }} {{ order.contact.surname }}
-    </div>
-    <div>
-      <span class="bold">Miasto: </span>
-      {{ order.contact.zip_code }} {{ order.contact.city }}
-    </div>
-    <div>
-      <span class="bold">Adres: </span>
-      {{ order.contact.street }} {{ order.contact.street_number }}
-    </div>
-    <div>
-      <span class="bold">Numer telefonu: </span>
-      <a [href]="'tel:' + order.contact.phone" title="Zadzwoń">
-        {{ order.contact.phone }}
-      </a>
-    </div>
-    <div>
-      <span class="bold">Adres email: </span>
-      <a [href]="'mailto:' + order.contact.email" title="Napisz wiadomość">
-        {{ order.contact.email }}
-      </a>
+    <div class="w-100 text-center lg:text-right">
+      <h3 class="h6 mb-4 bolder">Dane odbiorcy</h3>
+      <div>
+        <span class="bold">Imię i nazwisko: </span>
+        {{ order.contact.name }} {{ order.contact.surname }}
+      </div>
+      <div>
+        <span class="bold">Miasto: </span>
+        {{ order.contact.zip_code }} {{ order.contact.city }}
+      </div>
+      <div>
+        <span class="bold">Adres: </span>
+        {{ order.contact.street }} {{ order.contact.street_number }}
+      </div>
+      <div>
+        <span class="bold">Numer telefonu: </span>
+        <a [href]="'tel:' + order.contact.phone" title="Zadzwoń">
+          {{ order.contact.phone }}
+        </a>
+      </div>
+      <div>
+        <span class="bold">Adres email: </span>
+        <a [href]="'mailto:' + order.contact.email" title="Napisz wiadomość">
+          {{ order.contact.email }}
+        </a>
+      </div>
     </div>
   </div>
 </div>

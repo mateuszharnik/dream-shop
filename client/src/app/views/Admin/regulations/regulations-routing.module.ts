@@ -11,7 +11,7 @@ const routes: Routes = [
     component: RegulationsComponent,
   },
   {
-    path: ':id',
+    path: 'edytuj/:id',
     loadChildren:
       '@admin/edit-regulations/edit-regulations.module#EditRegulationsModule',
   },
