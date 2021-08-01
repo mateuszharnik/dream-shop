@@ -9,12 +9,12 @@
       </header>
       <article
         *ngIf="!alerts.server; else showError"
-        class="container px-4 text-center w-100"
+        class="container page-orders px-4 w-100 pb-10"
       >
         <div class="row">
           <div class="column-12 mb-6">
             <app-order-summary [order]="order"></app-order-summary>
-            <div class="order-status">
+            <div class="order-status text-center">
               <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
               <div
                 class="mb-2"
@@ -33,7 +33,7 @@
                 Zamówienie zostało odrzucone.
               </div>
               <div *ngIf="order.isRefused" class="row">
-                <div class="column-12 md:column-6 m-auto">
+                <div class="column-12">
                   Jeżeli nie wiesz dlaczego Twoje zamówienie zostało odrzucone
                   możesz skontaktować się z nami korzystając z naszego
                   <app-router-link

@@ -1,45 +1,47 @@
 <app-page-wrapper [className]="'cart-page'">
   <h3 class="hidden">Koszyk</h3>
-  <article class="row">
-    <div class="container-md my-10">
-      <div class="row">
-        <div class="steps column-8 m-auto">
-          <span
-            class="steps__step steps__products"
-            [ngClass]="{ steps__active: currentStep === 1 }"
-          >
-            <div>Krok</div>
-            <div>1</div>
-            <span class="hidden" *ngIf="currentStep === 1">Tutaj jesteś</span>
-          </span>
-          <span
-            class="steps__step steps__contact"
-            [ngClass]="{ steps__active: currentStep === 2 }"
-          >
-            <div>Krok</div>
-            <div>2</div>
-            <span class="hidden" *ngIf="currentStep === 2">Tutaj jesteś</span>
-          </span>
-          <span
-            class="steps__step steps__payment"
-            [ngClass]="{ steps__active: currentStep === 3 }"
-          >
-            <div>Krok</div>
-            <div>3</div>
-            <span class="hidden" *ngIf="currentStep === 3">Tutaj jesteś</span>
-          </span>
-          <span
-            class="steps__step steps__summary"
-            [ngClass]="{ steps__active: currentStep === 4 }"
-          >
-            <div>Krok</div>
-            <div>4</div>
-            <span class="hidden" *ngIf="currentStep === 4">Tutaj jesteś</span>
-          </span>
+  <article class="row pb-10">
+    <div class="w-100">
+      <div class="container-md my-10">
+        <div class="row">
+          <div class="steps column-8 m-auto">
+            <span
+              class="steps__step steps__products"
+              [ngClass]="{ steps__active: currentStep === 1 }"
+            >
+              <div>Krok</div>
+              <div>1</div>
+              <span class="hidden" *ngIf="currentStep === 1">Tutaj jesteś</span>
+            </span>
+            <span
+              class="steps__step steps__contact"
+              [ngClass]="{ steps__active: currentStep === 2 }"
+            >
+              <div>Krok</div>
+              <div>2</div>
+              <span class="hidden" *ngIf="currentStep === 2">Tutaj jesteś</span>
+            </span>
+            <span
+              class="steps__step steps__payment"
+              [ngClass]="{ steps__active: currentStep === 3 }"
+            >
+              <div>Krok</div>
+              <div>3</div>
+              <span class="hidden" *ngIf="currentStep === 3">Tutaj jesteś</span>
+            </span>
+            <span
+              class="steps__step steps__summary"
+              [ngClass]="{ steps__active: currentStep === 4 }"
+            >
+              <div>Krok</div>
+              <div>4</div>
+              <span class="hidden" *ngIf="currentStep === 4">Tutaj jesteś</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="sm:container">
+    <div class="sm:container mt-10">
       <app-products-in-cart
         *ngIf="currentStep === 1"
         (nextStep)="setCurrentStep(2)"

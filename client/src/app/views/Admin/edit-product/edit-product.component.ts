@@ -145,7 +145,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.createForm(this.product, this.categories);
       this.setLoading();
     } catch (error) {
-      if (error.status === 404) {
+      if (error.status === 404 || error.status === 409) {
         this.router.navigate(['/404']);
         return;
       } else if (error.status === 0) {

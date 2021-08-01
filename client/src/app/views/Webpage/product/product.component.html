@@ -8,7 +8,15 @@
         <div class="lg:flex lg:flex-justify-between">
           <app-product-images [images]="images"></app-product-images>
           <div
-            class="product-page__width m-auto lg:mx-0 mt-6 lg:mt-20 text-center lg:text-right"
+            class="
+              product-page__width
+              m-auto
+              lg:mx-0
+              mt-6
+              lg:mt-20
+              text-center
+              lg:text-right
+            "
           >
             <div class="product-page__details">
               <h2 class="h4 mb-4">{{ product.name }}</h2>
@@ -87,7 +95,7 @@
         <div class="mt-12">
           <h2 class="h4">Opis produktu</h2>
           <div
-            class="text-justify"
+            class="markdown"
             [innerHTML]="product.purify_description || 'Brak opisu.'"
           ></div>
         </div>

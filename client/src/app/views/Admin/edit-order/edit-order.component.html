@@ -8,7 +8,11 @@
     </header>
     <article
       *ngIf="!alerts.server; else showError"
-      class="admin-page-section__article m-auto mt-6 text-center"
+      class="
+        admin-page-section__article admin-page-section__article--orders
+        m-auto
+        mt-6
+      "
     >
       <p>Tutaj możesz zarządzać złożonym zamówieniem.</p>
       <div class="text-left mb-6">
@@ -21,7 +25,7 @@
       </div>
       <div class="mb-6">
         <app-order-summary [order]="order"></app-order-summary>
-        <div class="order-status">
+        <div class="order-status text-center">
           <h3 class="h6 mb-4 bolder">Status zamówienia</h3>
           <div
             class="mb-2"
@@ -41,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-column sm:block">
+      <div class="flex flex-column sm:block text-center">
         <app-button
           *ngIf="!order.isAccepted"
           [buttonTitle]="'Zaakceptuj zamówienie i oznacz jako wysłane'"
