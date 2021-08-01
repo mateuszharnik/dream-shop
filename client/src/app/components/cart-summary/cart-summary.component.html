@@ -11,7 +11,7 @@
             <app-button
               [buttonTitle]="'Wróć do płatności'"
               [buttonOnClick]="true"
-              (whenButtonClick)="onPrevStep()"
+              (whenButtonClick)="onPrevStep($event)"
             >
               Wróć
             </app-button>
@@ -19,7 +19,7 @@
               [buttonClass]="'button button-primary ml-4'"
               [buttonTitle]="'Złóż zamówienie'"
               [buttonOnClick]="true"
-              (whenButtonClick)="onNextStep()"
+              (whenButtonClick)="onNextStep($event)"
             >
               Złóż zamówienie
             </app-button>

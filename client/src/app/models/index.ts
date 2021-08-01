@@ -30,7 +30,7 @@ export interface Alerts {
 }
 
 export interface Pagination {
-  remaining: number;
+  remaining: boolean;
   skip: number;
   limit: number;
 }

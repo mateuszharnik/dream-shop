@@ -144,7 +144,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.closeModal('deleteProduct');
       this.isDisabled = false;
       this.isSubmitted = false;
-      jump('.admin-page', {
+      jump('.admin-page-section', {
         duration: 1000,
       });
     }

@@ -23,6 +23,8 @@ export class NotFoundComponent implements OnInit, OnDestroy {
       if (this.countdown === 0) {
         window.clearInterval(this.timer);
         this.router.navigate(['/']);
+
+        return;
       }
 
       this.countdown--;

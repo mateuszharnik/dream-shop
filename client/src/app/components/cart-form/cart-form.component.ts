@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { emailRegExp, nameRegExp, phoneRegExp, streetNumberRegExp, zipCodeRegExp } from '@helpers/regexp';
 import { Alert, OrderContact } from '@models/index';
 import { CartService } from '@services/cart.service';
 import { Subscription } from 'rxjs';
@@ -97,32 +98,22 @@ export class CartFormComponent implements OnInit, OnDestroy {
       email: [
         email,
         {
-          validators: [
-            Validators.pattern(
-              // tslint:disable-next-line:max-line-length
-              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            ),
-            Validators.required,
-          ],
+          validators: [Validators.pattern(emailRegExp), Validators.required],
         },
       ],
       phone: [
         phone,
         {
-          validators: [
-            Validators.pattern(
-              /^(\+[1-9]{1}([0-9]{1,})?\s)?[0-9]{3}\s[0-9]{3}\s[0-9]{3}$/,
-            ),
-            Validators.required,
-          ],
+          validators: [Validators.pattern(phoneRegExp), Validators.required],
         },
       ],
       name: [
         name,
         {
           validators: [
-            Validators.minLength(2),
-            Validators.maxLength(100),
+            Validators.minLength(3),
+            Validators.maxLength(50),
+            Validators.pattern(nameRegExp),
             Validators.required,
           ],
         },
@@ -131,7 +122,7 @@ export class CartFormComponent implements OnInit, OnDestroy {
         street,
         {
           validators: [
-            Validators.minLength(2),
+            Validators.minLength(3),
             Validators.maxLength(100),
             Validators.required,
           ],
@@ -141,8 +132,9 @@ export class CartFormComponent implements OnInit, OnDestroy {
         surname,
         {
           validators: [
-            Validators.minLength(2),
-            Validators.maxLength(100),
+            Validators.minLength(3),
+            Validators.maxLength(50),
+            Validators.pattern(nameRegExp),
             Validators.required,
           ],
         },
@@ -151,7 +143,7 @@ export class CartFormComponent implements OnInit, OnDestroy {
         streetNumber,
         {
           validators: [
-            Validators.pattern(/^([1-9]([0-9]{1,})?)(\/[1-9]([0-9]{1,})?)?$/),
+            Validators.pattern(streetNumberRegExp),
             Validators.required,
           ],
         },
@@ -160,7 +152,7 @@ export class CartFormComponent implements OnInit, OnDestroy {
         city,
         {
           validators: [
-            Validators.minLength(2),
+            Validators.minLength(3),
             Validators.maxLength(100),
             Validators.required,
           ],
@@ -169,10 +161,7 @@ export class CartFormComponent implements OnInit, OnDestroy {
       zip_code: [
         zipCode,
         {
-          validators: [
-            Validators.pattern(/^[0-9]{2}-[0-9]{3}$/),
-            Validators.required,
-          ],
+          validators: [Validators.pattern(zipCodeRegExp), Validators.required],
         },
       ],
     });

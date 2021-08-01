@@ -6,7 +6,6 @@ import {
   Product,
   ProductCategory,
   ProductCategoryWithPagination,
-  ProductInCart,
   ProductParams,
   ProductWithPagination,
 } from '@models/index';
@@ -28,14 +27,13 @@ export class ProductsService {
     Product[]
   >(this.productsInCart);
 
-  categoriesSubject: BehaviorSubject<ProductCategoryWithPagination> = new BehaviorSubject<ProductCategoryWithPagination>(
-    this.categories,
-  );
+  categoriesSubject: BehaviorSubject<ProductCategoryWithPagination> =
+    new BehaviorSubject<ProductCategoryWithPagination>(this.categories);
 
   constructor(private http: HttpClient) {}
 
   fetchProducts(options: ProductParams = {}): Promise<ProductWithPagination> {
-    const params = Object.assign({ skip: 0, limit: 12 }, options);
+    const params = Object.assign({ skip: 0, limit: 20 }, options);
 
     const { skip, limit, search, category, sort, sortType, available } = params;
 
@@ -60,16 +58,18 @@ export class ProductsService {
     return this.http.get<ProductWithPagination>(url).toPromise();
   }
 
-  fetchProductsInCart(
-    products: ProductInCart[],
-  ): Promise<ProductWithPagination> {
-    const ids: string[] = products.map((product: ProductInCart) => product._id);
+  fetchProductsInCart(products): Promise<ProductWithPagination> {
+    let url = 'http://localhost:3000/v1/products';
 
-    return this.http
-      .get<ProductWithPagination>(
-        `http://localhost:3000/v1/products?cart=${ids.join(',')}`,
-      )
-      .toPromise();
+    const ids = products.map((product) => product._id);
+
+    if (ids.length) {
+      url = `${url}?cart=${ids.join(',')}`;
+    } else {
+      url = `${url}?cart=""`;
+    }
+
+    return this.http.get<ProductWithPagination>(url).toPromise();
   }
 
   updateProduct(id: string, data: FormData): Promise<Product> {

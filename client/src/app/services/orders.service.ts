@@ -15,7 +15,7 @@ export class OrdersService {
 
   constructor(private http: HttpClient) {}
 
-  fetchOrders(skip?: number, limit?: number): Promise<OrderWithPagination> {
+  fetchOrders(skip = 0, limit = 20): Promise<OrderWithPagination> {
     return this.http
       .get<OrderWithPagination>(
         `http://localhost:3000/v1/orders?skip=${skip}&limit=${limit}`,

@@ -12,7 +12,8 @@
       "@auth/*": ["src/app/views/Auth/*"],
       "@helpers/*": ["src/app/helpers/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@models/*": ["src/app/models/*"]
+      "@models/*": ["src/app/models/*"],
+      "swiper_angular": ["node_modules/swiper/angular"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

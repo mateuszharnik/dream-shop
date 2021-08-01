@@ -118,7 +118,6 @@ const getProductQueries = (req, res, next) => {
     query.$or = [
       { name: regexp },
       { category: regexp },
-      { company_name: regexp },
     ];
   }
 

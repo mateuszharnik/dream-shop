@@ -145,6 +145,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.isLoadingProducts = true;
 
     this.options.available = available;
+    this.options.skip = 0;
+    this.options.limit = 12;
 
     try {
       const response: ProductWithPagination = await this.productsService.fetchProducts(
@@ -186,6 +188,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     this.options.sort = sort;
     this.options.sortType = sortType;
+    this.options.skip = 0;
+    this.options.limit = 12;
 
     try {
       const response: ProductWithPagination = await this.productsService.fetchProducts(
@@ -197,7 +201,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         const { categories } = data;
         this.categories = categories;
         this.categories = this.categories.filter(
-          ({ category }) => category !== 'bestsellery' && category !== 'n,owosci',
+          ({ category }) => category !== 'bestsellery' && category !== 'nowosci',
         );
       } else if (
         this.options.category === 'nowosci' ||

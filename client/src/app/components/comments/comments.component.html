@@ -5,52 +5,7 @@
   <app-spinner></app-spinner>
 </div>
 <ng-template #productsView>
-  <div *ngIf="comments.length; else noComments">
-    <div class="comment p-4 mb-6" *ngFor="let comment of comments">
-      <div class="comment__head mb-6">
-        <img
-          *ngIf="comment.avatar; else defaultAvatar"
-          [src]="comment.avatar"
-          alt="Avatar użytkownika"
-          class="comment__image"
-        />
-        <ng-template #defaultAvatar>
-          <div class="comment__image comment__image--default">
-            <app-fa-icon [faClass]="'far fa-user'"></app-fa-icon>
-          </div>
-        </ng-template>
-        <div class="comment__author truncate bolder mr-auto">
-          {{ comment.username }}
-        </div>
-        <app-button
-          *ngIf="
-            user &&
-            (user._id === comment.user_id ||
-              user.roles.indexOf('administrator') !== -1)
-          "
-          [buttonClass]="''"
-          [buttonTitle]="'Usuń komentarz'"
-          [buttonOnClick]="true"
-          (whenButtonClick)="deleteComment(comment._id)"
-        >
-          <app-fa-icon [faClass]="'far fa-trash-alt'"></app-fa-icon>
-        </app-button>
-      </div>
-      <div class="comment__body">
-        <div
-          class="comment__content"
-          [innerHTML]="comment.purify_content"
-        ></div>
-        <span class="comment__timestamp ml-auto">
-          {{ comment.updated_at | date: "medium":"pl-PL":"pl-PL" }}
-        </span>
-      </div>
-    </div>
-  </div>
-  <ng-template #noComments>
-    <div>Brak komentarzy.</div>
-  </ng-template>
-  <div class="mt-8">
+  <div class="comments mb-8">
     <app-form [formName]="form" (whenFormSubmit)="submit()">
       <div class="row">
         <div class="column-12 mb-4">
@@ -100,4 +55,67 @@
       </app-alert>
     </div>
   </div>
+  <div *ngIf="comments.length; else noComments">
+    <div
+      [id]="comment._id"
+      class="comment p-4 mb-6"
+      *ngFor="let comment of comments"
+    >
+      <div class="comment__head mb-6">
+        <img
+          *ngIf="comment.avatar; else defaultAvatar"
+          [src]="comment.avatar"
+          alt="Avatar użytkownika"
+          class="comment__image"
+        />
+        <ng-template #defaultAvatar>
+          <div class="comment__image comment__image--default">
+            <app-fa-icon [faClass]="'far fa-user'"></app-fa-icon>
+          </div>
+        </ng-template>
+        <div class="comment__author truncate bolder mr-auto">
+          {{ comment.username }}
+        </div>
+        <app-button
+          *ngIf="
+            user &&
+            (user._id === comment.user_id ||
+              user.roles.indexOf('administrator') !== -1)
+          "
+          [buttonClass]="''"
+          [buttonTitle]="'Usuń komentarz'"
+          [buttonOnClick]="true"
+          (whenButtonClick)="deleteComment(comment._id)"
+        >
+          <app-fa-icon [faClass]="'far fa-trash-alt'"></app-fa-icon>
+        </app-button>
+      </div>
+      <div class="comment__body">
+        <div
+          class="comment__content"
+          [innerHTML]="comment.purify_content"
+        ></div>
+        <span class="comment__timestamp ml-auto">
+          {{ comment.updated_at | date: "medium":"pl-PL":"pl-PL" }}
+        </span>
+      </div>
+    </div>
+    <div class="text-center">
+      <app-button
+        *ngIf="remainingComments"
+        [buttonTitle]="'Wczytaj więcej komentarzy'"
+        [buttonOnClick]="true"
+        (whenButtonClick)="fetchComments()"
+      >
+        Załaduj komentarze
+        <app-fa-icon
+          *ngIf="isLoadingMoreComments"
+          [faClass]="'fas fa-spinner fa-spin ml-1'"
+        ></app-fa-icon>
+      </app-button>
+    </div>
+  </div>
+  <ng-template #noComments>
+    <div>Brak komentarzy.</div>
+  </ng-template>
 </ng-template>

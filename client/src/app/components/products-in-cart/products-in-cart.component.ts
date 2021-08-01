@@ -41,11 +41,13 @@ export class ProductsInCartComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cartService.getProducts().subscribe((products: ProductInCart[]) => {
         this.cart = products;
-        if (this.cart.length) {
-          this.products = this.getProductsInfo(this.products);
-          this.cartService.setFullProducts(this.products);
-        } else {
-          this.products = [];
+        if (this.products.length) {
+          if (this.cart.length) {
+            this.products = this.getProductsInfo(this.products);
+            this.cartService.setFullProducts(this.products);
+          } else {
+            this.products = [];
+          }
         }
       }),
     );
@@ -83,18 +85,18 @@ export class ProductsInCartComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      if (this.cart.length) {
-        const { products } = await this.productsService.fetchProductsInCart(
-          this.cart,
-        );
+      const { products } = await this.productsService.fetchProductsInCart(
+        this.cart,
+      );
 
+      if (products.length) {
         this.products = this.getProductsInfo(products);
         this.cartService.setFullProducts(this.products);
-
-        this.isLoading = false;
       } else {
-        this.isLoading = false;
+        this.cartService.removeProducts();
       }
+
+      this.isLoading = false;
     } catch (error) {
       if (error.status === 0) {
         this.setAlerts('Brak połączenia z serwerem.');

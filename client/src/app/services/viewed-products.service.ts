@@ -11,9 +11,10 @@ export class ViewedProductsService {
   );
 
   setProduct(product: Product) {
-    const isInArray: boolean = this.products.findIndex(
-      (productFromArray) => productFromArray._id === product._id,
-    ) !== -1;
+    const isInArray: boolean =
+      this.products.findIndex(
+        (productFromArray) => productFromArray._id === product._id,
+      ) !== -1;
 
     if (isInArray) {
       return;
@@ -21,6 +22,34 @@ export class ViewedProductsService {
 
     this.products.push(product);
     this.products = this.products.slice(-this.numberOfProducts);
+
+    if (window.localStorage) {
+      window.localStorage.setItem('products', JSON.stringify(this.products));
+    }
+
+    this.productsSubject.next(this.products);
+  }
+
+  removeProducts() {
+    if (window.localStorage) {
+      window.localStorage.removeItem('products');
+    }
+
+    this.productsSubject.next([]);
+  }
+
+  setProducts(products: Product[]) {
+    products.forEach((product: Product) => {
+      const isInArray: boolean =
+        this.products.findIndex(
+          (productFromArray) => productFromArray._id === product._id,
+        ) !== -1;
+
+      if (!isInArray) {
+        this.products.push(product);
+        this.products = this.products.slice(-this.numberOfProducts);
+      }
+    });
 
     if (window.localStorage) {
       window.localStorage.setItem('products', JSON.stringify(this.products));
