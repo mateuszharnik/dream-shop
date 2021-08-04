@@ -12,7 +12,7 @@ import { serverErrorMessage } from '@helpers/variables/errors';
 import { NOT_FOUND } from '@helpers/variables/constants/status-codes';
 import { successfullySavedMessage } from '@helpers/variables/success';
 import { mapAdminPageTitle } from '@helpers/variables/titles';
-import { latlngPattern } from '@helpers/errors/messages/map';
+import { latlngPattern, latlngRequired } from '@helpers/errors/messages/map';
 import { validation } from '@helpers/validation';
 import { latlngValidators } from '@helpers/validation/map';
 import {
@@ -47,7 +47,7 @@ export class MapComponent implements OnInit, OnDestroy {
   startSubmittingForm = null;
 
   /* ====== Validation Errors ====== */
-  latlngValidationErrors: ValidationError[] = [latlngPattern];
+  latlngValidationErrors: ValidationError[] = [latlngPattern, latlngRequired];
 
   constructor(
     private spinnerService: SpinnerService,

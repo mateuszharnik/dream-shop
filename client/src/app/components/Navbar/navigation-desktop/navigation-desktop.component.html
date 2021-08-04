@@ -1,38 +1,37 @@
 <ul class="navigation" id="navigationControls">
   <li class="navigation__item navigation__item--first">
     <div class="navigation__wrapper">
-      <button
-        class="navigation__link navigation__link--pointer relative block text-left"
+      <div
+        class="navigation__link navigation__link--pointer"
         id="productsDropdown"
-        title="Nasze produkty"
-        type="button"
         aria-haspopup="true"
-        (click)="toggle()"
-        #parent
       >
         Produkty
-      </button>
+      </div>
     </div>
     <ul
-      [ngClass]="{ open: isOpen }"
       class="navigation navigation--dropdown"
       aria-labelledby="productsDropdown"
-      #dropdown
     >
       <li
         *ngIf="!categories.length; else showCategories"
-        class="navigation__item"
+        class="navigation__item md:m-auto"
       >
         <div class="navigation__wrapper">
           <span
-            class="navigation__link navigation__link--no-hover relative block text-left"
+            class="
+              navigation__link navigation__link--no-hover
+              relative
+              block
+              text-left
+            "
           >
             Brak produktów
           </span>
         </div>
       </li>
       <ng-template #showCategories>
-        <li class="navigation__item">
+        <li class="navigation__item column-3 lg:column-2">
           <div class="navigation__wrapper">
             <a
               class="navigation__link relative block text-left"
@@ -50,7 +49,7 @@
           </div>
         </li>
         <li
-          class="navigation__item"
+          class="navigation__item column-3 lg:column-2"
           *ngFor="let category of categories; trackBy: trackID"
         >
           <app-navigation-item [category]="category"></app-navigation-item>
@@ -98,7 +97,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         #rlaFAQ="routerLinkActive"
       >
-        FAQ
+        Najczęściej zadawane pytania
         <span *ngIf="rlaFAQ.isActive" class="hidden">(tutaj jesteś)</span>
       </a>
     </div>
@@ -106,7 +105,12 @@
   <li class="navigation__item" *ngIf="user">
     <div class="navigation__wrapper navigation__wrapper--last">
       <a
-        class="navigation__link navigation__link--admin relative block md:text-center"
+        class="
+          navigation__link navigation__link--admin
+          relative
+          block
+          md:text-center
+        "
         title="Przejdź do panelu administratora"
         routerLink="/admin"
       >

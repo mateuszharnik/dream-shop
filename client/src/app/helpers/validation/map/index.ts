@@ -3,5 +3,5 @@ import { mapRegExp } from '@helpers/regexp';
 
 /* ====== Lat and Lng ====== */
 export const latlngValidators = {
-  validators: [Validators.pattern(mapRegExp)],
+  validators: [Validators.pattern(mapRegExp), Validators.required],
 };

@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   Output,
   ViewEncapsulation,
@@ -20,6 +21,7 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class CartSummaryComponent implements OnDestroy {
+  @Input() isSubmitted = false;
   @Output() prevStep: EventEmitter<any> = new EventEmitter<any>();
   @Output() nextStep: EventEmitter<any> = new EventEmitter<any>();
 

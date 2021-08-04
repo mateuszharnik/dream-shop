@@ -90,14 +90,17 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     try {
       const product: Product = await this.productsService.fetchProduct(this.id);
-      const { products } = await this.productsService.fetchProductsInCart(
-        this.viewedProducts,
-      );
 
-      if (products.length) {
-        this.viewedProductsService.setProducts(products);
-      } else {
-        this.viewedProductsService.removeProducts();
+      if (this.viewedProducts.length) {
+        const { products } = await this.productsService.fetchProductsInCart(
+          this.viewedProducts,
+        );
+
+        if (products.length) {
+          this.viewedProductsService.setProducts(products);
+        } else {
+          this.viewedProductsService.removeProducts();
+        }
       }
 
       this.product = {
