@@ -2,8 +2,6 @@ import {
   Component,
   HostBinding,
   OnDestroy,
-  Renderer2,
-  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import { trackID } from '@helpers/index';
@@ -11,7 +9,6 @@ import { User, ProductCategory, ProductCategoryWithPagination } from '@models/in
 import { UserService } from '@services/user.service';
 import { Subscription } from 'rxjs';
 import { ProductsService } from '@services/products.service';
-import { NavigationEnd, Router, Event } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-desktop',
@@ -20,39 +17,19 @@ import { NavigationEnd, Router, Event } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class NavigationDesktopComponent implements OnDestroy {
-  @ViewChildren('dropdown') dropdown: any = null;
-  @ViewChildren('parent') parent: any = null;
   @HostBinding('class.block') display = true;
   @HostBinding('class.h-100') height = true;
 
-  isOpen = false;
   trackID = null;
-  closeMenuListener = null;
   user: User = null;
   categories: ProductCategory[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(
-    private router: Router,
     private userService: UserService,
     private productsService: ProductsService,
-    private renderer: Renderer2,
   ) {
     this.trackID = trackID;
-
-    this.closeMenuListener = this.renderer.listen(
-      'window',
-      'click',
-      this.closeMenu,
-    );
-
-    this.subscriptions.push(
-      this.router.events.subscribe((event: Event) => {
-        if (event instanceof NavigationEnd) {
-          this.isOpen = false;
-        }
-      }),
-    );
 
     this.subscriptions.push(
       this.userService.getUser().subscribe((user: User) => {
@@ -79,31 +56,22 @@ export class NavigationDesktopComponent implements OnDestroy {
                 return !!category.count || showBestsellers;
               },
             );
+
+            this.categories = this.categories.sort((a, b) => {
+              if (a.category === 'nowosci' || a.category === 'bestsellery') {
+                return -1;
+              } else {
+                return 1;
+              }
+            });
           }
         }),
     );
   }
 
   ngOnDestroy() {
-    if (this.closeMenuListener) {
-      this.closeMenuListener();
-    }
-
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );
-  }
-
-  closeMenu = (event) => {
-    const className = event.target.className;
-    const buttonClass = 'navigation__link navigation__link--pointer relative block text-left';
-
-    if (this.isOpen && className !== buttonClass) {
-      this.isOpen = false;
-    }
-  }
-
-  toggle() {
-    this.isOpen = !this.isOpen;
   }
 }

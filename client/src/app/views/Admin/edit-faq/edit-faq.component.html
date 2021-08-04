@@ -10,9 +10,7 @@
       *ngIf="!alerts.server; else showError"
       class="admin-page-section__article m-auto mt-6 text-center"
     >
-      <p>
-        Tutaj możesz edytować już istniejące pytania.
-      </p>
+      <p>Tutaj możesz edytować już istniejące pytania.</p>
       <div class="text-left mb-6">
         <app-router-link
           [linkTitle]="'Wróć do pytań'"
@@ -114,7 +112,7 @@
     </ng-template>
   </section>
   <app-modal *ngIf="modal" (whenButtonClick)="!isDisabled && closeModal()">
-    <div class="text-center">
+    <div class="text-center px-5">
       <p>
         <strong class="normal">
           Czy napewno chcesz usunąć pytanie: "{{ modal.title }}"&nbsp;?

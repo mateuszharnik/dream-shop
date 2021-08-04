@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Alerts, Order } from '@models/index';
-import { CartService } from '@services/cart.service';
 import { OrdersService } from '@services/orders.service';
 import { SpinnerService } from '@services/spinner.service';
 import { Subscription } from 'rxjs';
@@ -26,7 +25,6 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     private spinnerService: SpinnerService,
     private orderService: OrdersService,
-    private cartService: CartService,
     private router: Router,
   ) {}
 

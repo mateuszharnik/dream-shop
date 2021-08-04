@@ -99,6 +99,7 @@ export class ProductsInCartComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     } catch (error) {
       if (error.status === 0) {
+        this.cartService.removeProducts();
         this.setAlerts('Brak połączenia z serwerem.');
       } else {
         this.setAlerts('', error.error.message);

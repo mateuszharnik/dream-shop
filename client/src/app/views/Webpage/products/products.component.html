@@ -5,7 +5,11 @@
   <app-page-wrapper>
     <div *ngIf="!alerts.server; else showError">
       <div class="container-xl py-10">
-        <div class="row" #productsWrapper>
+        <div
+          class="row"
+          *ngIf="products.length; else noProducts"
+          #productsWrapper
+        >
           <div class="column-12 lg:column-3">
             <div
               class="lg:m-3"
@@ -38,10 +42,7 @@
               <app-spinner></app-spinner>
             </div>
             <ng-template #showProducts>
-              <div
-                class="row flex-align-end"
-                *ngIf="products.length; else noProducts"
-              >
+              <div class="row flex-align-end">
                 <div
                   class="column-12 xs:column-6 md:column-4 lg:column-3"
                   *ngFor="let product of products; trackBy: trackID"
@@ -60,12 +61,12 @@
                 ></app-fa-icon>
                 Wczytywanie...
               </div>
-              <ng-template #noProducts>
-                <p class="text-center m-0">Brak produktów.</p>
-              </ng-template>
             </ng-template>
           </div>
         </div>
+        <ng-template #noProducts>
+          <p class="text-center m-0">Brak produktów.</p>
+        </ng-template>
       </div>
     </div>
     <ng-template #showError>

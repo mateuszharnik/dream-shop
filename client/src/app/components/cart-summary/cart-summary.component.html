@@ -19,9 +19,14 @@
               [buttonClass]="'button button-primary ml-4'"
               [buttonTitle]="'Złóż zamówienie'"
               [buttonOnClick]="true"
+              [buttonDisabled]="isSubmitted"
               (whenButtonClick)="onNextStep($event)"
             >
               Złóż zamówienie
+              <app-fa-icon
+                *ngIf="isSubmitted"
+                [faClass]="'fas fa-spinner fa-spin ml-1'"
+              ></app-fa-icon>
             </app-button>
           </div>
         </div>

@@ -12,13 +12,13 @@ export const nameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+$/;
 
 export const fullNameRegExp = /^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]+[ ]?[a-zA-ZąĄćĆęĘłŁńŃóÓśŚźŹżŻ]*$/;
 
-export const facebookRegExp = /^https?:\/\/(www.)?facebook.com\/.+$/;
+export const facebookRegExp = /^https?:\/\/(www.)?facebook.com\/.*$/;
 
-export const twitterRegExp = /^https?:\/\/(www.)?twitter.com\/.+$/;
+export const twitterRegExp = /^https?:\/\/(www.)?twitter.com\/.*$/;
 
-export const instagramRegExp = /^https?:\/\/(www.)?instagram.com\/.+$/;
+export const instagramRegExp = /^https?:\/\/(www.)?instagram.com\/.*$/;
 
-export const linkedinRegExp = /^https?:\/\/(www.)?linkedin.com\/.+$/;
+export const linkedinRegExp = /^https?:\/\/(www.)?linkedin.com\/.*$/;
 
 export const phoneRegExp = /^[0-9]{3}\s[0-9]{3}\s[0-9]{3}$/;
 
