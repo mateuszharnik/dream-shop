@@ -1,6 +1,6 @@
 # Dream Shop
 
-🚧 Work in progress. This app is not finished and may have bugs so keep that in mind :wink:.
+E-commerce written in MongoDB, Express.js, Angular and Node.js (MEAN stack). You can't see this website on the internet but you can see the demo [here](https://www.youtube.com/watch?v=Sz-_cAv_plY). This project was made by me in 100%.
 
 ## Prerequisites
 
@@ -28,16 +28,11 @@
    $ yarn install
    ```
 
-1. Next back to the root folder:
+1. Next back to the root folder then go to the server folder and install all dependencies:
 
    ```sh
-   $ cd ..
-   ```
-
-1. Next go to the server folder and install all dependencies:
-
-   ```sh
-   $ cd dream-shop/server
+   $ cd..
+   $ cd server
    $ yarn install
    ```
 
@@ -45,6 +40,16 @@
 
    ```sh
    $ cp .env.example .env
+   ```
+
+1. Seed the database with empty or example data using command:
+
+   ```sh
+   $ yarn seed
+
+   or
+
+   $ yarn seed-example
    ```
 
 ## Environment variables
