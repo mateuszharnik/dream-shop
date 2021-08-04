@@ -41,36 +41,44 @@
         </div>
       </div>
     </div>
-    <div class="sm:container mt-10">
-      <app-products-in-cart
-        *ngIf="currentStep === 1"
-        (nextStep)="setCurrentStep(2)"
-      ></app-products-in-cart>
-      <app-cart-form
-        *ngIf="currentStep === 2"
-        (nextStep)="setCurrentStep(3)"
-        (prevStep)="setCurrentStep(1)"
-      ></app-cart-form>
-      <div *ngIf="currentStep === 3">
-        <app-payment-method
-          (nextStep)="setCurrentStep(4)"
-          (prevStep)="setCurrentStep(2)"
-        ></app-payment-method>
+    <div class="sm:container mt-10" *ngIf="!alerts.server; else showError">
+      <div>
+        <app-products-in-cart
+          *ngIf="currentStep === 1"
+          (nextStep)="setCurrentStep(2)"
+        ></app-products-in-cart>
+        <app-cart-form
+          *ngIf="currentStep === 2"
+          (nextStep)="setCurrentStep(3)"
+          (prevStep)="setCurrentStep(1)"
+        ></app-cart-form>
+        <div *ngIf="currentStep === 3">
+          <app-payment-method
+            (nextStep)="setCurrentStep(4)"
+            (prevStep)="setCurrentStep(2)"
+          ></app-payment-method>
+        </div>
+        <div class="text-center" *ngIf="currentStep === 4">
+          <app-cart-summary
+            [isSubmitted]="isSubmitted"
+            (nextStep)="sendOrder($event)"
+            (prevStep)="setCurrentStep(3)"
+          ></app-cart-summary>
+        </div>
       </div>
-      <div class="text-center" *ngIf="currentStep === 4">
-        <app-cart-summary
-          (nextStep)="sendOrder($event)"
-          (prevStep)="setCurrentStep(3)"
-        ></app-cart-summary>
+      <div class="w-100 text-center">
+        <app-alert
+          *ngIf="alerts.error"
+          [alertClass]="'alert alert-danger mb-6 m-auto'"
+        >
+          {{ alerts.error }}
+        </app-alert>
       </div>
     </div>
-    <div class="w-100 text-center">
-      <app-alert
-        *ngIf="alerts.error"
-        [alertClass]="'alert alert-danger mb-6 m-auto'"
-      >
-        {{ alerts.error }}
-      </app-alert>
-    </div>
+    <ng-template #showError>
+      <p class="center text-center m-0">
+        {{ alerts.server }}
+      </p>
+    </ng-template>
   </article>
 </app-page-wrapper>

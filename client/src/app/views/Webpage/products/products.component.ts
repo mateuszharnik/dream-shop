@@ -136,6 +136,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.throttleListener) {
+      this.throttleListener();
+    }
+
+    if (this.debounceListener) {
+      this.debounceListener();
+    }
+
     this.subscriptions.forEach((subscription: Subscription) =>
       subscription.unsubscribe(),
     );

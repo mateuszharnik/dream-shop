@@ -1,4 +1,7 @@
-<div *ngIf="isLoading; else productsInCartView" class="spinner-wrapper">
+<div
+  *ngIf="isLoading; else productsInCartView"
+  class="spinner-wrapper spinner-wrapper__cart"
+>
   <app-spinner></app-spinner>
 </div>
 <ng-template #productsInCartView>
