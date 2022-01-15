@@ -28,7 +28,7 @@
     "leaflet": "^1.6.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "marked": "^1.0.0",
+    "marked": "^4.0.10",
     "nanoid": "^3.1.22",
     "rxjs": "~6.3.3",
     "swiper": "^6.4.5",
